@@ -26,7 +26,7 @@ $define
                     return obj
                 }
             )
-        ,   'old-ie': $Poly
+        ,   'ms': $Poly
             (   function( ){
                     var obj= new klass
                     obj.$= $doc().createEventObject()

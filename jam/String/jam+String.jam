@@ -64,6 +64,15 @@ $define
             }
         )
         
+        proto.process=
+        $Poly
+        (   null
+        ,   function( proc ){
+                this.$= proc( this.$ )
+                return this
+            }
+        )
+        
         proto.replace=
         $Poly
         (   null

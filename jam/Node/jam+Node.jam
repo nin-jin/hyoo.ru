@@ -42,25 +42,18 @@ $define
         )
         
         proto.text=
-        {   'w3c': $Poly
-            (   function( ){
-                    return this.$.textContent
-                }
-            ,   function( val ){
-                    this.$.textContent= $String( val ).$
+        $Poly
+        (   function( ){
+                return $html.text( this.$.innerHTML )
+            }
+        ,   new function(){
+                var fieldName= { w3c: 'textContent', ms: 'innerText' }[ $support.htmlModel() ]
+                return function( val ){
+                    this.$[ fieldName ]= $String( val ).$
                     return this
                 }
-            )
-        ,   'old-ie': $Poly
-            (   function( ){
-                    return this.$.innerText
-                }
-            ,   function( val ){
-                    this.$.innerText= $String( val ).$
-                    return this
-                }
-            )
-        }[ $support.htmlModel() ]
+            }
+        )
         
         proto.html=
         $Poly
@@ -86,9 +79,15 @@ $define
         
         proto.name=
         $Poly
-        (   function( ){
-                return this.$.nodeName.toLowerCase()
-            }
+        (   {   'w3c': function( ){
+                    return this.$.nodeName.toLowerCase()
+                }
+            ,   'ms': function( ){
+                    var scope= this.$.scopeName
+                    var name= this.$.nodeName.toLowerCase()
+                    return scope ? scope + ':' + name : name
+                }
+            }[ $support.htmlModel() ]
         )
         
         proto.attr=
@@ -139,7 +138,7 @@ $define
                         self.$.removeEventListener( eventName, proc, false )
                     }
                 }
-            ,   'old-ie': function( eventName, proc ){
+            ,   'ms': function( eventName, proc ){
                     var proc2= proc
                     var eventName2= eventName
                     if( !/^\w+$/.test( eventName ) ){
@@ -153,6 +152,7 @@ $define
                     var proc3= function(){
                         var ev= $glob().event
                         //ev= $doc().createEventObject( ev )
+                        if( !ev.target ) ev.target= ev.srcElement 
                         proc2( ev )
                     }
                     this.$.attachEvent( 'on' + eventName2, proc3, false )
@@ -172,7 +172,7 @@ $define
                     ev= $Event( ev ).$
                     this.$.dispatchEvent( ev )
                 }
-            ,   'old-ie': function( ev ){
+            ,   'ms': function( ev ){
                     ev= $Event( ev ).$
                     var eventName= ev.type
                     if( !/^\w+$/.test( eventName ) ){
