@@ -1,7 +1,6 @@
 with( $wc )
 $define( 'demo', $Component( 'wc:demo', function( el ){
     var source= $String( $Node( el ).html() ).tab2space().minimizeIndent().trim( /[\n\r]/ ).$
-    $log( 'wc:demo', source )
     
     var elSource= $doc().createElement( 'wc:demo-source' )
     if( 'textContent' in el ) elSource.textContent= source
