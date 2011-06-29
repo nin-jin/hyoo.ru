@@ -1,0 +1,19 @@
+[submodule "doc"]
+	path = doc
+	url = git@github.com:nin-jin/doc.git
+
+[submodule "html"]
+	path = html
+	url = git@github.com:nin-jin/html.git
+
+[submodule "jam"]
+	path = jam
+	url = git@github.com:nin-jin/jam.git
+
+[submodule "so"]
+	path = so
+	url = git@github.com:nin-jin/so.git
+
+[submodule "wc"]
+	path = wc
+	url = git@github.com:nin-jin/wc.git
