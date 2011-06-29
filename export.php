@@ -20,6 +20,7 @@ function rchdir($dir) {
 system( 'git checkout-index -a -f --prefix=-export/' );
 rchdir( '-export' );
 	unlink( '.gitmodules' );
+	unlink( '.gitignore' );
 	unlink( 'export.php' );
     unlink( 'index.php' );
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):

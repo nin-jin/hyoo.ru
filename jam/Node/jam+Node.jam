@@ -42,8 +42,7 @@ $define
         )
         
         proto.text=
-        $support.Node_textContent()
-        ?   $Poly
+        {   'w3c': $Poly
             (   function( ){
                     return this.$.textContent
                 }
@@ -52,17 +51,16 @@ $define
                     return this
                 }
             )
-        :   $support.Node_innerText()
-            ?   $Poly
-                (   function( ){
-                        return this.$.innerText
-                    }
-                ,   function( val ){
-                        this.$.innerText= $String( val ).$
-                        return this
-                    }
-                )
-            :   null
+        ,   'old-ie': $Poly
+            (   function( ){
+                    return this.$.innerText
+                }
+            ,   function( val ){
+                    this.$.innerText= $String( val ).$
+                    return this
+                }
+            )
+        }[ $support.htmlModel() ]
         
         proto.html=
         $Poly

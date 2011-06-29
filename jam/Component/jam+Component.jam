@@ -3,7 +3,7 @@ $define( '$Component', function( tagName, factory ){
 	if(!( this instanceof $Component )) return new $Component( tagName, factory )
 	var fieldName= 'componnet|' + tagName + '|' + (new Date).getTime()
 
-	var isBroken= !$support.xhtml()
+	var isBroken= ( $support.htmlModel() === 'old-ie' )
 	var chunks= /(?:(\w+):)?([-\w]+)/.exec( tagName )
 	var scopeName= isBroken && chunks && chunks[1] || ''
 	var localName= isBroken && chunks && chunks[2] || tagName
@@ -49,7 +49,7 @@ $define( '$Component', function( tagName, factory ){
 	}
 	
 	var check4attach= function( nodes ){
-		filtered= []
+		var filtered= []
 		filter: for( var i= 0, len= nodes.length; i < len; ++i ){
 			var el= nodes[ i ]
 			if( isAttached( el ) ) continue
@@ -57,7 +57,6 @@ $define( '$Component', function( tagName, factory ){
 			filtered.push( el )
 		}
 		attach: for( var i= 0; i < filtered.length; ++i ){
-			//$log('f',fieldName+'',attachIfLoaded ==attach, filtered[i])
 			attachIfLoaded( filtered[ i ] )
 		}
 	}
@@ -87,17 +86,22 @@ $define( '$Component', function( tagName, factory ){
 	var interval= $glob().top.setInterval( tracking, 50 )
 
 	$domReady.then(function(){
-		$glob().top.clearInterval( interval )
+		if( $support.eventModel() === 'w3c' ){
+			$glob().top.clearInterval( interval )
+		}
 		attachIfLoaded= attach
 		tracking()
 	})
 
-	/*$doc().documentElement.addEventListener( 'DOMNodeInserted', function( ev ){
-		check4attach([ ev.target ])
-	}, false )
-	$doc().documentElement.addEventListener( 'DOMNodeRemoved', function( ev ){
-		check4detach([ ev.target ])
-	}, false )*/
+	if( $support.eventModel() === 'w3c' ){
+		var docEl= $Node( $doc().documentElement )
+		docEl.listen( 'DOMNodeInserted', function( ev ){
+			check4attach([ ev.target ])
+		})
+		docEl.listen( 'DOMNodeRemoved', function( ev ){
+			check4detach([ ev.target ])
+		})
+	}
 	
 	this.tagName= $Value( tagName )
 	this.factory= $Value( factory )
