@@ -1,68 +1,68 @@
 <?xml version="1.0"?>
-<stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:wc="https://github.com/nin-jin/wc" xmlns:doc="https://github.com/nin-jin/doc">
 
 <!-- so/XStyle/so_XStyle_Base.xsl -->
 
-<t:output xmlns:t="http://www.w3.org/1999/XSL/Transform" method="html"/>
+<xsl:output xmlns:xsl="http://www.w3.org/1999/XSL/Transform" method="html"/>
 
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" match=" @* | node() ">
-    <t:copy>
-        <t:apply-templates select=" @* "/>
-        <t:apply-templates select=" node() "/>
-    </t:copy>
-</t:template>
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" match=" processing-instruction() "/>
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" match=" @* | node() ">
+    <xsl:copy>
+        <xsl:apply-templates select=" @* "/>
+        <xsl:apply-templates select=" node() "/>
+    </xsl:copy>
+</xsl:template>
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" match=" processing-instruction() "/>
 
 <!-- wc/test-js/wc-test-js.xsl -->
 
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" match=" wc:test-js/text() ">
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" match=" wc:test-js/text() ">
     <textarea>
-        <t:copy/>
+        <xsl:copy/>
     </textarea>
-</t:template>
+</xsl:template>
 
 <!-- doc/root/doc-root.xsl -->
 
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" xmlns:wc="https://github.com/nin-jin/wc" match=" doc:pack ">
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wc="https://github.com/nin-jin/wc" match=" doc:pack ">
     <wc:vmenu-branch>
-        <t:apply-templates/>
+        <xsl:apply-templates/>
     </wc:vmenu-branch>
-</t:template>
+</xsl:template>
 
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:wc="https://github.com/nin-jin/wc" match=" doc:file ">
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:wc="https://github.com/nin-jin/wc" match=" doc:file ">
     <a href="{ doc:link }" class=" reset=true ">
         <wc:vmenu-leaf>
-            <t:value-of select=" doc:title "/>
+            <xsl:value-of select=" doc:title "/>
         </wc:vmenu-leaf>
     </a>
-</t:template>
+</xsl:template>
 
-<t:variable xmlns:t="http://www.w3.org/1999/XSL/Transform" name="wc:root-uri">
-    <t:value-of select=" substring-before( substring-after( /processing-instruction()[ name() = 'xml-stylesheet' ], 'href=&quot;' ), '&quot;' ) "/>
-    <t:text>/../..</t:text>
-</t:variable>
+<xsl:variable xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="wc:root-uri">
+    <xsl:value-of select=" substring-before( substring-after( /processing-instruction()[ name() = 'xml-stylesheet' ], 'href=&quot;' ), '&quot;' ) "/>
+    <xsl:text>/../..</xsl:text>
+</xsl:variable>
     
-<t:template xmlns:t="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:wc="https://github.com/nin-jin/wc" match=" /doc:root ">
+<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:wc="https://github.com/nin-jin/wc" match=" /doc:root ">
     <html>
         <head>
         
             <title>
-                <t:value-of select=" . // h:h1[ 1 ] "/>
+                <xsl:value-of select=" . // html:h1[ 1 ] "/>
             </title>
             <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
             <link href="{$wc:root-uri}/-mix+doc/index.css" rel="stylesheet"/>
-            <!-- $wc:root-uri не подставляется <t:comment><![CDATA[[if IE ]><script src="{$wc:root-uri}/-mix+doc/compiled.vml.js">//</script><![endif]]]></t:comment>-->
+            <!-- $wc:root-uri не подставляется <xsl:comment><![CDATA[[if IE ]><script src="{$wc:root-uri}/-mix+doc/compiled.vml.js">//</script><![endif]]]></xsl:comment>-->
             <script src="{$wc:root-uri}/-mix+doc/index.js?">//</script>
 
         </head>
         <body>
-            <t:copy>
-                <t:apply-templates select=" @* "/>
+            <xsl:copy>
+                <xsl:apply-templates select=" @* "/>
                 <wc:desktop>
                     <wc:sidebar class=" align=left ">
                         <wc:vmenu-root>
-                            <t:apply-templates select=" document( '../-mix/index.doc.xml', / ) / * / node() "/>
+                            <xsl:apply-templates select=" document( '../-mix/index.doc.xml', / ) / * / node() "/>
                         </wc:vmenu-root>
                     </wc:sidebar>
                 
@@ -87,7 +87,7 @@
                         <wc:paper>
                             <wc:spacer>
                             
-                                <t:apply-templates/>
+                                <xsl:apply-templates/>
                                 
                             </wc:spacer>
                         </wc:paper>
@@ -98,10 +98,10 @@
                     </wc:footer>
 
                 </wc:desktop>
-            </t:copy>
+            </xsl:copy>
             
         </body>
     </html>
-</t:template>
+</xsl:template>
 
 </stylesheet>

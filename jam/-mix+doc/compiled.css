@@ -206,7 +206,7 @@ wc\:desktop {
     text-align: center;
     overflow: hidden;
     position: relative;
-    background: url( 'wc-desktop_light.png' ) left top no-repeat #ddd;
+    background: url( '../../wc/desktop/wc-desktop_light.png' ) left top no-repeat #ddd;
 }
 
 /* @import url( '../../wc/footer/wc-footer.css' ); */

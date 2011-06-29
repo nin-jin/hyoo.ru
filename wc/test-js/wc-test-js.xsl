@@ -1,16 +1,16 @@
-<t:stylesheet
+<xsl:stylesheet
     version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:t="http://www.w3.org/1999/XSL/Transform"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:wc="https://github.com/nin-jin/wc"
     xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-<t:template match=" wc:test-js/text() ">
+<xsl:template match=" wc:test-js/text() ">
     <textarea>
-        <t:copy />
+        <xsl:copy />
     </textarea>
-</t:template>
+</xsl:template>
 
-</t:stylesheet>
+</xsl:stylesheet>

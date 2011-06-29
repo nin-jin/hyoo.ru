@@ -28,9 +28,13 @@ class so_Compile_XSL {
 
         $compiled= array();
         foreach( $fileList as $file ):
+            $docEl= DOMDocument::load( $file->path )->documentElement;
+            $nsName= 'xmlns:'.$file->pack->name;
+            $nsValue= $docEl->getAttribute( $nsName );
+            if( $nsValue ) $compiled[ '@' . $nsName ]= $nsValue;
             $compiled[]= array(
                 '#comment' => " {$file->id} ",
-                DOMDocument::load( $file->path )->documentElement->childNodes,
+                $docEl->childNodes,
             );
         endforeach;
         
@@ -38,6 +42,7 @@ class so_Compile_XSL {
             'stylesheet' => array(
                 '@version' => '1.0',
                 '@xmlns' => 'http://www.w3.org/1999/XSL/Transform',
+                '@xmlns:html' => 'http://www.w3.org/1999/xhtml',
                 '#text' => "\n\n",
                 $compiled,
             ),
