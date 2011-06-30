@@ -47,6 +47,9 @@ $define
             .process( $html.decode )
             .$
         }
+        
+        this.Template=
+        $TemplateFactory({ encoder: this.encode })
     
     }
 )

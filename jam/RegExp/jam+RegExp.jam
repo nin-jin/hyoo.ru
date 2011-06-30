@@ -15,11 +15,11 @@ $define
         
         klass.encode=
         new function( ){
-            var specChars = '^({[\\.?+*]})$'
-            var specRE= RegExp( specChars.replace(/./g, '\\$' + '1'), 'g' )
             var encodeChar= function( symb ){
                 return '\\' + symb
             }
+            var specChars = '^({[\\.?+*]})$'
+            var specRE= RegExp( '[' + specChars.replace( /./g, encodeChar ) + ']', 'g' )
             return function( str ){
                 return $String( str ).replace( specRE, encodeChar ).$
             }

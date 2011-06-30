@@ -85,6 +85,15 @@ $define
             }
         )
         
+        proto.mult=
+        $Poly
+        (   null
+        ,   function( count ){
+                this.$= Array( count + 1 ).join( this.$ )
+                return this
+            }
+        )
+        
         proto.length=
         $Poly
         (   function( ){
