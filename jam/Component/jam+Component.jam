@@ -83,7 +83,7 @@ $define( '$Component', function( tagName, factory ){
 		}
 	}
 	
-	var interval= $glob().top.setInterval( tracking, 50 )
+	var interval= $glob().top.setInterval( tracking, 100 )
 
 	$domReady.then(function(){
 		if( $support.eventModel() === 'w3c' ){

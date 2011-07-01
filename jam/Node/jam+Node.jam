@@ -84,6 +84,7 @@ $define
                 }
             ,   'ms': function( ){
                     var scope= this.$.scopeName
+                    if( scope === 'HTML' ) scope= ''
                     var name= this.$.nodeName.toLowerCase()
                     return scope ? scope + ':' + name : name
                 }
