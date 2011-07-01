@@ -54,14 +54,11 @@ function rchdir($dir) {
 
 copy_r('.', '-export');
 rchdir( '-export' );
-header( 'Location: -export/', true, 302 );
-virtual( 'index.php' );
 	unlink( 'export.php' );
     unlink( 'index.php' );
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
 		if( $pack[0] === '-' ) continue;
         rchdir( $pack );
-			unlink( '.gitignore' );
             rchdir( '-mix' );
                 @copy( 'compiled.css', 'index.css' );
                 @copy( 'compiled.xsl', 'index.xsl' );
@@ -75,7 +72,6 @@ virtual( 'index.php' );
             foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
 			    if( $module[0] === '-' ) continue;
                 rchdir( $module );
-					unlink( '.gitignore' );
                     foreach( glob( '*.tree' ) as $file ):
                         unlink( $file );
                     endforeach;
@@ -101,3 +97,4 @@ virtual( 'index.php' );
         @rmdir( $pack );
     endforeach;
 rchdir( '..' );
+header( 'Location: -export/', true, 302 );
