@@ -17,12 +17,45 @@ function rchdir($dir) {
    chdir( $dir ) or die( "Can not chdir to [{$dir}]");
 }
 
-system( 'git checkout-index -a -f --prefix=-export/' );
+    function copy_r( $path, $dest )
+    {
+        if( is_dir($path) )
+        {
+            @mkdir( $dest );
+            $objects = scandir($path);
+            if( sizeof($objects) > 0 )
+            {
+                foreach( $objects as $file )
+                {
+                    if( $file[0] == "." || $file[0] == "-" )
+                        continue;
+                    // go on
+                    if( is_dir( $path.'/'.$file ) )
+                    {
+                        copy_r( $path.'/'.$file, $dest.'/'.$file );
+                    }
+                    else
+                    {
+                        copy( $path.'/'.$file, $dest.'/'.$file );
+                    }
+                }
+            }
+            return true;
+        }
+        elseif( is_file($path) )
+        {
+            return copy($path, $dest);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+copy_r('.', '-export');
 rchdir( '-export' );
 header( 'Location: -export/', true, 302 );
 virtual( 'index.php' );
-	unlink( '.gitmodules' );
-	unlink( '.gitignore' );
 	unlink( 'export.php' );
     unlink( 'index.php' );
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
