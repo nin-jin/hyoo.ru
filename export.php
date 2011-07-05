@@ -54,11 +54,13 @@ function rchdir($dir) {
 
 copy_r('.', '-export');
 rchdir( '-export' );
+	@unlink( 'git-init.cmd' );
 	unlink( 'export.php' );
     unlink( 'index.php' );
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
 		if( $pack[0] === '-' ) continue;
         rchdir( $pack );
+			@unlink( 'git-init.cmd' );
             rchdir( '-mix' );
                 @copy( 'compiled.css', 'index.css' );
                 @copy( 'compiled.xsl', 'index.xsl' );
@@ -72,6 +74,7 @@ rchdir( '-export' );
             foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
 			    if( $module[0] === '-' ) continue;
                 rchdir( $module );
+					@unlink( 'git-init.cmd' );
                     foreach( glob( '*.tree' ) as $file ):
                         unlink( $file );
                     endforeach;
