@@ -1,0 +1,109 @@
+with( $wc )
+$Component
+(   'wc:test-js'
+,   function( nodeRoot ){
+        return new function( ){
+            nodeRoot= $Node( nodeRoot )
+            
+            var exec= $Thread( function( ){
+                var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
+                nodeSource.text( source )
+                var proc= new Function( '_done', source )
+                proc( _done )
+                return true
+            })
+        
+            var timeout=
+            function( ){
+                return Number( nodeRoot.state( 'timeout' ) )
+            }
+        
+            if( timeout() )
+            var nodeTimeout=
+            $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_timeout' )
+
+            var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_source' )
+            var nodeSource= $Node( nodeSource0.$ ).ensureChild( 'div' ).editable( true )
+            
+            var childList= nodeRoot.childList()
+            for( var i= 0; i < childList.length; ++i ){
+                var nodeChild= $Node( childList[ i ] )
+                if( /^wc:test-js_/.test( nodeChild.name() ) ) continue
+                nodeSource.tail( nodeChild )
+            }
+
+            nodeRoot.listen
+            (   '$jam.$commit'
+            ,   function( ev ){
+                    run()
+                }
+            )
+            
+            var _done=
+            $Poly
+            (   function( ){
+                    if( passed() === 'wait' ) passed( true )
+                }
+            ,   function( val ){
+                    if( passed() === 'wait' ) passed( Boolean( val ) )
+                    printValue( val )
+                }
+            ,   function( a, b ){
+                    if( passed() === 'wait' ) passed( a === b )
+                    printValue( a )
+                    if( a !== b ) printValue( b )
+                }
+            )
+        
+            var passed=
+            $Poly
+            (   function( ){
+                    return nodeRoot.state( 'passed' )
+                }
+            ,   function( val ){
+                    nodeRoot.state( 'passed', val )
+                }
+            )
+            
+            var print=
+            function( val ){
+                var node= $Node( 'wc:test-js_result' )
+                node.text( val )
+                nodeRoot.tail( node )
+            }
+            
+            var printValue=
+            function( val ){
+                if( typeof val === 'function' ){
+                    if( !val.hasOwnProperty( 'toString' ) ){
+                        print( 'Function: [object Function]' )
+                        return
+                    }
+                }
+                print( $classOf( val ) + ': ' + val )
+            }
+            
+            var run=
+            function( ){
+                var results= nodeRoot.childList( 'wc:test-js_result' )
+                for( var i= 0; i < results.length; ++i ){
+                    $Node( results[i] ).parent( null )
+                }
+                passed( 'wait' )
+                if( !exec() ) passed( false )
+                if( timeout() ){
+                    nodeTimeout.text( 'timeout: ' + timeout() )
+                    $schedule( timeout(), function( ){
+                        if( passed() !== 'wait' ) return
+                        passed( false )
+                        print( 'Timeout!' )
+                    })
+                } else {
+                    if( passed() === 'wait' ) passed( false )
+                }
+            }
+            
+            run()
+        }
+    }
+)

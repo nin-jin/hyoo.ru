@@ -1,0 +1,23 @@
+<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
+<doc:root
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wc="https://github.com/nin-jin/wc"
+    xmlns:doc="https://github.com/nin-jin/doc"
+    >
+
+    <h1>wc:demo</h1>
+
+    <p>Демонстрирует html-код и позволяет тут же посмотреть его результат.</p>
+    
+    <wc:demo>
+    <![CDATA[
+        <button id="_wc-demon_test_1_" onclick=" alert( 'Спасибо!' ) " >
+            Нажми меня
+        </button>
+        <script>
+            document.getElementById( '_wc-demon_test_1_' ).innerHTML+= '!'
+        </script>
+    ]]>
+    </wc:demo>
+
+</doc:root>
