@@ -27,7 +27,7 @@ function rchdir($dir) {
             {
                 foreach( $objects as $file )
                 {
-                    if( $file[0] == "." || $file[0] == "-" )
+                    if( $file[0] == "." || $file == "-export" )
                         continue;
                     // go on
                     if( is_dir( $path.'/'.$file ) )

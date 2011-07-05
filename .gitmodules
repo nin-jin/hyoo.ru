@@ -13,3 +13,6 @@
 [submodule "wc"]
 	path = wc
 	url = git@github.com:nin-jin/wc.git
+[submodule "jquery"]
+	path = jquery
+	url = git@github.com:nin-jin/jquery.git
