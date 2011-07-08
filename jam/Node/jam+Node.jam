@@ -16,7 +16,7 @@ $define
                         case '#comment':
                             val= $doc().createComment( '' )
                             break
-                        case '#fragment':
+                        case '#document-fragment':
                             val= $doc().createDocumentFragment()
                             break
                         default:
@@ -47,7 +47,7 @@ $define
                 return $html.text( this.$.innerHTML )
             }
         ,   new function(){
-                var fieldName= { w3c: 'textContent', ms: 'innerText' }[ $support.htmlModel() ]
+                var fieldName= $switch( $support.htmlModel(), { w3c: 'textContent', ms: 'innerText' } )
                 return function( val ){
                     if( this.text() === val ) return this
                     this.$[ fieldName ]= $String( val ).$
@@ -66,7 +66,8 @@ $define
             }
         ,   function( val ){
                 if( this.html() === val ) return this
-                this.$.innerHTML= $String( val ).$
+                this.$.innerHTML= ''
+                this.tail( $dom.parse( val ) )
                 return this
             }
         )
@@ -81,16 +82,19 @@ $define
         
         proto.name=
         $Poly
-        (   {   'w3c': function( ){
-                    return this.$.nodeName.toLowerCase()
+        (   $switch
+            (   $support.htmlModel()
+            ,   {   'w3c': function( ){
+                        return this.$.nodeName.toLowerCase()
+                    }
+                ,   'ms': function( ){
+                        var scope= this.$.scopeName
+                        if( scope === 'HTML' ) scope= ''
+                        var name= this.$.nodeName.toLowerCase()
+                        return scope ? scope + ':' + name : name
+                    }
                 }
-            ,   'ms': function( ){
-                    var scope= this.$.scopeName
-                    if( scope === 'HTML' ) scope= ''
-                    var name= this.$.nodeName.toLowerCase()
-                    return scope ? scope + ':' + name : name
-                }
-            }[ $support.htmlModel() ]
+            )
         )
         
         proto.attr=
@@ -134,58 +138,97 @@ $define
         $Poly
         (   null
         ,   null
-        ,   {   'w3c': function( eventName, proc ){
-                    this.$.addEventListener( eventName, proc, false )
-                    
-                    var self= this
-                    return function(){
-                        self.$.removeEventListener( eventName, proc, false )
-                    }
-                }
-            ,   'ms': function( eventName, proc ){
-                    var proc2= proc
-                    var eventName2= eventName
-                    if( !/^\w+$/.test( eventName ) ){
-                        eventName2= 'beforeeditfocus'
-                        proc2= function( ev ){
-                            if( ev.originalType !== eventName ) return
-                            ev.type= ev.originalType
-                            proc( ev )
+        ,   $switch
+            (   $support.eventModel()
+            ,   {   'w3c': function( eventName, proc ){
+                        this.$.addEventListener( eventName, proc, false )
+                        
+                        var self= this
+                        return function(){
+                            self.$.removeEventListener( eventName, proc, false )
                         }
                     }
-                    var proc3= function(){
-                        var ev= $glob().event
-                        //ev= $doc().createEventObject( ev )
-                        if( !ev.target ) ev.target= ev.srcElement 
-                        proc2( ev )
-                    }
-                    this.$.attachEvent( 'on' + eventName2, proc3, false )
-
-                    var self= this
-                    return function(){
-                        self.$.detachEvent( 'on' + eventName2, proc3, false )
+                ,   'ms': function( eventName, proc ){
+                        var proc2= proc
+                        var eventName2= eventName
+                        if( !/^\w+$/.test( eventName ) ){
+                            eventName2= 'beforeeditfocus'
+                            proc2= function( ev ){
+                                if( ev.originalType !== eventName ) return
+                                ev.type= ev.originalType
+                                proc( ev )
+                            }
+                        }
+                        var proc3= function(){
+                            var ev= $glob().event
+                            //ev= $doc().createEventObject( ev )
+                            if( !ev.target ) ev.target= ev.srcElement 
+                            proc2( ev )
+                        }
+                        this.$.attachEvent( 'on' + eventName2, proc3, false )
+    
+                        var self= this
+                        return function(){
+                            self.$.detachEvent( 'on' + eventName2, proc3, false )
+                        }
                     }
                 }
-            }[ $support.eventModel() ]
+            )
         )
         
         proto.scream=
         $Poly
         (   null
-        ,   {   'w3c': function( ev ){
-                    ev= $Event( ev ).$
-                    this.$.dispatchEvent( ev )
-                }
-            ,   'ms': function( ev ){
-                    ev= $Event( ev ).$
-                    var eventName= ev.type
-                    if( !/^\w+$/.test( eventName ) ){
-                        eventName= 'beforeeditfocus'
+        ,   $switch
+            (   $support.eventModel()
+            ,   {   'w3c': function( ev ){
+                        ev= $Event( ev ).$
+                        this.$.dispatchEvent( ev )
                     }
-                    ev.originalType= ev.type
-                    this.$.fireEvent( 'on' + eventName, ev )
+                ,   'ms': function( ev ){
+                        ev= $Event( ev ).$
+                        var eventName= ev.type
+                        if( !/^\w+$/.test( eventName ) ){
+                            eventName= 'beforeeditfocus'
+                        }
+                        ev.originalType= ev.type
+                        this.$.fireEvent( 'on' + eventName, ev )
+                    }
                 }
-            }[ $support.eventModel() ]
+            )
+        )
+        
+        proto.innerRange=
+        $switch
+        (   $support.selectionModel()
+        ,   {   'w3c': function( ){
+                    var range= $DomRange()
+                    range.$.selectNodeContents( this.$ )
+                    return range.$
+                }
+            ,   'ms': function( node ){
+                    var range= $DomRange()
+                    range.$.moveToElementText( this.$ )
+                    return range.$
+                }
+            }
+        )
+        
+        proto.outerRange=
+        $switch
+        (   $support.selectionModel()
+        ,   {   'w3c': function( node ){
+                    var range= $DomRange()
+                    range.$.selectNode( this.$ )
+                    return range.$
+                }
+            ,   'ms': function( node ){
+                    var range= this.innerRange()
+                    $log('check this')
+                    range.$.expand( 'textedit' )
+                    return range.$
+                }
+            }
         )
         
         proto.childList=
@@ -279,6 +322,29 @@ $define
                 parent.insertBefore( node, next ) 
                 return this
             }   
+        )
+        
+        proto.delve=
+        $Poly
+        (   function( ){
+                var child= this.$.firstChild
+                if( child ) this.$= child
+                else this.follow()
+                return this
+            }
+        )
+
+        proto.follow=
+        $Poly
+        (   function( ){
+                var node= this.$
+                while( true ){
+                    this.$= node.nextSibling
+                    if( this.$ ) return this
+                    node= node.parentNode
+                    if( !node ) return this
+                }
+            }
         )
 
         proto.prev=

@@ -8,7 +8,12 @@ $Component
             var nodeResult= $Node( nodeRoot.$ ).ensureChild( 'wc:demo-result' )
 
             var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:demo-source' )
-            var nodeSource= $Node( nodeSource0.$ ).ensureChild( 'div' ).editable( true )
+            //var nodeSource= $Node( nodeSource0.$ ).ensureChild( 'div' ).editable( true )
+            var nodeSource=
+            $Node( nodeSource0.$ )
+            .ensureChild( 'wc:hlight' )
+            .state( 'editable', 'true' )
+            .state( 'lang', 'sgml' )
             
             var childList= nodeRoot.childList()
             for( var i= 0; i < childList.length; ++i ){
@@ -17,9 +22,11 @@ $Component
                 nodeSource.tail( nodeChild )
             }
             
+            nodeSource.text( $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ ) )
+            
             var exec= $Thread( function( ){
                 var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
-                nodeSource.text( source )
+                //nodeSource.text( source )
                 nodeResult.html( source )
                 var scripts= nodeResult.descList( 'script' )
                 for( var i= 0; i < scripts.length; ++i ){
@@ -33,7 +40,7 @@ $Component
         
             var forgetCommits=
             nodeSource.listen
-            (   '$jam.$commit'
+            (   '$jam.$eventCommit'
             ,   function( ev ){
                     exec()
                 }

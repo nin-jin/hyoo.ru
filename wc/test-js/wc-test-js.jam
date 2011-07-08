@@ -6,8 +6,8 @@ $Component
             nodeRoot= $Node( nodeRoot )
             
             var exec= $Thread( function( ){
-                var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
-                nodeSource.text( source )
+                var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ ).$
+                //nodeSource.html( $lang_js( source ) )
                 var proc= new Function( '_done', source )
                 proc( _done )
                 return true
@@ -23,7 +23,11 @@ $Component
             $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_timeout' )
 
             var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_source' )
-            var nodeSource= $Node( nodeSource0.$ ).ensureChild( 'div' ).editable( true )
+            var nodeSource=
+            $Node( nodeSource0.$ )
+            .ensureChild( 'wc:hlight' )
+            .state( 'editable', 'true' )
+            .state( 'lang', 'js' )
             
             var childList= nodeRoot.childList()
             for( var i= 0; i < childList.length; ++i ){
@@ -32,13 +36,6 @@ $Component
                 nodeSource.tail( nodeChild )
             }
 
-            nodeRoot.listen
-            (   '$jam.$commit'
-            ,   function( ev ){
-                    run()
-                }
-            )
-            
             var _done=
             $Poly
             (   function( ){
@@ -83,6 +80,8 @@ $Component
                 print( $classOf( val ) + ': ' + val )
             }
             
+            var stop
+            
             var run=
             function( ){
                 var results= nodeRoot.childList( 'wc:test-js_result' )
@@ -93,10 +92,11 @@ $Component
                 if( !exec() ) passed( false )
                 if( timeout() ){
                     nodeTimeout.text( 'timeout: ' + timeout() )
-                    $schedule( timeout(), function( ){
+                    stop= $schedule( timeout(), function( ){
                         if( passed() !== 'wait' ) return
                         passed( false )
                         print( 'Timeout!' )
+                        stop= null
                     })
                 } else {
                     if( passed() === 'wait' ) passed( false )
@@ -104,6 +104,22 @@ $Component
             }
             
             run()
+
+            var forgetCommit=
+            nodeRoot.listen
+            (   '$jam.$eventCommit'
+            ,   function( ev ){
+                    run()
+                }
+            )
+            
+            this.destroy=
+            function( ){
+                forgetCommit()
+                if( stop ) stop()
+                _done= $Pipe()
+            }
+            
         }
     }
 )

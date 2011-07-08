@@ -23,6 +23,10 @@ wc\:test-js.passed\=false {
     border: 1px solid #c99;
 }
 
+.wc_test-js_textarea {
+    display: none;
+}
+
 wc\:test-js_timeout {
     display: block;
     padding: 2pt 4pt;
@@ -33,7 +37,6 @@ wc\:test-js_timeout {
 
 wc\:test-js_source {
     display: block;
-    padding: 2pt 4pt;
 }
 
 wc\:test-js_result {

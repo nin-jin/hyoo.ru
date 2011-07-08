@@ -8,7 +8,7 @@
     >
 
 <xsl:template match=" wc:test-js/text() ">
-    <textarea>
+    <textarea class=" wc_test-js_textarea" >
         <xsl:copy />
     </textarea>
 </xsl:template>

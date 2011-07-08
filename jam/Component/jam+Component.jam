@@ -143,13 +143,17 @@ $define( '$Component', function( tagName, factory ){
 		var docEl= $doc().documentElement
 		docEl.addEventListener( 'DOMNodeInserted', function( ev ){
 			var node= ev.target
-			check4attach([ node ])
-			if( node.getElementsByTagName ) check4attach( node.getElementsByTagName( '*' ) )
+			$schedule( 0, function( ){
+				check4attach([ node ])
+				if( node.getElementsByTagName ) check4attach( node.getElementsByTagName( '*' ) )
+			})
 		}, false )
 		docEl.addEventListener( 'DOMNodeRemoved', function( ev ){
 			var node= ev.target
-			checkLost4detach([ node ])
-			if( node.getElementsByTagName ) checkLost4detach( node.getElementsByTagName( '*' ) )
+			$schedule( 0, function( ){
+				checkLost4detach([ node ])
+				if( node.getElementsByTagName ) check4detach( node.getElementsByTagName( '*' ) )
+			})
 		}, false )
 	}
 	

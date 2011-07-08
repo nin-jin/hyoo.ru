@@ -15,18 +15,14 @@ $define
             var Selector= arg.Selector || arg.encoder && klass.Selector( arg.encoder ) || klass.Selector()
     
             var parse= $Parser( new function(){
-                this.open= new function(){
-                    this.regexp= RegExp( $String( openEncoded ).mult( 2 ).$ )
-                    this.handler= $Value( open )
-                }
-                this.close= new function(){
-                    this.regexp= RegExp( $String( closeEncoded ).mult( 2 ).$ )
-                    this.handler= $Value( close )
-                }
-                this.selector= new function(){
-                    this.regexp= RegExp( '(' + openEncoded + '([^' + openEncoded + closeEncoded + ']*)' + closeEncoded + ')' )
-                    this.handler= Selector
-                }
+                this[ $String( openEncoded ).mult( 2 ).$ ]=
+                $Value( open )
+                
+                this[ $String( closeEncoded ).mult( 2 ).$ ]=
+                $Value( close )
+                
+                this[ '(' + openEncoded + '([^' + openEncoded + closeEncoded + ']*)' + closeEncoded + ')' ]=
+                Selector
             })
     
             return $Class( function( klass, proto ){
