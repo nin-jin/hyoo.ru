@@ -17,11 +17,11 @@
         <wc:sidebar class=" align=right ">
             Правая панель
         </wc:sidebar>
-        <wc:desktop>
+        <wc:paper>
             <wc:spacer>
                 Основной контент
             </wc:spacer>
-        </wc:desktop>
+        </wc:paper>
     ]]>
     </wc:demo>
     
