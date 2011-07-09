@@ -22,7 +22,8 @@
             _done( false, false )
         </wc:js-test>
         <wc:js-test> _done( this, window ) </wc:js-test>
-        <wc:js-test class=" timeout=100 ">
+        <wc:js-test>
+            _done.deadline( 100 )
             $jam.$schedule
             (   50
             ,   function(){
@@ -52,23 +53,32 @@
         <wc:js-test>
             var val
         </wc:js-test>
-        <wc:js-test class=" timeout=100 ">
+        <wc:js-test>
+            _done.deadline( 100 )
             var val
         </wc:js-test>
-        <wc:js-test class=" timeout=100 ">
+        <wc:js-test>
+            _done.deadline( 100 )
             $jam.$schedule( 50, function(){
                 _done( false )
             })
         </wc:js-test>
-        <wc:js-test class=" timeout=50 ">
+        <wc:js-test>
+            _done.deadline( 50 )
             $jam.$schedule( 100, function(){
                 _done( true )
             })
         </wc:js-test>
-        <wc:js-test class=" timeout=100 ">
+        <wc:js-test>
+            _done.deadline( 100 )
             $jam.$schedule( 50, function(){
                 throw 321
             })
+        </wc:js-test>
+        <wc:js-test>
+            _done.deadline( 50 )
+            _done.deadline( 100 )
+            _done()
         </wc:js-test>
     ]]>
     </wc:demo>

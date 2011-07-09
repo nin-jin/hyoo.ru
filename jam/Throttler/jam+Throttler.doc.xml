@@ -9,7 +9,8 @@
     <p>Обёртка для функции, для выполнения её не чаще заданного числа миллисекунд. Вызов произойдёт через заданное время после первого вызова, но с параметрами от последнего на текущий момент вызова.</p>
 
     <wc:js-test> _done( $jam.$Throttler ) </wc:js-test>
-    <wc:js-test class=" timeout=200 ">
+    <wc:js-test>
+        _done.deadline( 200 )
         var count= 0
         var func= $jam.$Throttler( 50, function( ){
             ++count
@@ -23,7 +24,8 @@
             _done( count, 1 )
         })
     </wc:js-test>
-    <wc:js-test class=" timeout=200 ">
+    <wc:js-test>
+        _done.deadline( 200 )
         var func= $jam.$Throttler( 50, function( arg ){
             _done( arg, 3 )
         })

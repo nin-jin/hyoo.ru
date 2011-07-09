@@ -13,15 +13,6 @@ $Component
                 return true
             })
         
-            var timeout=
-            function( ){
-                return Number( nodeRoot.state( 'timeout' ) )
-            }
-        
-            if( timeout() )
-            var nodeTimeout=
-            $Node( nodeRoot.$ ).ensureChild( 'wc:js-test_timeout' )
-
             var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:js-test_source' )
             var nodeSource=
             $Node( nodeSource0.$ )
@@ -49,6 +40,24 @@ $Component
                     if( passed() === 'wait' ) passed( a === b )
                     printValue( a )
                     if( a !== b ) printValue( b )
+                }
+            )
+            
+            var stop
+            
+            var noMoreWait= function( ){
+                if( passed() !== 'wait' ) return
+                passed( false )
+                print( 'Timeout!' )
+                stop= null
+            }
+            
+            _done.deadline=
+            $Poly
+            (   null
+            ,   function( ms ){
+                    if( stop ) throw new Error( 'Deadline redeclaration' )
+                    stop= $schedule( ms, noMoreWait )
                 }
             )
         
@@ -80,8 +89,6 @@ $Component
                 print( $classOf( val ) + ': ' + val )
             }
             
-            var stop
-            
             var run=
             function( ){
                 var results= nodeRoot.childList( 'wc:js-test_result' )
@@ -89,18 +96,9 @@ $Component
                     $Node( results[i] ).parent( null )
                 }
                 passed( 'wait' )
+                stop= null
                 if( !exec() ) passed( false )
-                if( timeout() ){
-                    nodeTimeout.text( 'timeout: ' + timeout() )
-                    stop= $schedule( timeout(), function( ){
-                        if( passed() !== 'wait' ) return
-                        passed( false )
-                        print( 'Timeout!' )
-                        stop= null
-                    })
-                } else {
-                    if( passed() === 'wait' ) passed( false )
-                }
+                if(( !stop )&&( passed() === 'wait' )) passed( false )
             }
             
             run()
