@@ -30,8 +30,8 @@ $Component
                 nodeResult.html( source )
                 var scripts= nodeResult.descList( 'script' )
                 for( var i= 0; i < scripts.length; ++i ){
-                    var script= scripts[i]
-                    $eval( $Node( script ).text() )
+                    var script= $Node( scripts[i] )
+                    $eval( script.text() )
                 }
                 return true
             })

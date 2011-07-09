@@ -1,7 +1,7 @@
 with( $wc )
 $define
-(	'$lang_js'
-,	new function(){
+(    '$lang_js'
+,    new function(){
     
         var js=
         function( str ){
