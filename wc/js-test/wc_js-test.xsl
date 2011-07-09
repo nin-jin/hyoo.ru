@@ -7,8 +7,8 @@
     xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-<xsl:template match=" wc:test-js/text() ">
-    <textarea class=" wc_test-js_textarea" >
+<xsl:template match=" wc:js-test/text() ">
+    <textarea class=" wc_js-test_textarea" >
         <xsl:copy />
     </textarea>
 </xsl:template>

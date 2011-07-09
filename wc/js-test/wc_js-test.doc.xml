@@ -5,71 +5,71 @@
     xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>wc:test-js</h1>
+    <h1>wc:js-test</h1>
 
     <p>Виджет для тестирования яваскрипт кода. Берёт своё текстовое содержимое и исполняет в отдельном потоке. Если результат исполнения ложный или было брошено исключение, то краснеет. Иначе - зеленеет. Попутно, производит подсветку кода. В следующих тестах зелёным подсвечиваются только выражения возвращающие истину.</p>
 
     <h2>Позитивные тесты</h2>
     <wc:demo>
     <![CDATA[
-        <wc:test-js>
+        <wc:js-test>
             _done()
-        </wc:test-js>
-        <wc:test-js>
+        </wc:js-test>
+        <wc:js-test>
             _done( true )
-        </wc:test-js>
-        <wc:test-js>
+        </wc:js-test>
+        <wc:js-test>
             _done( false, false )
-        </wc:test-js>
-        <wc:test-js> _done( this, window ) </wc:test-js>
-        <wc:test-js class=" timeout=100 ">
+        </wc:js-test>
+        <wc:js-test> _done( this, window ) </wc:js-test>
+        <wc:js-test class=" timeout=100 ">
             $jam.$schedule
             (   50
             ,   function(){
                     _done( true )
                 }
             )
-        </wc:test-js>
+        </wc:js-test>
     ]]>
     </wc:demo>
     
     <h2>Негативные тесты</h2>
     <wc:demo>
     <![CDATA[
-        <wc:test-js> throw new Error( 'sample error' ) </wc:test-js>
-        <wc:test-js> true= false </wc:test-js>
-        <wc:test-js> (!) </wc:test-js>
-        <wc:test-js>
+        <wc:js-test> throw new Error( 'sample error' ) </wc:js-test>
+        <wc:js-test> true= false </wc:js-test>
+        <wc:js-test> (!) </wc:js-test>
+        <wc:js-test>
             _done( void 0 )
-        </wc:test-js>
-        <wc:test-js>
+        </wc:js-test>
+        <wc:js-test>
             _done( true, 'true' )
-        </wc:test-js>
-        <wc:test-js>
+        </wc:js-test>
+        <wc:js-test>
             return
             _done()
-        </wc:test-js>
-        <wc:test-js>
+        </wc:js-test>
+        <wc:js-test>
             var val
-        </wc:test-js>
-        <wc:test-js class=" timeout=100 ">
+        </wc:js-test>
+        <wc:js-test class=" timeout=100 ">
             var val
-        </wc:test-js>
-        <wc:test-js class=" timeout=100 ">
+        </wc:js-test>
+        <wc:js-test class=" timeout=100 ">
             $jam.$schedule( 50, function(){
                 _done( false )
             })
-        </wc:test-js>
-        <wc:test-js class=" timeout=50 ">
+        </wc:js-test>
+        <wc:js-test class=" timeout=50 ">
             $jam.$schedule( 100, function(){
                 _done( true )
             })
-        </wc:test-js>
-        <wc:test-js class=" timeout=100 ">
+        </wc:js-test>
+        <wc:js-test class=" timeout=100 ">
             $jam.$schedule( 50, function(){
                 throw 321
             })
-        </wc:test-js>
+        </wc:js-test>
     ]]>
     </wc:demo>
 

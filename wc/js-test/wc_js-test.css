@@ -1,4 +1,4 @@
-wc\:test-js {
+wc\:js-test {
     display: inline-block; zoom: 1;
     font-size: 9pt;
     font-family: 'Lucida Console', monospace;
@@ -13,21 +13,21 @@ wc\:test-js {
     position: relative;
 }
 
-wc\:test-js.passed\=true {
+wc\:js-test.passed\=true {
     background: #cfc;
     border: 1px solid #ada;
 }
 
-wc\:test-js.passed\=false {
+wc\:js-test.passed\=false {
     background: #fcc;
     border: 1px solid #c99;
 }
 
-.wc_test-js_textarea {
+.wc_js-test_textarea {
     display: none;
 }
 
-wc\:test-js_timeout {
+wc\:js-test_timeout {
     display: block;
     padding: 2pt 4pt;
     font-size: 8pt;
@@ -35,11 +35,11 @@ wc\:test-js_timeout {
     border-bottom: 1px solid #dda;
 }
 
-wc\:test-js_source {
+wc\:js-test_source {
     display: block;
 }
 
-wc\:test-js_result {
+wc\:js-test_result {
     border-top: 1px solid #dda;
     background: #ffc;
     padding: 2pt 4pt;

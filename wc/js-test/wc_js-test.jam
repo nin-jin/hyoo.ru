@@ -1,6 +1,6 @@
 with( $wc )
 $Component
-(   'wc:test-js'
+(   'wc:js-test'
 ,   function( nodeRoot ){
         return new function( ){
             nodeRoot= $Node( nodeRoot )
@@ -20,9 +20,9 @@ $Component
         
             if( timeout() )
             var nodeTimeout=
-            $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_timeout' )
+            $Node( nodeRoot.$ ).ensureChild( 'wc:js-test_timeout' )
 
-            var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:test-js_source' )
+            var nodeSource0= $Node( nodeRoot.$ ).ensureChild( 'wc:js-test_source' )
             var nodeSource=
             $Node( nodeSource0.$ )
             .ensureChild( 'wc:hlight' )
@@ -32,7 +32,7 @@ $Component
             var childList= nodeRoot.childList()
             for( var i= 0; i < childList.length; ++i ){
                 var nodeChild= $Node( childList[ i ] )
-                if( /^wc:test-js_/.test( nodeChild.name() ) ) continue
+                if( /^wc:js-test_/.test( nodeChild.name() ) ) continue
                 nodeSource.tail( nodeChild )
             }
 
@@ -64,7 +64,7 @@ $Component
             
             var print=
             function( val ){
-                var node= $Node( 'wc:test-js_result' )
+                var node= $Node( 'wc:js-test_result' )
                 node.text( val )
                 nodeRoot.tail( node )
             }
@@ -84,7 +84,7 @@ $Component
             
             var run=
             function( ){
-                var results= nodeRoot.childList( 'wc:test-js_result' )
+                var results= nodeRoot.childList( 'wc:js-test_result' )
                 for( var i= 0; i < results.length; ++i ){
                     $Node( results[i] ).parent( null )
                 }
