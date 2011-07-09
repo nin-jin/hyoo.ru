@@ -18,7 +18,7 @@
                 if( result ) break job
                 ++result
             }
-            _done( result, 1 )
+            _test.ok( result, 1 )
         </wc:js-test>
         <wc:js-test>
             var result
@@ -31,7 +31,7 @@
                     }
                 }
             }
-            _done( result, 1 )
+            _test.ok( result, 1 )
         </wc:js-test>
     </p>
 
