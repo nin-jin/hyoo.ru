@@ -54,50 +54,22 @@ function rchdir($dir) {
 
 copy_r('.', '-export');
 rchdir( '-export' );
-	@unlink( 'git-init.cmd' );
 	unlink( 'export.php' );
     unlink( 'index.php' );
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
 		if( $pack[0] === '-' ) continue;
         rchdir( $pack );
-			@unlink( 'git-init.cmd' );
-            rchdir( '-mix' );
-                @copy( 'compiled.css', 'index.css' );
-                @copy( 'compiled.xsl', 'index.xsl' );
-                @copy( 'compiled.js', 'index.js' );
-            rchdir( '..' );
-            rchdir( '-mix+doc' );
-                @copy( 'compiled.css', 'index.css' );
-                @copy( 'compiled.xsl', 'index.xsl' );
-                @copy( 'compiled.js', 'index.js' );
-            rchdir( '..' );
-            foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
-			    if( $module[0] === '-' ) continue;
-                rchdir( $module );
-					@unlink( 'git-init.cmd' );
-                    foreach( glob( '*.tree' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                    foreach( glob( '*.css' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                    foreach( glob( '*.jam' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                    foreach( glob( '*.js' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                    foreach( glob( '*.vml' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                    foreach( glob( '*.xsl' ) as $file ):
-                        unlink( $file );
-                    endforeach;
-                rchdir( '..' );
-                @rmdir( $module );
-            endforeach;
+			foreach( array( '-mix', '-mix+doc' ) as $module ):
+				rchdir( $module );
+					@rename( 'index.css', '-index.css' );
+					@rename( 'index.xsl', '-index.xsl' );
+					@rename( 'index.js', '-index.js' );
+					@rename( 'compiled.css', 'index.css' );
+					@rename( 'compiled.xsl', 'index.xsl' );
+					@rename( 'compiled.js', 'index.js' );
+				rchdir( '..' );
+			endforeach;
         rchdir( '..' );
-        @rmdir( $pack );
     endforeach;
 rchdir( '..' );
 header( 'Location: -export/', true, 302 );
