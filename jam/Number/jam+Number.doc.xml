@@ -8,21 +8,21 @@
     <h1>$jam.$Number</h1>
     <p>Создаёт обёртку для чисел.</p>
 
-    <wc:js-test> _done( $jam.$Number ) </wc:js-test>
+    <wc:js-test> _test.ok( $jam.$Number ) </wc:js-test>
     <wc:js-test>
-        _done( $jam.$Number( 123 ) )
+        _test.ok( $jam.$Number( 123 ) )
     </wc:js-test>
     <wc:js-test>
         var numb= $jam.$Number( 123 )
-        _done( $jam.$Number( numb ) !== numb )
+        _test.not( $jam.$Number( numb ), numb )
     </wc:js-test>
     <wc:js-test>
         var numb= $jam.$Number( 123 )
-        _done( numb.$, 123 )
+        _test.ok( numb.$, 123 )
     </wc:js-test>
     <wc:js-test>
         var numb= $jam.$Number( 123 )
-        _done( +numb, 123 )
+        _test.ok( +numb, 123 )
     </wc:js-test>
 
 </doc:root>

@@ -8,8 +8,8 @@ $Component
             var exec= $Thread( function( ){
                 var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ ).$
                 //nodeSource.html( $lang_js( source ) )
-                var proc= new Function( '_done', source )
-                proc( _done )
+                var proc= new Function( '_test', source )
+                proc( _test )
                 return true
             })
         
@@ -27,7 +27,9 @@ $Component
                 nodeSource.tail( nodeChild )
             }
 
-            var _done=
+            var _test= {}
+            
+            _test.ok=
             $Poly
             (   function( ){
                     if( passed() === 'wait' ) passed( true )
@@ -42,6 +44,22 @@ $Component
                     if( a !== b ) printValue( b )
                 }
             )
+
+            _test.not=
+            $Poly
+            (   function( ){
+                    if( passed() === 'wait' ) passed( false )
+                }
+            ,   function( val ){
+                    if( passed() === 'wait' ) passed( !Boolean( val ) )
+                    printValue( val )
+                }
+            ,   function( a, b ){
+                    if( passed() === 'wait' ) passed( a !== b )
+                    printValue( a )
+                    printValue( b )
+                }
+            )
             
             var stop
             
@@ -52,7 +70,7 @@ $Component
                 stop= null
             }
             
-            _done.deadline=
+            _test.deadline=
             $Poly
             (   null
             ,   function( ms ){
@@ -115,7 +133,7 @@ $Component
             function( ){
                 forgetCommit()
                 if( stop ) stop()
-                _done= $Pipe()
+                passed= printValue= $Value()
             }
             
         }

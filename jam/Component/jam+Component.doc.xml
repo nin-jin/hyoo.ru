@@ -9,25 +9,25 @@
     <p>Создаёт компоненту, которая инстанцирует виджеты при появлении в доме элементов с определённым именем, а при удалении элементов - разрушает виджеты. Принимает на вход два параметра - имя тэга (может быть звёздочка) и фабрику виджетов (ей будет передан элемент). </p>
     
     <wc:js-test>
-        _done.deadline( 100 )
+        _test.deadline( 100 )
         with( $wc )
         $Component
         (   'wc:component-test'
         ,   function( nodeRoot ){
-                _done( $Node( nodeRoot ).text() )
+                _test.ok( $Node( nodeRoot ).text() )
             }
         )
     </wc:js-test>
     
     <wc:js-test>
-        _done.deadline( 100 )
+        _test.deadline( 100 )
         with( $wc )
         var comp= $Component
         (   'wc:component-test'
         ,   function( nodeRoot ){
             }
         )
-        _done( comp )
+        _test.ok( comp )
     </wc:js-test>
     
     <wc:demo>

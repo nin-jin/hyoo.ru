@@ -11,9 +11,9 @@
 
     <p>
         <wc:js-test>
-            _done.deadline( 1000 )
+            _test.deadline( 1000 )
             $jam.$domReady.then( function(){
-                _done( $jam.$domReady() )
+                _test.ok( $jam.$domReady() )
             })
         </wc:js-test>
     </p>

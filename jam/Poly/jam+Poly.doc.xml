@@ -9,8 +9,8 @@
 
     <p>Создаёт полиморфную функцию из переданных в параметрах функций. Первая будет вызвана если параметров не передано, вторая, если передан 1 и так далее. Если будет передано неправильное число параметров, то выпадет исключение.</p>
 
-    <wc:js-test> _done( $jam.$Poly ) </wc:js-test>
-    <wc:js-test> _done( $jam.$Poly() ) </wc:js-test>
+    <wc:js-test> _test.ok( $jam.$Poly ) </wc:js-test>
+    <wc:js-test> _test.ok( $jam.$Poly() ) </wc:js-test>
     <wc:js-test>
         var poly=
         $jam.$Poly
@@ -19,7 +19,7 @@
             }
         ,   Math.abs
         )
-        _done( poly(), 123 )
+        _test.ok( poly(), 123 )
     </wc:js-test>
     <wc:js-test>
         var poly=
@@ -29,7 +29,7 @@
             }
         ,   Math.abs
         )
-        _done( poly( -5 ), 5 )
+        _test.ok( poly( -5 ), 5 )
     </wc:js-test>
     <wc:js-test>
         var poly=
@@ -38,7 +38,7 @@
         ,   Math.abs
         ,   Math.pow
         )
-        _done( poly( -5 ), 5 )
+        _test.ok( poly( -5 ), 5 )
     </wc:js-test>
     <wc:js-test>
         var poly=
@@ -47,7 +47,7 @@
         ,   Math.abs
         ,   Math.pow
         )
-        _done( poly( -2, 3 ), -8 )
+        _test.ok( poly( -2, 3 ), -8 )
     </wc:js-test>
 
 </doc:root>

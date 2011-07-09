@@ -8,31 +8,31 @@
     <h1>$jam.$TemplateFactory</h1>
     <p>Фабрика по производству шаблонизаторов.</p>
 
-    <wc:js-test> _done( $jam.$TemplateFactory ) </wc:js-test>
+    <wc:js-test> _test.ok( $jam.$TemplateFactory ) </wc:js-test>
     <wc:js-test>
         var Template= $jam.$TemplateFactory()
         var template= Template( 'a{0}b' )
-        _done( String( template ), 'a{0}b' )
+        _test.ok( String( template ), 'a{0}b' )
     </wc:js-test>
     <wc:js-test>
         var Template= $jam.$TemplateFactory()
         var template= Template( 'a{0}b' ).fill([1])
-        _done( String( template ), 'a1b' )
+        _test.ok( String( template ), 'a1b' )
     </wc:js-test>
     <wc:js-test>
         var Template= $jam.$TemplateFactory()
         var template= Template( 'a{0}{1}b' ).fill([1, 2])
-        _done( String( template ), 'a12b' )
+        _test.ok( String( template ), 'a12b' )
     </wc:js-test>
     <wc:js-test>
         var Template= $jam.$TemplateFactory()
         var template= Template( 'a{{0}}{1}b' ).fill( [1, 2] )
-        _done( String( template ), 'a{0}2b' )
+        _test.ok( String( template ), 'a{0}2b' )
     </wc:js-test>
     <wc:js-test>
         var Template= $jam.$TemplateFactory({ tokens: '[]' })
         var template= Template( 'a[0]b' ).fill( [1] )
-        _done( String( template ), 'a1b' )
+        _test.ok( String( template ), 'a1b' )
     </wc:js-test>
     <wc:js-test>
         var Selector= $jam.$TemplateFactory.Selector( function( str ){
@@ -40,7 +40,7 @@
         })
         var Template= $jam.$TemplateFactory({ Selector: Selector })
         var template= Template( 'a{0}b' ).fill( [1] )
-        _done( String( template ), 'a(1)b' )
+        _test.ok( String( template ), 'a(1)b' )
     </wc:js-test>
     <wc:js-test>
         var encoder= function( str ){
@@ -48,7 +48,7 @@
         }
         var Template= $jam.$TemplateFactory({ encoder: encoder })
         var template= Template( 'a{0}b' ).fill( [1] )
-        _done( String( template ), 'a(1)b' )
+        _test.ok( String( template ), 'a(1)b' )
     </wc:js-test>
     <wc:js-test>
         var Selector= function( str, key ){
@@ -56,7 +56,7 @@
         }
         var Template= $jam.$TemplateFactory({ Selector: Selector })
         var template= Template( 'a{b}c' )
-        _done( String( template ), 'aBc' )
+        _test.ok( String( template ), 'aBc' )
     </wc:js-test>
 
 </doc:root>
