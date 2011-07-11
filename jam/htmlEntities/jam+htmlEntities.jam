@@ -1,6 +1,7 @@
 with( $jam )
 $define
-(   {    'nbsp': ' '
+(   '$htmlEntities'
+,   {    'nbsp': ' '
     ,    'amp':  '&'
     ,    'lt':   '<'
     ,    'gt':   '>'
