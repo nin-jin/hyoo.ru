@@ -28,6 +28,6 @@ wc\:lang_sgml-decl {
     color: #066;
 }
 
-wc\:lang_sgml-subLang {
-    opacity: .75;
+wc\:lang_sgml-comment {
+    color: #999;
 }

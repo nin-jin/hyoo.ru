@@ -26,7 +26,7 @@ $define
         proto.text=
         $Poly
         (   function( ){
-                return $html.text( this.$.innerHTML )
+                return $html2text( this.$.innerHTML )
             }
         ,   new function(){
                 var fieldName= $support.htmlModel.select({ w3c: 'textContent', ms: 'innerText' })

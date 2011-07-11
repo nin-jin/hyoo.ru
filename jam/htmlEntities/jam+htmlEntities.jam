@@ -1,0 +1,10 @@
+with( $jam )
+$define
+(   {    'nbsp': ' '
+    ,    'amp':  '&'
+    ,    'lt':   '<'
+    ,    'gt':   '>'
+    ,    'quot': '"'
+    ,    'apos': "'"
+    }
+)
