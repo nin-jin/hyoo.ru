@@ -1,0 +1,28 @@
+<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
+<doc:root
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wc="https://github.com/nin-jin/wc"
+    xmlns:doc="https://github.com/nin-jin/doc"
+    >
+
+    <h1>wc:js-bench</h1>
+
+    <wc:js-bench_list>
+        <wc:js-bench>
+            var x= new function(){ }
+        </wc:js-bench>
+        <wc:js-bench>
+            var x= { }
+        </wc:js-bench>
+    </wc:js-bench_list>
+
+    <wc:js-bench_list>
+        <wc:js-bench>
+            var x= new function(){ }
+        </wc:js-bench>
+        <wc:js-bench>
+            var x= { }
+        </wc:js-bench>
+    </wc:js-bench_list>
+
+</doc:root>

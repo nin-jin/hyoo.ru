@@ -20,7 +20,7 @@ $Component( '*', new function(){
             var shaped= false
     
             var nodeShape= $Lazy( function( ){
-                var node= $dom.parse( '<vml:shape style=" position: absolute; display: block; " />' )
+                var node= $Node.parse( '<vml:shape style=" position: absolute; display: block; " />' ).$
                 var type= nodeRoot.currentStyle[ '-wc-css3_shapetype' ] || 'wc-css3_roundrect'
                 node.setAttribute( 'type', node.type= ( '#' + type ) )
                 shaped= true
@@ -28,19 +28,19 @@ $Component( '*', new function(){
             })
             
             var nodeStroke= $Lazy( function( ){
-                var node= $dom.parse( "<vml:stroke />" )
+                var node= $Node.parse( "<vml:stroke />" ).$
                 nodeShape().appendChild( node )
                 return $Value( node )
             })
     
             var nodeFill= $Lazy( function( ){
-                var node= $dom.parse( "<vml:fill />" )
+                var node= $Node.parse( "<vml:fill />" ).$
                 nodeShape().appendChild( node )
                 return $Value( node )
             })
     
             var nodeShadow= $Lazy( function( ){
-                var node= $dom.parse( "<vml:shadow />" )
+                var node= $Node.parse( "<vml:shadow />" ).$
                 nodeShape().appendChild( node )
                 return $Value( node )
             })

@@ -3,15 +3,14 @@ $define
 (   '$html'
 ,   new function(){
     
-        this.encode=
+        this.escape=
         function( str ){
-            return $String( str )
+            return String( str )
             .replace( /&/g, '&amp;' )
             .replace( /</g, '&lt;' )
             .replace( />/g, '&gt;' )
             .replace( /"/g, '&quot;' )
             .replace( /'/g, '&apos;' )
-            .$
         }
 
         this.decode=
@@ -48,8 +47,5 @@ $define
             .$
         }
         
-        this.Template=
-        $TemplateFactory({ encoder: this.encode })
-    
     }
 )

@@ -13,7 +13,7 @@
  *
  * Date: Thu Jun 30 14:16:56 2011 -0400
  */
-;(function( window, undefined ) {
+(function( window, undefined ) {
 
 // Use the correct document accordingly with window argument (sandbox)
 var document = window.document,

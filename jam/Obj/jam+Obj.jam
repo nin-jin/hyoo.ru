@@ -2,21 +2,9 @@ with( $jam )
 $jam.$Obj=
 $Class( function( klass, proto ){
     
-    klass.create=
-    function( val ){
-        if(( val === void 0 )||( val === null )){
-            throw new Error( 'Wrong object: ' + val )
-        }
-        var obj= new klass
-        obj.$= val
-        return obj
-    }
-    
     proto.has=
     function( key ){
-        return ( 'hasOwnProperty' in this.$ )
-        ?   this.$.hasOwnProperty( key )
-        :   ( key in this.$ )
+        return ( key in this.$ )
     }
     
     proto.get=
@@ -32,10 +20,11 @@ $Class( function( klass, proto ){
     
     proto.define=
     function( key, value ){
-        if( this.has( key ) && this.get( key ) !== value ){
+        if( this.has( key ) ){
             throw new Error( 'Redeclaration of [' + key + ']' )
         }
         this.put( key, value )
+        return this
     }
     
     proto.init=
@@ -43,4 +32,5 @@ $Class( function( klass, proto ){
         init( this.$ )
         return this
     }
+
 })

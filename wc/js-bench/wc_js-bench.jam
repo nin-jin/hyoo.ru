@@ -1,0 +1,33 @@
+with( $wc )
+$Component
+(   'wc:js-bench_list'
+,   new function( ){
+        return function( nodeRoot ){
+            nodeRoot= $Node( nodeRoot )
+            var nodeHeader= $Node.Element( 'wc:js-bench_header' )
+            nodeRoot.head( nodeHeader )
+            var nodeRunner= $Node.Element( 'wc:js-bench_runner' ).parent( nodeHeader ).text( 'Run ►' ).attr( 'title', 'ctrl + enter' )
+            $Node.Element( 'wc:js-bench_column' ).parent( nodeHeader ).text( 'inner' )
+            $Node.Element( 'wc:js-bench_column' ).parent( nodeHeader ).text( 'outer' )
+        }
+    }
+)
+
+with( $wc )
+$Component
+(   'wc:js-bench'
+,   new function( ){
+        return function( nodeRoot ){
+            nodeRoot= $Node( nodeRoot )
+            var source= $String( nodeRoot.text() ).minimizeIndent().trim( /[\r\n]/ ).$
+            nodeRoot.clear()
+            var nodeSource= $Node.Element( 'wc:js-bench_source' )
+            nodeRoot.head( nodeSource )
+            var nodeEditor= $Node.parse( '<wc:hlight class=" lang=js editable=true " />' ).text( source )
+            nodeSource.tail( nodeEditor )
+            $Node.Element( 'wc:js-bench_result' ).parent( nodeRoot ).state( 'source', 'inner' )
+            $Node.Element( 'wc:js-bench_result' ).parent( nodeRoot ).state( 'source', 'outer' )
+            $log(nodeRoot.$.firstChild)
+        }
+    }
+)

@@ -129,11 +129,11 @@ $define( '$Component', function( tagName, factory ){
     }
 
     var interval=
-    $glob().top.setInterval( tracking, 100 )
+    $glob().setInterval( tracking, 200 )
 
     $domReady.then(function(){
         if( $support.eventModel() === 'w3c' ){
-            $glob().top.clearInterval( interval )
+            $glob().clearInterval( interval )
         }
         attachIfLoaded= attach
         tracking()
