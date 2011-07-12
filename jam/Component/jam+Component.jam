@@ -107,21 +107,6 @@ $define( '$Component', function( tagName, factory ){
         detach( filtered )
     }
 
-    var checkLost4detach=
-    function( nodeList ){
-        var filtered= []
-        filtering:
-        for( var i= 0, len= nodeList.length; i < len; ++i ){
-            var node= nodeList[ i ]
-
-            if( !node[ fieldName ] ) continue
-
-            filtered.push( node )
-        }
-        
-        detach( filtered )
-    }
-
     var tracking=
     function( ){
         check4attach( nodes )
@@ -151,7 +136,7 @@ $define( '$Component', function( tagName, factory ){
         docEl.addEventListener( 'DOMNodeRemoved', function( ev ){
             var node= ev.target
             $schedule( 0, function( ){
-                checkLost4detach([ node ])
+                check4detach([ node ])
                 if( node.getElementsByTagName ) check4detach( node.getElementsByTagName( '*' ) )
             })
         }, false )

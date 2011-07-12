@@ -165,6 +165,16 @@ $define
             }
         )
         
+        proto.surround=
+        function( node ){
+            var node= $raw( node )
+            var parent= this.$.parentNode
+            var next= this.$.nextSibling
+            node.appendChild( this.$ )
+            parent.insertBefore( node, next )
+            return this
+        }
+        
         proto.head=
         $Poly
         (   function(){

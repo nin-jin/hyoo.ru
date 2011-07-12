@@ -27,6 +27,14 @@ $Class( function( klass, proto ){
         return this
     }
     
+    proto.method=
+    function( name ){
+        var obj= this.$
+        return function( ){
+            return obj[ name ].apply( obj, arguments )
+        }
+    }
+
     proto.init=
     function( init ){
         init( this.$ )

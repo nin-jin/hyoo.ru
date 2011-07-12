@@ -58,3 +58,8 @@ wc\:js-bench_result.source\=inner {
 wc\:js-bench_result.source\=outer {
     background-color: #edf;
 }
+
+wc\:js-bench.wait\=true wc\:js-bench_result {
+    background-color: #eee;
+}
+

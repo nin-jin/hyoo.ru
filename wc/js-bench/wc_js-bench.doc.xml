@@ -6,23 +6,48 @@
     >
 
     <h1>wc:js-bench</h1>
+    
+    <p>Виджет для сравнения скорости работы различных алгоритмов. Автоматически подбирает число итераций, чтобы с одной стороны была достаточная точность, а с другой - измерение не занимало слишком много времени. Возвращает результат в микросекундах.</p>
 
-    <wc:js-bench_list>
-        <wc:js-bench>
-            var x= new function(){ }
-        </wc:js-bench>
-        <wc:js-bench>
-            var x= { }
-        </wc:js-bench>
-    </wc:js-bench_list>
+    <p>
+        <wc:demo>
+        <![CDATA[
+            <wc:spacer>
+                <wc:js-bench_list>
+                    <wc:js-bench>
+                        new function( ){ }
+                    </wc:js-bench>
+                    <wc:js-bench>
+                        { }
+                    </wc:js-bench>
+                </wc:js-bench_list>
+            </wc:spacer>
+        ]]>
+        </wc:demo>
+    </p>
 
-    <wc:js-bench_list>
-        <wc:js-bench>
-            var x= new function(){ }
-        </wc:js-bench>
-        <wc:js-bench>
-            var x= { }
-        </wc:js-bench>
-    </wc:js-bench_list>
+    <p>
+        <wc:demo>
+        <![CDATA[
+            <wc:spacer>
+                <wc:js-bench_list>
+                    <wc:js-bench>
+                        with({ a: 1 }){
+                            _bench.begin()
+                                a= 2
+                            _bench.end()
+                        }
+                    </wc:js-bench>
+                    <wc:js-bench>
+                        var obj= { a: 1 }
+                        _bench.begin()
+                            obj.a= 2
+                        _bench.end()
+                    </wc:js-bench>
+                </wc:js-bench_list>
+            </wc:spacer>
+        ]]>
+        </wc:demo>
+    </p>
 
 </doc:root>
