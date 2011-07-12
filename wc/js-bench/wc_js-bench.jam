@@ -74,7 +74,7 @@ $Component
             
             nodeRoot.surround( $Node.Fragment() ) // for chrome 12
             
-            var calc= function( source ){
+            var calc= $Thread( function( source ){
                 var startCompile= new Date
                     var proc= new Function( '', source )
                 var endCompile= new Date
@@ -85,7 +85,7 @@ $Component
                     this.compile= endCompile.getTime() - startCompile.getTime()
                     this.exec= endExec.getTime() - startExec.getTime()
                 }
-            }
+            })
 
             var format= function( time ){
                 return time.toFixed( 3 )
@@ -110,8 +110,12 @@ $Component
                 if( sourceOuter ){
                     do {
                         sourceOuter+= sourceOuter
+
+                        var time= calc( sourceOuter )
+                        if( !time ) break
+                        var timeOuter= time
                         count*= 2
-                        var timeOuter= calc( sourceOuter )
+
                         if( timeOuter.compile > 256 ) break
                         if( timeOuter.exec > 256 ) break
                     } while( true )
@@ -129,8 +133,12 @@ $Component
                 var count= 1
                 do {
                     sourceInner+= sourceInner
+
+                    var time= calc( prefix + sourceInner + postfix )
+                    if( !time ) break
+                    var timeInner= time
                     count*= 2
-                    var timeInner= calc( prefix + sourceInner + postfix )
+
                     if( timeInner.compile > 256 ) break
                     if( timeInner.exec > 256 ) break
                 } while( true )
