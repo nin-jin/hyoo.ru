@@ -1,14 +1,14 @@
 with( $jam )
 $define
-(   '$eventCommit'
+(   '$eventClone'
 ,   new function(){
         var handler=
         function( event ){
             if( !event.keyMeta() ) return
-            if( event.keyShift() ) return
+            if( !event.keyShift() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 13 ) return
-            $Event().type( '$jam.$eventCommit' ).scream( event.target() )
+            $Event().type( '$jam.$eventClone' ).scream( event.target() )
         }
         
         $Node( $doc().documentElement )
