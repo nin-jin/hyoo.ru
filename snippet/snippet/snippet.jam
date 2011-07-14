@@ -11,7 +11,9 @@ $Component
         var load=
         function( ){
             nodeContent.clear()
-            var chunks= $doc().location.hash.substring( 1 ).split( ';' )
+            var hash= $doc().location.hash
+            if( !hash ) hash= '#h1=Snippet!;wc:js-test=_test.ok()'
+            var chunks= hash.substring( 1 ).split( ';' )
             for( var i= 0; i < chunks.length; ++i ){
                 var pair= chunks[i].split( '=' )
                 if( pair.length < 2 ) continue
