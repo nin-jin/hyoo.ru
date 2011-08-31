@@ -1,1 +1,1 @@
-include module= wc/vml
+include pack= vml
