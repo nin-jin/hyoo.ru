@@ -76,6 +76,17 @@ $define
             }
         )
         
+        proto.button=
+        $support.eventModel.select
+        (   {   'w3c': function( ){
+                    return this.$.button
+                }
+            ,   'ms': function( ){
+                    return [ 0, 0, 2, 2, 1 ][ this.$.button ]
+                }
+            }
+        )
+        
         proto.target=
         $support.eventModel.select
         (   {   'w3c': function( ){
@@ -84,6 +95,18 @@ $define
             ,   'ms': function( ){
                     return this.$.srcElement
                 }
+            }
+        )
+        
+        proto.wheel=
+        $Poly
+        (   function( ){
+                if( this.$.wheelDelta ) return - this.$.wheelDelta / 120 
+                return this.$.detail / 4
+            }
+        ,   function( val ){
+                this.$.wheelDelta= - val * 120
+                return this
             }
         )
         

@@ -58,7 +58,7 @@ $define
                     ,   'ms': function( ){
                             var event= $glob().event
                             var event= event.originalEvent || event
-                            if( event.type !== self.type() ) return 
+                            if( event.type !== self.eventName() ) return
                             return handler.call( self.node(), $Event( event ) )
                         }
                     }
