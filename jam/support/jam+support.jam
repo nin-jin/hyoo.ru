@@ -12,6 +12,7 @@ $define
     
         var node= $doc().createElement( 'html:div' )
         
+        this.xmlModel= Support( ( $glob().DOMParser && $glob().XSLTProcessor ) ? 'w3c' : 'ms' )
         this.htmlModel= Support( node.namespaceURI !== void 0 ? 'w3c' : 'ms' )
         this.eventModel= Support( 'addEventListener' in node ? 'w3c' : 'ms' )
         this.selectionModel= Support( 'createRange' in $doc() ? 'w3c' : 'ms' )
