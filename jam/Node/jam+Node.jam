@@ -127,7 +127,7 @@ $define
             var filtered= []
             
             for( var i= this.head(); i; i= i.next() ){
-                if( name && ( i.name() !== name ) ) continue
+                if( name && i.name().replace( name, '' ) ) continue
                 filtered.push( i )
             }
             
