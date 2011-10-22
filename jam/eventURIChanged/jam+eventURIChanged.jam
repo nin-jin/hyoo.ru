@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$eventURIChanged'
 ,   new function(){
@@ -10,7 +10,7 @@ $define
             var newURI= $doc().location.href
             if( lastURI === newURI ) return
             lastURI= newURI
-            $Event().type( '$jam.$eventURIChanged' ).scream( $doc() )
+            $Event().type( '$jam$.$eventURIChanged' ).scream( $doc() )
         }
         
         $glob().setInterval( refresh, 20)

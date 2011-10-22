@@ -1,4 +1,5 @@
-with( $wc )
+with( $jam$ )
+with( $wc$ )
 $Component
 (   'wc:js-bench_list'
 ,   new function( ){
@@ -22,7 +23,7 @@ $Component
                 var benchList= nodeRoot.childList( 'wc:js-bench' )
                 for( var i= 0; i < benchList.length(); ++i ){
                     $Event()
-                    .type( '$jam.$eventCommit' )
+                    .type( '$jam$.$eventCommit' )
                     .scream( benchList.get( i ) )
                 }
             }
@@ -41,7 +42,8 @@ $Component
     }
 )
 
-with( $wc )
+with( $jam$ )
+with( $wc$ )
 $Component
 (   'wc:js-bench'
 ,   new function( ){
@@ -61,7 +63,7 @@ $Component
             .clear()
             
             var nodeSource=
-            $Node.parse( '<wc:js-bench_source><wc:hlight class=" lang=js editable=true ">' + $htmlEscape( source ) )
+            $Node.parse( '<wc:js-bench_source><wc:editor class=" hlight=js ">' + $htmlEscape( source ) )
             .parent( nodeRoot )
             
             var nodeInner=
@@ -171,10 +173,10 @@ $Component
             }
             
             var onCommit=
-            nodeRoot.listen( '$jam.$eventCommit', schedule )
+            nodeRoot.listen( '$jam$.$eventCommit', schedule )
             
             var onClone=
-            nodeRoot.listen( '$jam.$eventClone', clone )
+            nodeRoot.listen( '$jam$.$eventClone', clone )
             
             return new function( ){
                 this.destroy=

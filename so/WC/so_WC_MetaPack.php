@@ -37,7 +37,6 @@ class so_WC_MetaPack extends so_WC_Node {
     
     protected $_dependModules;
     function get_dependModules( $depend ){
-        if( isset( $depends ) ) return $depends;
         return $this->modules;
     }
     
@@ -50,16 +49,16 @@ class so_WC_MetaPack extends so_WC_Node {
         $current= $this;
         while( $current ){
             foreach( $current->dependModules as $dep ):
-                if( $sorted[ $dep->path ] ) continue;
-                if( $deferred[ $dep->path ] ) continue;
-                $deferred[ $current->path ]= $current;
+                if( $sorted[ $dep->id ] ) continue;
+                if( $deferred[ $dep->id ] ) continue;
+                $deferred[ $current->id ]= $current;
                 $current= $dep;
                 continue 2;
             endforeach;
             
-            $sorted[ $current->path ]= $current;
+            $sorted[ $current->id ]= $current;
             $current= end( $deferred );
-            unset( $deferred[ $current->path ] );
+            unset( $deferred[ $current->id ] );
         }
         
         $pack= new so_WC_MetaPack;
@@ -71,7 +70,7 @@ class so_WC_MetaPack extends so_WC_Node {
     protected $_version;
     function get_version( $version ){
         if( isset( $version ) ) return $version;
-        $version= 0;
+        $version= '';
         foreach( $this->modules as $module ):
             if( $module->version <= $version ) continue;
             $version= $module->version;

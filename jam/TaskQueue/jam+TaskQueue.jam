@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$TaskQueue'
 ,   $Class( function( klass, proto ){

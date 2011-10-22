@@ -1,4 +1,4 @@
-with( $wc )
+with( $jam$ )
 if( $support.vml() )
 $Component( '*', new function(){
 

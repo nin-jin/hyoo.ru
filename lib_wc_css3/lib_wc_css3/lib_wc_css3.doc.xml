@@ -45,7 +45,7 @@
         </span>
     </p>
     
-    <p>Принцип действия прост. <a href="../../jam/Component/jam+Component.doc.xml">$jam.$Component</a> отслеживает появление в доме элементов и их исчезновение. Если элемент из пространства имён html или же какого-нибудь кастомного, то для него создаётся виджет <a href="../../wc/css3/wc-css3.doc.xml">wc-css3</a>, который отслеживает изменение стилей элемента и если встречает среди них начинающиеся на -mc-css3, то создаёт vml-подложку, заполняя аттрибуты vml-элементов указанными значениями.</p>
+    <p>Принцип действия прост. <a href="../../jam/Component/jam+Component.doc.xml">$jam$.$Component</a> отслеживает появление в доме элементов и их исчезновение. Если элемент из пространства имён html или же какого-нибудь кастомного, то для него создаётся виджет <a href="../../wc/css3/wc-css3.doc.xml">wc-css3</a>, который отслеживает изменение стилей элемента и если встречает среди них начинающиеся на -mc-css3, то создаёт vml-подложку, заполняя аттрибуты vml-элементов указанными значениями.</p>
 
     <p>Свойство <code>-wc-css3_border-radius</code> позволяет регулировать радиус скругления уголков. Принимаемые значения - одно, два или четыре числа. Можно указывать единицы измерения, но они не учитываются и числа рассматриваются как количество пикселей. Возможно в будущем появится поддержка различных единиц измерения, а также эллиптических радиусов, как в <a href="http://www.w3.org/TR/css3-background/#border-radius">оригинальном border-radius</a>. Например, <code>-wc-css3_border-radius: 5px;</code> означает пятипиксельное скругление всех уголков, а <code>-wc-css3_border-radius: 1 2 3 4;</code> - увеличивающийся по часовой стрелке радиус, начиная с левого верхнего угла.</p>
 
@@ -58,5 +58,39 @@
     <p>Как видите библиотека не ставит своей целью сделать эмуляцию css3-свойств. Вместо этого она предоставляет доступ к параметрам vml-подложки, через css. В чём-то vml мощнее, чем css3, в чём-то наоборот. В каждой конкретной ситуации у вас есть выбор между ними, и использовать их вы можете на полную мощь, а не только лишь общее подмножество возможностей.</p>
     
     <p>Если у вас возникли идеи как можно было бы улучшить данную библиотеку или же заметили какой глюк - <a href="https://github.com/nin-jin/wc/issues">пишите баги</a> ;-)</p>
+
+    <wc:demo>
+    <![CDATA[
+        <wc:spacer style="text-align: center">
+            <span
+                contenteditable="true"
+                style="
+                    display: inline-block; zoom: 1;
+                    position: relative;
+                    padding: 5%;
+                    text-align: left;
+                    font-size: 24pt;
+                    color: #dd0;
+                    font-weight: bold;
+                
+                    -wc-css3_border-radius: 11px;
+                    border-radius: 11px;
+    
+                    -wc-css3_border: ' weight=10px dashstyle=solid color=maroon ';
+                    border: 10px solid maroon;
+                    
+                    -wc-css3_background: ' type=gradient angle=180 color=black colors=.5+#800 color2=red ';
+                    background: -o-linear-gradient( -90deg, black, red );
+                    background: -moz-linear-gradient( -90deg, black, #800 50%, red );
+                    background: -webkit-gradient( linear, left top, left bottom, from( black ), color-stop( .5, #800 ), to( red ) );
+                
+                    -wc-css3_box-shadow: ' type=single offset=7px,7px color=black ';
+                    box-shadow: 10px 10px 5px black;
+                ">
+                А секрет-то прост! ^^
+            </span>
+        </wc:spacer>
+    ]]>
+    </wc:demo>
 
 </doc:root>

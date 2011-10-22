@@ -1,4 +1,5 @@
-with( $wc )
+with( $jam$ )
+with( $wc$ )
 $Component
 (   'wc:js-test'
 ,   function( nodeRoot ){
@@ -16,42 +17,59 @@ $Component
         
             nodeRoot.clear()
             var nodeSource0= $Node.Element( 'wc:js-test_source' ).parent( nodeRoot )
-            var nodeSource= $Node.parse( '<wc:hlight class=" lang=js editable=true " />' ).text( source ).parent( nodeSource0 )
+            var nodeSource= $Node.parse( '<wc:editor class=" hlight=js " />' ).text( source ).parent( nodeSource0 )
             var nodeControls= $Node.Element( 'wc:hontrol' ).parent( nodeRoot )
             var nodeClone= $Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
             var nodeDelete= $Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
 
             var _test= {}
             
+            var checkDone= function( ){
+                if( passed() !== 'wait' ) throw new Error( 'Test already done' )
+            }
+            
             _test.ok=
             $Poly
             (   function( ){
+                    checkDone()
                     if( passed() === 'wait' ) passed( true )
                 }
             ,   function( val ){
-                    if( passed() === 'wait' ) passed( Boolean( val ) )
+                    checkDone()
+                    passed( Boolean( val ) )
                     printValue( val )
+                    if( !val ) throw new Error( 'Result is empty' )
                 }
             ,   function( a, b ){
-                    if( passed() === 'wait' ) passed( a === b )
+                    checkDone()
+                    passed( a === b )
                     printValue( a )
-                    if( a !== b ) printValue( b )
+                    if( a !== b ){
+                        printValue( b )
+                        throw new Error( 'Results is not equal' )
+                    }
                 }
             )
 
             _test.not=
             $Poly
             (   function( ){
-                    if( passed() === 'wait' ) passed( false )
+                    checkDone()
+                    passed( false )
+                    throw new Error( 'Test fails' )
                 }
             ,   function( val ){
-                    if( passed() === 'wait' ) passed( !Boolean( val ) )
+                    checkDone()
                     printValue( val )
+                    passed( !val )
+                    if( val ) throw new Error( 'Result is not empty' )
                 }
             ,   function( a, b ){
-                    if( passed() === 'wait' ) passed( a !== b )
+                    checkDone()
                     printValue( a )
                     printValue( b )
+                    passed( a !== b )
+                    if( a == b ) throw new Error( 'Results is equal' )
                 }
             )
             
@@ -62,6 +80,7 @@ $Component
                 passed( false )
                 print( 'Timeout!' )
                 stop= null
+                throw new Error( 'Timeout!' )
             }
             
             _test.deadline=
@@ -130,22 +149,22 @@ $Component
             run()
 
             var onCommit=
-            nodeRoot.listen( '$jam.$eventCommit', run )
+            nodeRoot.listen( '$jam$.$eventCommit', run )
             
             var onClone=
-            nodeRoot.listen( '$jam.$eventClone', clone )
+            nodeRoot.listen( '$jam$.$eventClone', clone )
             
             var onClone=
-            nodeRoot.listen( '$jam.$eventDelete', del )
+            nodeRoot.listen( '$jam$.$eventDelete', del )
             
             var onCloneClick=
             nodeClone.listen( 'click', function( event ){
-                $Event().type( '$jam.$eventClone' ).scream( event.target() )
+                $Event().type( '$jam$.$eventClone' ).scream( event.target() )
             })
             
             var onDeleteClick=
             nodeDelete.listen( 'click', function( event ){
-                $Event().type( '$jam.$eventDelete' ).scream( event.target() )
+                $Event().type( '$jam$.$eventDelete' ).scream( event.target() )
             })
             
             this.destroy=

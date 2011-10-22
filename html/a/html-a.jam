@@ -1,4 +1,4 @@
-with( $html )
+with( $jam$ )
 $Component
 (   'a'
 ,   function( el ){

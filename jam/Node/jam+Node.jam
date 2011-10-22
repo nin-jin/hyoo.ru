@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$Node'
 ,   $Class( function( klass, proto ){
@@ -164,6 +164,16 @@ $define
                 return this
             }
         )
+        
+        proto.ancestor=
+        function( name ){
+            var current= this
+            while( true ){
+                if( current.name() === name ) return current
+                current= current.parent()
+                if( !current ) return current
+            }
+        }
         
         proto.surround=
         function( node ){

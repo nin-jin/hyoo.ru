@@ -59,13 +59,22 @@ class so_WC_File extends so_Meta {
     
     protected $_content;
     function get_content( $content ){
+        if( isset( $content ) ) return $content;
         return @file_get_contents( $this->path );
     }
     function set_content( $content ){
         if( $content == $this->content ) return $content;
         $this->module->exists= true;
         file_put_contents( $this->path, $content );
+        $this->_version= '';
         return $content;
+    }
+    
+    protected $_version;
+    function get_version( $version ){
+        if( isset( $version ) ) return $version;
+
+        return strtoupper( base_convert( filemtime( $this->path ), 10, 36 ) );
     }
 
     protected $_dependModules;
@@ -75,7 +84,22 @@ class so_WC_File extends so_Meta {
         
         if( $this->ext === 'jam' ):
             preg_match_all
-            (   '/(?:\$(\w+)\.)?\$(\w+)/'
+            (   '/with\s*\(\s*\$(\w+)\$\s*\)/'
+            ,   $this->content
+            ,   &$nspaces
+            ,   PREG_SET_ORDER
+            );
+            $donorList= array();
+            if( $nspaces ):
+                foreach( $nspaces as $ns ):
+                    $donor= $this->root->createPack( $ns[1] );
+                    if( !$donor->exists ) throw new Exception( "Undefined package [{$donor->id}] in [{$this->id}]" );
+                    array_unshift( $donorList, $donor );
+                endforeach;
+            endif;
+            
+            preg_match_all
+            (   '/(?:\$(\w+)\$\.)?\$(\w+)(?![\w$])/'
             ,   $this->content
             ,   &$matches
             ,   PREG_SET_ORDER
@@ -85,22 +109,22 @@ class so_WC_File extends so_Meta {
                 
                 if( $packName ):
                     $pack= $this->root->createPack( $packName );
+                    $module= $pack->createModule( $moduleName );
                 else:
-                    $pack= $this->pack;
+                    $module= null;
+                    foreach( $donorList as $pack ):
+                        $module= $pack->createModule( $moduleName );
+                        if( !$module->exists ) continue;
+                        break;
+                    endforeach;
                 endif;
 
-                while( true ):
-                    $module= $pack->createModule( $moduleName );
-                    if( $module->exists ) break;
-                    $pack= $pack->donorPackJAM;
-                    if( !$pack ) break;
-                endwhile;
-                
-                if( !$module->exists ) throw new Exception( "undefined module [{$module->id}]" );
+                if( !$module || !$module->exists ) throw new Exception( "Undefined module [{$moduleName}] in [{$this->id}]" );
                 $depends[ $module->id ]= $module;
+
+                $module= $module->pack->mainModule;
+                if( $module->exists ) $depends[ $module->id ]= $module;
             endforeach;
-            $module= $this->pack->mainModule;
-            if( $module->exists ) $depends[ $module->id ]= $module;
         endif;
         
         if( $this->ext === 'tree' ):
@@ -116,15 +140,11 @@ class so_WC_File extends so_Meta {
                 if( !$names[ 1 ] ) array_push( $names, $this->pack->name );
                 $pack= $this->root->createPack( $names[0] );
                 $module= $pack->createModule( $names[1] );
-                if( !$module->exists ) throw new Exception( "Module [{$module->id}] not found" );
+                if( !$module->exists ) throw new Exception( "Undefined module [{$module->id}] in [{$this->id}]" );
                 $depends[ $module->id ]= $module;
             endforeach;
         endif;
         return $depends;
     }
-    
-    protected $_version;
-    function get_version( $version ){
-        return strtoupper( base_convert( filemtime( $this->path ), 10, 36 ) );
-    }
+
 }

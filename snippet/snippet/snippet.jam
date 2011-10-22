@@ -1,6 +1,4 @@
-$wc.$createNameSpace( '$snippet' )
-
-with( $snippet )
+with( $jam$ )
 $Component
 (   'snippet:root'
 ,   function( nodeRoot ){
@@ -59,16 +57,16 @@ $Component
         load()
         
         var onURIChanged=
-        $Node( $doc() ).listen( '$jam.$eventURIChanged', load )
+        $Node( $doc() ).listen( '$jam$.$eventURIChanged', load )
         
         var onCommit=
-        nodeRoot.listen( '$jam.$eventCommit', save )
+        nodeRoot.listen( '$jam$.$eventCommit', save )
         
         var onDelete=
-        nodeRoot.listen( '$jam.$eventDelete', save )
+        nodeRoot.listen( '$jam$.$eventDelete', save )
         
         var onEdit=
-        nodeRoot.listen( '$jam.$eventEdit', function( ){
+        nodeRoot.listen( '$jam$.$eventEdit', function( ){
             nodeLink.clear()
         })
         

@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$eventCommit'
 ,   new function(){
@@ -8,7 +8,7 @@ $define
             if( event.keyShift() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 13 ) return
-            $Event().type( '$jam.$eventCommit' ).scream( event.target() )
+            $Event().type( '$jam$.$eventCommit' ).scream( event.target() )
         }
         
         $Node( $doc().documentElement )

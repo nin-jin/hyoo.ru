@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define( '$Lazy', function( gen ){
     var proc= function(){
         proc= gen.call( this )

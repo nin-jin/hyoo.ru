@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$TemplateFactory'
 ,   new function( ){

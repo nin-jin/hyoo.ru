@@ -5,6 +5,7 @@ wc\:hontrol {
     bottom: -10pt;
     font-size: 8pt;
     line-height: 1;
+    z-index: 1;
 }
 
 wc\:hontrol_clone {
@@ -16,8 +17,8 @@ wc\:hontrol_clone {
 }
 
 wc\:hontrol_clone:hover {
-    background: #cfc;
-    border: 1px solid #9c9;
+    background: #ccf;
+    border: 1px solid #99c;
 }
 
 wc\:hontrol_delete {

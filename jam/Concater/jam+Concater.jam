@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$Concater'
 ,   function( delim ){

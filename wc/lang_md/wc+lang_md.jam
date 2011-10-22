@@ -1,0 +1,221 @@
+with( $jam$ )
+with( $wc$ )
+$define
+(    '$lang_md'
+,    new function(){
+    
+        var md=
+        function( str ){
+            return md.root( md.content( str ) )
+        }
+
+        md.root= $lang.Wrapper( 'wc:lang_md' )
+
+        md.header1= $lang.Wrapper( 'wc:lang_md-header-1' )
+        md.header2= $lang.Wrapper( 'wc:lang_md-header-2' )
+        md.header3= $lang.Wrapper( 'wc:lang_md-header-3' )
+        md.header4= $lang.Wrapper( 'wc:lang_md-header-4' )
+        md.header5= $lang.Wrapper( 'wc:lang_md-header-5' )
+        md.header6= $lang.Wrapper( 'wc:lang_md-header-6' )
+        md.headerMarker= $lang.Wrapper( 'wc:lang_md-header-marker' )
+
+        md.quote= $lang.Wrapper( 'wc:lang_md-quote' )
+        md.quoteMarker= $lang.Wrapper( 'wc:lang_md-quote-marker' )
+
+        md.quoteInline= $lang.Wrapper( 'wc:lang_md-quote-inline' )
+        md.quoteInlineOpen= $lang.Wrapper( 'wc:lang_md-quote-inline-open' )
+        md.quoteInlineClose= $lang.Wrapper( 'wc:lang_md-quote-inline-close' )
+
+        md.link= $lang.Wrapper( 'wc:lang_md-link' )
+        md.linkMarker= $lang.Wrapper( 'wc:lang_md-link-marker' )
+        md.linkTitle= $lang.Wrapper( 'wc:lang_md-link-title' )
+        md.linkHref= $lang.Wrapper( 'wc:lang_md-link-href' )
+
+        md.author= $lang.Wrapper( 'wc:lang_md-author' )
+        md.indent= $lang.Wrapper( 'wc:lang_md-indent' )
+
+        md.emphasis= $lang.Wrapper( 'wc:lang_md-emphasis' )
+        md.emphasisMarker= $lang.Wrapper( 'wc:lang_md-emphasis-marker' )
+
+        md.strong= $lang.Wrapper( 'wc:lang_md-strong' )
+        md.strongMarker= $lang.Wrapper( 'wc:lang_md-strong-marker' )
+
+        md.dash= $lang.Wrapper( 'wc:lang_md-dash' )
+        md.remark= $lang.Wrapper( 'wc:lang_md-remark' )
+
+        md.table= $lang.Wrapper( 'wc:lang_md-table' )
+        md.tableRow= $lang.Wrapper( 'wc:lang_md-table-row' )
+        md.tableCell= $lang.Wrapper( 'wc:lang_md-table-cell' )
+        md.tableMarker= $lang.Wrapper( 'wc:lang_md-table-marker' )
+
+        md.code= $lang.Wrapper( 'wc:lang_md-code' )
+        md.codeMarker= $lang.Wrapper( 'wc:lang_md-code-marker' )
+        md.codeLang= $lang.Wrapper( 'wc:lang_md-code-lang' )
+        md.codeContent= $lang.Wrapper( 'wc:lang_md-code-content' )
+
+        md.html= $lang.Wrapper( 'wc:lang_md-html' )
+        md.htmlTag= $lang.Wrapper( 'wc:lang_md-html-tag' )
+        md.htmlContent= $lang.Wrapper( 'wc:lang_md-html-content' )
+
+        md.para= $lang.Wrapper( 'wc:lang_md-para' )
+
+        md.inline=
+        $lang.Parser( new function(){
+
+            // indentation
+            // ^\s+
+            this[ /^(\s+)/.source ]=
+            md.indent
+            
+            // dash
+            //  - 
+            this[ /( - )/.source ]=
+            md.dash
+            
+            // hyper link
+            // [foobar][http://example.org/]
+			this[ /(\[)([^\[\]]+)(\])(\[[^\[\]]*\])/.source ]=
+			function( open, title, close, href ){
+                var uri= href.substring( 1, href.length - 1 )
+                open= md.linkMarker( open )
+                close= md.linkMarker( close )
+                title= md.linkTitle( title )
+                href= md.linkHref( href )
+                return md.link( '<a href="' + $htmlEscape( uri ) + '">' + open + title + close + href + '</a>' )
+			}
+		
+            // hyper link
+            // [?author=nin jin]
+			this[ /(\[)([^\[\]]+?)(\])/.source ]=
+			function( open, href, close ){
+                var uri= href
+                open= md.linkMarker( open )
+                close= md.linkMarker( close )
+                return md.link( '<a href="' + $htmlEscape( uri ) + '">' + open + $lang_text( href ) + close + '</a>' )
+			}
+		
+            // emphasis
+            // /some text/
+            this[ /([^\s"({[]\/)/.source ]=
+            $lang_text
+			this[ /(\/)([^\/\s](?:[\s\S]*?[^\/\s])?)(\/)(?=[\s,.:;!?")}\]]|$)/.source ]=
+			function( open, content, close ){
+                open = md.emphasisMarker( open )
+                close = md.emphasisMarker( close )
+				content= md.inline( content )
+				return md.emphasis( open + content + close )
+			}
+		
+            // strong
+            // *some text*
+            this[ /([^\s"({[]\*)/.source ]=
+            $lang_text            
+			this[ /(\*)([^\*\s](?:[\s\S]*?[^\*\s])?)(\*)(?=[\s,.:;!?")}\]]|$)/.source ]=
+			function( open, content, close ){
+                open = md.strongMarker( open )
+                close = md.strongMarker( close )
+				content= md.inline( content )
+				return md.strong( open + content + close )
+			}
+		
+            // inline quote
+            // "some text"
+			this[ /(")([^"\s](?:[\s\S]*?[^"\s])?)(")(?=[\s,.:;!?)}\]]|$)/.source ]=
+			this[ /(«)([\s\S]*?)(»)/.source ]=
+			function( open, content, close ){
+                open = md.quoteInlineOpen( open )
+                close = md.quoteInlineClose( close )
+				content= md.inline( content )
+				return md.quoteInline( open + content + close )
+			}
+		
+            // remark
+            // (some text)
+			this[ /(\()([\s\S]+?)(\))/.source ]=
+			function( open, content, close ){
+				content= md.inline( content )
+				return md.remark( open + content + close )
+			}
+
+        })
+
+        md.content=
+        $lang.Parser( new function(){
+
+            // header
+            // #3 Title
+            this[ /^(!([1-6]) )(.*?)$/.source ]=
+            function( marker, level, content ){
+                return md[ 'header' + level ]( md.headerMarker( marker ) + $lang_text( content ) )
+            }
+
+            // block quote
+            // author:
+            //   content
+            this[ /((?:^  .*)(?:[\n\r]  .*)*)([\n\r]{1,2}\/)(.+)$/.source ]=
+            function( content, separator, author ){
+                $log(content)
+                author = md.author( /*md.inline*/( author ) )
+                var marker = md.quoteMarker( separator + author )
+                content= content.replace( /^  /gm, '' )
+                content= md.content( content )
+                content= content.replace( /^/gm, md.indent( '  ' ) )
+                
+                return md.quote( content + marker )
+            }
+/*            
+            // table
+            // --
+            // | cell 11 | cell 12
+            // --
+            // | cell 21 | cell 22
+            this[ /((?:\r--\n(?:\r[| ] [^\r\n]*(?:\n|$))+)+)/.source ]=
+            function( content ){
+                var rows= content.split( /\r--\n/g )
+                rows.shift()
+                for( var r= 0; r < rows.length; ++r ){
+                    var row= rows[ r ]
+                    var cells= row.split( /\r\| /g )
+                    cells.shift()
+                    for( var c= 0; c < cells.length; ++c ){
+                        var cell= cells[ c ]
+                        cell= cell.replace( /\r  /g, '\r' )
+                        cell= md.content( cell )
+                        cell= cell.replace( /\r/g, md.tableMarker( '\r  ' ) )
+                        cell= md.tableMarker( '\r| ' ) + cell 
+                        cells[ c ]= md.tableCell( cell )
+                    }
+                    row= cells.join( '' )
+                    var rowSep= '\r<wc:lang_md-table-row-sep><wc:lang-md-table-cell colspan="300">--</wc:lang-md-table-cell></wc:lang_md-table-row-sep>\n'
+                    rows[ r ]= rowSep + md.tableRow( row )
+                }
+                content= rows.join( '' )
+
+                return md.table( content )
+            }
+            
+            // source code
+            // !lang
+            //   some code
+            this[ /^(!)([\w-]+)(\n?(?:\r  (?:[^\n\r]*\n?))*)/.source ]=
+            function( marker, lang, content ){
+                content= content.replace( /\r  /g, '\r' )
+                content= $lang( lang )( content )
+                content= content.replace( /\r/g, '\r' + md.indent( '  ' ) )
+                content= md.codeContent( content )
+                marker= md.codeMarker( marker )
+                lang= md.codeLang( lang )
+                return md.code( '\r' + marker + lang + content )
+            }
+*/            
+            // simple paragraph
+            this[ /^(  .*)$/.source ]=
+            function( content ){
+                return md.para( md.inline( content ) )
+            }
+            
+        })
+        
+        return md
+    }
+) 

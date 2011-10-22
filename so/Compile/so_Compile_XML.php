@@ -2,6 +2,10 @@
 
 class so_Compile_XML {
     function __construct( $packSource, $mixModule ){
+        $xmlIndex = $mixModule->createFile( 'index.doc.xml' );
+
+        #if( $packSource->version === $xmlIndex->version ) return;
+        
         $index= array();
 
         foreach( $mixModule->root->packs as $pack ):
@@ -32,8 +36,6 @@ class so_Compile_XML {
         
         $xstyle= new so_XStyle;
 
-        $xslFile= $mixModule->createFile( 'index.xsl' );
-
         $index= $xstyle->aDocument(array(
             'root' => array(
                 '@xmlns' => 'https://github.com/nin-jin/doc',
@@ -41,6 +43,6 @@ class so_Compile_XML {
             ),
         ));
     
-        $mixModule->createFile( 'index.doc.xml' )->content= $index->saveXML();
+        $xmlIndex->content= $index->saveXML();
     }
 }

@@ -1,5 +1,5 @@
-with( $jam )
-$jam.$Obj=
+with( $jam$ )
+$jam$.$Obj=
 $Class( function( klass, proto ){
     
     proto.has=

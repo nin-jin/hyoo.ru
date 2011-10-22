@@ -1,0 +1,12 @@
+wc\:editor {
+    display: block;
+}
+
+.wc_editor_content {
+    padding: 2pt 4pt;
+    display: block;
+}
+
+.wc_editor_content:focus {
+    outline: 1px dotted gray;
+}

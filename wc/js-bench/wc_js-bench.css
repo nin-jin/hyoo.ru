@@ -50,6 +50,7 @@ wc\:js-bench_result {
     text-align: right;
     font-family: monospace;
     display: table-cell;
+    vertical-align: top;
 }
 
 wc\:js-bench_result.source\=inner {

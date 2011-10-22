@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define( '$Component', function( tagName, factory ){
     if(!( this instanceof $Component )) return new $Component( tagName, factory )
     var fieldName= 'componnet|' + tagName + '|' + (new Date).getTime()

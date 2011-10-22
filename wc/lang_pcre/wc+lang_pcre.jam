@@ -1,4 +1,5 @@
-with( $wc )
+with( $jam$ )
+with( $wc$ )
 $define
 (    '$lang_pcre'
 ,    new function(){
@@ -25,7 +26,7 @@ $define
                 }
             }
     
-            this[ /([(){}\[\]$^])/.source ]=
+            this[ /([(){}\[\]$*+?^])/.source ]=
             $Pipe( $lang_text, pcre.control )
             
         })

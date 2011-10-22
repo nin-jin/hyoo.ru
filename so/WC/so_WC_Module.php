@@ -54,10 +54,15 @@ class so_WC_Module extends so_WC_MetaModule {
         return $files;
     }
     
+    protected $_fileCache= array();
     function createFile( $name ){
+        if( key_exists( $name, $this->_fileCache ) ) return $this->_fileCache[ $name ];
+
         $file= new so_WC_File;
         $file->name= $name;
         $file->module= $this;
+        $this->_fileCache[ $name ]= $file;
+
         return $file;
     }
 }

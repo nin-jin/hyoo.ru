@@ -1,5 +1,5 @@
-with( $jam )
-$jam.$Class=
+with( $jam$ )
+$jam$.$Class=
 function( init ){
     var klass=
     function( ){

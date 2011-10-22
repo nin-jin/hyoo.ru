@@ -45,10 +45,15 @@ class so_WC_Root extends so_WC_Node {
         return $this->createPack( '-mix' );
     }
     
+    protected $_packCache= array();
     function createPack( $name ){
+        if( key_exists( $name, $this->_packCache ) ) return $this->_packCache[ $name ];
+
         $pack= new so_WC_Pack;
         $pack->name= $name;
         $pack->root= $this;
+        $this->_packCache[ $name ]= $pack;
+        
         return $pack;
     }
 }

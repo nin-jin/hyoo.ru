@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$RegExp'
 ,   $Class( function( klass, proto ){
@@ -19,6 +19,17 @@ $define
             return function( str ){
                 return String( str ).replace( specRE, encodeChar )
             }
+        }
+        
+        klass.build=
+        function( ){
+            var str= ''
+            for( var i= 0; i < arguments.length; ++i ){
+                var chunk= arguments[ i ]
+                if( i % 2 ) chunk= $RegExp.escape( chunk )
+                str+= chunk
+            }
+            return $RegExp( str )
         }
 
         proto.source=

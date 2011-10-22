@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define( '$Pipe', new function(){
     var simple= function( data ){
         return data

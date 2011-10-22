@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$eventClone'
 ,   new function(){
@@ -8,7 +8,7 @@ $define
             if( !event.keyShift() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 13 ) return
-            $Event().type( '$jam.$eventClone' ).scream( event.target() )
+            $Event().type( '$jam$.$eventClone' ).scream( event.target() )
         }
         
         $Node( $doc().documentElement )

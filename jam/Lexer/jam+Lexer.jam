@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$Lexer'
 ,   function( lexems ){
@@ -15,8 +15,9 @@ $define
             sizeList.push( regexp.count() )
         }
         
-        var regexp= RegExp( '([\\s\\S]*?)((' + regexpList.join( ')|(' ) + ')|$)', 'g' )
-    
+        var regexp= RegExp( '([\\s\\S]*?)(?:((' + regexpList.join( ')|(' ) + '))|($[\r\n]{0,2}))', 'gm' )
+        var count= $RegExp(regexp).count()
+        
         return $Class( function( klass, proto ){
             
             proto.constructor=
@@ -51,10 +52,16 @@ $define
                         offset+= size + 1
                     }
                     throw new Error( 'something wrong' )
-                } else {
+                } else if( regexp.lastIndex >= this.string.length ){
                     delete this.name
                     delete this.found
                     delete this.chunks
+                    return this
+                } else {
+                    this.position+= found[count].length
+                    this.name= ''
+                    this.found= found[count]
+                    this.chunks= [ found[count] ]
                     return this
                 }
             }

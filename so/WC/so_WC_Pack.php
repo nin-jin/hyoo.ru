@@ -71,38 +71,28 @@ class so_WC_Pack extends so_WC_MetaPack {
         return $this->createModule( '-mix+doc' );
     }
     
-    protected $_donorPackJAM;
-    function get_donorPackJAM( $donorPack ){
-        if( isset( $donorPack ) ) return $donorPack;
-        
-        foreach( $this->mainModule->filesByExt( 'jam' ) as $file ):
-            preg_match_all
-            (   '/\$(\w+)\.\$createNameSpace\b/'
-            ,   $file->content
-            ,   &$matches
-            ,   PREG_SET_ORDER
-            );
-            if( !$matches ) continue;
-            foreach( $matches as $item ):
-                $pack= $this->root->createPack( $item[1] );
-                if( !$pack->exists ) continue;
-                return $pack;
-            endforeach;
-        endforeach;
-    }
-    
+    protected $_moduleCache= array();
     function createModule( $name ){
+        if( key_exists( $name, $this->_moduleCache ) ) return $this->_moduleCache[ $name ];
+
         $module= new so_WC_Module;
         $module->name= $name;
         $module->pack= $this;
+        $this->_moduleCache[ $name ]= $module;
+        
         return $module;
     }
     
+    protected $_fileCache= array();
     function createFile( $name ){
+        if( key_exists( $name, $this->_fileCache ) ) return $this->_fileCache[ $name ];
+
         $file= new so_WC_File;
         $file->name= $name;
         $file->module= $this;
         $file->pack= $this;
+        $this->_fileCache[ $name ]= $file;
+        
         return $file;
     }
 }

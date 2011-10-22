@@ -72,6 +72,22 @@
                             </wc:spacer>
                         </wc:paper>
                     </wc:spacer>
+
+                    <wc:spacer>
+                        <wc:paper>
+                            <wc:spacer>
+    
+                                <div id="disqus_thread">
+                                    <script>
+                                        disqus_developer= 1
+                                        disqus_url= document.location.origin + document.location.pathname
+                                    </script>
+                                    <script src="http://nin-jin.disqus.com/embed.js"></script>
+                                </div>
+                                
+                            </wc:spacer>
+                        </wc:paper>
+                    </wc:spacer>
                     
                     <wc:footer>
                         License: <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%B5_%D0%B4%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D0%B5">Public Domain</a>

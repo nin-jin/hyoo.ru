@@ -4,6 +4,7 @@ class so_Compile_All {
     function __construct(){        
         $root= new so_WC_Root;
         $docModules= $root->createPack( 'doc' )->index->modules;
+
         foreach( $root->packs as $pack ):
             $srcPack= $pack->index;
             $docPack= new so_WC_MetaPack;

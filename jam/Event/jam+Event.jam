@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$Event'
 ,   $Class( function( klass, proto ){

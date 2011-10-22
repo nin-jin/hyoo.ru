@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define
 (   '$domReady'
 ,   function( ){
@@ -9,7 +9,7 @@ $define
     }
 )
 
-with( $jam )
+with( $jam$ )
 $domReady.then=
 function( proc ){
     var checker= function( ){

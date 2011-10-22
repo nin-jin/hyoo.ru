@@ -1,4 +1,4 @@
-with( $jam )
+with( $jam$ )
 $define( '$classOf', function(){
     var toString = {}.toString
     return function( val ){
