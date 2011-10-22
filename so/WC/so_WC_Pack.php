@@ -72,6 +72,7 @@ class so_WC_Pack extends so_WC_MetaPack {
     }
     
     protected $_moduleCache= array();
+    protected $_moduleCache= array();
     function createModule( $name ){
         if( key_exists( $name, $this->_moduleCache ) ) return $this->_moduleCache[ $name ];
 

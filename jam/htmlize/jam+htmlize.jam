@@ -3,8 +3,11 @@ $define
 (   '$htmlize'
 ,   function( ns ){
         if( !$doc().getElementsByTagNameNS ) return
-        $domReady.then( function( ){
-            var nodeList= $doc().getElementsByTagNameNS( ns, '*' )
+        var nodeList= $doc().getElementsByTagNameNS( ns, '*' )
+        var docEl= $doc().documentElement
+        
+        var tracking= function( ){
+            sleep()
             var node
             while( node= nodeList[0] ){
                 var parent= node.parentNode
@@ -16,8 +19,19 @@ $define
                 }
                 var child; while( child= node.firstChild ) newNode.appendChild( child )
                 parent.insertBefore( newNode, node )
-                parent.removeChild( node )
+                if( node.parentNode === parent ) parent.removeChild( node )
             }
-        })
+            rise()
+        }
+        
+        $domReady.then( tracking )
+        rise()
+        
+        function rise( ){
+            docEl.addEventListener( 'DOMNodeInserted', tracking, false )
+        }
+        function sleep( ){
+            docEl.removeEventListener( 'DOMNodeInserted', tracking, false )
+        }
     }
 )

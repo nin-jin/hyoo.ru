@@ -1,0 +1,27 @@
+wc\:preview {
+	display: block;
+}
+
+wc\:preview a {
+	display: inline-block;
+	text-decoration: none;
+	border-bottom: 1px dotted blue;
+	line-height: 1;
+}
+
+wc\:preview a:hover {
+	text-decoration: none;
+	border-color: red;
+}
+
+wc\:preview iframe {
+	display: block;
+	width: 100%;
+	min-height: 300px;
+	height: 100%;
+	margin-top: .4em;
+}
+
+wc\:preview.opened\=false iframe {
+	display: none;
+}

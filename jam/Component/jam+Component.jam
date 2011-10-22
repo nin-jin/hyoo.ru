@@ -10,6 +10,7 @@ $define( '$Component', function( tagName, factory ){
     var nodes= $doc().getElementsByTagName( localName )
 
     var elements= []
+    var rootNS=$doc().documentElement.namespaceURI
 
     var checkName=
     ( tagName === '*' )
@@ -18,23 +19,22 @@ $define( '$Component', function( tagName, factory ){
             var nameChecker= RegExp( '^' + localName + '$', 'i' )
             if( isBroken ){
                 var scopeChecker= RegExp( '^' + scopeName + '$', 'i' )
-                return function( el ){
+                return function checkName_broken( el ){
                     return scopeChecker.test( el.scopeName ) && nameChecker.test( el.nodeName )
                 }
             }
-            return function( el ){
-                if( el.namespaceURI && el.namespaceURI !== 'http://www.w3.org/1999/xhtml' ) return false
+            return function checkName_right( el ){
+                var ns= el.namespaceURI
+                if( ns && ns !== rootNS ) return false
                 return nameChecker.test( el.nodeName )
             }
         }
     
-    var isAttached=
-    function( el ){
+    function isAttached( el ){
         return typeof el[ fieldName ] === 'object'
     }
     
-    var attach=
-    function( el ){
+    function attach( el ){
 
         el[ fieldName ]= null
         var widget= factory( el )
@@ -42,8 +42,7 @@ $define( '$Component', function( tagName, factory ){
         if( widget ) elements.push( el )
     }
     
-    var attachIfLoaded=
-    function( el ){
+    function attachIfLoaded( el ){
         var cur= el
         do {
             if( !cur.nextSibling ) continue
@@ -52,8 +51,7 @@ $define( '$Component', function( tagName, factory ){
         } while( cur= cur.parentNode )
     }
     
-    var dropElement=
-    function( el ){
+    function dropElement( el ){
         for( var i= 0; i < elements.length; ++i ){
             if( elements[ i ] !== el ) continue
             elements.splice( i, 1 )
@@ -61,8 +59,7 @@ $define( '$Component', function( tagName, factory ){
         }
     }
     
-    var detach=
-    function( nodeList ){
+    function detach( nodeList ){
         for( var i= 0, len= nodeList.length; i < len; ++i ){
             var node= nodeList[ i ]
             var widget= node[ fieldName ]
@@ -72,8 +69,7 @@ $define( '$Component', function( tagName, factory ){
         }
     }
     
-    var check4attach=
-    function( nodeList ){
+    function check4attach( nodeList ){
         var filtered= []
         filtering:
         for( var i= 0, len= nodeList.length; i < len; ++i ){
@@ -87,8 +83,7 @@ $define( '$Component', function( tagName, factory ){
         }
     }
 
-    var check4detach=
-    function( nodeList ){
+    function check4detach( nodeList ){
         var filtered= []
         filtering:
         for( var i= 0, len= nodeList.length; i < len; ++i ){
@@ -107,8 +102,7 @@ $define( '$Component', function( tagName, factory ){
         detach( filtered )
     }
 
-    var tracking=
-    function( ){
+    function tracking( ){
         check4attach( nodes )
         check4detach( elements )
     }
@@ -116,7 +110,7 @@ $define( '$Component', function( tagName, factory ){
     var interval=
     $glob().setInterval( tracking, 200 )
 
-    $domReady.then(function(){
+    $domReady.then(function whenReady(){
         if( $support.eventModel() === 'w3c' ){
             $glob().clearInterval( interval )
         }
@@ -126,26 +120,26 @@ $define( '$Component', function( tagName, factory ){
 
     if( $support.eventModel() === 'w3c' ){
         var docEl= $doc().documentElement
-        docEl.addEventListener( 'DOMNodeInserted', function( ev ){
+        docEl.addEventListener( 'DOMNodeInserted', function whenNodeInserted( ev ){
             var node= ev.target
-            $schedule( 0, function( ){
+            //$schedule( 0, function( ){
                 check4attach([ node ])
-                if( node.getElementsByTagName ) check4attach( node.getElementsByTagName( '*' ) )
-            })
+                if( !$support.msie() && node.getElementsByTagName ) check4attach( node.getElementsByTagName( tagName ) )
+            //})
         }, false )
-        docEl.addEventListener( 'DOMNodeRemoved', function( ev ){
+        docEl.addEventListener( 'DOMNodeRemoved', function whenNodeRemoved( ev ){
             var node= ev.target
-            $schedule( 0, function( ){
+            //$schedule( 0, function( ){
                 check4detach([ node ])
-                if( node.getElementsByTagName ) check4detach( node.getElementsByTagName( '*' ) )
-            })
+                if( !$support.msie() && node.getElementsByTagName ) check4detach( node.getElementsByTagName( tagName ) )
+            //})
         }, false )
     }
     
     this.tagName= $Value( tagName )
     this.factory= $Value( factory )
     this.elements=
-    function( ){
+    function elements( ){
         return elements.slice( 0 )
     }
 })

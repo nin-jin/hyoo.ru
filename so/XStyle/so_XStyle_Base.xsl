@@ -7,18 +7,15 @@
     xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-<xsl:output
-    method="html"
-    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-/>
+    <xsl:output method="html" />
+    
+    <xsl:template match=" @* | node() ">
+        <xsl:copy>
+            <xsl:apply-templates select=" @* " />
+            <xsl:apply-templates select=" node() " />
+        </xsl:copy>
+    </xsl:template>
 
-<xsl:template match=" @* | node() ">
-    <xsl:copy>
-        <xsl:apply-templates select=" @* " />
-        <xsl:apply-templates select=" node() " />
-    </xsl:copy>
-</xsl:template>
-<xsl:template match=" processing-instruction() " />
+    <xsl:template match=" processing-instruction() " />
 
 </xsl:stylesheet>

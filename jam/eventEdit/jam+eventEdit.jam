@@ -3,13 +3,20 @@ $define
 (   '$eventEdit'
 ,   new function(){
         
-        var handler=
+        var scream=
         $Throttler
         (   50
-        ,   function( event ){
-                $Event().type( '$jam$.$eventEdit' ).scream( event.target() )
+        ,   function( target ){
+                $Event().type( '$jam$.$eventEdit' ).scream( target )
             }
         )
+
+        var handler=
+        function( event ){
+            if( event.keyCode() >= 16 && event.keyCode() <= 18 ) return
+            if( event.keyCode() >= 33 && event.keyCode() <= 40 ) return
+            scream( event.target() )
+        }
 
         var node=
         $Node( $doc().documentElement )

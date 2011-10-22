@@ -41,6 +41,24 @@ $define
             )
         )
             
+        proto.data=
+        $Poly
+        (   function( ){
+                return this.$.extendedData
+            }
+        ,   $support.eventModel.select
+            (   {   'w3c': function( data ){
+                        this.$.extendedData= data
+                        return this
+                    }
+                ,   'ms': function( data ){
+                        this.$.extendedData= data
+                        return this
+                    }
+                }
+            )
+        )
+            
         proto.keyMeta=
         $Poly
         (   function( ){
@@ -76,14 +94,37 @@ $define
             }
         )
         
+        proto.button=
+        $support.eventModel.select
+        (   {   'w3c': function( ){
+                    return this.$.button
+                }
+            ,   'ms': function( ){
+                    return [ 0, 0, 2, 2, 1 ][ this.$.button ]
+                }
+            }
+        )
+        
         proto.target=
         $support.eventModel.select
         (   {   'w3c': function( ){
                     return this.$.target
                 }
             ,   'ms': function( ){
-                    return this.$.srcElement
+                    return this.$.srcElement || this.$.target
                 }
+            }
+        )
+        
+        proto.wheel=
+        $Poly
+        (   function( ){
+                if( this.$.wheelDelta ) return - this.$.wheelDelta / 120 
+                return this.$.detail / 4
+            }
+        ,   function( val ){
+                this.$.wheelDelta= - val * 120
+                return this
             }
         )
         

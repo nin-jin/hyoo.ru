@@ -119,7 +119,7 @@ class so_WC_File extends so_Meta {
                     endforeach;
                 endif;
 
-                if( !$module || !$module->exists ) throw new Exception( "Undefined module [{$moduleName}] in [{$this->id}]" );
+                if( !$module || !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
                 $depends[ $module->id ]= $module;
 
                 $module= $module->pack->mainModule;
@@ -132,7 +132,7 @@ class so_WC_File extends so_Meta {
             $meta->string= $this->content;
             foreach( $meta->get( 'include pack' ) as $packId ):
                 $pack= $this->root->createPack( trim( $packId ) );
-                if( !$pack->exists ) throw new Exception( "Pack [{$pack->id}] not found" );
+                if( !$pack->exists ) throw new Exception( "Pack [{$pack->id}] not found for [{$this->id}]" );
                 $depends+= $pack->modules;
             endforeach;
             foreach( $meta->get( 'include module' ) as $moduleId ):
@@ -140,7 +140,7 @@ class so_WC_File extends so_Meta {
                 if( !$names[ 1 ] ) array_push( $names, $this->pack->name );
                 $pack= $this->root->createPack( $names[0] );
                 $module= $pack->createModule( $names[1] );
-                if( !$module->exists ) throw new Exception( "Undefined module [{$module->id}] in [{$this->id}]" );
+                if( !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
                 $depends[ $module->id ]= $module;
             endforeach;
         endif;
