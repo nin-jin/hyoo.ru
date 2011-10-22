@@ -1,6 +1,8 @@
-$jam.$Component( 'vml:shape', function( node ){
+$jam$.$Component( 'vml:shape', function( node ){
     node.style.height= '100%'
     node.style.height= ''
     node.style.width= '100%'
     node.style.width= ''
+
+    return null
 } )
