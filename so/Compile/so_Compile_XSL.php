@@ -10,7 +10,7 @@ class so_Compile_XSL {
         $index= array();
         foreach( $fileList as $file ):
             $index[]= array(
-                'import' => array(
+                'include' => array(
                     '@href' => "../../{$file->id}?{$file->version}" 
                 ),
             );

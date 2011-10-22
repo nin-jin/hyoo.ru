@@ -31,7 +31,7 @@ class so_WC_MetaModule extends so_WC_Node {
     protected $_version;
     function get_version( $version ){
         if( isset( $version ) ) return $version;
-        $version= 0;
+        $version= '';
         foreach( $this->files as $file ):
             if( $file->version <= $version ) continue;
             $version= $file->version;

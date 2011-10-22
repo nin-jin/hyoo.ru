@@ -61,25 +61,42 @@ function pack_file( $from, $to ){
 
 copy_r('.', '-export');
 rchdir( '-export' );
-    unlink( 'export.php' );
-    unlink( 'index.php' );
+    foreach( glob( '*.*' ) as $file ):
+        unlink( $file );
+    endforeach;
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
         if( $pack[0] === '-' ) continue;
         rchdir( $pack );
-            foreach( array( '-mix', '-mix+doc' ) as $module ):
+            foreach( glob( '*.*' ) as $file ):
+                unlink( $file );
+            endforeach;
+            foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
+                if( $module === '-mix' ):
+                    rchdir( $module );
+                        @unlink( 'index.css' );
+                        @unlink( 'index.xsl' );
+                        @unlink( 'index.js' );
+                        @rename( 'compiled.css', 'index.css' );
+                        @rename( 'compiled.xsl', 'index.xsl' );
+                        @rename( 'compiled.js', 'index.js' );
+                        foreach( glob( '*.*' ) as $file ):
+                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl' ) ) ) continue;
+                            unlink( $file );
+                        endforeach;
+                    rchdir( '..' );
+                    continue;
+                endif;
                 rchdir( $module );
-                    @rename( 'index.css', '-index.css' );
-                    @rename( 'index.xsl', '-index.xsl' );
-                    @rename( 'index.js', '-index.js' );
-                    @rename( 'compiled.css', 'index.css' );
-                    @rename( 'compiled.xsl', 'index.xsl' );
-                    @rename( 'compiled.js', 'index.js' );
-                    @pack_file( 'index.css', 'index.css.gz' );
-                    @pack_file( 'index.xsl', 'index.xsl.gz' );
-                    @pack_file( 'index.js', 'index.js.gz' );
+                    foreach( glob( '*.*' ) as $file ):
+                        if( !preg_match( '/\.(css|xml|xsl|vml|js|jam|tree|cmd|php)$/', $file ) ) continue;
+                        unlink( $file );
+                    endforeach;
                 rchdir( '..' );
+                if( !glob( $module . '/*' ) ):
+                    rrmdir( $module );
+                endif;
             endforeach;
         rchdir( '..' );
     endforeach;
 rchdir( '..' );
-header( 'Location: -export/', true, 302 );
+@header( 'Location: -export/', true, 302 );

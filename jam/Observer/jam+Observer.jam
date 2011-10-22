@@ -57,7 +57,11 @@ $define
                         }
                     ,   'ms': function( ){
                             var event= $glob().event
-                            var event= event.originalEvent || event
+                            var orig= event.originalEvent
+                            if( orig ){
+                                if( !orig.target ) orig.target= event.srcElement
+                                event= orig
+                            }
                             if( event.type !== self.eventName() ) return
                             return handler.call( self.node(), $Event( event ) )
                         }
@@ -77,7 +81,9 @@ $define
                 }
             ,   'ms': function( ){
                     if( this.$.active ) return this
-                    this.$.node.attachEvent( 'on' + this.$.eventName, this.$.internalHandler )
+                    var type= this.eventName()
+                    if( !/^\w+$/.test( type ) ) type= 'beforeeditfocus'
+                    this.$.node.attachEvent( 'on' + type, this.$.internalHandler )
                     this.$.active= true
                     return this
                 }

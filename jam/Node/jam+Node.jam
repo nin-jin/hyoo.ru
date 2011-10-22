@@ -110,6 +110,40 @@ $define
             }
         )
         
+        proto.width=
+        function( ){
+            if( 'offsetWidth' in this.$ ) return this.$.offsetWidth
+            if( 'getBoundingClientRect' in this.$ ){
+                var rect= this.$.getBoundingClientRect()
+                return rect.right - rect.left
+            }
+            return 0
+        }
+        
+        proto.height=
+        function( ){
+            if( 'offsetHeight' in this.$ ) return this.$.offsetHeight
+            if( 'getBoundingClientRect' in this.$ ){
+                var rect= this.$.getBoundingClientRect()
+                return rect.bottom - rect.top
+            }
+            return 0
+        }
+        
+        proto.posLeft=
+        function( ){
+            if( 'offsetLeft' in this.$ ) return this.$.offsetLeft
+            var rect= this.$.getBoundingClientRect()
+            return rect.left
+        }
+        
+        proto.posTop=
+        function( ){
+            if( 'offsetTop' in this.$ ) return this.$.offsetTop
+            var rect= this.$.getBoundingClientRect()
+            return rect.top
+        }
+        
         proto.editable=
         $Poly
         (   function( ){
@@ -120,6 +154,18 @@ $define
                 return this
             }
         )
+        
+        proto.ancList=
+        function( name ){
+            var filtered= []
+            var node= this
+            do {
+                if( name && node.name().replace( name, '' ) ) continue
+                filtered.push( node )
+            } while( node= node.parent() )
+            
+            return $NodeList( filtered )
+        }
         
         proto.childList=
         function( name ){
@@ -135,16 +181,33 @@ $define
         }
         
         proto.descList=
-        function( name ){
-            var list= this.$.getElementsByTagName( name )
-            var filtered= []
-            
-            for( var i= 0; i < list.length; ++i ){
-                filtered.push( list[ i ] )
+        $support.htmlModel.select(
+        {   'w3c': function( name ){
+                var list= this.$.getElementsByTagName( name )
+                var filtered= []
+                
+                for( var i= 0; i < list.length; ++i ){
+                    filtered.push( list[ i ] )
+                }
+                
+                return $NodeList( filtered )
             }
-            
-            return $NodeList( filtered )
-        }
+        ,   'ms': function( name ){
+                var chunks= /(?:(\w+):)?([-\w]+)/.exec( name )
+                var scopeName= chunks && chunks[1] || ''
+                var localName= chunks && chunks[2] || name
+                var list= this.$.getElementsByTagName( localName )
+
+                var filtered= []
+                for( var i= 0; i < list.length; ++i ){
+                    var node= list[ i ]
+                    if( scopeName && ( scopeName !== node.scopeName.toLowerCase() ) ) continue
+                    filtered.push( node )
+                }
+                
+                return $NodeList( filtered )
+            }
+        } )
 
         proto.parent= 
         $Poly
@@ -226,6 +289,17 @@ $define
             }
         }
 
+        proto.precede=
+        function( ){
+            var node= this
+            while( true ){
+                var next= node.prev()
+                if( next ) return next
+                node= node.parent()
+                if( !node ) return null
+            }
+        }
+
         proto.prev=
         $Poly
         (   function(){
@@ -258,6 +332,7 @@ $define
             return function( html ){
                 parent.html( html )
                 var child= parent.head()
+                if( !child ) return null
                 if( !child.next() ) return child
                 var fragment= $Node.Fragment()
                 while( child= parent.head() ) fragment.tail( child )

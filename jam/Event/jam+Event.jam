@@ -41,6 +41,24 @@ $define
             )
         )
             
+        proto.data=
+        $Poly
+        (   function( ){
+                return this.$.extendedData
+            }
+        ,   $support.eventModel.select
+            (   {   'w3c': function( data ){
+                        this.$.extendedData= data
+                        return this
+                    }
+                ,   'ms': function( data ){
+                        this.$.extendedData= data
+                        return this
+                    }
+                }
+            )
+        )
+            
         proto.keyMeta=
         $Poly
         (   function( ){
@@ -93,7 +111,7 @@ $define
                     return this.$.target
                 }
             ,   'ms': function( ){
-                    return this.$.srcElement
+                    return this.$.srcElement || this.$.target
                 }
             }
         )

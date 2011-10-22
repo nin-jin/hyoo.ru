@@ -30,10 +30,17 @@ class so_Compile_CSS {
             $indexFile->content= $content;
         endif;
         
+        $head= '';
         $content= '';
         foreach( $files as $file ):
+            preg_match_all
+            (   '/^\s*@namespace .*$/m'
+            ,   $file->content
+            ,   &$namespaceList
+            );
+            $head.= implode( "\n", $namespaceList[0] );
             $content.= "/* @import url( '../../{$file->id}' ); */\n{$file->content}\n";
         endforeach;
-        $mixModule->createFile( 'compiled.css' )->content= $content;
+        $mixModule->createFile( 'compiled.css' )->content= $head . $content;
     }
 }
