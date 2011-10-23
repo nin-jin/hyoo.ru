@@ -71,7 +71,7 @@ rchdir( '-export' );
                 unlink( $file );
             endforeach;
             foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
-                if( $module === '-mix' ):
+                if( in_array( $module, array( '-mix', '-mix+doc' ) ) ):
                     rchdir( $module );
                         @unlink( 'index.css' );
                         @unlink( 'index.xsl' );
@@ -80,7 +80,7 @@ rchdir( '-export' );
                         @rename( 'compiled.xsl', 'index.xsl' );
                         @rename( 'compiled.js', 'index.js' );
                         foreach( glob( '*.*' ) as $file ):
-                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl' ) ) ) continue;
+                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl', 'index.doc.xml' ) ) ) continue;
                             unlink( $file );
                         endforeach;
                     rchdir( '..' );
@@ -88,7 +88,7 @@ rchdir( '-export' );
                 endif;
                 rchdir( $module );
                     foreach( glob( '*.*' ) as $file ):
-                        if( !preg_match( '/\.(css|xml|xsl|vml|js|jam|tree|cmd|php)$/', $file ) ) continue;
+                        if( !preg_match( '/\.(css|xsl|vml|js|jam|tree|cmd|php)$/', $file ) ) continue;
                         unlink( $file );
                     endforeach;
                 rchdir( '..' );

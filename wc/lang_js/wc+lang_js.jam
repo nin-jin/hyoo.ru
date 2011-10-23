@@ -42,7 +42,7 @@ $define
             this[ /(\$[\w$]*)(?![\w$])/.source ]=
             $Pipe( $lang_text, js.external )
 
-            this[ /\b(this|function|new|var|if|else|switch|case|default|for|in|while|do|with|boolean|continue|break|throw|true|false|void|try|catch|null|typeof|instanceof|return|delete|window|document)\b/.source ]=
+            this[ /\b(this|function|new|var|if|else|switch|case|default|for|in|while|do|with|boolean|continue|break|throw|true|false|void|try|catch|null|typeof|instanceof|return|delete|window|document|let|each|yield)\b/.source ]=
             $Pipe( $lang_text, js.keyword )
             
             this[ /((?:\d*\.)?\d(?:[eE])?)/.source ]=

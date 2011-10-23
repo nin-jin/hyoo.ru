@@ -49,20 +49,6 @@
                         </wc:vmenu-root>
                     </wc:sidebar>
                 
-                    <wc:sidebar class=" align=right ">
-                        <wc:vmenu-root>
-                            <a href="../-mix/index.js" class=" reset=true ">
-                                <wc:vmenu-leaf>index.js</wc:vmenu-leaf>
-                            </a>
-                            <a href="../-mix/index.css" class=" reset=true ">
-                                <wc:vmenu-leaf>index.css</wc:vmenu-leaf>
-                            </a>
-                            <a href="../-mix/index.xsl" class=" reset=true ">
-                                <wc:vmenu-leaf>index.xsl</wc:vmenu-leaf>
-                            </a>
-                        </wc:vmenu-root>
-                    </wc:sidebar>
-                    
                     <wc:spacer>
                         <wc:paper>
                             <wc:spacer>
@@ -70,11 +56,6 @@
                                 <xsl:apply-templates />
                                 
                             </wc:spacer>
-                        </wc:paper>
-                    </wc:spacer>
-
-                    <wc:spacer>
-                        <wc:paper>
                             <wc:spacer>
     
                                 <div id="disqus_thread">
@@ -82,7 +63,7 @@
                                         disqus_developer= 1
                                         disqus_url= document.location.origin + document.location.pathname
                                     </script>
-                                    <script src="http://nin-jin.disqus.com/embed.js"></script>
+                                    <script src="http://nin-jin.disqus.com/embed.js" async="async" defer="defer">//</script>
                                 </div>
                                 
                             </wc:spacer>
