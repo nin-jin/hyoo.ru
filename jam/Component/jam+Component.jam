@@ -122,17 +122,17 @@ $define( '$Component', function( tagName, factory ){
         var docEl= $doc().documentElement
         docEl.addEventListener( 'DOMNodeInserted', function whenNodeInserted( ev ){
             var node= ev.target
-            //$schedule( 0, function( ){
+            $schedule( 0, function( ){
                 check4attach([ node ])
                 if( !$support.msie() && node.getElementsByTagName ) check4attach( node.getElementsByTagName( tagName ) )
-            //})
+            })
         }, false )
         docEl.addEventListener( 'DOMNodeRemoved', function whenNodeRemoved( ev ){
             var node= ev.target
-            //$schedule( 0, function( ){
+            $schedule( 0, function( ){
                 check4detach([ node ])
                 if( !$support.msie() && node.getElementsByTagName ) check4detach( node.getElementsByTagName( tagName ) )
-            //})
+            })
         }, false )
     }
     
