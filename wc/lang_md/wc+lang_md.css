@@ -5,7 +5,7 @@ wc\:lang_md {
 
 wc\:lang_md-link {
     color: blue;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;;
     display: inline-block;
     display: inline\9; /*ie*/
 }
@@ -36,13 +36,13 @@ wc\:lang_md-author {
 }
 
 wc\:lang_md-indent {
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     float: left;
     float: none\9; /*ie*/
 }
 
 wc\:lang_md-para {
-    font-family: 'Times', serif;
+    font-family: 'Cambria', serif;
     adisplay: block;
     overflow: hidden;
     overflow: visible\9; /*ie*/
@@ -52,43 +52,43 @@ wc\:lang_md-para {
 wc\:lang_md-header-6 {
 	color: #339;
 	font-size: 18pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-5 {
 	color: #339;
 	font-size: 22pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-4 {
 	color: #339;
 	font-size: 26pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-3 {
 	color: #339;
 	font-size: 30pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-2 {
 	color: #339;
 	font-size: 34pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-1 {
 	color: #339;
 	font-size: 38pt;
-    font-family: serif;
+    font-family: 'Cambria', serif;
 }
 
 wc\:lang_md-header-marker {
     font-size: 14pt;
     display: none;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     color: #666;
 }
 
@@ -149,7 +149,7 @@ wc\:lang_md-table-cell {
 wc\:lang_md-table-marker {
     font-size: 14pt;
     visibility: hidden;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
 }
 
 .wc_editor_content:focus wc\:lang_md-table-marker {
@@ -157,7 +157,7 @@ wc\:lang_md-table-marker {
 }
 
 wc\:lang_md-code {
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     white-space: pre-wrap;
     line-height: 1;
     font-size: 12pt;
@@ -178,7 +178,7 @@ wc\:lang_md-emphasis {
 
 wc\:lang_md-emphasis-marker {
     color: #999;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     font-size: 12pt;
     display: none;
 }
@@ -192,7 +192,7 @@ wc\:lang_md-strong {
 
 wc\:lang_md-strong-marker {
     color: #999;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     font-size: 12pt;
     display: none;
 }

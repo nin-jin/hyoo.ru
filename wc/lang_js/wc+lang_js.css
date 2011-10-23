@@ -1,10 +1,10 @@
 wc\:lang_js {
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     white-space: pre;
 }
 
 wc\:lang_js-remark {
-    color: #bbb;
+    color: #999;
     white-space: pre;
 }
 
