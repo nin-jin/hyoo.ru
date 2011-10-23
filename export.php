@@ -62,12 +62,14 @@ function pack_file( $from, $to ){
 copy_r('.', '-export');
 rchdir( '-export' );
     foreach( glob( '*.*' ) as $file ):
+        if( !preg_match( '/\.(php|cmd)$/', $file ) ) continue;
         unlink( $file );
     endforeach;
     foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
         if( $pack[0] === '-' ) continue;
         rchdir( $pack );
             foreach( glob( '*.*' ) as $file ):
+                if( !preg_match( '/\.(cmd)$/', $file ) ) continue;
                 unlink( $file );
             endforeach;
             foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
