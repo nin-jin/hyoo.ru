@@ -13,7 +13,7 @@ if( $reqFile ):
     $reqFile.= '?' . time();
 else:
     $root= new so_WC_Root;
-    $file= $root->createPack( 'doc' )->mainFile;
+    $file= $root->createPack( 'article' )->mainFile;
     $reqFile= $file->id . '?' . $file->version;
 endif;
 
