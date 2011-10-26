@@ -17,8 +17,11 @@ else:
     $reqFile= $file->id . '?' . $file->version;
 endif;
 
-?>
-<!doctype html>
-<title>WC Auto Compiler</title>
-<style> * { margin: 0; padding: 0; border: none; width: 100%; height: 100% } html, body { overflow: hidden } </style>
-<iframe src="<?= $reqFile; ?>" frameborder="0"></iframe> 
+if( !count( $_SERVER['argv'] ) ):
+    ?>
+        <!doctype html>
+        <title>WC Auto Compiler</title>
+        <style> * { margin: 0; padding: 0; border: none; width: 100%; height: 100% } html, body { overflow: hidden } </style>
+        <iframe src="<?= $reqFile; ?>" frameborder="0"></iframe> 
+    <?
+endif;

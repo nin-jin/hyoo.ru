@@ -1,0 +1,8 @@
+with( $jam$ )
+$Component
+(   'a'
+,   function( el ){
+        var isTarget= ( el.href == $doc().location.href )
+        $Node( el ).state( 'target', isTarget )
+    }
+)

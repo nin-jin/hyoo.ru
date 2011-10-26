@@ -2,9 +2,9 @@
 
 class so_Compile_XSL {
     function __construct( $pack, $mixModule ){
-        $fileList= $mixModule->root->createPack( 'so' )->createModule( 'XStyle' )->filesByExt( 'xsl' );
-        $fileList= array_merge( $fileList, $pack->filesByExt( 'xsl' ) );
-                    
+        $fileList= $mixModule->root->createPack( 'so' )->createModule( 'XStyle' )->selectFiles( '|\\.xsl$|' );
+        $fileList= array_merge( $fileList, $pack->selectFiles( '|\\.xsl$|' ) );
+        
         $xstyle= new so_XStyle;
 
         $index= array();

@@ -7,11 +7,10 @@ class so_WC_MetaModule extends so_WC_Node {
         return $files;
     }
     
-    function filesByExt( $ext ){
-        if( !is_array( $ext ) ) $ext= array( $ext );
+    function selectFiles( $regexp ){
         $res= array();
         foreach( $this->files as $file ):
-            if( !in_array( $file->ext, $ext ) ) continue;
+            if( !preg_match( $regexp, $file->name ) ) continue;
             $res[ $file->id ]= $file;
         endforeach;
         return $res;

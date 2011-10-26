@@ -2,7 +2,7 @@
 
 class so_Compile_JS {
     function __construct( $pack, $mixModule ){
-        $files= $pack->filesByExt(array( 'js', 'jam' ));
+        $files= $pack->selectFiles( '|(?:\\.jam)?\\.js$|' );
         $vmlFile= $mixModule->createFile( 'compiled.vml.js' );
         if( $vmlFile->exists ) $files[]= $vmlFile;
         

@@ -15,7 +15,7 @@ class so_Compile_XML {
             if( $pack->id === $mixModule->pack->id ):
                 $fileList= array();
                 
-                foreach( $pack->filesByExt( 'xml' ) as $file ):
+                foreach( $pack->selectFiles( '|\\.doc\\.xml$|' ) as $file ):
                     $fileList[]= array(
                         'file' => array(
                             'link' => "../../{$file->id}?{$file->version}",

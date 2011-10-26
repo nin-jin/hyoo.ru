@@ -2,7 +2,7 @@
 
 class so_Compile_VML {
     function __construct( $pack, $mixModule ){
-        $files= $pack->filesByExt( 'vml' );
+        $files= $pack->selectFiles( '|\\.vml$|' );
                     
         $content= '';
         foreach( $files as $id => $file ):

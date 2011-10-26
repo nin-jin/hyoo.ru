@@ -17,14 +17,14 @@ class so_WC_MetaPack extends so_WC_Node {
         return $files;
     }
 
-    function filesByExt( $ext ){
+    function selectFiles( $ext ){
         $res= array();
         $mainModule= $this->mainModule;
         if( $mainModule && $mainModule->exists ):
-            $res= array_merge( $res, $mainModule->filesByExt( $ext ) );
+            $res= array_merge( $res, $mainModule->selectFiles( $ext ) );
         endif;
         foreach( $this->modules as $module ):
-            $res= array_merge( $res, $module->filesByExt( $ext ) );
+            $res= array_merge( $res, $module->selectFiles( $ext ) );
         endforeach;
         return $res;
     }

@@ -22,7 +22,9 @@ class so_WC_File extends so_Meta {
     protected $_ext;
     function get_ext( $ext ){
         if( isset( $ext ) ) return $ext;
-        return pathinfo( $this->name, PATHINFO_EXTENSION );
+        $ext= explode( '.', pathinfo( $this->name, PATHINFO_BASENAME ) );
+        array_shift( $ext );
+        return implode( '.', $ext );
     }
     
     protected $_exists;
@@ -81,8 +83,7 @@ class so_WC_File extends so_Meta {
     function get_dependModules( $depends ){
         if( isset( $depends ) ) return $depends;
         $depends= array();
-        
-        if( $this->ext === 'jam' ):
+        if( $this->ext === 'jam.js' ):
             preg_match_all
             (   '/with\s*\(\s*\$(\w+)\$\s*\)/'
             ,   $this->content
@@ -127,7 +128,7 @@ class so_WC_File extends so_Meta {
             endforeach;
         endif;
         
-        if( $this->ext === 'tree' ):
+        if( $this->ext === 'meta.tree' ):
             $meta= new so_Tree;
             $meta->string= $this->content;
             foreach( $meta->get( 'include pack' ) as $packId ):

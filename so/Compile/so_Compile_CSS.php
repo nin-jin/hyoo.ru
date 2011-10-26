@@ -2,7 +2,7 @@
 
 class so_Compile_CSS {
     function __construct( $pack, $mixModule ){
-        $files= $pack->filesByExt( 'css' );
+        $files= $pack->selectFiles( '|\\.css$|' );
         
         $indexFile= $mixModule->createFile( 'index.css' );
         if( count( $files ) > 32 ):
