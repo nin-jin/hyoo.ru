@@ -167,7 +167,7 @@
                 <xsl:text>from </xsl:text>
                 <xsl:value-of select=" $uri " />
             </xsl:comment>
-                <xsl:apply-templates select=" document( $uri )/*/node()" />
+                <xsl:apply-templates select=" document( $uri, . )/*/node()" />
             <xsl:comment>
                 <xsl:text>/from </xsl:text>
                 <xsl:value-of select=" $uri " />

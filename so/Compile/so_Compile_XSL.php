@@ -5,8 +5,6 @@ class so_Compile_XSL {
         $fileList= $mixModule->root->createPack( 'so' )->createModule( 'XStyle' )->selectFiles( '|\\.xsl$|' );
         $fileList= array_merge( $fileList, $pack->selectFiles( '|\\.xsl$|' ) );
         
-        $xstyle= new so_XStyle;
-
         $index= array();
         foreach( $fileList as $file ):
             $index[]= array(
@@ -16,15 +14,15 @@ class so_Compile_XSL {
             );
         endforeach;
         
-        $index= $xstyle->aDocument(array(
+        $index= so_Dom::create( array(
             'stylesheet' => array(
                 '@version' => '1.0',
                 '@xmlns' => 'http://www.w3.org/1999/XSL/Transform',
                 $index,
             ),
-        ));
+        ) );
 
-        $mixModule->createFile( 'index.xsl' )->content= $index->saveXML();
+        $mixModule->createFile( 'index.xsl' )->content= $index;
 
         $compiled= array();
         foreach( $fileList as $file ):
@@ -38,7 +36,7 @@ class so_Compile_XSL {
             );
         endforeach;
         
-        $compiled= $xstyle->aDocument(array(
+        $compiled= so_Dom::create( array(
             'stylesheet' => array(
                 '@version' => '1.0',
                 '@xmlns' => 'http://www.w3.org/1999/XSL/Transform',
@@ -46,8 +44,8 @@ class so_Compile_XSL {
                 '#text' => "\n\n",
                 $compiled,
             ),
-        ));
+        ) );
         
-        $mixModule->createFile( 'compiled.xsl' )->content= $compiled->saveXML();
+        $mixModule->createFile( 'compiled.xsl' )->content= $compiled;
     }
 }

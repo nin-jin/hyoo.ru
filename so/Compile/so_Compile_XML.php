@@ -34,15 +34,13 @@ class so_Compile_XML {
             $index[]= array( 'pack' => $fileList );
         endforeach;
         
-        $xstyle= new so_XStyle;
-
-        $index= $xstyle->aDocument(array(
+        $index= so_Dom::create( array(
             'root' => array(
                 '@xmlns' => 'https://github.com/nin-jin/doc',
                 $index,
             ),
-        ));
+        ) );
     
-        $xmlIndex->content= $index->saveXML();
+        $xmlIndex->content= $index;
     }
 }

@@ -15,6 +15,10 @@ class so_XStyle extends so_Meta {
     }
     
     protected $_pathXSL;
+    function get_pathXSL( $pathXSL ){
+        if( isset( $pathXSL ) ) return $pathXSL;
+        return preg_replace( '!\.xs$!i', '.xsl', $this->pathXS );
+    }
     function set_pathXSL( $pathXSL ){
         if( isset( $this->pathXSL ) ) throw new Exception( 'Redeclaration of $pathXSL' );
         return $this->pathXS ? $this->pathXS . 'l' : $pathXSL;
@@ -28,9 +32,9 @@ class so_XStyle extends so_Meta {
         return $docXS;
     }
     function set_docXS( $docXS ){
-        $this->aDocument( &$docXS );
+        $docXS= so_Dom::create( $docXS );
         if( file_exists( $this->pathXS ) ) unlink( $this->pathXS );
-        $docXS->save( $this->pathXS );
+        file_put_contents( $this->pathXS, $docXS );
         return null;
     }
 
@@ -38,14 +42,13 @@ class so_XStyle extends so_Meta {
     function get_docXSL( $docXSL ){
         if( isset( $docXSL ) ) return $docXSL;
         if( file_exists( $this->pathXS ) ) $this->sync();
-        $docXSL= new DOMDocument( );
-        $docXSL->load( $this->pathXSL, LIBXML_COMPACT );
+        $docXSL= so_Dom::create( file_get_contents( $this->pathXSL ) );
         return $docXSL;
     }
     function set_docXSL( $docXSL ){
-        $this->aDocument( &$docXSL );
+        $docXSL= so_Dom::create( $docXSL );
         if( file_exists( $this->pathXSL ) ) unlink( $this->pathXSL );
-        $docXSL->save( $this->pathXSL );
+        file_put_contents( $this->pathXSL, $docXSL );
         return null;
     }
 
@@ -53,119 +56,19 @@ class so_XStyle extends so_Meta {
     function get_processor( $processor ){
         if( isset( $processor ) ) return $processor;
         $processor= new XSLTProcessor( );
-        $processor->importStyleSheet( $this->docXSL );
+        $processor->importStyleSheet( $this->docXSL->DOMNode );
         return $processor;
     }
 
-    function aDocument( $val ){
-        if( is_string( $val ) ):
-            $val= DOMDocument::loadXML( $val );
-        elseif( is_array( $val ) ):
-            $val= $this->_array2doc( $val );
-        endif;
-        if( is_object( $val ) ):
-            if( $val instanceof SimpleXMLElement ) $val= dom_import_simplexml( $val );
-            if( $val->ownerDocument ) $val= $val->ownerDocument;
-        endif;
-        if(!( $val instanceof DOMDocument )) throw new Exception( "Wrong type {$val}" );
-        return $val;
-    }
-
-    function _value2node( $value, $parent ){
-        $doc= $parent->ownerDocument or $doc= $parent;
-
-        switch( true ):
-            case( is_null( $value ) ):
-                return;
-                
-            case( is_scalar( $value ) ):
-                $parent->appendChild( $doc->createTextNode( $value ) );
-                return;
-            
-            case( is_object( $value ) ):
-                switch( true ):
-                    case( $value instanceof SimpleXMLElement ):
-                        $value= dom_import_simplexml( $value );
-                        
-                    case( $value instanceof DOMNode ):
-                        $parent->appendChild( $doc->importNode( $value, true ) );
-                        return;
-                    
-                    case( $value instanceof DOMNodeList ):
-                        for( $i= 0; $i < $value->length; ++$i ):
-                            $parent->appendChild( $doc->importNode( $value->item( $i ), true ) );
-                        endfor;
-                        return;
-                endswitch;
-                throw new Exception( "Unsupported type of object" );
-            
-            case( is_array( $value ) ):
-                foreach( $value as $key => $value ):
-                    if( is_numeric( $key ) ):
-                        $this->_value2node( $value, $parent );
-                        continue;
-                    endif;
-                    
-                    switch( $key[0] ):
-                        case '#':
-                            switch( $key ):
-                                case '#text':
-                                    $parent->appendChild( $doc->createTextNode( $value ) );
-                                    break;
-                                    
-                                case '#comment':
-                                    $parent->appendChild( $doc->createComment( $value ) );
-                                    break;
-                                    
-                                default:
-                                    throw new Exception( "Wrong element name [{$key}]" );
-                            endswitch;
-                            break;
-                            
-                        case '@':
-                            $name= substr( $key, 1 );
-                            $parent->setAttribute( $name, $value );
-                            break;
-                            
-                        case '?':
-                            $name= substr( $key, 1 );
-                            if( is_array( $value ) ):
-                                $valueList= array();
-                                foreach( $value as $key => $val ):
-                                    $valueList[]= htmlspecialchars( $key ) . '="' . htmlspecialchars( $val ) . '"';
-                                endforeach;
-                                $value= implode( " ", $valueList );
-                            endif;
-                            $parent->appendChild( $doc->createProcessingInstruction( $name, $value ) );
-                            break;
-                        
-                        default:
-                            $node= $parent->appendChild( $doc->createElement( $key ) );
-                            $this->_value2node( $value, $node );
-                            break;
-                    endswitch;
-                endforeach;
-                return;
-                
-            default:
-                throw new Exception( "Unsupported type of value" );
-        endswitch;
-    }
-    function _array2doc( $array ){
-        $doc= new DOMDocument;
-        $this->_value2node( $array, $doc );
-        return $doc;
-    }
-
     function process( $doc ){
-        $this->aDocument( &$doc );
+        $doc= so_Dom::create( $doc );
         
         $dir= getcwd();
         chdir( $this->dir );
-            $doc= $this->processor->transformToDoc( $doc );
+            $doc= $this->processor->transformToDoc( $doc->DOMNode );
         chdir( $dir );
         
-        return $this->aDocument( $doc );
+        return so_Dom::create( $doc );
     }
 
     function sync( ){
@@ -176,7 +79,7 @@ class so_XStyle extends so_Meta {
         ) return $this;
 
         $xs2xsl= new $this;
-        $xs2xsl->pathXSL= __DIR__ . '/so_XStyle_Compiler.xsl';
+        $xs2xsl->pathXSL= __DIR__ . '/compiler/so_XStyle_compiler.xsl';
         $this->docXSL= $xs2xsl->process( $this->docXS );
         $this->docXS= $this->docXS;
         return $this;
