@@ -1,5 +1,4 @@
-with( $jam$ )
-$define
-(   '$uriEscape'
-,   $glob().encodeURIComponent
+$jam.define
+(   '$jam.uriEscape'
+,   $jam.glob().encodeURIComponent
 )

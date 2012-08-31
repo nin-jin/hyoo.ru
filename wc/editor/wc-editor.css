@@ -1,12 +1,32 @@
 wc\:editor {
+    display: none;
+}
+
+[wc\:editor_inited="true"] {
     display: block;
 }
 
 .wc_editor_content {
-    padding: 2pt 4pt;
+    padding: 2px 4px;
     display: block;
+    min-height: 1em;
+    white-space: pre-line;
+}
+
+.wc_editor_content p {
+    margin: 0;
+    padding: 0;
 }
 
 .wc_editor_content:focus {
-    outline: 1px dotted gray;
+    outline: none;
+}
+
+wc\:editor:hover {
+    outline: 1px dotted #ddd;
+}
+
+wc\:editor[wc\:editor_active="true"] {
+    outline: 1px dotted #bbb;
+    background: white;
 }

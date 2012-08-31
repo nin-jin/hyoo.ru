@@ -15,7 +15,7 @@ class so_Compile_JS_Index extends so_NativeTemplate {
         var script= scripts[ i ]
         var src= script.getAttribute( 'src' )
         if( !src ) continue
-        src= src.replace( /^(?=[^:]+\/)/, document.location.href.replace( /\/[^\/]*$/, '/' ) )
+        src= src.replace( /^(?=[^:]+\/)/, document.location.pathname.replace( /\/[^\/]*$/, '/' ) )
         while( true ) {
             srcNew= src.replace( /\/(?!\.\.)[^\/]+\/\.\.(?=\/)/g, '' )
             if( srcNew === src ) break
@@ -31,31 +31,19 @@ class so_Compile_JS_Index extends so_NativeTemplate {
         var canWrite= true
     } catch( e ){}
     
-    try {
-        this.Components == '[object nsXPCComponents]'
-        this.Components.classes
-        var Components= this.Components
-    } catch( e ){}
-    
     if( canWrite ){
         var module
         while( module= modules.shift() ){
             document.write( '<script src="' + dir + module + '"><' + '/script>' )
         }
-    } if( Components ){
-        var loader= Components.classes["@mozilla.org/moz/jssubscript-loader;1"].getService( Components.interfaces.mozIJSSubScriptLoader )
-        while( module= modules.shift() ){
-            loader.loadSubScript( dir + module )
-        }
     } else {
-        var parent= script.parentNode
         var next= function(){
             var module= modules.shift()
             if( !module ) return
             var loader= document.createElement( 'script' )
             loader.src= dir + module
             loader.onload= next
-            parent.insertBefore( loader, script )
+            script.parentNode.insertBefore( loader, script )
         }
         next()
     }

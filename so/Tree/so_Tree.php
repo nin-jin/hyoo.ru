@@ -1,6 +1,6 @@
 <?php
 
-class so_Tree extends so_Meta {
+class so_Tree extends so_meta {
 
     protected $_struct;
     function get_struct( $val ){

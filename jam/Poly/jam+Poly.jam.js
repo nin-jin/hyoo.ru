@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$Poly'
+$jam.define
+(   '$jam.Poly'
 ,   function(){
         var map= arguments
         return function(){

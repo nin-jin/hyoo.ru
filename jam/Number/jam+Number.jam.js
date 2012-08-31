@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$Number'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Number'
+,   $jam.Class( function( klass, proto ){
     
         proto.constructor=
         function( numb ){

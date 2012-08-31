@@ -90,7 +90,7 @@ rchdir( '-export' );
                 endif;
                 rchdir( $module );
                     foreach( glob( '*.*' ) as $file ):
-                        if( !preg_match( '/\.(css|xsl|vml|js|jam|tree|cmd|php)$/', $file ) ) continue;
+                        if( !preg_match( '/\.(css|xsl|js|jam|tree|cmd|php)$/', $file ) ) continue;
                         unlink( $file );
                     endforeach;
                 rchdir( '..' );

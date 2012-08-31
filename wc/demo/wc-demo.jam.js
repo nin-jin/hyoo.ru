@@ -1,36 +1,34 @@
-with( $jam$ )
-with( $wc$ )
-$Component
+$jam.Component
 (   'wc:demo'
 ,   function( nodeRoot ){
         return new function( ){
-            nodeRoot= $Node( nodeRoot )
+            nodeRoot= $jam.Node( nodeRoot )
 
-            var source= $String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
+            var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
             
             nodeRoot.clear()
             
             var nodeResult=
-            $Node.Element( 'wc:demo_result' )
+            $jam.Node.Element( 'wc:demo_result' )
             .parent( nodeRoot )
             
             var nodeSource0=
-            $Node.Element( 'wc:demo_source' )
+            $jam.Node.Element( 'wc:demo_source' )
             .parent( nodeRoot )
             
             var nodeSource=
-            $Node.parse( '<wc:editor class=" hlight=sgml " />' )
+            $jam.Node.parse( '<wc:editor wc:editor_hlight="sgml" />' )
             .parent( nodeSource0 )
             .text( source )
             
-            var exec= $Thread( function( ){
-                var source= $String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
+            var exec= $jam.Thread( function( ){
+                var source= $jam.String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
                 //nodeSource.text( source )
                 nodeResult.html( source )
                 var scripts= nodeResult.descList( 'script' )
                 for( var i= 0; i < scripts.length; ++i ){
-                    var script= $Node( scripts[i] )
-                    $eval( script.text() )
+                    var script= $jam.Node( scripts[i] )
+                    $jam.eval( script.text() )
                 }
                 return true
             })
@@ -38,7 +36,7 @@ $Component
             exec()
         
             var onCommit=
-            nodeSource.listen( '$jam$.$eventCommit', exec )
+            nodeSource.listen( '$jam.eventCommit', exec )
             
             this.destroy=
             function( ){

@@ -1,20 +1,19 @@
-with( $jam$ )
-$define
-(   '$TaskQueue'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.TaskQueue'
+,   $jam.Class( function( klass, proto ){
         
         proto.constructor=
         function( ){
             this.$= {}
             this.$.queue= []
             this.$.clock=
-            $Clock()
-            .handler( $Obj( this ).method( 'run' ) )
+            $jam.Clock()
+            .handler( $jam.Obj( this ).method( 'run' ) )
             return this
         }
         
         proto.latency=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.clock.latency()
             }
@@ -25,7 +24,7 @@ $define
         )
         
         proto.active=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.clock.active()
             }

@@ -1,22 +1,17 @@
-with( $jam$ )
-$define
-(   '$support'
+$jam.define
+(   '$jam.support'
 ,   new function(){
         var Support= function( state ){
-            var sup= $Value( state )
+            var sup= $jam.Value( state )
             sup.select= function( map ){
-                return $switch( this(), map )
+                return $jam.switch( this(), map )
             }
             return sup
         }
     
-        var node= $doc().createElement( 'html:div' )
+        var node= $jam.doc().createElement( 'html:div' )
         
         this.msie= Support( /*@cc_on!@*/ false )
-        this.xmlModel= Support( ( $glob().DOMParser && $glob().XSLTProcessor ) ? 'w3c' : 'ms' )
-        this.htmlModel= Support( node.namespaceURI !== void 0 ? 'w3c' : 'ms' )
-        this.eventModel= Support( 'addEventListener' in node ? 'w3c' : 'ms' )
-        this.selectionModel= Support( 'createRange' in $doc() ? 'w3c' : 'ms' )
-        this.vml= this.msie
+        this.xmlModel= Support( ( $jam.glob().DOMParser && $jam.glob().XSLTProcessor ) ? 'w3c' : 'ms' )
     }
 )

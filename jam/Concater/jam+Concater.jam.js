@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$Concater'
+$jam.define
+(   '$jam.Concater'
 ,   function( delim ){
         delim= delim || ''
         return function( list ){

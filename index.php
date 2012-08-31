@@ -1,27 +1,7 @@
-<?php require_once( 'so/autoload/so_autoload.php' );
+<?php require_once( __DIR__ . '/so/autoload/so_autoload.php' );
 
-$reqFile= $_SERVER[ 'QUERY_STRING' ];
-
-if( $reqFile === basename( __FILE__ ) ):
-    highlight_file( __FILE__ );
-    die();
-endif;
+//include_once( __DIR__ . '/so/-mix/index.php' );
 
 new so_Compile_All;
 
-if( $reqFile ):
-    $reqFile.= '?' . time();
-else:
-    $root= new so_WC_Root;
-    $file= $root->createPack( 'article' )->mainFile;
-    $reqFile= $file->id . '?' . $file->version;
-endif;
-
-if( !count( $_SERVER['argv'] ) ):
-    ?>
-        <!doctype html>
-        <title>WC Auto Compiler</title>
-        <style> * { margin: 0; padding: 0; border: none; width: 100%; height: 100% } html, body { overflow: hidden } </style>
-        <iframe src="<?= $reqFile; ?>" frameborder="0"></iframe> 
-    <?
-endif;
+so_front::make()->namespace( 'so' )->run();

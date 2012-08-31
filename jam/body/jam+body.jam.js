@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$body'
+$jam.define
+(   '$jam.body'
 ,   function( ){
-        return $doc().body
+        return $jam.doc().body
     }
 )

@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$eval'
-,   $Thread(function( source ){
-        return $glob().eval( source )
+$jam.define
+(   '$jam.eval'
+,   $jam.Thread(function( source ){
+        return $jam.glob().eval( source )
     })
 )

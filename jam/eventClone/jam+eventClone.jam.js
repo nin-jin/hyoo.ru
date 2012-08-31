@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$eventClone'
+$jam.define
+(   '$jam.eventClone'
 ,   new function(){
         var handler=
         function( event ){
@@ -8,10 +7,10 @@ $define
             if( !event.keyShift() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 13 ) return
-            $Event().type( '$jam$.$eventClone' ).scream( event.target() )
+            $jam.Event().type( '$jam.eventClone' ).scream( event.target() )
         }
         
-        $Node( $doc().documentElement )
+        $jam.Node( $jam.doc().documentElement )
         .listen( 'keyup', handler )
     }
 )

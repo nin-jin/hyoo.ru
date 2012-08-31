@@ -1,16 +1,15 @@
-with( $jam$ )
-$define
-(   '$eventScroll'
+$jam.define
+(   '$jam.eventScroll'
 ,   new function(){
         var handler=
         function( event ){
-            $Event()
+            $jam.Event()
             .type( '$jam.$eventScroll' )
             .wheel( event.wheel() )
             .scream( event.target() )
         }
         
-        var docEl= $Node( $doc().documentElement )
+        var docEl= $jam.Node( $jam.doc().documentElement )
         docEl.listen( 'mousewheel', handler )
         docEl.listen( 'DOMMouseScroll', handler )
     }

@@ -1,14 +1,28 @@
 <?php
 
-function so_autoload( $class ){
-    static $root;
-    if( !$root ) $root= dirname( dirname( dirname( __FILE__ ) ) );
-    $chunks= explode( '_', $class );
-    $pack= $chunks[0];
-    $module= $chunks[1];
-    $path2class= "{$class}.php";
-    if( $module ) $path2class= "{$module}/{$path2class}";
-    include( "{$root}/{$pack}/{$path2class}" );
-}
+if( !class_exists( 'so_autoload' ) ):
 
-spl_autoload_register( 'so_autoload' );
+    class so_autoload
+    {
+    
+        static function load( $class ){
+            static $root;
+            if( !$root ) $root= dirname( dirname( dirname( __FILE__ ) ) );
+            
+            $class= strtr( $class, array( '\\' => '_') );
+            $chunks= explode( '_', $class );
+            $pack= $chunks[0];
+            $module= $chunks[1];
+            
+            $path2class= "{$class}.php";
+            if( !$module ) $module= $pack;
+            $path= "{$root}/{$pack}/{$module}/{$class}.php";
+            
+            if( file_exists( $path ) ) include_once( $path );
+        }
+    
+    }
+    
+    spl_autoload_register(array( 'so_autoload', 'load' ));
+
+endif;

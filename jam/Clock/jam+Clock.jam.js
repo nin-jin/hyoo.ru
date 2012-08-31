@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$Clock'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Clock'
+,   $jam.Class( function( klass, proto ){
         
         proto.constructor=
         function( ){
@@ -10,7 +9,7 @@ $define
         }
         
         proto.latency=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.latency
             }
@@ -22,7 +21,7 @@ $define
         )
         
         proto.active=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.active
             }
@@ -34,7 +33,7 @@ $define
         )
         
         proto.handler=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.handler
             }
@@ -49,9 +48,9 @@ $define
         function( ){
             if( this.active() ) return this
             this.$.stoper=
-            $schedule
+            $jam.schedule
             (   this.latency()
-            ,   $Obj( this )
+            ,   $jam.Obj( this )
                 .method( 'tick' )
             )
             this.$.active= true
@@ -70,7 +69,7 @@ $define
         function( ){
             var proc= this.$.handler
             proc()
-            if( !this.active() ) return
+            if( !this.active() ) return this
             this.$.active= false
             this.start()
             return this

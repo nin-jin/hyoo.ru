@@ -1,26 +1,24 @@
-with( $jam$ )
-with( $wc$ )
-$Component
+$jam.Component
 (   'wc:js-test'
 ,   function( nodeRoot ){
         return new function( ){
-            nodeRoot= $Node( nodeRoot )
+            nodeRoot= $jam.Node( nodeRoot )
             
-            var exec= $Thread( function( ){
+            var exec= $jam.Thread( function( ){
                 var source= nodeSource.text()
                 var proc= new Function( '_test', source )
                 proc( _test )
                 return true
             })
             
-            var source= $String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
+            var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
         
             nodeRoot.clear()
-            var nodeSource0= $Node.Element( 'wc:js-test_source' ).parent( nodeRoot )
-            var nodeSource= $Node.parse( '<wc:editor class=" hlight=js " />' ).text( source ).parent( nodeSource0 )
-            var nodeControls= $Node.Element( 'wc:hontrol' ).parent( nodeRoot )
-            var nodeClone= $Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
-            var nodeDelete= $Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
+            var nodeSource0= $jam.Node.Element( 'wc:js-test_source' ).parent( nodeRoot )
+            var nodeSource= $jam.Node.parse( '<wc:editor wc:editor_hlight="js" />' ).text( source ).parent( nodeSource0 )
+            var nodeControls= $jam.Node.Element( 'wc:hontrol' ).parent( nodeRoot )
+            var nodeClone= $jam.Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
+            var nodeDelete= $jam.Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
 
             var _test= {}
             
@@ -29,7 +27,7 @@ $Component
             }
             
             _test.ok=
-            $Poly
+            $jam.Poly
             (   function( ){
                     checkDone()
                     if( passed() === 'wait' ) passed( true )
@@ -52,7 +50,7 @@ $Component
             )
 
             _test.not=
-            $Poly
+            $jam.Poly
             (   function( ){
                     checkDone()
                     passed( false )
@@ -84,16 +82,16 @@ $Component
             }
             
             _test.deadline=
-            $Poly
+            $jam.Poly
             (   null
             ,   function( ms ){
                     if( stop ) throw new Error( 'Deadline redeclaration' )
-                    stop= $schedule( ms, noMoreWait )
+                    stop= $jam.schedule( ms, noMoreWait )
                 }
             )
         
             var passed=
-            $Poly
+            $jam.Poly
             (   function( ){
                     return nodeRoot.state( 'passed' )
                 }
@@ -104,7 +102,7 @@ $Component
             
             var print=
             function( val ){
-                var node= $Node.Element( 'wc:js-test_result' )
+                var node= $jam.Node.Element( 'wc:js-test_result' )
                 node.text( val )
                 nodeRoot.tail( node )
             }
@@ -117,7 +115,7 @@ $Component
                         return
                     }
                 }
-                print( $classOf( val ) + ': ' + val )
+                print( $jam.classOf( val ) + ': ' + val )
             }
             
             var run=
@@ -136,7 +134,7 @@ $Component
             function( ){
                 run()
                 var node=
-                $Node.Element( 'wc:js-test' )
+                $jam.Node.Element( 'wc:js-test' )
                 .text( nodeSource.text() )
                 nodeRoot.prev( node )
             }
@@ -149,22 +147,22 @@ $Component
             run()
 
             var onCommit=
-            nodeRoot.listen( '$jam$.$eventCommit', run )
+            nodeRoot.listen( '$jam.eventCommit', run )
             
             var onClone=
-            nodeRoot.listen( '$jam$.$eventClone', clone )
+            nodeRoot.listen( '$jam.eventClone', clone )
             
             var onClone=
-            nodeRoot.listen( '$jam$.$eventDelete', del )
+            nodeRoot.listen( '$jam.eventDelete', del )
             
             var onCloneClick=
             nodeClone.listen( 'click', function( event ){
-                $Event().type( '$jam$.$eventClone' ).scream( event.target() )
+                $jam.Event().type( '$jam.eventClone' ).scream( event.target() )
             })
             
             var onDeleteClick=
             nodeDelete.listen( 'click', function( event ){
-                $Event().type( '$jam$.$eventDelete' ).scream( event.target() )
+                $jam.Event().type( '$jam.eventDelete' ).scream( event.target() )
             })
             
             this.destroy=
@@ -174,7 +172,7 @@ $Component
                 onCloneClick.sleep()
                 onDeleteClick.sleep()
                 if( stop ) stop()
-                _test.ok= _test.not= $Value()
+                _test.ok= _test.not= $jam.Value()
             }
             
         }

@@ -1,12 +1,14 @@
-with( $jam$ )
-$define( '$log', new function(){
-    var console= $glob().console
-    if( !console || !console.log ){
+$jam.define
+(   '$jam.log'
+,   new function(){
+        var console= $jam.glob().console
+        if( !console || !console.log ){
+            return function(){
+                alert( [].slice.call( arguments ) )
+            }
+        }
         return function(){
-            alert( [].slice.call( arguments ) )
+            Function.prototype.apply.call( console.log, console, arguments )
         }
     }
-    return function(){
-        Function.prototype.apply.call( console.log, console, arguments )
-    }
-})
+)

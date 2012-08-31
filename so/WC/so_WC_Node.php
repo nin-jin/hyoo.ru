@@ -1,6 +1,6 @@
 <?php
 
-class so_WC_Node extends so_Meta {
+class so_WC_Node extends so_meta {
     protected $_childNameList;
     function get_childNameList( $names ){
         if( isset( $names ) ) return $names;

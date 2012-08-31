@@ -1,10 +1,9 @@
-with( $jam$ )
-$define
-(   '$Hash'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Hash'
+,   $jam.Class( function( klass, proto ){
 
         proto.constructor=
-        $Poly
+        $jam.Poly
         (   function( ){
                 this.$= { prefix: ':', obj: {} }
                 return this

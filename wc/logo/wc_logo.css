@@ -1,0 +1,16 @@
+wc\:logo {
+    font: 64px/1 'Times', serif;
+    color: white;
+    color: #aaa\9;
+    text-shadow: 0px 0px 4px gray;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 1%;
+    opacity: .9;
+}
+
+a:hover wc\:logo {
+    color: black;
+    text-shadow: 0 0 4px gray;
+}

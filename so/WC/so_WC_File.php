@@ -1,6 +1,6 @@
 <?php
 
-class so_WC_File extends so_Meta {
+class so_WC_File extends so_meta {
     protected $_name;
     function set_name( $name ){
         if( isset( $this->name ) ) throw new Exception( 'Redeclaration of $name' );
@@ -85,22 +85,7 @@ class so_WC_File extends so_Meta {
         $depends= array();
         if( $this->ext === 'jam.js' ):
             preg_match_all
-            (   '/with\s*\(\s*\$(\w+)\$\s*\)/'
-            ,   $this->content
-            ,   &$nspaces
-            ,   PREG_SET_ORDER
-            );
-            $donorList= array();
-            if( $nspaces ):
-                foreach( $nspaces as $ns ):
-                    $donor= $this->root->createPack( $ns[1] );
-                    if( !$donor->exists ) throw new Exception( "Undefined package [{$donor->id}] in [{$this->id}]" );
-                    array_unshift( $donorList, $donor );
-                endforeach;
-            endif;
-            
-            preg_match_all
-            (   '/(?:\$(\w+)\$\.)?\$(\w+)(?![\w$])/'
+            (   '/(?:\$(\w+)\.)(\w+)(?![\w$])/'
             ,   $this->content
             ,   &$matches
             ,   PREG_SET_ORDER
@@ -108,17 +93,69 @@ class so_WC_File extends so_Meta {
             if( $matches ) foreach( $matches as $item ):
                 list( $str, $packName, $moduleName )= $item;
                 
-                if( $packName ):
-                    $pack= $this->root->createPack( $packName );
-                    $module= $pack->createModule( $moduleName );
-                else:
-                    $module= null;
-                    foreach( $donorList as $pack ):
-                        $module= $pack->createModule( $moduleName );
-                        if( !$module->exists ) continue;
-                        break;
-                    endforeach;
-                endif;
+                $pack= $this->root->createPack( $packName );
+                if( !$pack->exists ) throw new Exception( "Pack [{$pack->id}] not found for [{$this->id}]" );
+                
+                $module= $pack->createModule( $moduleName );
+                if( !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
+                
+                $depends[ $module->id ]= $module;
+                
+                $module= $module->pack->mainModule;
+                if( $module->exists ) $depends[ $module->id ]= $module;
+            endforeach;
+        endif;
+        
+        if( $this->ext === 'php' ):
+            preg_match_all
+            (   '/class\s+\w+\s+extends\s+([a-zA-Z]+)_([a-zA-Z]+)/'
+            ,   $this->content
+            ,   &$matches1
+            ,   PREG_SET_ORDER
+            );
+            preg_match_all
+            (   '/\b([a-zA-Z]+)_([a-zA-Z]+)\w*::/'
+            ,   $this->content
+            ,   &$matches2
+            ,   PREG_SET_ORDER
+            );
+            $matches= array_merge( $matches1, $matches2 );
+            if( $matches ) foreach( $matches as $item ):
+                list( $str, $packName, $moduleName )= $item;
+                
+                $pack= $this->root->createPack( $packName );
+                $module= $pack->createModule( $moduleName );
+
+                if( !$module || !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
+                $depends[ $module->id ]= $module;
+
+                $module= $module->pack->mainModule;
+                if( $module->exists ) $depends[ $module->id ]= $module;
+            endforeach;
+        endif;
+        
+        if( $this->ext === 'xsl' ):
+            preg_match_all
+            (   '/<([a-zA-Z]+):([a-zA-Z-]+)/'
+            ,   $this->content
+            ,   &$matches1
+            ,   PREG_SET_ORDER
+            );
+            preg_match_all
+            (   '/\b([a-zA-Z]+):([a-zA-Z-]+)=[\'"]/'
+            ,   $this->content
+            ,   &$matches2
+            ,   PREG_SET_ORDER
+            );
+            $matches= array_merge( $matches1, $matches2 );
+            if( $matches ) foreach( $matches as $item ):
+                list( $str, $packName, $moduleName )= $item;
+                if( $packName == 'xsl' ) continue;
+                if( $packName == 'xmlns' ) continue;
+                if( $packName == 'xml' ) continue;
+                
+                $pack= $this->root->createPack( $packName );
+                $module= $pack->createModule( $moduleName );
 
                 if( !$module || !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
                 $depends[ $module->id ]= $module;

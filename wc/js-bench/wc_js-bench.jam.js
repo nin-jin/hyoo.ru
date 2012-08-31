@@ -1,29 +1,27 @@
-with( $jam$ )
-with( $wc$ )
-$Component
+$jam.Component
 (   'wc:js-bench_list'
 ,   new function( ){
         return function( nodeRoot ){
-            nodeRoot= $Node( nodeRoot )
+            nodeRoot= $jam.Node( nodeRoot )
             
             var nodeHeader=
-            $Node.parse( '<wc:js-bench_header title="ctrl + enter" />' )
-            .tail( $Node.parse( '<wc:js-bench_runner>Run ►' ) )
-            .tail( $Node.parse( '<wc:js-bench_column>inner (µs)' ) )
-            .tail( $Node.parse( '<wc:js-bench_column>outer (µs)' ) )
+            $jam.Node.parse( '<wc:js-bench_header title="ctrl + enter" />' )
+            .tail( $jam.Node.parse( '<wc:js-bench_runner>Run ►' ) )
+            .tail( $jam.Node.parse( '<wc:js-bench_column>inner (µs)' ) )
+            .tail( $jam.Node.parse( '<wc:js-bench_column>outer (µs)' ) )
             
             nodeRoot.head( nodeHeader )
 
-            //var nodeControls= $Node.Element( 'wc:hontrol' ).parent( nodeRoot )
-            //var nodeClone= $Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
-            //var nodeDelete= $Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
+            //var nodeControls= $jam.Node.Element( 'wc:hontrol' ).parent( nodeRoot )
+            //var nodeClone= $jam.Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
+            //var nodeDelete= $jam.Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
 
             var refresh=
             function( ){
                 var benchList= nodeRoot.childList( 'wc:js-bench' )
                 for( var i= 0; i < benchList.length(); ++i ){
-                    $Event()
-                    .type( '$jam$.$eventCommit' )
+                    $jam.Event()
+                    .type( '$jam.eventCommit' )
                     .scream( benchList.get( i ) )
                 }
             }
@@ -42,41 +40,39 @@ $Component
     }
 )
 
-with( $jam$ )
-with( $wc$ )
-$Component
+$jam.Component
 (   'wc:js-bench'
 ,   new function( ){
     
         var queue=
-        $TaskQueue()
+        $jam.TaskQueue()
         .latency( 100 )
     
         var parser= /^([\s\S]*?)_bench\.begin\(\)([\s\S]*)_bench\.end\(\)([\s\S]*)$/
     
         return function( nodeRoot ){
 
-            nodeRoot= $Node( nodeRoot )
-            var source= $String( nodeRoot.text() ).minimizeIndent().trim( /[\r\n]/ ).$
+            nodeRoot= $jam.Node( nodeRoot )
+            var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\r\n]/ ).$
 
             nodeRoot
             .clear()
             
             var nodeSource=
-            $Node.parse( '<wc:js-bench_source><wc:editor class=" hlight=js ">' + $htmlEscape( source ) )
+            $jam.Node.parse( '<wc:js-bench_source><wc:editor wc:editor_hlight="js">' + $jam.htmlEscape( source ) )
             .parent( nodeRoot )
             
             var nodeInner=
-            $Node.parse( '<wc:js-bench_result class=" source=inner " />' )
+            $jam.Node.parse( '<wc:js-bench_result class=" source=inner " />' )
             .parent( nodeRoot )
 
             var nodeOuter=
-            $Node.parse( '<wc:js-bench_result class=" source=outer " />' )
+            $jam.Node.parse( '<wc:js-bench_result class=" source=outer " />' )
             .parent( nodeRoot )
             
-            nodeRoot.surround( $Node.Fragment() ) // for chrome 12
+            nodeRoot.surround( $jam.Node.Fragment() ) // for chrome 12
             
-            var calc= $Thread( function( source ){
+            var calc= $jam.Thread( function( source ){
                 var startCompile= new Date
                     var proc= new Function( '', source )
                 var endCompile= new Date
@@ -167,16 +163,16 @@ $Component
             var clone=
             function( ){
                 var node=
-                $Node.Element( 'wc:js-bench' )
+                $jam.Node.Element( 'wc:js-bench' )
                 .text( nodeSource.text() )
                 nodeRoot.prev( node )
             }
             
             var onCommit=
-            nodeRoot.listen( '$jam$.$eventCommit', schedule )
+            nodeRoot.listen( '$jam.eventCommit', schedule )
             
             var onClone=
-            nodeRoot.listen( '$jam$.$eventClone', clone )
+            nodeRoot.listen( '$jam.eventClone', clone )
             
             return new function( ){
                 this.destroy=

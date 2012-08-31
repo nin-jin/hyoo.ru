@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$Tree'
-,   $Class( function( $Tree, proto ){
+$jam.define
+(   '$jam.Tree'
+,   $jam.Class( function( klass, proto ){
         
         proto.constructor=
         function( data ){
@@ -9,14 +8,14 @@ $define
             return this
         }
         
-        $Tree.Parser=
+        klass.Parser=
         function( syntax ){
             if( !syntax ) syntax= {}
             var lineSep= syntax.lineSep || ';'
             var valSep= syntax.valSep || '='
             var oneIndent= syntax.oneIndent || '+'
             var keySep= syntax.keySep || '_'
-            var lineParser= $RegExp.build( '^((?:', oneIndent, ')*)(.*?)(?:', valSep, '(.*))?$' ).$
+            var lineParser= $jam.RegExp.build( '^((?:', oneIndent, ')*)(.*?)(?:', valSep, '(.*))?$' ).$
 
             var parser=
             function( str ){
@@ -45,7 +44,7 @@ $define
                     cur.push( val[0] )
                 }
                 
-                return $Tree( data )
+                return $jam.Tree( data )
             }
             
             return parser

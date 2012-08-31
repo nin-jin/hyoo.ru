@@ -1,15 +1,15 @@
 <?php
 
-class so_Dom
-extends so_Meta
+class so_dom
+extends so_meta
 implements Countable, ArrayAccess, IteratorAggregate
 {
 
-    static function create( $DOMNode= null ){
+    static function make( $DOMNode= null ){
         
         if( !isset( $DOMNode ) ):
             return new self;
-        elseif( $DOMNode instanceof so_Dom ):
+        elseif( $DOMNode instanceof so_dom ):
             return $DOMNode;
         elseif( is_string( $DOMNode ) ):
             $DOMNode= DOMDocument::loadXML( $DOMNode, LIBXML_COMPACT )->documentElement;
@@ -18,15 +18,15 @@ implements Countable, ArrayAccess, IteratorAggregate
         elseif( $DOMNode instanceof DOMNode ):
             $DOMNode= $DOMNode->cloneNode( true );
         else:
-            return so_Dom::create()->append( $DOMNode )->root;
+            return so_dom::make()->append( $DOMNode )->root;
         endif;
         
-        return self::wrap( $DOMNode );
+        return so_dom::wrap( $DOMNode );
     }
     
     static function wrap( $DOMNode ){
         if( !( $DOMNode instanceof DOMNode ) ) throw new Exception( "[{$DOMNode}] is not a DOMNode" );
-        $dom= new self;
+        $dom= new so_dom;
         $dom->DOMNode= $DOMNode;
         return $dom;
     }
@@ -45,7 +45,7 @@ implements Countable, ArrayAccess, IteratorAggregate
     function get_doc( $doc ){
         if( isset( $doc ) ) return $doc;
         $DOMDocument= $this->DOMNode->ownerDocument;
-        if( $DOMDocument ) return so_Dom::wrap( $this->DOMDocument );
+        if( $DOMDocument ) return so_dom::wrap( $this->DOMDocument );
         return $this;
     }
 
@@ -54,7 +54,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         if( isset( $root ) ) return $root;
         $rootElement= $this->DOMDocument->documentElement;
         if( !$rootElement ) throw new Exception( "Document have not a root element" );
-        return so_Dom::wrap( $rootElement );
+        return so_dom::wrap( $rootElement );
     }
 
     protected $_DOMDocument;
@@ -95,14 +95,14 @@ implements Countable, ArrayAccess, IteratorAggregate
 
     protected $_childList;
     function get_childList( $childList ){
-        $list= new so_Dom_List;
+        $list= new so_dom_List;
         $list->DOMNodeList= $this->DOMNode->childNodes;
         return $list;
     }
 
     protected $_attrList;
     function get_attrList( $attrList ){
-        $list= new so_Dom_List;
+        $list= new so_dom_List;
         $list->DOMNodeList= $this->DOMNode->attributes;
         return $list;
     }
@@ -130,6 +130,13 @@ implements Countable, ArrayAccess, IteratorAggregate
                     $arg= $arg->DOMNode;
                 endif;
                 
+                if( $arg instanceof DOMDocument ):
+                    foreach( $arg->childNodes as $node ):
+                        $this->append( $node );
+                    endforeach;
+                    continue 1;
+                endif;
+                
                 if( $arg instanceof DOMNode ):
                     $arg= $this->DOMDocument->importNode( $arg->cloneNode( true ), true );
                     $DOMNode->appendChild( $arg );
@@ -145,7 +152,7 @@ implements Countable, ArrayAccess, IteratorAggregate
                 
                 if( $key[0] === '#' ):
                     if( !is_scalar( $value ) ):
-                        $value= '' . so_Dom::create( $value )->root();
+                        $value= '' . so_dom::make( $value )->root();
                     endif;
 
                     if( $key === '#text' ):
@@ -167,7 +174,7 @@ implements Countable, ArrayAccess, IteratorAggregate
                     $name= substr( $key, 1 );
                     
                     if( !is_scalar( $value ) ):
-                        $value= '' . so_Dom::create( $value )->root();
+                        $value= '' . so_dom::make( $value )->root();
                     endif;
 
                     $DOMNode->setAttribute( $name, $value );
@@ -184,18 +191,47 @@ implements Countable, ArrayAccess, IteratorAggregate
                         endforeach;
                         $value= implode( " ", $valueList );
                     endif;
-
+                    
                     $content= $this->DOMDocument->createProcessingInstruction( $name, $value );
                     $DOMNode->appendChild( $content );
                     continue 1;
                 endif;
                 
+                if( $key === '!DOCTYPE' ):
+                    $name= substr( $key, 1 );
+                    
+                    if( !$value ):
+                        $value= array();
+                    endif;
+                    
+                    $implementation= $this->DOMDocument->implementation;
+                    $content= $implementation->createDocumentType( $value[ 'name' ], $value[ 'public' ], $value[ 'system' ] );
+                    $DOMNode->appendChild( $content ); // FIXME: не работает =(
+                    continue 1;
+                endif;
+                
                 $element= $this->DOMDocument->createElement( $key );
-                so_Dom::wrap( $element )->append( $value );
+                so_dom::wrap( $element )->append( $value );
                 $DOMNode->appendChild( $element );
             endforeach;
 
         endforeach;
+        return $this;
+    }
+    
+    function select( $query ){
+        $xpath = new DOMXPath( $this->doc->DOMNode );
+        $found= $xpath->query( $query, $this->DOMNode );
+        $nodeList= array();
+        foreach( $found as $node ):
+            $nodeList[]= so_dom::make( $node );
+        endforeach;
+        return $nodeList;
+    }
+    
+    function drop( ){
+        echo '[' . htmlentities( $this->root ) . ']';
+        $this->DOMNode->parentNode->removeChild( $this->DOMNode );
         return $this;
     }
     
@@ -221,12 +257,12 @@ implements Countable, ArrayAccess, IteratorAggregate
     function offsetGet( $key ){
         if( $key[0] === '@' ):
             $name= substr( $key, 1 );
-            return so_Dom::wrap( $this->DOMNode->getAttributeNode( $name ) );
+            return so_dom::wrap( $this->DOMNode->getAttributeNode( $name ) );
         endif;
 
         foreach( $this->DOMNode->childNodes as $child ):
             if( $child->nodeName !== $key ) continue;
-            return so_Dom::wrap( $child );
+            return so_dom::wrap( $child );
         endforeach;
         
         return null;
@@ -277,7 +313,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $list[]= $child;
         endforeach;
         
-        return so_Dom_Iterator::create( $list );
+        return so_dom_Iterator::make( $list );
     }
     
 }

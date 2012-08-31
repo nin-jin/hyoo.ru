@@ -1,0 +1,49 @@
+lang\:js {
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+}
+
+lang\:js_remark {
+    color: #999;
+    white-space: pre;
+}
+
+lang\:js_string {
+    color: #393;
+    white-space: pre;
+}
+
+lang\:js_internal {
+    color: #333;
+}
+
+lang\:js_external {
+    font-weight: bold;
+}
+
+lang\:js_keyword {
+    color: #339;
+    font-weight: bold;
+}
+
+lang\:js_number {
+    color: #c30;
+    white-space: pre;
+}
+
+lang\:js_regexp {
+    color: #939;
+    white-space: pre;
+}
+
+lang\:js_bracket {
+    font-weight: bold;
+    color: #666;
+    white-space: pre;
+}
+
+lang\:js_operator {
+    font-weight: bold;
+    color: #066;
+    white-space: pre;
+}

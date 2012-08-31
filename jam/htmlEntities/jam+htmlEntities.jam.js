@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$htmlEntities'
+$jam.define
+(   '$jam.htmlEntities'
 ,   {    'nbsp': ' '
     ,    'amp':  '&'
     ,    'lt':   '<'

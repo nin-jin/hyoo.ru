@@ -1,0 +1,364 @@
+lang\:md {
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+lang\:md_embed {
+	display: block;
+}
+
+.wc_lang_md_embed-object {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: 1px solid #999;
+}
+
+lang\:md_embed img {
+	max-width: 100%;
+	border: none;
+	outline: 1px solid #999;
+}
+
+lang\:md_embed-href {
+    color: #66b;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+    font-family: 'Courier New', monospace;
+	font-size: 10pt;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_embed-href {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_embed-marker {
+    color: #666;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+    font-family: 'Courier New', monospace;
+	font-size: 10pt;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_embed-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_image {
+}
+
+lang\:md_image object {
+	max-width: 100%;
+}
+
+lang\:md_image-href {
+    color: #66b;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+    font-family: 'Courier New', monospace;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_image-href {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_link {
+    color: blue;
+    font-family: 'Courier New', monospace;
+    display: inline-block;
+    display: inline\9; /*ie*/
+}
+
+lang\:md_link > a:hover {
+	/*text-decoration: none;*/
+}
+
+lang\:md_link-title {
+    font-family: serif;
+	white-space: nowrap;
+}
+
+lang\:md_link-href {
+    font-size: 13pt;
+    color: #66b;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+
+wc\:editor[wc\:editor_active="true"] lang\:md_link-href {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_link-marker {
+    color: #999;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_link-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_author {
+    color: #006;
+}
+
+lang\:md_indent {
+    font-size: 12pt;
+    font-family: 'Courier New', monospace;
+}
+
+lang\:md_para {
+    font-family: 'Times New Roman', serif;
+	overflow: hidden;
+}
+
+lang\:md_header-3 {
+	color: #339;
+	font-size: 20pt;
+    font-family: 'Times New Roman', serif;
+}
+
+lang\:md_header-2 {
+	color: #339;
+	font-size: 26pt;
+    font-family: 'Times New Roman', serif;
+}
+
+lang\:md_header-1 {
+	color: #339;
+	font-size: 36pt;
+    font-family: 'Times New Roman', serif;
+}
+
+lang\:md_header-marker {
+    font-size: 12pt;
+    opacity: 0;
+    font-family: 'Courier New', monospace;
+    color: #666;
+}
+
+wc\:editor[wc\:editor_active="true"] lang\:md_header-marker {
+	opacity: 1;
+}
+
+lang\:md_quote {
+    color: green;
+}
+
+lang\:md_quote-marker {
+    color: #060;
+    font-size: 12pt;
+    opacity: 0;
+    font-family: 'Courier New', monospace;
+}
+
+wc\:editor[wc\:editor_active="true"] lang\:md_quote-marker {
+	opacity: 1;
+}
+
+lang\:md_quote-inline {
+    color: green;
+}
+
+lang\:md_quote-inline-marker {
+    color: #060;
+}
+
+lang\:md_math {
+	color: #a30;
+}
+
+lang\:md_table {
+    display: table;
+    empty-cells: show;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_table {
+	display: inline;
+	border: none;
+}
+
+lang\:md_table-row {
+    display: table-row;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_table-row {
+    display: inline;
+}
+
+lang\:md_table-row-sep {
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+    font-size: 14pt;
+    font-family: 'Courier New', monospace;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_table-row-sep {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_table-cell {
+    display: table-cell;
+	padding: 0 .25em;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_table-cell {
+	display: inline;
+	border: none;
+	padding: 0;
+}
+
+lang\:md_table-marker {
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+    font-size: 14pt;
+    font-family: 'Courier New', monospace;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_table-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_code {
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    line-height: 1;
+    font-size: 12pt;
+}
+lang\:md_code:after {
+	display: block;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	left: 1.75em;
+	border: 1px solid #ddd;
+	content: '';
+	z-index: -1;
+}
+
+lang\:md_code-marker {
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+	font-size: 10pt;
+    font-family: 'Courier New', monospace;
+    color: #666;
+}
+
+wc\:editor[wc\:editor_active="true"] lang\:md_code-marker {
+	position: static;
+	opacity: 1;
+}
+
+lang\:md_code-lang {
+	color: #666;
+	background: #eee;
+	border: 1px solid #ddd;
+	border-radius: 1px;
+	padding: 0 .2em;
+	font-size: 10pt;
+	margin-bottom: .5em;
+}
+
+lang\:md_code-content {
+}
+
+lang\:md_escaping-marker {
+    color: #999;
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_escaping-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_emphasis {
+    font-style: italic;
+}
+
+lang\:md_emphasis-marker {
+    color: #999;
+    font-family: 'Courier New', monospace;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+	position: relative;
+	font-size: 6pt;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_emphasis-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_strong {
+    font-weight: bold;
+}
+
+lang\:md_strong-marker {
+    color: #999;
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_strong-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_super {
+    vertical-align: super;
+	font-size: .75em;
+}
+
+lang\:md_super-marker {
+    color: #999;
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_super-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_sub {
+    vertical-align: sub;
+	font-size: .75em;
+}
+
+lang\:md_sub-marker {
+    color: #999;
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    position: absolute;
+	opacity:  0;
+	z-index: -1;
+}
+wc\:editor[wc\:editor_active="true"] lang\:md_sub-marker {
+    position: static;
+	opacity: 1;
+}
+
+lang\:md_remark {
+    color: #666;
+}
+

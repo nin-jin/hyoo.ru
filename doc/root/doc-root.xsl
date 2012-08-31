@@ -8,16 +8,16 @@
     >
 
 <xsl:template match=" doc:pack ">
-    <wc:vmenu-branch>
+    <wc:vmenu_branch>
         <xsl:apply-templates />
-    </wc:vmenu-branch>
+    </wc:vmenu_branch>
 </xsl:template>
 
 <xsl:template match=" doc:file ">
     <a href="{ doc:link }" class=" reset=true ">
-        <wc:vmenu-leaf>
+        <wc:vmenu_leaf>
             <xsl:value-of select=" doc:title " />
-        </wc:vmenu-leaf>
+        </wc:vmenu_leaf>
     </a>
 </xsl:template>
 
@@ -43,10 +43,10 @@
             <xsl:copy>
                 <xsl:apply-templates select=" @* " />
                 <wc:desktop>
-                    <wc:sidebar class=" align=left ">
-                        <wc:vmenu-root>
+                    <wc:sidebar wc:sidebar_align="left">
+                        <wc:vmenu_root>
                             <xsl:apply-templates select=" document( '../-mix/index.doc.xml', / ) / * / node() " />
-                        </wc:vmenu-root>
+                        </wc:vmenu_root>
                     </wc:sidebar>
                 
                     <wc:spacer>
@@ -56,11 +56,10 @@
                                 <xsl:apply-templates />
                                 
                             </wc:spacer>
-                            <wc:spacer>
-    
-                                <wc:disqus>
+                            <!--<wc:spacer>-->
+                                <!--<wc:disqus>
                                     ...
-                                </wc:disqus>
+                                </wc:disqus>-->
                                 <!--<div id="disqus_thread">-->
                                 <!--    <script>-->
                                 <!--        disqus_developer= 1-->
@@ -68,8 +67,7 @@
                                 <!--    </script>-->
                                 <!--    <script src="http://nin-jin.disqus.com/embed.js" async="async" defer="defer">//</script>-->
                                 <!--</div>-->
-                                
-                            </wc:spacer>
+                            <!--</wc:spacer>-->
                         </wc:paper>
                     </wc:spacer>
                     

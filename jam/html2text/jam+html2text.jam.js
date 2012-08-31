@@ -1,8 +1,7 @@
-with( $jam$ )
-$define
-(   '$html2text'
+$jam.define
+(   '$jam.html2text'
 ,   function( html ){
-        return $htmlDecode
+        return $jam.htmlDecode
         (   String( html )
             .replace( /<div><br[^>]*>/gi, '\n' )
             .replace( /<br[^>]*>/gi, '\n' )

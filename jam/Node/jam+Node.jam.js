@@ -1,46 +1,44 @@
-with( $jam$ )
-$define
-(   '$Node'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Node'
+,   $jam.Class( function( klass, proto ){
         
         klass.Element=
         function( name ){
-            return klass.create( $doc().createElement( name ) )
+            return klass.create( $jam.doc().createElement( name ) )
         }
         
         klass.Text=
         function( str ){
-            return klass.create( $doc().createTextNode( str ) )
+            return klass.create( $jam.doc().createTextNode( str ) )
         }
         
         klass.Comment=
         function( str ){
-            return klass.create( $doc().createComment( str ) )
+            return klass.create( $jam.doc().createComment( str ) )
         }
         
         klass.Fragment=
         function( ){
-            return klass.create( $doc().createDocumentFragment() )
+            return klass.create( $jam.doc().createDocumentFragment() )
         }
         
         proto.text=
-        $Poly
+        $jam.Poly
         (   function( ){
-                return $html2text( this.$.innerHTML )
+                return $jam.html2text( this.$.innerHTML )
             }
         ,   new function(){
-                var fieldName= $support.htmlModel.select({ w3c: 'textContent', ms: 'innerText' })
                 return function( val ){
                     val= String( val )
                     if( this.text() === val ) return this
-                    this.$[ fieldName ]= val
+                    this.$.textContent= val
                     return this
                 }
             }
         )
         
         proto.html=
-        $Poly
+        $jam.Poly
         (   function( ){
                 var val= this.$.innerHTML
                 .replace
@@ -71,41 +69,33 @@ $define
         }
         
         proto.name=
-        $support.htmlModel.select
-        (   {   'w3c': function( ){
-                    return this.$.nodeName.toLowerCase()
-                }
-            ,   'ms': function( ){
-                    var scope= this.$.scopeName
-                    if( scope === 'HTML' ) scope= ''
-                    var name= this.$.nodeName.toLowerCase()
-                    return scope ? scope + ':' + name : name
-                }
-            }
-        )
+        function( ){
+            return this.$.nodeName.toLowerCase()
+        }
         
         proto.attr=
-        $Poly
+        $jam.Poly
         (   null
         ,   function( name ){
                 return this.$.getAttribute( name )
             }
         ,   function( name, val ){
                 this.$.setAttribute( String( name ), String( val ) )
+                this.$.className+= ''
                 return this
             }    
         )
         
         proto.state=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.param( [] )
             }
         ,   function( key ){
-                return $Hiqus({ splitterChunks: ' ' }).merge( this.$.className || '' ).get( key )
+                return $jam.Hiqus({ splitterChunks: ' ' }).merge( this.$.className || '' ).get( key )
             }
         ,   function( key, value ){
-                this.$.className= $Hiqus({ splitterChunks: ' ' }).merge( this.$.className ).put( key, value )
+                this.$.className= $jam.Hiqus({ splitterChunks: ' ' }).merge( this.$.className ).put( key, value )
                 return this
             }
         )
@@ -145,9 +135,11 @@ $define
         }
         
         proto.editable=
-        $Poly
+        $jam.Poly
         (   function( ){
-                return this.$.contentEditable
+                var editable= this.$.contentEditable
+                if( editable == 'inherit' ) return this.parent().editable()
+                return editable == 'true'
             }
         ,   function( val ){
                 this.$.contentEditable= val
@@ -164,7 +156,7 @@ $define
                 filtered.push( node )
             } while( node= node.parent() )
             
-            return $NodeList( filtered )
+            return $jam.NodeList( filtered )
         }
         
         proto.childList=
@@ -177,45 +169,28 @@ $define
                 filtered.push( i )
             }
             
-            return $NodeList( filtered )
+            return $jam.NodeList( filtered )
         }
         
         proto.descList=
-        $support.htmlModel.select(
-        {   'w3c': function( name ){
-                var list= this.$.getElementsByTagName( name )
-                var filtered= []
-                
-                for( var i= 0; i < list.length; ++i ){
-                    filtered.push( list[ i ] )
-                }
-                
-                return $NodeList( filtered )
+        function( name ){
+            var list= this.$.getElementsByTagName( name )
+            var filtered= []
+            
+            for( var i= 0; i < list.length; ++i ){
+                filtered.push( list[ i ] )
             }
-        ,   'ms': function( name ){
-                var chunks= /(?:(\w+):)?([-\w]+)/.exec( name )
-                var scopeName= chunks && chunks[1] || ''
-                var localName= chunks && chunks[2] || name
-                var list= this.$.getElementsByTagName( localName )
-
-                var filtered= []
-                for( var i= 0; i < list.length; ++i ){
-                    var node= list[ i ]
-                    if( scopeName && ( scopeName !== node.scopeName.toLowerCase() ) ) continue
-                    filtered.push( node )
-                }
-                
-                return $NodeList( filtered )
-            }
-        } )
+            
+            return $jam.NodeList( filtered )
+        }
 
         proto.parent= 
-        $Poly
+        $jam.Poly
         (   function( ){
-                return $Node( this.$.parentNode )
+                return $jam.Node( this.$.parentNode )
             }
         ,   function( node ){
-                node= $raw( node )
+                node= $jam.raw( node )
                 var parent= this.$.parentNode
                 if( node ){
                     if( parent === node ) return this
@@ -240,7 +215,7 @@ $define
         
         proto.surround=
         function( node ){
-            var node= $raw( node )
+            var node= $jam.raw( node )
             var parent= this.$.parentNode
             var next= this.$.nextSibling
             node.appendChild( this.$ )
@@ -248,37 +223,63 @@ $define
             return this
         }
         
+        proto.dissolve=
+        function( ){
+            for( var head; head= this.head(); ){
+                this.prev( head )
+            }
+            //if( this.name() === 'br' ) return this;//this.prev( $jam.Node.Text( '\r\n' ) )
+            this.parent( null )
+            return this
+        }
+        
+        proto.dissolveTree=
+        function( ){
+            var endNode= this.follow()
+            var curr= this
+            while( curr ){
+                curr= curr.delve()
+                if( !curr ) break;
+                if( curr.$ === endNode.$ ) break;
+                if( curr.name() === '#text' ) continue;
+                var next= curr.delve()
+                curr.dissolve()
+                curr= next
+            }
+            return this
+        }
+        
         proto.head=
-        $Poly
+        $jam.Poly
         (   function(){
-                return $Node( this.$.firstChild )
+                return $jam.Node( this.$.firstChild )
             }
         ,   function( node ){
-                this.$.insertBefore( $raw( node ), this.$.firstChild )
+                this.$.insertBefore( $jam.raw( node ), this.$.firstChild )
                 return this
             }
         )
         
         proto.tail=
-        $Poly
+        $jam.Poly
         (   function(){
-                return $Node( this.$.lastChild )
+                return $jam.Node( this.$.lastChild )
             }
         ,   function( node ){
-                this.$.appendChild( $raw( node ) )
+                this.$.appendChild( $jam.raw( node ) )
                 return this
             }
         )
         
         proto.next=
-        $Poly
+        $jam.Poly
         (   function(){
-                return $Node( this.$.nextSibling )
+                return $jam.Node( this.$.nextSibling )
             }
         ,   function( node ){
                 var parent= this.$.parentNode
                 var next= this.$.nextSibling
-                parent.insertBefore( $raw( node ), next ) 
+                parent.insertBefore( $jam.raw( node ), next ) 
                 return this
             }   
         )
@@ -311,12 +312,12 @@ $define
         }
 
         proto.prev=
-        $Poly
+        $jam.Poly
         (   function(){
-                return $Node( this.$.previousSibling )
+                return $jam.Node( this.$.previousSibling )
             }
         ,   function( node ){
-                node= $raw( node )
+                node= $jam.raw( node )
                 var parent= this.$.parentNode
                 parent.insertBefore( node, this.$ ) 
                 return this
@@ -324,7 +325,7 @@ $define
         )
         
         proto.inDom=
-        $Poly
+        $jam.Poly
         (   function( ){
                 var doc= node.$.ownerDocument
                 var node= this
@@ -344,7 +345,7 @@ $define
                 var child= parent.head()
                 if( !child ) return null
                 if( !child.next() ) return child
-                var fragment= $Node.Fragment()
+                var fragment= $jam.Node.Fragment()
                 while( child= parent.head() ) fragment.tail( child )
                 return fragment
             }
@@ -354,24 +355,24 @@ $define
         new function( ){
             var parent= klass.Element( 'div' )
             return function( ){
-                parent.clear().tail( this.clone() )
+                parent.clear().tail( this.cloneTree() )
                 return parent.html()
             }
         }
         
         proto.clone=
         function( ){
-            return $Node( this.$.cloneNode( false ) )
+            return $jam.Node( this.$.cloneNode( false ) )
         }
 
         proto.cloneTree=
         function( ){
-            return $Node( this.$.cloneNode( true ) )
+            return $jam.Node( this.$.cloneNode( true ) )
         }
         
         proto.listen=
         function( eventName, handler ){
-            return $Observer()
+            return $jam.Observer()
             .eventName( eventName )
             .node( this )
             .handler( handler )

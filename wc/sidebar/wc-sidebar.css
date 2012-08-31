@@ -2,12 +2,13 @@ wc\:sidebar {
     position: relative;
     z-index: 1;
     padding: 2%;
+    text-align: left;
 }
 
-wc\:sidebar.align\=left {
+[wc\:sidebar_align="left"] {
     float: left;
 }
 
-wc\:sidebar.align\=right {
+[wc\:sidebar_align="right"] {
     float: right;
 }

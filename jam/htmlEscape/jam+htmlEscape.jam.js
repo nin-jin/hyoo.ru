@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$htmlEscape'
+$jam.define
+(   '$jam.htmlEscape'
 ,   function( str ){
         return String( str )
         .replace( /&/g, '&amp;' )

@@ -1,0 +1,56 @@
+lang\:css {
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+}
+
+lang\:css_remark {
+    color: #bbb;
+    white-space: pre-wrap;
+}
+
+lang\:css_selector {
+}
+
+lang\:css_tag {
+    color: #a3a;
+    font-weight: bold;
+    white-space: pre;
+}
+
+lang\:css_id {
+    color: red;
+    white-space: pre;
+}
+
+lang\:css_class {
+    color: #d66;
+    font-weight: bold;
+    white-space: pre;
+}
+
+lang\:css_pseudo {
+    color: #399;
+    white-space: pre;
+}
+
+lang\:css_string {
+    color: #393;
+    white-space: pre-wrap;
+}
+
+lang\:css_bracket {
+    color: #333;
+    font-weight: bold;
+    white-space: pre;
+}
+
+lang\:css_property {
+    color: #339;
+    font-weight: bold;
+    white-space: pre;
+}
+
+lang\:css_value {
+    color: black;
+    white-space: pre-wrap;
+}

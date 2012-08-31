@@ -1,8 +1,8 @@
-with( $jam$ )
+with( $jam )
 $Component
 (   'snippet:root'
 ,   function( nodeRoot ){
-        nodeRoot= $Node( nodeRoot )
+        nodeRoot= $jam.Node( nodeRoot )
         var nodeContent= nodeRoot.descList( 'snippet:content' ).get( 0 )
         var nodeLink= nodeRoot.descList( 'snippet:link' ).get( 0 )
         
@@ -16,8 +16,8 @@ $Component
                 var pair= chunks[i].split( '=' )
                 if( pair.length < 2 ) continue
                 var source= decodeURIComponent( pair[1] ).replace( /\t/, '    ' )
-                var content= $Node.parse( '<wc:hlight class=" editable=true " />' ).text( source )
-                $Node.Element( pair[0] ).tail( content ).parent( nodeContent )
+                var content= $jam.Node.parse( '<wc:hlight class=" editable=true " />' ).text( source )
+                $jam.Node.Element( pair[0] ).tail( content ).parent( nodeContent )
             }
         }
         
@@ -41,14 +41,14 @@ $Component
                 nodeLink.clear()
                 googl($doc().location.href,function( href ){
                     if( href ){
-                        $Node.Element( 'a' )
+                        $jam.Node.Element( 'a' )
                         .text( href )
                         .attr( 'href', href )
                         .parent( nodeLink )
                     } else {
-                        var form= $Node.parse( '<form method="post" target="_blank" action="http://goo.gl/action/shorten">' ).parent( nodeLink )
-                        var url= $Node.parse( '<input type="hidden" name="url" />' ).attr( 'value', $doc().location.href ).parent( form )
-                        var submit= $Node.parse( '<wc:button><button type="submit">get short link' ).parent( form ) 
+                        var form= $jam.Node.parse( '<form method="post" target="_blank" action="http://goo.gl/action/shorten">' ).parent( nodeLink )
+                        var url= $jam.Node.parse( '<input type="hidden" name="url" />' ).attr( 'value', $doc().location.href ).parent( form )
+                        var submit= $jam.Node.parse( '<wc:button><button type="submit">get short link' ).parent( form ) 
                     }
                 })
             }
@@ -57,16 +57,16 @@ $Component
         load()
         
         var onURIChanged=
-        $Node( $doc() ).listen( '$jam$.$eventURIChanged', load )
+        $jam.Node( $doc() ).listen( '$jam.eventURIChanged', load )
         
         var onCommit=
-        nodeRoot.listen( '$jam$.$eventCommit', save )
+        nodeRoot.listen( '$jam.eventCommit', save )
         
         var onDelete=
-        nodeRoot.listen( '$jam$.$eventDelete', save )
+        nodeRoot.listen( '$jam.eventDelete', save )
         
         var onEdit=
-        nodeRoot.listen( '$jam$.$eventEdit', function( ){
+        nodeRoot.listen( '$jam.eventEdit', function( ){
             nodeLink.clear()
         })
         

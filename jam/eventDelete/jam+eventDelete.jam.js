@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$eventDelete'
+$jam.define
+(   '$jam.eventDelete'
 ,   new function( ){
         var handler=
         function( event ){
@@ -8,11 +7,11 @@ $define
             if( event.keyMeta() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 46 ) return
-            if( !$glob().confirm( 'Are you sure to delee this?' ) ) return
-            $Event().type( '$jam$.$eventDelete' ).scream( event.target() )
+            if( !$jam.glob().confirm( 'Are you sure to delee this?' ) ) return
+            $jam.Event().type( '$jam.eventDelete' ).scream( event.target() )
         }
         
-        $Node( $doc().documentElement )
+        $jam.Node( $jam.doc().documentElement )
         .listen( 'keyup', handler )
     }
 )

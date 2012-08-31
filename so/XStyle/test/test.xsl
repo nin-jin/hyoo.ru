@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     
-<!--from ./test-inc.xs--><!--/from ./test-inc.xs-->
+<!--from ./test-inc.xs-->
+    <xsl:strip-space elements=" ELEMENT NAMES " />
+    <xsl:preserve-space elements=" ELEMENT NAMES " />
+    <xsl:key name="KEY_NAME" match=" MATCH/XPATH " use=" USE/XPATH  " />
+    <?attr-set- NAME \ ATTRIBUTE SETS ?>
+        <?attr ATTR/NAME \ VALUE/XPATH ?>
+        <xsl:attribute name="ATTR/NAME">
+            ATTR/VALUE
+        </xsl:attribute>
+    <?attr-set.?>
+<!--/from ./test-inc.xs-->
 
     <xsl:template match=" MATCH/XPATH  " mode="MODE_NAME" >
         <xsl:param name="NAME" select="  XPATH " />

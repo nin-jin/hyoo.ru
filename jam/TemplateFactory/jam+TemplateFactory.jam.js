@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$TemplateFactory'
+$jam.define
+(   '$jam.TemplateFactory'
 ,   new function( ){
 
         var factory= function( arg ){
@@ -9,23 +8,23 @@ $define
             var open= arg.tokens && arg.tokens[0] || '{'
             var close= arg.tokens && arg.tokens[1] || '}'
             
-            var openEncoded= $RegExp.escape( open )
-            var closeEncoded= $RegExp.escape( close )
+            var openEncoded= $jam.RegExp.escape( open )
+            var closeEncoded= $jam.RegExp.escape( close )
             
             var Selector= arg.Selector || arg.encoder && factory.Selector( arg.encoder ) || factory.Selector()
     
-            var parse= $Parser( new function(){
-                this[ $String( openEncoded ).mult( 2 ).$ ]=
-                $Value( open )
+            var parse= $jam.Parser( new function(){
+                this[ openEncoded + openEncoded ]=
+                $jam.Value( open )
                 
-                this[ $String( closeEncoded ).mult( 2 ).$ ]=
-                $Value( close )
+                this[ closeEncoded +closeEncoded ]=
+                $jam.Value( close )
                 
                 this[ '(' + openEncoded + '([^' + openEncoded + closeEncoded + ']*)' + closeEncoded + ')' ]=
                 Selector
             })
     
-            return $Class( function( klass, proto ){
+            return $jam.Class( function( klass, proto ){
                 
                 proto.constructor=
                 function( str ){
@@ -57,9 +56,9 @@ $define
         }
         
         factory.Selector=
-        $Poly
-        (   $Lazy( function( ){
-                return $Value( factory.Selector( $Pipe() ) )
+        $jam.Poly
+        (   $jam.Lazy( function( ){
+                return $jam.Value( factory.Selector( $jam.Pipe() ) )
             })
         ,   function( proc ){
                 return function( str, key ){
@@ -70,7 +69,7 @@ $define
                             return selector
                         }
                     }
-                    selector.toString= $Value( str )
+                    selector.toString= $jam.Value( str )
                     return selector
                 }
             }

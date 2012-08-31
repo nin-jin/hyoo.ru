@@ -1,2 +1,1 @@
-with( $jam$ )
-$jam$.$glob= $Value( this )
+$jam.glob= $jam.Value( this )

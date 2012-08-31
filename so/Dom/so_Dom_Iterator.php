@@ -1,12 +1,12 @@
 <?php
 
-class so_Dom_Iterator
-extends so_Meta
+class so_dom_iterator
+extends so_meta
 implements Iterator
 {
 
-    static function create( $list ){
-        $iterator= new self;
+    static function make( $list ){
+        $iterator= new so_dom_iterator;
         $iterator->list= $list;
         return $iterator;
     }
@@ -27,7 +27,7 @@ implements Iterator
     }
 
     function current( ){
-        return so_Dom::wrap( $this->iterator->current() );
+        return so_dom::wrap( $this->iterator->current() );
     }
     
     function key( ){

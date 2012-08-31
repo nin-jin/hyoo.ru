@@ -1,8 +1,7 @@
-with( $jam$ )
-$Component
+$jam.Component
 (   'a'
 ,   function( el ){
-        var isTarget= ( el.href == $doc().location.href )
-        $Node( el ).state( 'target', isTarget )
+        var isTarget= ( el.href == $jam.doc().location.href )
+        $jam.Node( el ).state( 'target', isTarget )
     }
 )

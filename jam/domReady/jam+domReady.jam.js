@@ -1,20 +1,9 @@
-with( $jam$ )
-$define
-(   '$domReady'
+$jam.define
+(   '$jam.domReady'
 ,   function( ){
-        var state= $doc().readyState
+        var state= $jam.doc().readyState
         if( state === 'loaded' ) return true
         if( state === 'complete' ) return true
         return false
     }
 )
-
-with( $jam$ )
-$domReady.then=
-function( proc ){
-    var checker= function( ){
-        if( $domReady() ) proc()
-        else $schedule( 10, checker )
-    }
-    checker()
-}

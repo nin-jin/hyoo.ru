@@ -1,11 +1,10 @@
-with( $jam$ )
-$define
-(   '$htmlDecode'
+$jam.define
+(   '$jam.htmlDecode'
 ,   new function(){
-        var fromCharCode= $glob().String.fromCharCode
-        var parseInt= $glob().parseInt
+        var fromCharCode= $jam.glob().String.fromCharCode
+        var parseInt= $jam.glob().parseInt
         var replacer= function( str, isHex, numb, name ){
-            if( name ) return $htmlEntities[ name ] || str
+            if( name ) return $jam.htmlEntities[ name ] || str
             if( isHex ) numb= parseInt( numb, 16 )
             return fromCharCode( numb )
         }

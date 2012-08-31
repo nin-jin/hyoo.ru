@@ -41,6 +41,22 @@ class so_Compile_CSS {
             $head.= implode( "\n", $namespaceList[0] );
             $content.= "/* @import url( '../../{$file->id}' ); */\n{$file->content}\n";
         endforeach;
-        $mixModule->createFile( 'compiled.css' )->content= $head . $content;
+        $compiled= $head . $content;
+        $mixModule->createFile( 'compiled.css' )->content= $compiled;
+        
+        $minified= $compiled;
+        $minified= preg_replace( '~/\\*[\w\W]*?\\*/~', '', $minified );
+        $minified= preg_replace( '~^\s+~m', '', $minified );
+        $minified= preg_replace( '~[\r\n]~', '', $minified );
+        
+        //$replacer= function( $matches ) use( $mixModule ) {
+        //    list( $str, $prefix, $url, $postfix )= $matches;
+        //    $file= so_file::make( $mixModule->path . '/' )->go( $url );
+        //    $type= image_type_to_mime_type( exif_imagetype( $file ) );
+        //    return $prefix . 'data:' . $type . ';base64,' . base64_encode( $file->content ) . $postfix;
+        //};
+        //$minified= preg_replace_callback( "~(url\(\s*')([^:]+(?:/|$).*?)('\s*\))~", $replacer, $minified );
+            
+        $mixModule->createFile( 'min.css' )->content= $minified;
     }
 }

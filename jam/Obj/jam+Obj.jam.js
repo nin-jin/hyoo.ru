@@ -1,6 +1,5 @@
-with( $jam$ )
-$jam$.$Obj=
-$Class( function( klass, proto ){
+$jam.Obj=
+$jam.Class( function( klass, proto ){
     
     proto.has=
     function( key ){

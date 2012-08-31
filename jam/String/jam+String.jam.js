@@ -1,16 +1,15 @@
-with( $jam$ )
-$define
-(   '$String'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.String'
+,   $jam.Class( function( klass, proto ){
     
         proto.constructor=
         function( data ){
-            this.$= String( $raw( data ) || '' )
+            this.$= String( $jam.raw( data ) || '' )
             return this
         }
         
         proto.incIndent=
-        $Poly
+        $jam.Poly
         (   function( ){
                 this.$= this.$.replace( /^/mg, '    ' )
                 return this
@@ -18,7 +17,7 @@ $define
         )
 
         proto.decIndent=
-        $Poly
+        $jam.Poly
         (   function( ){
                 this.$= this.$.replace( /^    |^\t/mg, '' )
                 return this
@@ -26,7 +25,7 @@ $define
         )
 
         proto.minimizeIndent=
-        $Poly
+        $jam.Poly
         (   function( ){
                 this.normilizeSpaces()
                 var minIndent= 1/0
@@ -40,7 +39,7 @@ $define
         )
 
         proto.normilizeSpaces=
-        $Poly
+        $jam.Poly
         (   function( ){
                 this.$= this.$.replace( /\t/g, '    ' ).replace( /\u00A0/, ' ' )
                 return this
@@ -48,7 +47,7 @@ $define
         )
         
         proto.trim=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.trim( /\s/ )
             }
@@ -60,7 +59,7 @@ $define
         )
         
         proto.process=
-        $Poly
+        $jam.Poly
         (   null
         ,   function( proc ){
                 this.$= proc( this.$ )
@@ -69,7 +68,7 @@ $define
         )
         
         proto.replace=
-        $Poly
+        $jam.Poly
         (   null
         ,   function( from ){
                 return this.replace( from, '' )
@@ -81,7 +80,7 @@ $define
         )
         
         proto.mult=
-        $Poly
+        $jam.Poly
         (   null
         ,   function( count ){
                 this.$= Array( count + 1 ).join( this.$ )
@@ -90,14 +89,14 @@ $define
         )
         
         proto.length=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.length
             }
         )
         
         proto.toString=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$
             }

@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$Observer'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Observer'
+,   $jam.Class( function( klass, proto ){
         
         proto.constructor=
         function( ){
@@ -18,7 +17,7 @@ $define
         }
         
         proto.eventName=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.eventName
             }
@@ -30,19 +29,19 @@ $define
         )
         
         proto.node=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.node
             }
         ,   function( node ){
                 this.sleep()
-                this.$.node= $raw( node )
+                this.$.node= $jam.raw( node )
                 return this
             }
         )
         
         proto.handler=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.$.handler
             }
@@ -51,64 +50,31 @@ $define
                 this.sleep()
                 this.$.handler= handler
                 this.$.internalHandler=
-                $support.eventModel.select
-                (   {   'w3c': function( event ){
-                            return handler.call( self.node(), $Event( event ) )
-                        }
-                    ,   'ms': function( ){
-                            var event= $glob().event
-                            var orig= event.originalEvent
-                            if( orig ){
-                                if( !orig.target ) orig.target= event.srcElement
-                                event= orig
-                            }
-                            if( event.type !== self.eventName() ) return
-                            return handler.call( self.node(), $Event( event ) )
-                        }
-                    }
-                )
+                function( event ){
+                    return handler.call( self.node(), $jam.Event( event ) )
+                }
                 return this
             }
         )
-
+        
         proto.listen=
-        $support.eventModel.select
-        (   {   'w3c': function( ){
-                    if( this.$.active ) return this
-                    this.$.node.addEventListener( this.$.eventName, this.$.internalHandler, false )
-                    this.$.active= true
-                    return this
-                }
-            ,   'ms': function( ){
-                    if( this.$.active ) return this
-                    var type= this.eventName()
-                    if( !/^\w+$/.test( type ) ) type= 'beforeeditfocus'
-                    this.$.node.attachEvent( 'on' + type, this.$.internalHandler )
-                    this.$.active= true
-                    return this
-                }
-            }
-        )
+        function( ){
+            if( this.$.active ) return this
+            this.$.node.addEventListener( this.$.eventName, this.$.internalHandler, false )
+            this.$.active= true
+            return this
+        }
         
         proto.sleep=
-        $support.eventModel.select
-        (   {   'w3c': function( ){
-                    if( !this.$.active ) return this
-                    this.$.node.removeEventListener( this.$.eventName, this.$.internalHandler, false )
-                    this.$.active= false
-                    return this
-                }
-            ,   'ms': function( ){
-                    if( !this.$.active ) return this
-                    this.$.node.detachEvent( 'on' + this.$.eventName, this.$.internalHandler )
-                    this.$.active= false
-                    return this
-                }
-            }
-        )
+        function( ){
+            if( !this.$.active ) return this
+            this.$.node.removeEventListener( this.$.eventName, this.$.internalHandler, false )
+            this.$.active= false
+            return this
+        }
         
         proto.active=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return Boolean( this.$.active )
             }

@@ -1,13 +1,11 @@
-with( $jam$ )
-with( $wc$ )
-$Component
+$jam.Component
 (   'wc:hlight'
 ,   function( nodeRoot ){
         return new function( ){
-            nodeRoot= $Node( nodeRoot )
+            nodeRoot= $jam.Node( nodeRoot )
 
             var hlight= $lang( nodeRoot.state( 'lang' ) )
-            var source= $String( nodeRoot.text() ).minimizeIndent().trim( /[\r\n]/ ).$
+            var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\r\n]/ ).$
 
             nodeRoot
             .html( hlight( source ) )

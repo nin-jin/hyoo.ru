@@ -1,0 +1,11 @@
+wc\:error {
+    display: block;
+    text-align: left;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    background: pink;
+}

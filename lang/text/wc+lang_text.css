@@ -1,0 +1,12 @@
+lang\:text:after {
+    display: inline;
+    content: attr( title );
+}
+
+lang\:text_hidden {
+    display: inline-block;
+    display: none\9;
+    width: 1px;
+    overflow: hidden;
+    white-space: pre;
+}

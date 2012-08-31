@@ -1,1 +1,0 @@
-if( !$jam$.$support.vml() ) $jam$.$htmlize( 'urn:schemas-microsoft-com:vml' )

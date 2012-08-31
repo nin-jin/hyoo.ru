@@ -1,5 +1,4 @@
-with( $jam$ )
-$jam$.$Class=
+$jam.Class=
 function( init ){
     var klass=
     function( ){
@@ -7,7 +6,7 @@ function( init ){
         return klass.create.apply( klass, arguments )
     }
     
-    klass.constructor= $Class
+    klass.constructor= $jam.Class
     
     klass.create=
     function( arg ){

@@ -1,7 +1,6 @@
-with( $jam$ )
-$define
-(   '$DOMX'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.DOMX'
+,   $jam.Class( function( klass, proto ){
     
         proto.constructor=
         function( dom ){
@@ -16,43 +15,43 @@ $define
         }
         
         proto.toString=
-        $support.xmlModel.select(
+        $jam.support.xmlModel.select(
         {   'w3c': function( ){
                 var serializer= new XMLSerializer
                 var text= serializer.serializeToString( this.$ )
                 return text
             }
         ,   'ms': function( ){
-                return $String( this.$.xml ).trim().$
+                return $jam.String( this.$.xml ).trim().$
             }
         })
         
         proto.transform=
-        $support.xmlModel.select(
+        $jam.support.xmlModel.select(
         {   'w3c': function( stylesheet ){
                 var proc= new XSLTProcessor
-                proc.importStylesheet( $raw( stylesheet ) )
+                proc.importStylesheet( $jam.raw( stylesheet ) )
                 var doc= proc.transformToDocument( this.$ )
-                return $DOMX( doc )
+                return $jam.DOMX( doc )
             }
         ,   'ms': function( stylesheet ){
-                var text= this.$.transformNode( $raw( stylesheet ) )
-                return $DOMX.parse( text )
+                var text= this.$.transformNode( $jam.raw( stylesheet ) )
+                return $jam.DOMX.parse( text )
             }
         })
         
         klass.parse=
-        $support.xmlModel.select(
+        $jam.support.xmlModel.select(
         {   'w3c': function( str ){
             var parser= new DOMParser
                 var doc= parser.parseFromString( str, 'text/xml' )
-                return $DOMX( doc )
+                return $jam.DOMX( doc )
             }
         ,   'ms': function( str ){
                 var doc= new ActiveXObject( 'MSXML2.DOMDocument' )
                 doc.async= false
                 doc.loadXML( str )
-                return $DOMX( doc )
+                return $jam.DOMX( doc )
             }
         })
 

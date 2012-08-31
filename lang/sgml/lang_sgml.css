@@ -1,0 +1,33 @@
+lang\:sgml {
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    line-height: 1;
+}
+
+lang\:sgml_tag {
+    color: #a3a;
+}
+
+lang\:sgml_tag-name {
+    font-weight: bold;
+}
+
+lang\:sgml_attr-name {
+    color: #a33;
+}
+
+lang\:sgml_attr-value {
+    color: #d66;
+}
+
+lang\:sgml_comment {
+    color: #888;
+}
+
+lang\:sgml_decl {
+    color: #066;
+}
+
+lang\:sgml_comment {
+    color: #999;
+}

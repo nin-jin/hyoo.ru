@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(    '$Throttler'
+$jam.define
+(    '$jam.Throttler'
 ,    function( latency, func ){
         var self
         var arg
@@ -9,7 +8,7 @@ $define
             self= this
             arg= arguments
             if( stop ) return
-            stop= $schedule( latency, function(){
+            stop= $jam.schedule( latency, function(){
                 stop= null
                 func.apply( self, arg )
             })

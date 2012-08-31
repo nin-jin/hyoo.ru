@@ -3,8 +3,6 @@
 class so_Compile_JS {
     function __construct( $pack, $mixModule ){
         $files= $pack->selectFiles( '|(?:\\.jam)?\\.js$|' );
-        $vmlFile= $mixModule->createFile( 'compiled.vml.js' );
-        if( $vmlFile->exists ) $files[]= $vmlFile;
         
         $indexFile= $mixModule->createFile( 'index.js' );
         $indexPath= '/' . $indexFile->id;
@@ -16,10 +14,18 @@ class so_Compile_JS {
             $indexFile->exists= false;
         endif;
         
-        $content= '';
+        $compiled= '';
         foreach( $files as $file ):
-            $content.= ";// {$file->id}\n" . $file->content . "\n";
+            $compiled.= ";// {$file->id}\n" . $file->content . "\n";
         endforeach;
-        $mixModule->createFile( 'compiled.js' )->content= $content;
+        $mixModule->createFile( 'compiled.js' )->content= $compiled;
+
+        $minified= $compiled;
+        $minified= preg_replace( '~/\\*[\w\W]*?\\*/~', '', $minified );
+        $minified= preg_replace( '~^\s+~m', '', $minified );
+        $minified= preg_replace( '~;[\r\n]~', ';', $minified );
+        $minified= preg_replace( '~//.*?$\n~m', '', $minified );
+        $mixModule->createFile( 'min.js' )->content= $minified;
+        
     }
 }

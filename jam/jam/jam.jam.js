@@ -1,3 +1,2 @@
-if( this.$jam$ ) throw new Error( 'Redeclaration of [$jam$]' )
-var $jam$= {}
-$jam$.$jam$= $jam$
+if( this.$jam ) throw new Error( 'Redeclaration of [$jam]' )
+var $jam= {}

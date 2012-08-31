@@ -1,23 +1,15 @@
-with( $jam$ )
-$define
-(   '$DomRange'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.DomRange'
+,   $jam.Class( function( klass, proto ){
     
         proto.constructor=
-        $Poly
-        (   $support.selectionModel.select
-            (   {   'w3c': function( ){
-                        var sel= $selection()
-                        if( sel.rangeCount ) this.$= sel.getRangeAt( 0 ).cloneRange()
-                        else this.$= $doc().createRange()
-                        return this
-                    }
-                ,   'ms': function( ){
-                        this.$= $selection().createRange()
-                        return this
-                    }
-                }
-            )
+        $jam.Poly
+        (   function( ){
+                var sel= $jam.selection()
+                if( sel.rangeCount ) this.$= sel.getRangeAt( 0 ).cloneRange()
+                else this.$= $jam.doc().createRange()
+                return this
+            }
         ,   function( range ){
                 if( !range ) throw new Error( 'Wrong TextRange object' )
                 this.$= klass.raw( range )
@@ -26,21 +18,13 @@ $define
         )
         
         proto.select=
-        $support.selectionModel.select
-        (   {   'w3c': function( ){
-                    var sel= $selection()
-                    sel.removeAllRanges()
-                    sel.addRange( this.$ )
-                    return this
-                }
-            ,   'ms': function( ){
-                    this.$.select()
-                    return this
-                }
-            }
-        )
+        function( ){
+            var sel= $jam.selection()
+            sel.removeAllRanges()
+            sel.addRange( this.$ )
+            return this
+        }
         
-            
         proto.collapse2end=
         function( ){
             this.$.collapse( false )
@@ -54,200 +38,130 @@ $define
         }
         
         proto.dropContents=
-        $support.selectionModel.select
-        (   {   'w3c': function( ){
-                    this.$.deleteContents()
-                    return this
-                }
-            ,   'ms': function( ){
-                    this.text( '' )
-                }
-            }
-        )
-
+        function( ){
+            this.$.deleteContents()
+            return this
+        }
+        
         proto.text=
-        $support.selectionModel.select
-        (   {   'w3c': $Poly
-                (   function( ){
-                        return this.$.toString()
-                    }
-                ,   function( text ){
-                        this.html( $htmlEscape( text ) )
-                        return this
-                    }
-                )
-            ,   'ms': $Poly
-                (   function( ){
-                        return $html2text( this.html() )
-                        return this.$.text
-                    }
-                ,   function( text ){
-                        this.$.text= text
-                        return this
-                    }
-                )
+        $jam.Poly
+        (   function( ){
+                return $jam.html2text( this.html() )
             }
-        )
-
-        proto.html=
-        $support.selectionModel.select
-        (   {   'w3c': $Poly
-                (   function( ){
-                        return $Node( this.$.cloneContents() ).toString()
-                    }
-                ,   function( html ){
-                        this.dropContents()
-                        var node= $Node.parse( html ).$
-                        this.$.insertNode( node )
-                        this.$.selectNode( node )
-                        return this
-                    }
-                )
-            ,   'ms': $Poly
-                (   function( ){
-                        return this.$.htmlText
-                    }
-                ,   function( html ){
-                        this.$.pasteHTML( html )
-                        return this
-                    }
-                )
-            }
-        )
-    
-        proto.ancestorNode=
-        $support.selectionModel.select
-        (   {   'w3c': function( ){
-                    return this.$.commonAncestorContainer
-                }
-            ,   'ms': function( ){
-                    return this.$.parentNode
-                }
+        ,   function( text ){
+                this.html( $jam.htmlEscape( text ) )
+                return this
             }
         )
         
-        proto.compare=
-        $support.selectionModel.select
-        (   {   'w3c': function( how, range ){
-                    range= $DomRange( range ).$
-                    how= Range[ how.replace( '2', '_to_' ).toUpperCase() ]
-                    return range.compareBoundaryPoints( how, this.$ )
-                }
-            ,   'ms':  function( how, range ){
-                    range= $DomRange( range ).$
-                    how= how.replace( /(\w)(\w+)/g, function( str, first, tail ){
-                        return first.toUpperCase() + tail
-                    }).replace( '2', 'To' )
-                    return range.compareEndPoints( how, this.$ )
-                }
+        proto.html=
+        $jam.Poly
+        (   function( ){
+                return $jam.Node( this.$.cloneContents() ).toString()
+            }
+        ,   function( html ){
+                var node= html ? $jam.Node.parse( html ).$ : $jam.Node.Text( '' ).$
+                this.replace( node )
+                return this
             }
         )
+        
+        proto.replace=
+        function( node ){
+            node= $jam.raw( node )
+            this.dropContents()
+            this.$.insertNode( node )
+            this.$.selectNode( node )
+            return this
+        }
+        
+        proto.ancestorNode=
+        function( ){
+            return this.$.commonAncestorContainer
+        }
+        
+        proto.compare=
+        function( how, range ){
+            range= $jam.DomRange( range ).$
+            how= Range[ how.replace( '2', '_to_' ).toUpperCase() ]
+            return range.compareBoundaryPoints( how, this.$ )
+        }
         
         proto.hasRange=
         function( range ){
-            range= $DomRange( range )
+            range= $jam.DomRange( range )
             var isAfterStart= ( this.compare( 'start2start', range ) >= 0 )
             var isBeforeEnd= ( this.compare( 'end2end', range ) <= 0 )
             return isAfterStart && isBeforeEnd
         }
-    
+        
         proto.equalize=
-        $support.selectionModel.select
-        (   {   'w3c': function( how, range ){
-                    how= how.split( 2 )
-                    var method= { start: 'setStart', end: 'setEnd' }[ how[ 0 ] ]
-                    range= $DomRange( range ).$
-                    this.$[ method ]( range[ how[1] + 'Container' ], range[ how[1] + 'Offset' ] )
-                    return this
-                }
-            ,   'ms':  function( how, range ){
-                    range= $DomRange( range ).$
-                    how= how.replace( /(\w)(\w+)/g, function( str, first, tail ){
-                        return first.toUpperCase() + tail
-                    }).replace( '2', 'To' )
-                    this.$.setEndPoint( how, range )
-                    return this
-                }
-            }
-        )
+        function( how, range ){
+            how= how.split( 2 )
+            var method= { start: 'setStart', end: 'setEnd' }[ how[ 0 ] ]
+            range= $jam.DomRange( range ).$
+            this.$[ method ]( range[ how[1] + 'Container' ], range[ how[1] + 'Offset' ] )
+            return this
+        }
         
         proto.move=
-        $support.selectionModel.select
-        (   {   'w3c': function( offset ){
-                    this.collapse2start()
-                    var current= $Node( this.$.startContainer )
-                    if( this.$.startOffset ){
-                        var temp= current.$.childNodes[ this.$.startOffset - 1 ]
-                        if( temp ){
-                            current= $Node( temp ).follow()
-                        } else {
-                            offset+= this.$.startOffset
-                        }
-                    }
-                    while( current ){
-                        if( current.name() === '#text' ){
-                            var range= $DomRange().aimNode( current )
-                            var length= current.$.nodeValue.length
-                            
-                            if( !offset ){
-                                this.equalize( 'start2start', range )
-                                return this
-                            } else if( offset >= length ){
-                                offset-= length
-                            } else {
-                                this.$.setStart( current.$, offset )
-                                return this
-                            }
-                        }
-                        current= current.delve()
-                    }
-                    return this
-                }
-            ,   'ms': function( offset ){
-                    this.$.move( 'character', offset )
-                    return this
+        function( offset ){
+            this.collapse2start()
+            if( offset === 0 ) return this
+            var current= $jam.Node( this.$.startContainer )
+            if( this.$.startOffset ){
+                var temp= current.$.childNodes[ this.$.startOffset - 1 ]
+                if( temp ){
+                    current= $jam.Node( temp ).follow()
+                } else {
+                    offset+= this.$.startOffset
                 }
             }
-        )
-
+            while( current ){
+                if( current.name() === '#text' ){
+                    var range= $jam.DomRange().aimNode( current )
+                    var length= current.$.nodeValue.length
+                    
+                    if( !offset ){
+                        this.equalize( 'start2start', range )
+                        return this
+                    } else if( offset > length ){
+                        offset-= length
+                    } else {
+                        this.$.setStart( current.$, offset )
+                        return this
+                    }
+                }
+                if( current.name() === 'br' ){
+                    if( offset > 1 ){
+                        offset-= 1
+                    } else {
+                        var range= $jam.DomRange().aimNode( current )
+                        this.equalize( 'start2end', range )
+                        return this
+                    }
+                }
+                current= current.delve()
+            }
+            return this
+        }
+        
         proto.clone=
-        $support.selectionModel.select
-        (   {   'w3c': function( ){
-                    return $DomRange( this.$.cloneRange() )
-                }
-            ,   'ms': function( ){
-                    return $DomRange( this.$.duplicate() )
-                }
-            }
-        )
+        function( ){
+            return $jam.DomRange( this.$.cloneRange() )
+        }
         
         proto.aimNodeContent=
-        $support.selectionModel.select
-        (   {   'w3c': function( node ){
-                    this.$.selectNodeContents( $raw( node ) )
-                    return this
-                }
-            ,   'ms': function( node ){
-                    this.$.moveToElementText( $raw( node ) )
-                    return this
-                }
-            }
-        )
+        function( node ){
+            this.$.selectNodeContents( $jam.raw( node ) )
+            return this
+        }
         
         proto.aimNode=
-        $support.selectionModel.select
-        (   {   'w3c': function( node ){
-                    this.$.selectNode( $raw( node ) )
-                    return this
-                }
-            ,   'ms': function( node ){
-                    this.aimNodeContent( $raw( node ) )
-                    $log('check this')
-                    this.$.expand( 'textedit' )
-                    return this
-                }
-            }
-        )
+        function( node ){
+            this.$.selectNode( $jam.raw( node ) )
+            return this
+        }
         
     })
 )

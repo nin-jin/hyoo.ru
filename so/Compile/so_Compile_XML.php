@@ -34,7 +34,7 @@ class so_Compile_XML {
             $index[]= array( 'pack' => $fileList );
         endforeach;
         
-        $index= so_Dom::create( array(
+        $index= so_dom::make( array(
             'root' => array(
                 '@xmlns' => 'https://github.com/nin-jin/doc',
                 $index,

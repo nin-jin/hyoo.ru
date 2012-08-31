@@ -1,2 +1,1 @@
-with( $jam$ )
-$define( '$doc', $Value( $glob().document ) )
+$jam.define( '$jam.doc', $jam.Value( $jam.glob().document ) )

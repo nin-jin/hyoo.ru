@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$switch'
+$jam.define
+(   '$jam.switch'
 ,   function( key, map ){
         if( !map.hasOwnProperty( key ) ) {
             throw new Error( 'Key [' + key + '] not found in map' )

@@ -1,10 +1,9 @@
-with( $jam$ )
-$define
-(    '$Parser'
+$jam.define
+(    '$jam.Parser'
 ,    function( syntaxes ){
         var lexems= []
         var handlers= []
-        handlers[ '' ]= syntaxes[ '' ] || $Pipe()
+        handlers[ '' ]= syntaxes[ '' ] || $jam.Pipe()
 
         for( var regexp in syntaxes ){
             if( !syntaxes.hasOwnProperty( regexp ) ) continue
@@ -12,7 +11,7 @@ $define
             lexems.push( RegExp( regexp ) )
             handlers.push( syntaxes[ regexp ] )
         }
-        var lexer= $Lexer( lexems )
+        var lexer= $jam.Lexer( lexems )
         
         return function( str ){
             var res= []

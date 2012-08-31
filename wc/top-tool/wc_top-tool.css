@@ -1,0 +1,101 @@
+wc\:top-tool {
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
+    font-color: black;
+    text-align: center;
+    overflow: hidden;
+    font: 12px/1 monospace;
+}
+
+wc\:top-tool_pane {
+    display: inline-table;
+    position: relative;
+    box-shadow: 2px 2px 3px #666;
+    border-radius: 2px 2px 0 0;
+    border: 1px solid #aaa;
+    background: #eee;
+    text-align: left;
+    
+    top: 20px;
+    -webkit-transition-property: top;
+    -webkit-transition-duration: .2s;
+    -webkit-transition-delay: .2s;
+    -o-transition-property: top;
+    -o-transition-duration: .2s;
+    -o-transition-delay: .2s;
+    -moz-transition-property: top;
+    -moz-transition-duration: .2s;
+    -moz-transition-delay: .2s;
+    -ms-transition-property: top;
+    -ms-transition-duration: .2s;
+    -ms-transition-delay: .2s;
+    transition-property: top;
+    transition-duration: .2s;
+    transition-delay: .2s;
+}
+
+wc\:top-tool:focus wc\:top-tool_pane {
+    top: 2px;
+}
+
+wc\:top-tool:hover wc\:top-tool_pane {
+    top: 2px;
+    -webkit-transition-property: top;
+    -webkit-transition-duration: .1s;
+    -webkit-transition-delay: .1s;
+    -o-transition-property: top;
+    -o-transition-duration: .1s;
+    -o-transition-delay: .1s;
+    -moz-transition-property: top;
+    -moz-transition-duration: .1s;
+    -moz-transition-delay: .1s;
+    -ms-transition-property: top;
+    -ms-transition-duration: .1s;
+    -ms-transition-delay: .1s;
+    transition-property: top;
+    transition-duration: .1s;
+    transition-delay: .1s;
+}
+
+wc\:top-tool_hidden {
+    width: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    overflow: hidden;
+}
+
+wc\:top-tool_item {
+    display: table-cell;
+    vertical-align: bottom;
+    background: transparent;
+    border-right: 1px solid #aaa;
+}
+wc\:top-tool_item:last-child {
+    border-right: none;
+}
+
+wc\:top-tool form {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+wc\:top-tool input {
+    display: block;
+    width: 100%;
+    padding: 2px 2px;
+    margin: 0;
+    border: none;
+    vertical-align: top;
+    background: transparent;
+}
+
+wc\:top-tool input:focus {
+    background: white;
+    outline: none;
+}

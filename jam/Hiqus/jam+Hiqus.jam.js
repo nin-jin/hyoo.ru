@@ -1,10 +1,9 @@
-with( $jam$ )
-$define
-(   '$Hiqus'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.Hiqus'
+,   $jam.Class( function( klass, proto ){
         
         proto.constructor=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return klass({ })
             }
@@ -19,32 +18,32 @@ $define
         )
         
         proto.get=
-        $Poly
+        $jam.Poly
         (   function( ){
                 return this.get( [] )
             }
         ,   function( keyList ){
-                if( $classOf( keyList ) === 'String' ){
+                if( $jam.classOf( keyList ) === 'String' ){
                     keyList= keyList.split( this.splitterKeys )
                 }
                 var cur= this.$.data
                 for( var i= 0; i < keyList.length; ++i ){
                     var key= keyList[ i ]
                     cur= cur[ key ]
-                    if( $classOf( cur ) !== 'Object' ) break
+                    if( $jam.classOf( cur ) !== 'Object' ) break
                 }
                 return cur
             }
         )
         
         proto.put=
-        $Poly
+        $jam.Poly
         (   null
         ,   function( keyList ){
                 return this.put( keyList, true )
             }
         ,   function( keyList, value ){
-                if( $classOf( keyList ) === 'String' ){
+                if( $jam.classOf( keyList ) === 'String' ){
                     var keyListRaw= keyList.split( this.$.splitterKeys )
                     keyList= []
                     for( var i= 0; i < keyListRaw.length; ++i ){
@@ -55,7 +54,7 @@ $define
                 var cur= this.$.data
                 for( var i= 0; i < keyList.length - 1; ++i ){
                     var key= keyList[ i ]
-                    if( $classOf( cur[ key ] ) === 'Object' ){
+                    if( $jam.classOf( cur[ key ] ) === 'Object' ){
                         cur= cur[ key ]
                     } else {
                         cur= cur[ key ]= {}
@@ -69,7 +68,7 @@ $define
         
         proto.merge=
         function( json ){
-            if( $classOf( json ) === 'String' ){
+            if( $jam.classOf( json ) === 'String' ){
                 var chunks= json.split( this.$.splitterChunks )
                 for( var i= 0; i < chunks.length; ++i ){
                     var chunk= chunks[i]
@@ -104,7 +103,7 @@ $define
         }
         
         proto.toString=
-        $Poly
+        $jam.Poly
         (   function( ){
                 var chunks=
                 function( prefix, obj ){

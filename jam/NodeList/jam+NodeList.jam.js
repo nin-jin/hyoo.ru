@@ -1,12 +1,11 @@
-with( $jam$ )
-$define
-(   '$NodeList'
-,   $Class( function( klass, proto ){
+$jam.define
+(   '$jam.NodeList'
+,   $jam.Class( function( klass, proto ){
         
         proto.get=
         function( index ){
             var node= this.$[ index ]
-            return $Node( node )
+            return $jam.Node( node )
         }
         
         proto.length=

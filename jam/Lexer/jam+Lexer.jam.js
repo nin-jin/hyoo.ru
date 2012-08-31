@@ -1,6 +1,5 @@
-with( $jam$ )
-$define
-(   '$Lexer'
+$jam.define
+(   '$jam.Lexer'
 ,   function( lexems ){
         if( !lexems ) throw new Error( 'lexems is required' )
     
@@ -9,16 +8,16 @@ $define
         var sizeList= []
     
         for( var name in lexems ){
-            var regexp= $RegExp( lexems[ name ] )
+            var regexp= $jam.RegExp( lexems[ name ] )
             nameList.push( name )
             regexpList.push( regexp.source() )
             sizeList.push( regexp.count() )
         }
         
-        var regexp= RegExp( '([\\s\\S]*?)(?:((' + regexpList.join( ')|(' ) + '))|($[\r\n]{0,2}))', 'gm' )
-        var count= $RegExp(regexp).count()
+        var regexp= RegExp( '([\\s\\S]*?)(?:((' + regexpList.join( ')|(' ) + '))|($\n?))', 'gm' )
+        var count= $jam.RegExp(regexp).count()
         
-        return $Class( function( klass, proto ){
+        return $jam.Class( function( klass, proto ){
             
             proto.constructor=
             function( str ){
@@ -58,7 +57,8 @@ $define
                     delete this.chunks
                     return this
                 } else {
-                    this.position+= found[count].length
+                //console.log(found,regexp,this.string,count)
+                    this.position+= found[count] ? found[count].length : 0
                     this.name= ''
                     this.found= found[count]
                     this.chunks= [ found[count] ]

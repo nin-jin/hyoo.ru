@@ -1,13 +1,12 @@
-with( $jam$ )
-$define
-(   '$eventEdit'
+$jam.define
+(   '$jam.eventEdit'
 ,   new function(){
         
         var scream=
-        $Throttler
+        $jam.Throttler
         (   50
         ,   function( target ){
-                $Event().type( '$jam$.$eventEdit' ).scream( target )
+                $jam.Event().type( '$jam.eventEdit' ).scream( target )
             }
         )
 
@@ -19,7 +18,7 @@ $define
         }
 
         var node=
-        $Node( $doc().documentElement )
+        $jam.Node( $jam.doc().documentElement )
         
         node.listen( 'keyup', handler )
         node.listen( 'cut', handler )

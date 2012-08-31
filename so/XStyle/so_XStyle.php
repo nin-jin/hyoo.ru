@@ -1,6 +1,6 @@
 <?php
 
-class so_XStyle extends so_Meta {
+class so_XStyle extends so_meta {
 
     protected $_dir;
     function get_dir( $dir ){
@@ -10,8 +10,8 @@ class so_XStyle extends so_Meta {
 
     protected $_pathXS;
     function set_pathXS( $pathXS ){
-        if( isset( $this->pathXS ) ) throw new Exception( 'Redeclaration of $pathXS' );
-        return $pathXS;
+        if( isset( $this->pathXSL ) or isset( $this->pathXS ) ) throw new Exception( 'Redeclaration of $pathXS' );
+        return realpath( $pathXS );
     }
     
     protected $_pathXSL;
@@ -20,8 +20,8 @@ class so_XStyle extends so_Meta {
         return preg_replace( '!\.xs$!i', '.xsl', $this->pathXS );
     }
     function set_pathXSL( $pathXSL ){
-        if( isset( $this->pathXSL ) ) throw new Exception( 'Redeclaration of $pathXSL' );
-        return $this->pathXS ? $this->pathXS . 'l' : $pathXSL;
+        if( isset( $this->pathXSL ) or isset( $this->pathXS ) ) throw new Exception( 'Redeclaration of $pathXSL' );
+        return realpath( $pathXSL );
     }
 
     protected $_docXS;
@@ -32,7 +32,7 @@ class so_XStyle extends so_Meta {
         return $docXS;
     }
     function set_docXS( $docXS ){
-        $docXS= so_Dom::create( $docXS );
+        $docXS= so_dom::make( $docXS );
         if( file_exists( $this->pathXS ) ) unlink( $this->pathXS );
         file_put_contents( $this->pathXS, $docXS );
         return null;
@@ -42,11 +42,14 @@ class so_XStyle extends so_Meta {
     function get_docXSL( $docXSL ){
         if( isset( $docXSL ) ) return $docXSL;
         if( file_exists( $this->pathXS ) ) $this->sync();
-        $docXSL= so_Dom::create( file_get_contents( $this->pathXSL ) );
+        $dir= getcwd();
+        chdir( $this->dir );
+        $docXSL= so_dom::make( file_get_contents( $this->pathXSL ) );
+        chdir( $dir );
         return $docXSL;
     }
     function set_docXSL( $docXSL ){
-        $docXSL= so_Dom::create( $docXSL );
+        $docXSL= so_dom::create( $docXSL );
         if( file_exists( $this->pathXSL ) ) unlink( $this->pathXSL );
         file_put_contents( $this->pathXSL, $docXSL );
         return null;
@@ -61,14 +64,11 @@ class so_XStyle extends so_Meta {
     }
 
     function process( $doc ){
-        $doc= so_Dom::create( $doc );
+        $doc= so_dom::make( $doc );
         
-        $dir= getcwd();
-        chdir( $this->dir );
-            $doc= $this->processor->transformToDoc( $doc->DOMNode );
-        chdir( $dir );
+        $doc= $this->processor->transformToDoc( $doc->DOMNode );
         
-        return so_Dom::create( $doc );
+        return so_dom::make( $doc );
     }
 
     function sync( ){
