@@ -83,7 +83,7 @@ $jam.Component
             var onAltSymbol=
             nodeRoot.listen( 'keydown', function( event ){
                 event= $jam.Event( event )
-                console.log( event.keyCode() )
+                //console.log( event.keyCode() )
                 if( !event.keyAlt() ) return
                 
                 if( event.keyShift() ){

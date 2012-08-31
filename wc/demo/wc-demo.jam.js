@@ -18,8 +18,8 @@ $jam.Component
             
             var nodeSource=
             $jam.Node.parse( '<wc:editor wc:editor_hlight="sgml" />' )
-            .parent( nodeSource0 )
             .text( source )
+            .parent( nodeSource0 )
             
             var exec= $jam.Thread( function( ){
                 var source= $jam.String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
