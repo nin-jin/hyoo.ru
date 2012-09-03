@@ -23,6 +23,7 @@ class so_meta {
         $method= 'get' . $name;
         //if( !method_exists( $this, $method ) ) $method= 'get_';
         //$value= $this->{ $name }[ 'value' ];
+        if( !property_exists( $this, $name ) ) throw new Exception( "Property not found [{$name}]" );
         $value= $this->{ $name }= $this->{ $method }( $this->{ $name } );
         return $value;
     }
@@ -42,7 +43,9 @@ class so_meta {
             $type= array_shift( $nameList );
             $name= '_' . implode( '/', $nameList );
             switch( $type ){
-                case 'get': return $this->get_( $this->{$name} );
+                case 'get':
+                    if( !property_exists( $this, $name ) ) throw new Exception( "Property not found [{$name}]" );
+                    return $this->get_( $this->{$name} );
                 case 'set': return $this->set_( $args[0] );
             }
             return $this->_call( $name, $args );

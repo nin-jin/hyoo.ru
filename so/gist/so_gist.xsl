@@ -12,7 +12,7 @@
         <wc:spacer>
             <wc:top-tool>
                 <wc:top-tool_pane>
-                    <form
+<!--                    <form
                         method="MOVE"
                         action="?"
                         >
@@ -34,22 +34,14 @@
                                 value="Изменить"
                             />
                         </wc:top-tool_hidden>
-                    </form>
+                    </form>-->
                     <xsl:apply-templates select="." mode="so:gist_permalink" />
                 </wc:top-tool_pane>
             </wc:top-tool>
             <wc:paper>
                 <wc:spacer>
-                    <wc:net-bridge
-                        wc:net-bridge_resource="{ so:gist_uri }"
-                        wc:net-bridge_field="content"
-                        >
-                        <wc:editor
-                            wc:editor_hlight="md"
-                            >
-                            <xsl:apply-templates />
-                        </wc:editor>
-                    </wc:net-bridge>
+                    <xsl:apply-templates select="." mode="so:gist_title" />
+                    <xsl:apply-templates select="." mode="so:gist_view" />
                 </wc:spacer>
             </wc:paper>
         </wc:spacer>
@@ -64,12 +56,44 @@
         </wc:top-tool_item>
     </xsl:template>
     
-    <xsl:template match=" so:gist_uri " />
-    <xsl:template match=" so:gist_name " />
-    <xsl:template match=" so:gist_author " />
-
-    <xsl:template match=" so:gist_content ">
-        <xsl:apply-templates />
+    <xsl:template match=" so:gist " mode="so:gist_view" />
+    <xsl:template match=" so:gist[ so:gist_content ] " mode="so:gist_view">
+        <wc:net-bridge
+            wc:net-bridge_resource="{ so:gist_uri }"
+            wc:net-bridge_field="content"
+            >
+            <wc:editor
+                wc:editor_hlight="md"
+                >
+                <xsl:apply-templates select=" so:gist_content / node() " />
+            </wc:editor>
+        </wc:net-bridge>
+    </xsl:template>
+    
+    <xsl:template match=" so:gist " mode="so:gist_title" />
+    <xsl:template match=" so:gist[ so:gist_name ] " mode="so:gist_title">
+        <h1>
+            <form
+                method="move"
+                action="?"
+                >
+                <wc:field wc:field_name="gist">
+                    <wc:editor>
+                        <xsl:apply-templates select=" so:gist_name " />
+                    </wc:editor>
+                </wc:field>
+                <input
+                    type="hidden"
+                    name="by"
+                    value="{so:gist_author}"
+                />
+                <input
+                    type="hidden"
+                    name="from"
+                    value="{so:gist_uri}"
+                />
+            </form>
+        </h1>
     </xsl:template>
     
 </xsl:stylesheet>

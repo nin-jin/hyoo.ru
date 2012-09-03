@@ -23,8 +23,8 @@ class so_Compile_JS {
         $minified= $compiled;
         $minified= preg_replace( '~/\\*[\w\W]*?\\*/~', '', $minified );
         $minified= preg_replace( '~^\s+~m', '', $minified );
+        $minified= preg_replace( '~//[^"\'\n\r]*?$\n~m', '', $minified );
         $minified= preg_replace( '~;[\r\n]~', ';', $minified );
-        $minified= preg_replace( '~//.*?$\n~m', '', $minified );
         $mixModule->createFile( 'min.js' )->content= $minified;
         
     }

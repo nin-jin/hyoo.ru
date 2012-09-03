@@ -78,11 +78,13 @@ rchdir( '-export' );
                         @unlink( 'index.css' );
                         @unlink( 'index.xsl' );
                         @unlink( 'index.js' );
+                        @unlink( 'index.php' );
                         @rename( 'compiled.css', 'index.css' );
                         @rename( 'compiled.xsl', 'index.xsl' );
                         @rename( 'compiled.js', 'index.js' );
+                        @rename( 'compiled.php', 'index.php' );
                         foreach( glob( '*.*' ) as $file ):
-                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl', 'index.doc.xml' ) ) ) continue;
+                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl', 'index.php', 'index.doc.xml' ) ) ) continue;
                             unlink( $file );
                         endforeach;
                     rchdir( '..' );

@@ -26,7 +26,7 @@
             <body>
                 <wc:desktop>
                     
-                    <a href="?gist"><wc:logo>Gist!</wc:logo></a>
+                    <a href="?gist=Gist!"><wc:logo>Gist!</wc:logo></a>
                     
                     <xsl:apply-templates select=" so:page_aside " mode="so:page_special" />
                     

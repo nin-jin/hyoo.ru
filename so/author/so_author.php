@@ -1,6 +1,6 @@
 <?php
 
-class so_gist
+class so_author
 extends so_resource
 {
     
@@ -16,47 +16,29 @@ extends so_resource
     function get_uri( $uri ){
         if( isset( $uri ) ) return $uri;
         return so_uri::makeInner( array(
-            'gist' => $this->name,
-            'by' => $this->author,
+            'author' => $this->name,
         ) );
     }
     
     protected $_name;
     function get_name( $name ){
         if( isset( $name ) ) return $name;
-        return $this->request[ 'gist' ]->value;
+        return $this->request[ 'author' ]->value;
     }
     function set_name( $name ){
         if( isset( $this->name ) ) throw new Exception( 'Property $name already defined' );
         return $name;
     }
     
-    protected $_author;
-    function get_author( $author ){
-        if( isset( $author ) ) return $author;
-        return $this->request[ 'by' ]->value;// ?: so_user::make()->id;
-    }
-    function set_author( $author ){
-        if( isset( $this->author ) ) throw new Exception( 'Property $author already defined' );
-        return $author;
-    }
-    
-    protected $_title;
-    function get_title( $title ){
-        if( isset( $title ) ) return $title;
-        return $this->name ?: 'Gist!';
-    }
-    
     protected $_contentDefault;
     function get_contentDefault( $contentDefault ){
         if( isset( $contentDefault ) ) return $contentDefault;
         
-        return so_dom::make( array( 'so:gist' => array(
+        return so_dom::make( array( 'so:author' => array(
             '@xmlns:so' => 'https://github.com/nin-jin/so',
-            'so:gist_uri' => $this->uri,
-            'so:gist_name' => $this->name,
-            'so:gist_author' => $this->author,
-            'so:gist_content' => "    ...\n",
+            'so:author_uri' => $this->uri,
+            'so:author_name' => $this->name,
+            'so:author_about' => so_gist::make()->name( 'about' )->author( $this->name )->dom,
         ) ) );
     }
     
@@ -75,21 +57,7 @@ extends so_resource
     
     function get( ){
         $page= array(
-            'so:page_title' => $this->title,
-            //'so:path' => array(
-            //    $this->name ?
-            //    array( 'so:path_item' => array(
-            //        'so:path_title' => $this->author,
-            //        'so:path_link' => so_gist::make()->author( $this->author )->uri,
-            //    ) )
-            //    : null,
-            //),
-            'so:page_aside' => array(
-                123
-                //'html:include' => array(
-                //    '@href' => 'so/content/navigation.gist.xml',
-                //),
-            ),
+            'so:page_title' => $this->name,
             $this->dom,
         );
         
@@ -108,7 +76,7 @@ extends so_resource
     function put( ){
         
         $dom= $this->dom;
-        $dom[ 'so:gist_content' ]= $this->request[ 'content' ]->value;
+        //$dom[ 'so:gist_content' ]= $this->request[ 'content' ]->value;
         $this->dom= $dom;
         
         $this->get();
