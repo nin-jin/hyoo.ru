@@ -11,11 +11,12 @@ if( !class_exists( 'so_autoload' ) ):
             
             $class= strtr( $class, array( '\\' => '_') );
             $chunks= explode( '_', $class );
+            
             $pack= $chunks[0];
-            $module= $chunks[1];
+            $module= &$chunks[1];
+            if( !$module ) $module= $pack;
             
             $path2class= "{$class}.php";
-            if( !$module ) $module= $pack;
             $path= "{$root}/{$pack}/{$module}/{$class}.php";
             
             if( file_exists( $path ) ) include_once( $path );

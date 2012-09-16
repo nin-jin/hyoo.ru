@@ -1,4 +1,4 @@
-wc\:js-test {
+wc_js-test {
     display: inline-block; zoom: 1;
     font-size: 9pt;
     font-family: 'Courier New', monospace;
@@ -13,12 +13,12 @@ wc\:js-test {
     text-align: left;
 }
 
-wc\:js-test.passed\=true {
+wc_js-test.passed\=true {
     background: #cfc;
     border: 1px solid #ada;
 }
 
-wc\:js-test.passed\=false {
+wc_js-test.passed\=false {
     background: #fcc;
     border: 1px solid #c99;
 }
@@ -27,7 +27,7 @@ wc\:js-test.passed\=false {
     display: none;
 }
 
-wc\:js-test_timeout {
+wc_js-test_timeout {
     display: block;
     padding: 2pt 4pt;
     font-size: 8pt;
@@ -35,22 +35,22 @@ wc\:js-test_timeout {
     border-bottom: 1px solid #dda;
 }
 
-wc\:js-test_source {
+wc_js-test_source {
     display: block;
     overflow: auto;
 }
 
-wc\:js-test_result {
+wc_js-test_result {
     border-top: 1px solid #dda;
     background: #ffc;
     padding: 2pt 4pt;
     display: block;
 }
 
-wc\:js-test wc\:hontrol {
+wc_js-test wc_hontrol {
     display: none;
 }
 
-wc\:js-test:hover wc\:hontrol {
+wc_js-test:hover wc_hontrol {
     display: block;
 }

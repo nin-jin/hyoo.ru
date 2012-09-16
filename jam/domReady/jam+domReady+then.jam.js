@@ -3,7 +3,7 @@ $jam.define
 ,   function( proc ){
         var checker= function( ){
             if( $jam.domReady() ) proc()
-            else $jam.schedule( 10, checker )
+            else $jam.schedule( 5, checker )
         }
         checker()
     }

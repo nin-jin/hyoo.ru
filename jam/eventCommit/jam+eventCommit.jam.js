@@ -13,5 +13,7 @@ $jam.define
         
         $jam.Node( $jam.doc().documentElement )
         .listen( 'keydown', handler )
+        
+        this.toString= $jam.Value( '$jam.eventCommit' )
     }
 )

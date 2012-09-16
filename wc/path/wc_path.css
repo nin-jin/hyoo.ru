@@ -1,12 +1,13 @@
-wc\:path {
+wc_path {
     display: block;
-    font: 16px/1 sans-serif;
+    font: 20px/1 serif;
     color: #333;
     text-align: left;
     padding: .4em .4em;
     float: left;
 }
 
-wc\:path_item {
+wc_path_item {
     padding: .2em;
+    color: #336;
 }

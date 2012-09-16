@@ -1,12 +1,12 @@
 $jam.Component
-(   'wc:field'
+(   'wc_field'
 ,   function( nodeRoot ){
         nodeRoot= $jam.Node( nodeRoot )
         
         var nodeInput=
         $jam.Node.Element( 'input' )
         .attr( 'type', 'hidden' )
-        .attr( 'name', nodeRoot.attr( 'wc:field_name' ) )
+        .attr( 'name', nodeRoot.attr( 'wc_field_name' ) )
         .parent( nodeRoot )
         
         nodeRoot.listen

@@ -1,23 +1,23 @@
-wc\:vmenu_root {
+wc_vmenu_root {
     font-size: 12pt;
 }
 
-wc\:vmenu_branch {
+wc_vmenu_branch {
     display: block;
     margin: .5em 0;
 }
 
-wc\:vmenu_leaf {
+wc_vmenu_leaf {
     display: block;
     padding: 0 .5em;
     white-space: nowrap;
     text-align: left;
 }
 
-a:hover wc\:vmenu_leaf {
+a:hover wc_vmenu_leaf {
     background: white;
 }
 
-a.reset\=true.target\=true wc\:vmenu_leaf {
+a.reset\=true.target\=true wc_vmenu_leaf {
     color: red;
 }

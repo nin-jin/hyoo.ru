@@ -1,4 +1,4 @@
-wc\:hontrol {
+wc_hontrol {
     display: block;
     position: absolute;
     right: 0;
@@ -8,7 +8,7 @@ wc\:hontrol {
     z-index: 1;
 }
 
-wc\:hontrol_clone {
+wc_hontrol_clone {
     margin-right: -1px;
     border: 1px solid #bbb;
     background: #ffe;
@@ -16,12 +16,12 @@ wc\:hontrol_clone {
     cursor: pointer;
 }
 
-wc\:hontrol_clone:hover {
+wc_hontrol_clone:hover {
     background: #ccf;
     border: 1px solid #99c;
 }
 
-wc\:hontrol_delete {
+wc_hontrol_delete {
     margin-right: -1px;
     border: 1px solid #bbb;
     background: #ffe;
@@ -29,7 +29,7 @@ wc\:hontrol_delete {
     cursor: pointer;
 }
 
-wc\:hontrol_delete:hover {
+wc_hontrol_delete:hover {
     background: #fcc;
     border: 1px solid #c99;
 }

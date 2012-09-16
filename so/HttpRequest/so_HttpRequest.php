@@ -1,8 +1,8 @@
 <?php
 
 class so_HttpRequest
-extends so_meta
 {
+    use so_meta;
     
     static function create( ){
         return new self;

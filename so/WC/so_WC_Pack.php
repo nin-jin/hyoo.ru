@@ -16,7 +16,7 @@ class so_WC_Pack extends so_WC_MetaPack {
     protected $_path;
     function get_path( $path ){
         if( isset( $path ) ) return $path;
-        return $this->root->path . '/' . $this->name;
+        return $this->root->path->go( $this->name . '/' );
     }
     
     protected $_exists;
@@ -24,8 +24,7 @@ class so_WC_Pack extends so_WC_MetaPack {
         return is_dir( $this->path );
     }
     function set_exists( $exists ){
-        if( $exists ) @mkdir( $this->path, 0777, true );
-        else throw new Exception( '$exists=false is not implemented' );
+        so_file::make( $this->path )->exists= $exists;
         return $exists;
     }
     

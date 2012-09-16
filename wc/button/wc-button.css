@@ -1,10 +1,10 @@
-wc\:button {
+wc_button {
     display: inline-block; zoom: 1;
     position: relative;
     $padding: .1em;
 }
 
-wc\:button button {
+wc_button button {
     white-space: normal;
     cursor: pointer;
     $width: 1%;
@@ -37,7 +37,7 @@ wc\:button button {
     box-shadow: 1px 1px 1px #000;
 }
 
-wc\:button button:hover {
+wc_button button:hover {
     background: -o-linear-gradient( -90deg, #fff, #bbb );
     background: -moz-linear-gradient( -90deg, #fff, #bbb );
     background: -webkit-gradient( linear, left top, left bottom, from( #fff ), to( #bbb ) );
@@ -45,6 +45,6 @@ wc\:button button:hover {
     box-shadow: 2px 2px 2px #000;
 }
 
-wc\:button button:active {
+wc_button button:active {
     box-shadow: 1px 1px 1px #000;
 }

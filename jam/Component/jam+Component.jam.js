@@ -7,18 +7,12 @@ $jam.define
         var nodes= $jam.doc().getElementsByTagName( tagName )
     
         var elements= []
-        var rootNS=$jam.doc().documentElement.namespaceURI
     
         var checkName=
         ( tagName === '*' )
-        ?    $jam.Value( true )
-        :    new function(){
-                var nameChecker= RegExp( '^' + tagName + '$', 'i' )
-                return function checkName_right( el ){
-                    var ns= el.namespaceURI
-                    if( ns && ns !== rootNS ) return false
-                    return nameChecker.test( el.nodeName )
-                }
+        ?   $jam.Value( true )
+        :   function checkName_right( el ){
+                return( el.nodeName.toLowerCase() == tagName )
             }
         
         function isAttached( el ){
@@ -99,7 +93,7 @@ $jam.define
         }
     
         var interval=
-        $jam.glob().setInterval( tracking, 200 )
+        $jam.glob().setInterval( tracking, 50 )
     
         $jam.domReady.then(function whenReady(){
             $jam.glob().clearInterval( interval )

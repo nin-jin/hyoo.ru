@@ -1,56 +1,73 @@
 <?php
 
 class so_file
-extends so_meta
 {
+    use so_meta2;
+    use so_registry;
 
-    static $all= array();
-    
-    static function make( $path ){
-        if( !preg_match( '~^([^/\\\\:]+:|[/\\\\])~', $path ) ):
-            $path= dirname( dirname( __DIR__ ) ) . '/' . $path;
+    var $id_prop= array(
+        'depends' => array( 'id', 'path' ),
+    );
+    function id_make(){
+        return $this->path;
+    }
+    function id_store( $path ){
+        $this->path= $path;
+        return $this->path;
+    }
+
+    var $path_prop= array(
+        'depends' => array( 'id', 'path' ),
+    );
+    function path_make(){
+        throw new Exception( 'Property [path] is not defined' );
+    }
+    function path_store( $data ){
+        if( !preg_match( '~^([^/\\\\:]+:|[/\\\\])~', $data ) ):
+            $data= dirname( dirname( __DIR__ ) ) . '/' . $data;
         endif;
         
-        $path= strtr( $path, array( '\\' => '/' ) );
+        $data= strtr( $data, array( '\\' => '/' ) );
         
         while( true ):
-            $last= $path;
-            $path= preg_replace( '~/[^/:]+/\\.\\.~', '', $path, 1 );
-            if( $path === $last ) break 1;
+            $last= $data;
+            $data= preg_replace( '~/[^/:]+/\\.\\.~', '', $data, 1 );
+            if( $data === $last ) break 1;
         endwhile;
         
-        return static::$all[ $path ] ?: static::$all[ $path ]= parent::make()->path( $path );
+        return $data;
     }
     
-    protected $_path;
-    function set_path( $path ){
-        if( isset( $this->path ) ) throw new Exception( 'Redeclaration of $path' );
-        return $path;
+    var $uri_prop= array();
+    function uri_make( ){
+        $base= so_WC_Root::make()->currentPack->path;
+        $path= preg_replace( '~^' . preg_quote( $base ) . '~', '', $this->path );
+        return so_uri::make( $path );
     }
     
-    protected $_name;
-    function get_name( $name ){
-        if( isset( $name ) ) return $name;
+    var $name_prop= array();
+    function name_make( ){
         return basename( $this->path );
     }
     
-    protected $_nameList;
-    function get_nameList( $nameList ){
-        if( isset( $nameList ) ) return $nameList;
+    var $nameList_prop= array();
+    function nameList_make( ){
         return explode( '.', $this->name );
     }
     
-    protected $_parent;
-    function get_parent( $parent ){
-        if( isset( $parent ) ) return $parent;
+    var $parent_prop= array();
+    function parent_make( ){
         return so_file::make( dirname( $this->path ) . '/' );
     }
     
-    protected $_exists;
-    function get_exists( $exists ){
+    var $exists_prop= array(
+        'depends' => array(),
+    );
+    function exists_make( ){
         return file_exists( $this->path );
     }
-    function set_exists( $exists ){
+    function exists_store( $exists ){
+        unset( $this->childList );
         if( $exists ):
             if( $this->exists ) return $exists;
             $this->parent->exists= true;
@@ -61,30 +78,46 @@ extends so_meta
         return $exists;
     }
     
-    protected $_content;
-    function get_content( $content ){
-        if( isset( $content ) ) return $content;
-        return @file_get_contents( $this->path );
+    var $content_prop= array(
+        'depends' => array(),
+    );
+    function content_make( ){
+        $path= $this->path;
+        if( !is_file( $path ) ) return null;
+        return file_get_contents( $path );
     }
-    function set_content( $content ){
-        if( $content == $this->content ) return $content;
+    function content_store( $content ){
+        if( isset( $this->content ) )
+            if( $content == $this->content )
+                return $content;
+        
         $this->parent->exists= true;
         file_put_contents( $this->path, $content );
-        $this->_version= null;
+        unset( $this->version );
         return $content;
     }
     
-    protected $_version;
-    function get_version( $version ){
-        if( isset( $version ) ) return $version;
+    function append( $content ){
+        $f= fopen( $this->path, 'ab' );
+        if( !$f )
+            throw new Exception( "Can not open file [{$this->path}]" );
         
+        $count= fwrite( $f, (string) $content );
+        fclose( $f );
+        
+        if( $count === false )
+            throw new Exception( "Can not append to file [{$this->path}]" );
+        
+        return $this;
+    }
+    
+    var $version_prop= array();
+    function version_make( ){
         return strtoupper( base_convert( filemtime( $this->path ), 10, 36 ) );
     }
     
-    protected $_childList;
-    function get_childList( $childList ){
-        if( isset( $childList ) ) return $childList;
-        
+    var $childList_prop= array();
+    function childList_make( ){
         $list= array();
         
         if( $this->exists ):
@@ -104,6 +137,13 @@ extends so_meta
     
     function go( $path ){
         return so_file::make( preg_replace( '~[^/]+$~', '', $this->path ) . $path );
+    }
+    
+    function createUniq( $prefix= '', $postfix= '' ){
+        while( true ):
+            $file= $this->go( uniqid( $prefix ) . $postfix );
+            if( !$file->exists ) return $file;
+        endwhile;
     }
     
     function __toString( ){

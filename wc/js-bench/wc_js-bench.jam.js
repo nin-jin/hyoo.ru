@@ -1,24 +1,24 @@
 $jam.Component
-(   'wc:js-bench_list'
+(   'wc_js-bench_list'
 ,   new function( ){
         return function( nodeRoot ){
             nodeRoot= $jam.Node( nodeRoot )
             
             var nodeHeader=
-            $jam.Node.parse( '<wc:js-bench_header title="ctrl + enter" />' )
-            .tail( $jam.Node.parse( '<wc:js-bench_runner>Run ►' ) )
-            .tail( $jam.Node.parse( '<wc:js-bench_column>inner (µs)' ) )
-            .tail( $jam.Node.parse( '<wc:js-bench_column>outer (µs)' ) )
+            $jam.Node.parse( '<wc_js-bench_header title="ctrl + enter" />' )
+            .tail( $jam.Node.parse( '<wc_js-bench_runner>Run ►' ) )
+            .tail( $jam.Node.parse( '<wc_js-bench_column>inner (µs)' ) )
+            .tail( $jam.Node.parse( '<wc_js-bench_column>outer (µs)' ) )
             
             nodeRoot.head( nodeHeader )
 
-            //var nodeControls= $jam.Node.Element( 'wc:hontrol' ).parent( nodeRoot )
-            //var nodeClone= $jam.Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
-            //var nodeDelete= $jam.Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
+            //var nodeControls= $jam.Node.Element( 'wc_hontrol' ).parent( nodeRoot )
+            //var nodeClone= $jam.Node.parse( '<wc_hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
+            //var nodeDelete= $jam.Node.parse( '<wc_hontrol_delete>delete' ).parent( nodeControls )
 
             var refresh=
             function( ){
-                var benchList= nodeRoot.childList( 'wc:js-bench' )
+                var benchList= nodeRoot.childList( 'wc_js-bench' )
                 for( var i= 0; i < benchList.length(); ++i ){
                     $jam.Event()
                     .type( '$jam.eventCommit' )
@@ -41,7 +41,7 @@ $jam.Component
 )
 
 $jam.Component
-(   'wc:js-bench'
+(   'wc_js-bench'
 ,   new function( ){
     
         var queue=
@@ -59,15 +59,15 @@ $jam.Component
             .clear()
             
             var nodeSource=
-            $jam.Node.parse( '<wc:js-bench_source><wc:editor wc:editor_hlight="js">' + $jam.htmlEscape( source ) )
+            $jam.Node.parse( '<wc_js-bench_source><wc_editor wc_editor_hlight="js">' + $jam.htmlEscape( source ) )
             .parent( nodeRoot )
             
             var nodeInner=
-            $jam.Node.parse( '<wc:js-bench_result class=" source=inner " />' )
+            $jam.Node.parse( '<wc_js-bench_result class=" source=inner " />' )
             .parent( nodeRoot )
 
             var nodeOuter=
-            $jam.Node.parse( '<wc:js-bench_result class=" source=outer " />' )
+            $jam.Node.parse( '<wc_js-bench_result class=" source=outer " />' )
             .parent( nodeRoot )
             
             nodeRoot.surround( $jam.Node.Fragment() ) // for chrome 12
@@ -163,7 +163,7 @@ $jam.Component
             var clone=
             function( ){
                 var node=
-                $jam.Node.Element( 'wc:js-bench' )
+                $jam.Node.Element( 'wc_js-bench' )
                 .text( nodeSource.text() )
                 nodeRoot.prev( node )
             }

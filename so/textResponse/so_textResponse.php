@@ -1,8 +1,8 @@
 <?php
 
 class so_textResponse
-extends so_meta
 {
+    use so_meta;
 
     public $type= 'text/plain';
     public $encoding= 'utf-8';

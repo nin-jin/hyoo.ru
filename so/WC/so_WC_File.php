@@ -1,6 +1,9 @@
 <?php
 
-class so_WC_File extends so_meta {
+class so_WC_File
+{
+    use so_meta;
+
     protected $_name;
     function set_name( $name ){
         if( isset( $this->name ) ) throw new Exception( 'Redeclaration of $name' );
@@ -16,7 +19,7 @@ class so_WC_File extends so_meta {
     protected $_path;
     function get_path( $path ){
         if( isset( $path ) ) return $path;
-        return $this->module->path . '/' . $this->name;
+        return $this->module->path->go( $this->name );
     }
     
     protected $_ext;
@@ -33,7 +36,7 @@ class so_WC_File extends so_meta {
     }
     function set_exists( $exists ){
         if( $exists ) throw new Exception( '$exists=true is not implemented' );
-        else @unlink( $this->path );
+        else if( is_file( $this->path ) ) unlink( $this->path );
         return $exists;
     }
     
@@ -62,7 +65,7 @@ class so_WC_File extends so_meta {
     protected $_content;
     function get_content( $content ){
         if( isset( $content ) ) return $content;
-        return @file_get_contents( $this->path );
+        return is_file( $this->path ) ? file_get_contents( $this->path ) : null;
     }
     function set_content( $content ){
         if( $content == $this->content ) return $content;
@@ -83,20 +86,22 @@ class so_WC_File extends so_meta {
     function get_dependModules( $depends ){
         if( isset( $depends ) ) return $depends;
         $depends= array();
+        
         if( $this->ext === 'jam.js' ):
             preg_match_all
-            (   '/(?:\$(\w+)\.)(\w+)(?![\w$])/'
+            (   '/\$(\w+)(?:\.(\w+))?(?![\w$])/'
             ,   $this->content
-            ,   &$matches
+            ,   $matches
             ,   PREG_SET_ORDER
             );
             if( $matches ) foreach( $matches as $item ):
-                list( $str, $packName, $moduleName )= $item;
+                list( $str, $packName )= $item;
+                $moduleName= so_value::make( $item[2] );
                 
                 $pack= $this->root->createPack( $packName );
                 if( !$pack->exists ) throw new Exception( "Pack [{$pack->id}] not found for [{$this->id}]" );
                 
-                $module= $pack->createModule( $moduleName );
+                $module= $moduleName ? $pack->createModule( $moduleName ) : $pack->mainModule;
                 if( !$module->exists ) throw new Exception( "Module [{$module->id}] not found for [{$this->id}]" );
                 
                 $depends[ $module->id ]= $module;
@@ -108,15 +113,15 @@ class so_WC_File extends so_meta {
         
         if( $this->ext === 'php' ):
             preg_match_all
-            (   '/class\s+\w+\s+extends\s+([a-zA-Z]+)_([a-zA-Z]+)/'
+            (   '/\b(?:extends|implements|use|new)\s+([a-zA-Z]+)_([a-zA-Z]+)/'
             ,   $this->content
-            ,   &$matches1
+            ,   $matches1
             ,   PREG_SET_ORDER
             );
             preg_match_all
             (   '/\b([a-zA-Z]+)_([a-zA-Z]+)\w*::/'
             ,   $this->content
-            ,   &$matches2
+            ,   $matches2
             ,   PREG_SET_ORDER
             );
             $matches= array_merge( $matches1, $matches2 );
@@ -136,23 +141,20 @@ class so_WC_File extends so_meta {
         
         if( $this->ext === 'xsl' ):
             preg_match_all
-            (   '/<([a-zA-Z]+):([a-zA-Z-]+)/'
+            (   '/<([a-zA-Z]+)_([a-zA-Z0-9-]+)/'
             ,   $this->content
-            ,   &$matches1
+            ,   $matches1
             ,   PREG_SET_ORDER
             );
             preg_match_all
-            (   '/\b([a-zA-Z]+):([a-zA-Z-]+)=[\'"]/'
+            (   '/ ([a-zA-Z]+)_([a-zA-Z0-9-]+)[\w-]*=[\'"]/'
             ,   $this->content
-            ,   &$matches2
+            ,   $matches2
             ,   PREG_SET_ORDER
             );
             $matches= array_merge( $matches1, $matches2 );
             if( $matches ) foreach( $matches as $item ):
                 list( $str, $packName, $moduleName )= $item;
-                if( $packName == 'xsl' ) continue;
-                if( $packName == 'xmlns' ) continue;
-                if( $packName == 'xml' ) continue;
                 
                 $pack= $this->root->createPack( $packName );
                 $module= $pack->createModule( $moduleName );
@@ -182,6 +184,7 @@ class so_WC_File extends so_meta {
                 $depends[ $module->id ]= $module;
             endforeach;
         endif;
+        
         return $depends;
     }
 

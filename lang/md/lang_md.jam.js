@@ -90,8 +90,8 @@ new function(){
         }
     
         // hyper link
-        // \\title\http://example.org/\
-        this[ /(\\)(.*?)(\\)((?:(?:https?|ftps?|mailto|magnet):[^\0]*?|[^:]*?(?:[\/\?].*?)?))(\\)/.source ]=
+        // [title;http://example.org/]
+        this[ /(\[)(.*?)(\\)((?:https?|ftps?|mailto|magnet):[^\0]*?|[^:]*?(?:[\/\?].*?)?)(\])/.source ]=
         function( open, title, middle, href, close ){
             var uri= href
             open= md.linkMarker( open )
@@ -108,7 +108,7 @@ new function(){
         function( open, href, close ){
             return md.image( md.imageHref( open + href + close ) + '<a href="' + $jam.htmlEscape( href ) + '"><object data="' + $jam.htmlEscape( href ) + '"></object></a>' )
         }
-    
+        
         // emphasis
         // /some text/
         this[ /([^\s"({[]\/)/.source ]=
@@ -209,7 +209,7 @@ new function(){
         function( prefix, id, close ){
             var href= md.embedHref( prefix + id + close )
             var uri= 'http://www.youtube.com/embed/' + id
-            var embed= md.embed( '<wc:aspect wc:aspect_ratio=".75"><iframe class="wc_lang_md_embed-object" src="' + uri + '" allowfullscreen></iframe></wc:aspect>' )
+            var embed= md.embed( '<wc_aspect wc_aspect_ratio=".75"><iframe class="wc_lang_md_embed-object" src="' + uri + '" allowfullscreen></iframe></wc_aspect>' )
             return href + embed
         }
         
@@ -219,7 +219,7 @@ new function(){
         function( url, close ){
             var href= md.embedHref( url + close )
             url= url.replace( /\xAD/g, '' )
-            var embed= md.embed( '<a href="' + $jam.htmlEscape( url ) + '"><image src="' + $jam.htmlEscape( url ) + '" /></a>' )
+            var embed= md.embed( '<a href="' + $jam.htmlEscape( url ) + '"><img src="' + $jam.htmlEscape( url ) + '" /></a>' )
             return href + embed
         }
     
@@ -245,7 +245,7 @@ new function(){
                     cells[ c ]= md.tableCell( cell )
                 }
                 row= cells.join( '' )
-                var rowSep= '<lang:md_table-row-sep><wc:lang-md_table-cell colspan="300">\n--</wc:lang-md_table-cell></lang:md_table-row-sep>'
+                var rowSep= '<lang:md_table-row-sep><wc_lang-md_table-cell colspan="300">\n--</wc_lang-md_table-cell></lang:md_table-row-sep>'
                 rows[ r ]= rowSep + md.tableRow( row )
             }
             content= rows.join( '' )

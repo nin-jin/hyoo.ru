@@ -1,7 +1,5 @@
 <html
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
     xmlns:snippet="https://github.com/nin-jin/snippet"
     >
     <head>
@@ -14,9 +12,9 @@
 
     </head>
     <body>
-            <wc:desktop>
+            <wc_desktop>
                 
-                <wc:spacer>
+                <wc_spacer>
                     <snippet:root>
                         <snippet:content>
                         </snippet:content>
@@ -25,17 +23,17 @@
                             </snippet:link>
                         </p>
                     </snippet:root>
-                </wc:spacer>
+                </wc_spacer>
                 <snippet:descr>
-                    <wc:hlight class=" lang=js ">_test.ok() // all ok</wc:hlight>
-                    <wc:hlight class=" lang=js ">_test.ok( 123 ) // ok if value isn't empty</wc:hlight>
-                    <wc:hlight class=" lang=js ">_test.ok( 'foo', "foo" ) // ok if equal</wc:hlight>
-                    <wc:hlight class=" lang=js ">_test.not // same as ok, but with reversed logic</wc:hlight>
-                    <wc:hlight class=" lang=js ">_test.deadline( 1000 ) // timeout for async tests</wc:hlight> 
-                    <wc:hlight class=" lang=js ">ctrl+enter // commit changes</wc:hlight>
-                    <wc:hlight class=" lang=js ">ctrl+shift+enter // clone test</wc:hlight>
+                    <wc_hlight wc_hlight_lang="js">_test.ok() // all ok</wc_hlight>
+                    <wc_hlight wc_hlight_lang="js">_test.ok( 123 ) // ok if value isn't empty</wc_hlight>
+                    <wc_hlight wc_hlight_lang="js">_test.ok( 'foo', "foo" ) // ok if equal</wc_hlight>
+                    <wc_hlight wc_hlight_lang="js">_test.not // same as ok, but with reversed logic</wc_hlight>
+                    <wc_hlight wc_hlight_lang="js">_test.deadline( 1000 ) // timeout for async tests</wc_hlight> 
+                    <wc_hlight wc_hlight_lang="js">ctrl+enter // commit changes</wc_hlight>
+                    <wc_hlight wc_hlight_lang="js">ctrl+shift+enter // clone test</wc_hlight>
                 </snippet:descr>
-            </wc:desktop>
+            </wc_desktop>
         
     </body>
 </html> 

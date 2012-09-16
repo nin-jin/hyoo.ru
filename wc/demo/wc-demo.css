@@ -1,17 +1,17 @@
-wc\:demo {
+wc_demo {
     display: block;
     border: 1px solid #ccc;
     max-width: 100%;
     margin: 2pt 0;
 }
 
-wc\:demo_result {
+wc_demo_result {
     display: block;
     border-bottom: 1px dotted #aaa;
     overflow: auto;
 }
 
-wc\:demo_source {
+wc_demo_source {
     display: block;
     white-space: pre;
     overflow: auto;

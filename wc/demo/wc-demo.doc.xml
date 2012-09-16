@@ -1,18 +1,16 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>wc:demo</h1>
+    <h1>wc_demo</h1>
 
     <p>Демонстрирует html-код и позволяет тут же посмотреть его результат.</p>
     
-    <wc:demo>
+    <wc_demo>
     <![CDATA[
-        <wc:spacer>
-            <wc:demo>
+        <wc_spacer>
+            <wc_demo>
                 &lt;a
                     id="_wc-demo_test_1_"
                     href="http://ya.ru/"
@@ -24,9 +22,9 @@
                 &lt;script&gt;
                     document.getElementById( '_wc-demo_test_1_' ).innerHTML+= '!'
                 &lt;/script&gt;
-            </wc:demo>
-        </wc:spacer>
+            </wc_demo>
+        </wc_spacer>
     ]]>
-    </wc:demo>
+    </wc_demo>
 
-</doc:root>
+</doc_root>

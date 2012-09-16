@@ -1,6 +1,7 @@
 <?php
 
-class so_meta {
+trait so_meta {
+    
     function __toString( ){
         return print_r( $this, true );
     }

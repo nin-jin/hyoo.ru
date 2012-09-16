@@ -1,8 +1,8 @@
 <?php
 
 class so_xmlResponse
-extends so_meta
 {
+    use so_meta;
 
     public $type= 'application/xml';
     public $encoding= 'utf-8';
@@ -15,13 +15,12 @@ extends so_meta
         
         $response= array();
         
-        $root= new so_WC_Root;
-        $mix= $root->createPack( 'so' )->createModule( '-mix' );
+        $mix= so_file::make( 'so/-mix/' );
         
         $response[ '!DOCTYPE' ]= array( 'name' => 'html' );
         
         $response[ '?xml-stylesheet' ]= array(
-            'href' => 'so/-mix/index.xsl?' . $mix->createFile( 'index.xsl' )->version,
+            'href' => 'so/-mix/index.xsl?' . $mix->go( 'index.xsl' )->version,
             'type' =>'text/xsl',
         );
         
@@ -29,10 +28,9 @@ extends so_meta
             '@xmlns' => 'http://www.w3.org/1999/xhtml',
             '@xmlns:html' => 'http://www.w3.org/1999/xhtml',
             '@xmlns:so' => 'https://github.com/nin-jin/so',
-            '@xmlns:wc' => 'https://github.com/nin-jin/wc',
-            'so:page' => array(
-                'so:page_script' => 'so/-mix/index.js?' . $mix->createFile( 'index.js' )->version,
-                'so:page_stylesheet' => 'so/-mix/index.css?' . $mix->createFile( 'index.css' )->version,
+            'so_page' => array(
+                'so_page_script' => 'so/-mix/index.js?' . $mix->go( 'index.js' )->version,
+                'so_page_stylesheet' => 'so/-mix/index.css?' . $mix->go( 'index.css' )->version,
             ),
         );
         
@@ -41,29 +39,29 @@ extends so_meta
     
     function error( $error ){
         $this->status= 'error';
-        $this->content->root['so:page']->append( array(
-            'so:Error' => (string)$error,
+        $this->content->root['so_page']->append( array(
+            'so_error' => (string)$error,
         ) );
         return $this;
     }
 
     function ok( $content ){
         $this->status= 'ok';
-        $this->content->root['so:page']->append( $content );
+        $this->content->root['so_page']->append( $content );
         return $this;
     }
 
     function missed( $content ){
         $this->status= 'missed';
-        $this->content->root['so:page']->append( $content );
+        $this->content->root['so_page']->append( $content );
         return $this;
     }
 
     function found( $location ){
         $this->status= 'found';
         $this->location= $location;
-        $this->content->root['so:page']->append( array(
-            'so:found' => (string)$location,
+        $this->content->root['so_page']->append( array(
+            'so_found' => (string)$location,
         ) );
         return $this;
     }
@@ -71,8 +69,8 @@ extends so_meta
     function moved( $location ){
         $this->status= 'moved';
         $this->location= $location;
-        $this->content->root['so:page']->append( array(
-            'so:moved' => (string)$location,
+        $this->content->root['so_page']->append( array(
+            'so_moved' => (string)$location,
         ) );
         return $this;
     }

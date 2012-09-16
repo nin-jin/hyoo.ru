@@ -1,4 +1,4 @@
-wc\:top-tool {
+wc_top-tool {
     display: inline-block;
     vertical-align: bottom;
     position: relative;
@@ -8,7 +8,7 @@ wc\:top-tool {
     font: 12px/1 monospace;
 }
 
-wc\:top-tool_pane {
+wc_top-tool_pane {
     display: inline-table;
     position: relative;
     box-shadow: 2px 2px 3px #666;
@@ -35,11 +35,11 @@ wc\:top-tool_pane {
     transition-delay: .2s;
 }
 
-wc\:top-tool:focus wc\:top-tool_pane {
+wc_top-tool:focus wc_top-tool_pane {
     top: 2px;
 }
 
-wc\:top-tool:hover wc\:top-tool_pane {
+wc_top-tool:hover wc_top-tool_pane {
     top: 2px;
     -webkit-transition-property: top;
     -webkit-transition-duration: .1s;
@@ -58,7 +58,7 @@ wc\:top-tool:hover wc\:top-tool_pane {
     transition-delay: .1s;
 }
 
-wc\:top-tool_hidden {
+wc_top-tool_hidden {
     width: 0;
     border: none;
     padding: 0;
@@ -69,23 +69,23 @@ wc\:top-tool_hidden {
     overflow: hidden;
 }
 
-wc\:top-tool_item {
+wc_top-tool_item {
     display: table-cell;
     vertical-align: bottom;
     background: transparent;
     border-right: 1px solid #aaa;
 }
-wc\:top-tool_item:last-child {
+wc_top-tool_item:last-child {
     border-right: none;
 }
 
-wc\:top-tool form {
+wc_top-tool form {
     margin: 0;
     padding: 0;
     vertical-align: top;
 }
 
-wc\:top-tool input {
+wc_top-tool input {
     display: block;
     width: 100%;
     padding: 2px 2px;
@@ -95,7 +95,7 @@ wc\:top-tool input {
     background: transparent;
 }
 
-wc\:top-tool input:focus {
+wc_top-tool input:focus {
     background: white;
     outline: none;
 }

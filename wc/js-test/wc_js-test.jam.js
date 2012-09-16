@@ -1,5 +1,5 @@
 $jam.Component
-(   'wc:js-test'
+(   'wc_js-test'
 ,   function( nodeRoot ){
         return new function( ){
             nodeRoot= $jam.Node( nodeRoot )
@@ -14,11 +14,11 @@ $jam.Component
             var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
         
             nodeRoot.clear()
-            var nodeSource0= $jam.Node.Element( 'wc:js-test_source' ).parent( nodeRoot )
-            var nodeSource= $jam.Node.parse( '<wc:editor wc:editor_hlight="js" />' ).text( source ).parent( nodeSource0 )
-            var nodeControls= $jam.Node.Element( 'wc:hontrol' ).parent( nodeRoot )
-            var nodeClone= $jam.Node.parse( '<wc:hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
-            var nodeDelete= $jam.Node.parse( '<wc:hontrol_delete>delete' ).parent( nodeControls )
+            var nodeSource0= $jam.Node.Element( 'wc_js-test_source' ).parent( nodeRoot )
+            var nodeSource= $jam.Node.parse( '<wc_editor wc_editor_hlight="js" />' ).text( source ).parent( nodeSource0 )
+            var nodeControls= $jam.Node.Element( 'wc_hontrol' ).parent( nodeRoot )
+            var nodeClone= $jam.Node.parse( '<wc_hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
+            var nodeDelete= $jam.Node.parse( '<wc_hontrol_delete>delete' ).parent( nodeControls )
 
             var _test= {}
             
@@ -102,7 +102,7 @@ $jam.Component
             
             var print=
             function( val ){
-                var node= $jam.Node.Element( 'wc:js-test_result' )
+                var node= $jam.Node.Element( 'wc_js-test_result' )
                 node.text( val )
                 nodeRoot.tail( node )
             }
@@ -120,7 +120,7 @@ $jam.Component
             
             var run=
             function( ){
-                var results= nodeRoot.childList( 'wc:js-test_result' )
+                var results= nodeRoot.childList( 'wc_js-test_result' )
                 for( var i= 0; i < results.length(); ++i ){
                     results.get(i).parent( null )
                 }
@@ -134,7 +134,7 @@ $jam.Component
             function( ){
                 run()
                 var node=
-                $jam.Node.Element( 'wc:js-test' )
+                $jam.Node.Element( 'wc_js-test' )
                 .text( nodeSource.text() )
                 nodeRoot.prev( node )
             }

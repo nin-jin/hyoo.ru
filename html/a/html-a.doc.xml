@@ -1,11 +1,9 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>html:a</h1>
+    <h1>a</h1>
     
     <p>
         <a href="#">Обычная ссылка.</a>
@@ -14,4 +12,4 @@
         <a href="#" class=" reset=true ">Замаскированная ссылка.</a>
     </p>
 
-</doc:root>
+</doc_root>

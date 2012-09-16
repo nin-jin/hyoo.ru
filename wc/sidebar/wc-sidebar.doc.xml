@@ -1,28 +1,26 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>wc:sidebar</h1>
+    <h1>wc_sidebar</h1>
 
     <p>Рисует боковую панель. Она может располагаться как слева, так и справа.</p>
 
-    <wc:demo>
+    <wc_demo>
     <![CDATA[
-        <wc:sidebar wc:sidebar_align="left">
+        <wc_sidebar wc_sidebar_align="left">
             Левая панель
-        </wc:sidebar>
-        <wc:sidebar wc:sidebar_align="right">
+        </wc_sidebar>
+        <wc_sidebar wc_sidebar_align="right">
             Правая панель
-        </wc:sidebar>
-        <wc:paper>
-            <wc:spacer>
+        </wc_sidebar>
+        <wc_paper>
+            <wc_spacer>
                 Основной контент
-            </wc:spacer>
-        </wc:paper>
+            </wc_spacer>
+        </wc_paper>
     ]]>
-    </wc:demo>
+    </wc_demo>
     
-</doc:root>
+</doc_root>

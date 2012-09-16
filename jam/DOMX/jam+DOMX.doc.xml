@@ -1,24 +1,22 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     xml:lang="ru"
     >
 
     <h1>$jam.DOMX</h1>
     <p>Обёртка вокруг XML документа.</p>
 
-    <wc:js-test>
+    <wc_js-test>
     <![CDATA[
         with( $jam ){
             var str= '<xxx/>'
             _test.ok( $jam.DOMX.parse( str ).toString(), str )
         }
     ]]>
-    </wc:js-test>
+    </wc_js-test>
 
-    <wc:js-test>
+    <wc_js-test>
     <![CDATA[
         with( $jam ){
             var xml= $jam.DOMX.parse( '<xxx />' )
@@ -27,6 +25,6 @@
             _test.ok( xml.transform( xsl ).toString(), res.toString() )
         }
     ]]>
-    </wc:js-test>
+    </wc_js-test>
 
-</doc:root>
+</doc_root>

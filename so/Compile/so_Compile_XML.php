@@ -16,18 +16,22 @@ class so_Compile_XML {
                 $fileList= array();
                 
                 foreach( $pack->selectFiles( '|\\.doc\\.xml$|' ) as $file ):
+                    $doc= new DOMDocument( '1.0', 'utf-8' );
+                    $doc->load( $file->path );
                     $fileList[]= array(
                         'file' => array(
                             'link' => "../../{$file->id}?{$file->version}",
-                            'title' => DOMDocument::load( $file->path )->getElementsByTagName( 'h1' )->item(0)->nodeValue,
+                            'title' => $doc->getElementsByTagName( 'h1' )->item(0)->nodeValue,
                         ),
                     );
                 endforeach;
             else:
+                $doc= new DOMDocument( '1.0', 'utf-8' );
+                $doc->load( $mainFile->path );
                 $fileList= array(
                     'file' => array(
                         'link' => "../../{$mainFile->id}?{$mainFile->version}",
-                        'title' => DOMDocument::load( $mainFile->path )->getElementsByTagName( 'h1' )->item(0)->nodeValue,
+                        'title' => $doc->getElementsByTagName( 'h1' )->item(0)->nodeValue,
                     ),
                 );
             endif;

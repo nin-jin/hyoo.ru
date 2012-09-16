@@ -1,6 +1,6 @@
 <?php
 
-header( 'content-type:text/xml' );
+header( 'content-type:application/xml' );
 
 require_once( '../../../so/autoload/so_autoload.php' );
 

@@ -4,7 +4,7 @@ $jam.define
     
         var poolNode= $jam.Lazy( function(){
             var body= $jam.doc().getElementsByTagName( 'body' )[ 0 ]
-            var pool= $jam.doc().createElement( 'wc:Thread:pool' )
+            var pool= $jam.doc().createElement( 'wc_Thread:pool' )
             pool.style.display= 'none'
             body.insertBefore( pool, body.firstChild )
             return $jam.Value( pool )

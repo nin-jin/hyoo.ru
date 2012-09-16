@@ -1,14 +1,12 @@
 <?php
 
 class so_dom_iterator
-extends so_meta
 implements Iterator
 {
+    use so_meta;
 
-    static function make( $list ){
-        $iterator= new so_dom_iterator;
-        $iterator->list= $list;
-        return $iterator;
+    static function make( $list= array() ){
+        return (new static)->list( $list );
     }
 
     protected $_list;
@@ -21,13 +19,13 @@ implements Iterator
     }
 
     protected $_iterator;
-    function &get_iterator( &$iterator ){
+    function get_iterator( &$iterator ){
         if( isset( $iterator ) ) return $iterator;
         return new ArrayIterator( $this->list );
     }
 
     function current( ){
-        return so_dom::wrap( $this->iterator->current() );
+        return so_dom::make( $this->iterator->current() );
     }
     
     function key( ){

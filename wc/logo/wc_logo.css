@@ -1,4 +1,4 @@
-wc\:logo {
+wc_logo {
     font: 64px/1 'Times', serif;
     color: white;
     color: #aaa\9;
@@ -10,7 +10,7 @@ wc\:logo {
     opacity: .9;
 }
 
-a:hover wc\:logo {
+a:hover wc_logo {
     color: black;
     text-shadow: 0 0 4px gray;
 }

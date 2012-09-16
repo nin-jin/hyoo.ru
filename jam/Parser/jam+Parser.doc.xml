@@ -1,18 +1,16 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.Parser</h1>
 
     <p>Создаёт функцию-парсер. На вход принимает карту соответствия лексем фабрикам. В качестве параметров фабрикам передаются захваченные круглыми скобками подстроки. "" - дефолтная лексема, которая матчится на всё, на что не сматчились остальные. Парсер принимает на вход строку и возвращает массив полученных от фабрик значений.</p>
 
-    <wc:js-test> _test.ok( $jam.Parser ) </wc:js-test>
-    <wc:js-test> _test.ok( $jam.Parser({ }) ) </wc:js-test>
-    <wc:js-test> _test.ok( $jam.Parser({ })( '123' ) ) </wc:js-test>
-    <wc:js-test>
+    <wc_js-test> _test.ok( $jam.Parser ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Parser({ }) ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Parser({ })( '123' ) ) </wc_js-test>
+    <wc_js-test>
         var parse= $jam.Parser( new function(){
             this[ /\d/.source ]=
             function( ){
@@ -20,8 +18,8 @@
             }
         })
         _test.ok( parse( 'a12bc' ).join(''), 'a##bc' )
-    </wc:js-test>
-    <wc:js-test>
+    </wc_js-test>
+    <wc_js-test>
         var parse= $jam.Parser( new function(){
             this[ /([a-zA-Z])/.source ]=
             function( letter ){
@@ -30,8 +28,8 @@
             this[ '' ]= $jam.Value( '' )
         })
         _test.ok( parse( 'a12bc' ).join(''), 'abc' )
-    </wc:js-test> 
-    <wc:js-test>
+    </wc_js-test> 
+    <wc_js-test>
         var parse= $jam.Parser( new function(){
             this[ /(_(\w+))/.source ]=
             function( underword, word ){
@@ -43,7 +41,7 @@
             }
         })
         _test.ok( parse( '[_ab,c_d]' ).join(''), '[ab,C_d]' )
-    </wc:js-test>
+    </wc_js-test>
 
-</doc:root>
+</doc_root>
 

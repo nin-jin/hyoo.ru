@@ -1,5 +1,5 @@
 $jam.Component
-(   'wc:editor'
+(   'wc_editor'
 ,   function( nodeRoot ){
         return new function( ){
             nodeRoot= $jam.Node( nodeRoot )
@@ -12,7 +12,7 @@ $jam.Component
             .parent( nodeRoot )
             
             var sourceLast= ''
-            var update= $jam.Throttler( 50, function( ){
+            var update= function( ){
                 //var source= $jam.String( nodeSource.text() ).replace( /\n?\r?$/, '\n' ).$
                 var source= nodeSource.text()
                 if( source === sourceLast ) return
@@ -20,7 +20,7 @@ $jam.Component
                 
                 source=
                 $jam.String( source )
-                .process( $lang( nodeRoot.attr( 'wc:editor_hlight' ) ) )
+                .process( $lang ( nodeRoot.attr( 'wc_editor_hlight' ) ) )
                 .replace( /  /g, '\u00A0 ' )
                 .replace( /  /g, ' \u00A0' )
                 //.replace( /[^\n<>](?:<[^<>]+>)*$/, '$&\n' )
@@ -66,10 +66,10 @@ $jam.Component
                 //if( source.charAt( source.length -1 ) !== '\n' ) nodeSource.tail( $jam.Node.Text( '\n' ) )
                 //if( !source ) $jam.DomRange().aimNode( nodeSource.head() ).collapse2end().select()
                 //if( nodeSource.tail() && nodeSource.tail().name() !== 'br' ) nodeSource.tail( $jam.Node.Element( 'br' ) )
-            } )
+            }
             
             var onEdit=
-            nodeRoot.listen( '$jam.eventEdit', update )
+            nodeRoot.listen( '$jam.eventEdit', $jam.Throttler( 100, update ) )
             
             var onEnter=
             nodeRoot.listen( 'keypress', function( event ){
@@ -159,7 +159,7 @@ $jam.Component
             nodeRoot.listen( 'mousedown', function( event ){
                 event= $jam.Event( event )
                 if( !event.keyMeta() ) return
-                nodeRoot.attr( 'wc:editor_active', true )
+                nodeRoot.attr( 'wc_editor_active', true )
                 nodeSource.editable( true )
             })
             
@@ -168,7 +168,7 @@ $jam.Component
                 event= $jam.Event( event )
                 if( !event.keyCode().escape ) return
                 nodeSource.editable( false )
-                nodeRoot.attr( 'wc:editor_active', false )
+                nodeRoot.attr( 'wc_editor_active', false )
                 event.defaultBehavior( false )
             })
             
@@ -177,8 +177,8 @@ $jam.Component
                 onLeave.sleep()
             }
             
-            $jam.schedule( 0, update )
-            nodeRoot.attr( 'wc:editor_inited', true )
+            update()
+            nodeRoot.attr( 'wc_editor_inited', true )
         }
     }
 )

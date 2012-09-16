@@ -1,4 +1,4 @@
-wc\:js-bench_list {
+wc_js-bench_list {
     font-size: 10pt;
     line-height: 1.2;
     display: inline-table;
@@ -7,16 +7,16 @@ wc\:js-bench_list {
     margin: 2pt 0;
 }
 
-wc\:js-bench_header {
+wc_js-bench_header {
     display: table-row;
     cursor: pointer;
 }
 
-wc\:js-bench {
+wc_js-bench {
     display: table-row;
 }
 
-wc\:js-bench_column {
+wc_js-bench_column {
     text-align: center;
     font-family: 'Arial', sans-serif;
     font-weight: bold;
@@ -25,26 +25,26 @@ wc\:js-bench_column {
     padding: 0 4pt;
 }
 
-wc\:js-bench_runner {
+wc_js-bench_runner {
     text-align: right;
     display: table-cell;
     color: #060;
 }
-wc\:js-bench_header:hover wc\:js-bench_runner {
+wc_js-bench_header:hover wc_js-bench_runner {
     color: #090;
 }
-wc\:js-bench_header:active wc\:js-bench_runner {
+wc_js-bench_header:active wc_js-bench_runner {
     color: #000;
 }
 
-wc\:js-bench_source {
+wc_js-bench_source {
     display: table-cell;
     background-color: #eee;
     border: 1px solid #999;
     text-align: left;
 }
 
-wc\:js-bench_result {
+wc_js-bench_result {
     border: 1px solid #999;
     padding: 2pt 4pt;
     text-align: right;
@@ -53,16 +53,16 @@ wc\:js-bench_result {
     vertical-align: top;
 }
 
-wc\:js-bench_result.source\=inner {
+wc_js-bench_result.source\=inner {
     background-color: #dfd;
     font-weight: bold;
 }
 
-wc\:js-bench_result.source\=outer {
+wc_js-bench_result.source\=outer {
     background-color: #edf;
 }
 
-wc\:js-bench.wait\=true wc\:js-bench_result {
+wc_js-bench.wait\=true wc_js-bench_result {
     background-color: #eee;
 }
 

@@ -1,6 +1,8 @@
 <?php
 
-class so_NativeTemplate extends so_meta {
+class so_NativeTemplate
+{
+    use so_meta;
 
     public $path= '';
     public $param= array();

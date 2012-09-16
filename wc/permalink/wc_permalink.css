@@ -1,16 +1,16 @@
-wc\:permalink {
+wc_permalink {
     font: 16px/1 'Lucida Console', monospace;
     opacity: .5;
 }
 
-wc\:permalink a {
+wc_permalink a {
     padding: 4px;
 }
 
-wc\:permalink:hover {
+wc_permalink:hover {
     opacity: 1;
 }
 
-wc\:permalink > a:hover {
+wc_permalink > a:hover {
     text-decoration: none;
 }

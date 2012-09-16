@@ -1,5 +1,5 @@
 $jam.Component
-(   'wc:demo'
+(   'wc_demo'
 ,   function( nodeRoot ){
         return new function( ){
             nodeRoot= $jam.Node( nodeRoot )
@@ -9,15 +9,15 @@ $jam.Component
             nodeRoot.clear()
             
             var nodeResult=
-            $jam.Node.Element( 'wc:demo_result' )
+            $jam.Node.Element( 'wc_demo_result' )
             .parent( nodeRoot )
             
             var nodeSource0=
-            $jam.Node.Element( 'wc:demo_source' )
+            $jam.Node.Element( 'wc_demo_source' )
             .parent( nodeRoot )
             
             var nodeSource=
-            $jam.Node.parse( '<wc:editor wc:editor_hlight="sgml" />' )
+            $jam.Node.parse( '<wc_editor wc_editor_hlight="sgml" />' )
             .text( source )
             .parent( nodeSource0 )
             

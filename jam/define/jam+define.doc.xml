@@ -1,15 +1,13 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.define</h1>
     <p>Регистрирует новый модуль. Громко ругается, если такой модуль уже есть.</p>
 
     <p>
-        <wc:js-test> _test.ok( $jam.define ) </wc:js-test>
+        <wc_js-test> _test.ok( $jam.define ) </wc_js-test>
     </p>
 
-</doc:root>
+</doc_root>

@@ -1,9 +1,9 @@
 <?php
 
 class so_dom
-extends so_meta
 implements Countable, ArrayAccess, IteratorAggregate
 {
+    use so_meta;
 
     static function make( $DOMNode= null ){
         
@@ -12,7 +12,9 @@ implements Countable, ArrayAccess, IteratorAggregate
         elseif( $DOMNode instanceof so_dom ):
             return $DOMNode;
         elseif( is_string( $DOMNode ) ):
-            $DOMNode= DOMDocument::loadXML( $DOMNode, LIBXML_COMPACT )->documentElement;
+            $doc= new DOMDocument( '1.0', 'utf-8' );
+            $doc->loadXML( $DOMNode, LIBXML_COMPACT );
+            $DOMNode= $doc->documentElement;
         elseif( $DOMNode instanceof SimpleXMLElement ):
             $DOMNode= dom_import_simplexml( $DOMNode );
         elseif( $DOMNode instanceof DOMNode ):
@@ -25,15 +27,19 @@ implements Countable, ArrayAccess, IteratorAggregate
     }
     
     static function wrap( $DOMNode ){
+        if( $DOMNode instanceof so_dom )
+            return $DOMNode;
         if( !( $DOMNode instanceof DOMNode ) ) throw new Exception( "[{$DOMNode}] is not a DOMNode" );
         $dom= new so_dom;
         $dom->DOMNode= $DOMNode;
         return $dom;
     }
+    
+    public $mime= 'application/xml';
 
     protected $_DOMNode;
     function get_DOMNode( $DOMNode ){
-        if( !isset( $DOMNode ) ) return new DOMDocument;
+        if( !isset( $DOMNode ) ) return new DOMDocument( '1.0', 'utf-8' );
         return $DOMNode;
     }
     function set_DOMNode( $DOMNode ){
@@ -95,16 +101,12 @@ implements Countable, ArrayAccess, IteratorAggregate
 
     protected $_childList;
     function get_childList( $childList ){
-        $list= new so_dom_List;
-        $list->DOMNodeList= $this->DOMNode->childNodes;
-        return $list;
+        return so_dom_list::make( $this->DOMNode->childNodes );
     }
 
     protected $_attrList;
     function get_attrList( $attrList ){
-        $list= new so_dom_List;
-        $list->DOMNodeList= $this->DOMNode->attributes;
-        return $list;
+        return so_dom_list::make( $this->DOMNode->attributes );
     }
 
     function append( ){
@@ -126,7 +128,7 @@ implements Countable, ArrayAccess, IteratorAggregate
                     continue 1;
                 endif;
                 
-                if( $arg->DOMNode ):
+                if( isset( $arg->DOMNode ) ):
                     $arg= $arg->DOMNode;
                 endif;
                 
@@ -203,9 +205,11 @@ implements Countable, ArrayAccess, IteratorAggregate
                     if( !$value ):
                         $value= array();
                     endif;
+                    $public= &$value[ 'public' ];
+                    $system= &$value[ 'system' ];
                     
                     $implementation= $this->DOMDocument->implementation;
-                    $content= $implementation->createDocumentType( $value[ 'name' ], $value[ 'public' ], $value[ 'system' ] );
+                    $content= $implementation->createDocumentType( $value[ 'name' ], $public, $system );
                     $DOMNode->appendChild( $content ); // FIXME: не работает =(
                     continue 1;
                 endif;
@@ -230,7 +234,6 @@ implements Countable, ArrayAccess, IteratorAggregate
     }
     
     function drop( ){
-        echo '[' . htmlentities( $this->root ) . ']';
         $this->DOMNode->parentNode->removeChild( $this->DOMNode );
         return $this;
     }
@@ -259,13 +262,14 @@ implements Countable, ArrayAccess, IteratorAggregate
             $name= substr( $key, 1 );
             return so_dom::wrap( $this->DOMNode->getAttributeNode( $name ) );
         endif;
-
-        foreach( $this->DOMNode->childNodes as $child ):
-            if( $child->nodeName !== $key ) continue;
-            return so_dom::wrap( $child );
+        
+        $list= array();
+        foreach( $this->childList as $child ):
+            if( $child->name !== $key ) continue;
+            $list[]= $child;
         endforeach;
         
-        return null;
+        return so_dom_list::make( $list );
     }
     
     function offsetSet( $key, $value ){

@@ -1,20 +1,18 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>wc:spacer</h1>
+    <h1>wc_spacer</h1>
 
     <p>Задаёт контенту небольшой отступ, величина которого зависит от ширины доступной области.</p>
 
-    <wc:demo>
+    <wc_demo>
     <![CDATA[
-        <wc:spacer>
+        <wc_spacer>
             Это позволяет комфортно просмотривать страницу как на больших мониторах, так и на маленьких.
-        </wc:spacer>
+        </wc_spacer>
     ]]>
-    </wc:demo>
+    </wc_demo>
 
-</doc:root>
+</doc_root>

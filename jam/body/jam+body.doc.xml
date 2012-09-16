@@ -1,8 +1,6 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.body</h1>
@@ -10,8 +8,8 @@
     <p>Возвращает элемент body.</p>
 
     <p>
-        <wc:js-test> _test.ok( $jam.body ) </wc:js-test>
-        <wc:js-test> _test.ok( $jam.body(), this.document.body ) </wc:js-test>
+        <wc_js-test> _test.ok( $jam.body ) </wc_js-test>
+        <wc_js-test> _test.ok( $jam.body(), this.document.body ) </wc_js-test>
     </p>
 
-</doc:root>
+</doc_root>

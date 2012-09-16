@@ -1,14 +1,12 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.support</h1>
     <p>Позволяет определить какие фичи поддерживает среда исполнения.</p>
 
-    <wc:js-test> _test.ok( $jam.support ) </wc:js-test>
+    <wc_js-test> _test.ok( $jam.support ) </wc_js-test>
     
 
-</doc:root>
+</doc_root>

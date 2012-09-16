@@ -1,20 +1,18 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
-    <h1>wc:footer</h1>
+    <h1>wc_footer</h1>
 
-    <wc:demo>
+    <wc_demo>
     <![CDATA[
-        <wc:spacer>
+        <wc_spacer>
             Рисует некоторую область, отрезанную от контента до неё.
-        </wc:spacer>
-        <wc:footer>
+        </wc_spacer>
+        <wc_footer>
             Содержимое области считается не особо важным.
-        </wc:footer>
-    ]]></wc:demo>
+        </wc_footer>
+    ]]></wc_demo>
 
-</doc:root>
+</doc_root>

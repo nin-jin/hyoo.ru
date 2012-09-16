@@ -1,8 +1,6 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.Concater</h1>
@@ -10,10 +8,10 @@
     <p>Принимает на вход разделитель и возвращает функцию, которая через него соединяет элементы передаваемого ей на вход массива.</p>
 
     <p>
-        <wc:js-test> _test.ok( $jam.Concater ) </wc:js-test>
-        <wc:js-test> _test.ok( $jam.Concater() ) </wc:js-test>
-        <wc:js-test> _test.ok( $jam.Concater()( [ 1, 2 ] ), '12' ) </wc:js-test>
-        <wc:js-test> _test.ok( $jam.Concater( '+' )( [ 1, 2 ] ), '1+2' ) </wc:js-test>
+        <wc_js-test> _test.ok( $jam.Concater ) </wc_js-test>
+        <wc_js-test> _test.ok( $jam.Concater() ) </wc_js-test>
+        <wc_js-test> _test.ok( $jam.Concater()( [ 1, 2 ] ), '12' ) </wc_js-test>
+        <wc_js-test> _test.ok( $jam.Concater( '+' )( [ 1, 2 ] ), '1+2' ) </wc_js-test>
     </p>
 
-</doc:root>
+</doc_root>

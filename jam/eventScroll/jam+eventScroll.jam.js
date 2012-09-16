@@ -4,7 +4,7 @@ $jam.define
         var handler=
         function( event ){
             $jam.Event()
-            .type( '$jam.$eventScroll' )
+            .type( '$jam.eventScroll' )
             .wheel( event.wheel() )
             .scream( event.target() )
         }

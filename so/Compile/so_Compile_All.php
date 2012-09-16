@@ -2,7 +2,7 @@
 
 class so_Compile_All {
     function __construct(){        
-        $root= new so_WC_Root;
+        $root= so_WC_Root::make();
         $docModules= $root->createPack( 'doc' )->index->modules;
         $packs= $root->packs;
         //$packs= array( $root->createPack( 'so' ) );
@@ -73,9 +73,9 @@ class so_Compile_All {
                 $file->module->createFile( $file->name . '.gz' )->content= gzencode( $file->content, 9 );
             endforeach;
             
-            $registry= so_dom::make( '<so:compile_name-list xmlns:so="https://github.com/nin-jin/so" />' );
+            $registry= so_dom::make( '<so_compile_name-list xmlns:so="https://github.com/nin-jin/so" />' );
             foreach( $names as $orig => $min ):
-                $registry[]= array( 'so:compile_name' => array( '@orig' => $orig, '@min' => 'm:' . $min ) );
+                $registry[]= array( 'so_compile_name' => array( '@orig' => $orig, '@min' => 'm:' . $min ) );
             endforeach;
             $pack->mixModule->createFile( 'names.xml' )->content= $registry;
             

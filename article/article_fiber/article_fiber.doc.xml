@@ -1,8 +1,6 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>Волокна в JS1.7+</h1>
@@ -11,7 +9,7 @@
 
     <p>Давайте нарисуем какой-нибудь несложный пример работы с внешними источниками. Напримерм, пусть это будет функция, которая скачивает данные с определённого ресурса в сети и кладёт его в не менее определённый файл на диске. Вот, что у нас примерно может получиться:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadSync=
         function( from, to ){
             try {
@@ -22,11 +20,11 @@
                 console.error( exception )
             }
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Чем плох данный код? А тем, что он синхронный. Пока мы ждём ответа от сервера и записи в файл у нас останавливается работа всего приложения. Визуально это выглядит как зависший браузер. Чтобы исправить эту ситауцию программисты всего мира используют асинхронные вызовы. То есть, выполнение функции не останавливается, а она просто завершается, то на событие завершения асинхронной операции вешается специальный обработчик:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadAsync=
         function( from, to ){
             getContent( from, whenContentReceived, onError )
@@ -43,11 +41,11 @@
                 console.log( exception )
             }
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Мы сделали приятно пользователю, но наш код превратился в <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B0%D0%B3%D0%B5%D1%82%D1%82%D0%B8-%D0%BA%D0%BE%D0%B4">спагетти</a>, в котором сложно проследить за логикой выполняемых действий. Чтобы хоть как-то сгладить углы , часто используют специальные "выравниватели". Они хоть и не избавляют от нагромождения функций, но хотябы выстраивают их в одну конвеерную линию:</p>
         
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadChain=
         function( from, to ){
             Chain
@@ -66,7 +64,7 @@
                 }
             ).run()
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Уже лучше, не правда ли? Но косяк такого способа заключается в том, что мы теряем возможность использовать стандартные операторы управления потоком (for, while, if, switch и тд) - их приходится эмулировать специальными методами, что выглядит слишком брутально.</p>
     
@@ -81,7 +79,7 @@
     
     <p>Проиллюстрируем сей интерфейс на примере реализации функции, которая запрашивает у пользователя подтверждение:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm= function( done, fail ){
             try {
                 let choice= confirm( 'Are you ready?' )
@@ -90,21 +88,21 @@
                 fail( exception )
             }
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Для защиты от исключений, весь код завёрнут в try-catch, который является достаточно типовым, и поэтому просто напрашивается на вынос его в отдельый хэлпер:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         $fenix.Fiber( function( done, fail ){
             let choice= confirm( 'Are you ready?' )
             done( choice )
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Ну хорошо, вот сделали мы волокно, и оно даже может возвращать значения аж в двух разных направлениях, но как же передать ему какие-либо параметры? Интерфейсом это не предусмотрено. Чтобы запустить волокно с какими-то параметрами, эти параметры должны быть переданы ему при создании, а не при вызове:</p>
 
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         function( message ){
             return $fenix.Fiber( function( done, fail ){
@@ -112,41 +110,41 @@
                 done( choice )
             } )
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Важно отметить, что Confirm теперь - это не волокно, а фабрика волокон, которая создаёт волокна спрашивающие пользователя о разных вещах. Но постойте, код получился уж слишком сложным. Аналогичная безволоконная функция выглядит сильно проще:</p>
 
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         function( message ){
             let choice= confirm( message )
             return choice
         }
-    </wc:hlight>
+    </wc_hlight>
 
     <p>Так давайте просто напишем хэлпер, который бы преобразовывал безволоконную функцию в фабрику волокон:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         $fenix.FiberThread( function( message ){
             let choice= confirm( message )
             return choice
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Однако, FiberThread может принимать не только функцию, но и фабрику генераторов. Функция становится фабрикой генераторов, если в ней используется оператор yield. </p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let AskUser=
         $fenix.FiberThread( function( message ){
             let choice= yield Confirm( message )
             alert( 'Your choice is ' + choice ) 
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Логика работы с волоконизированными генераторами простая: справа оператору yield передётся волокно (в примере, оно сконструировано фабрикой Confirm), а слева мы получим результат полученный от этого волокна после исполнения. Если же в волокне возникнет ошибка, то yield запустит исключение, которое мы при желании сможем перехватить с помощью try-catch внутри генератора:</p>
 
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let AskUser=
         $fenix.FiberThread( function( message ){
             try {
@@ -157,11 +155,11 @@
             }
             alert( 'Your choice is ' + choice ) 
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Важно отметить, что код выглядит как синхронный, хотя волокно переданное в yield может быть и асинхронным (на самом деле только в этом случае и есть смысл использовать волокна). Не меняя кода AskUser мы можем реализовать Confirm, например, так:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         function( message ){
             return $fenix.Fiber( function( done, fail ){
@@ -181,11 +179,11 @@
         
             } )
         }
-    </wc:hlight>
+    </wc_hlight>
 
     <p>Заметили? Опять вылез этот try-catch, от которого мы избавлялись с помощью хэлпера Fiber, только тут он не применим, так как нужно оборачивать не волокно, а обычную колбэк функцию. Опять эта передача параметров через замыкание, от которого мы избавлялись с помощью FiberThread, но он годится только для оборачивания синхронного кода, а у нас асинхронный. Для соединения волоконных нитей с классическим асинхронным апи имеет смысл ввести понятие триггера:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let Confirm=
         $fenix.FiberThread( function( message ){
         
@@ -199,7 +197,7 @@
             yield $fenix.FiberValue( event.target.value )
         
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Триггер - это волокно, которое имеет 2 отчуждаемых метода: done и fail. Эти методы можно передать куда угодно в качестве колбэка, и когда какой-нибудь из них будет вызван, триггер активируется либо вернёт значение, либо бросит исключение. Не правда ли, с триггером код получился более простым и понятным?</p>
     
@@ -207,7 +205,7 @@
     
     <p>Ну что ж, теперь, когда мы разобрались с волокнами, попробуем применить их для реализации скачивателя файлов из начала статьи:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadFiber=
         $fenix.FiberThread( function( from, to ){
             try {
@@ -218,22 +216,22 @@
                 console.error( e )
             }
         } )
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Полученный код совмещает в себе все преимущества синхронного и асинхронного подходов. Но что если нам нужно скачать несколько файлов? Не делать же это последовательно! Самый простой вариант - запустить несколько волокон и забыть про них:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadFiles=
         function( mappingList ){
             for each( let mapping in mappingList ){
                 downloadFiber( mapping.from, mapping.to )()
             }
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>Но зачастую хочется не просто запустить скачивание, но и выполнить какой-то код после завершения всех закачек. Для этого нужно просто создать специальное волокно, которое возьмёт на себя всю заботу о синхронизации нескольких задач:</p>
     
-    <wc:hlight class=" lang=js ">
+    <wc_hlight wc_hlight_lang="js">
         let downloadFiles=
         function( mappingList ){
             let fiberList= mappingList.map( function( mapping ){
@@ -241,8 +239,8 @@
             } )
             return $fenix.FiberSync( fiberList )
         }
-    </wc:hlight>
+    </wc_hlight>
     
     <p>В общем, тут ещё наверняка можно много чего придумать, но моей фантазии пока хватило лишь на это. Упомянутые в статье рализации доступны в составе <a href="https://github.com/nin-jin/fenix">фреймворка fenix</a> для мозиллы. Больше вроде никто из яваскриптовых интерпретаторов генераторы не поддерживает.</p>
     
-</doc:root>
+</doc_root>

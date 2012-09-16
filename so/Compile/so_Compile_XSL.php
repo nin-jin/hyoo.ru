@@ -27,12 +27,9 @@ class so_Compile_XSL {
         $compiled= so_dom::make( '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" />' );
         
         foreach( $fileList as $file ):
-            $docEl= DOMDocument::load( $file->path )->documentElement;
-            $prefix= $file->pack->name;
-            $ns= $docEl->lookupNamespaceURI( $prefix );
-            if( $ns ):
-                $compiled[ '@xmlns:' . $prefix ]= $ns;
-            endif;
+            $doc= new DOMDocument( '1.0', 'utf-8' );
+            $doc->load( $file->path );
+            $docEl= $doc->documentElement;
             $compiled[]= array(
                 '#comment' => " {$file->id} ",
                 $docEl->childNodes,

@@ -1,34 +1,32 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.Lexer</h1>
 
     <p>Создаёт конкурентный регулярный лексический анализатор текста. На вход принимает карту лексем, которые соревнуются друг с другом за право первыми совпасть с подстрокой. текст не подошедший ни одной лексеме считается подошедшим лексеме "". Возвращаемый лексер - фактически генератор, который имет метод next() для перехода к следующей подстроке, поле name с именем совпавшей лексемы, поле found содержащее совпавший текст и поле chunks в которое попадает массив захваченных круглыми скобками (в регулярке) подстрок.</p>
 
-    <wc:js-test> _test.ok( $jam.Lexer ) </wc:js-test>
-    <wc:js-test> _test.ok( $jam.Lexer({ }) ) </wc:js-test>
-    <wc:js-test> _test.ok( $jam.Lexer({ })( '123' ) ) </wc:js-test>
-    <wc:js-test>
+    <wc_js-test> _test.ok( $jam.Lexer ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Lexer({ }) ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Lexer({ })( '123' ) ) </wc_js-test>
+    <wc_js-test>
         var lexer= $jam.Lexer({ digit: /\d/ })
         var res= ''
         for( var i= lexer( 'a12bc' ); i.next().found; ){
             res+= i.name ? '#' : i.found
         }
         _test.ok( res, 'a##bc' )
-    </wc:js-test>
-    <wc:js-test>
+    </wc_js-test>
+    <wc_js-test>
         var lexer= $jam.Lexer({ letter: /([a-zA-Z])/ })
         var res= ''
         for( var i= lexer( 'a12bc' ); i.next().found; ){
             if( i.name ) res+= i.found
         }
         _test.ok( res, 'abc' )
-    </wc:js-test> 
-    <wc:js-test>
+    </wc_js-test> 
+    <wc_js-test>
         var lexer= $jam.Lexer(new function(){
             this.underword= /(_(\w+))/
             this.word= /(\w)(\w*)/
@@ -42,6 +40,6 @@
             }
         }
         _test.ok( res, '[ab,C_d]' )
-    </wc:js-test>
+    </wc_js-test>
 
-</doc:root>
+</doc_root>

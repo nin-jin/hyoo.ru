@@ -1,7 +1,5 @@
 <html
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
     >
     <head>
     
@@ -13,25 +11,25 @@
 
     </head>
     <body>
-        <wc:desktop>
-            <wc:spacer>
+        <wc_desktop>
+            <wc_spacer>
                 <h1> global vs local</h1>
-                <wc:js-bench_list>
-                    <wc:js-bench>
+                <wc_js-bench_list>
+                    <wc_js-bench>
                         xyz= 0
                         _bench.begin()
                             xyz= 1
                         _bench.end()
                         delete xyz
-                    </wc:js-bench>
-                    <wc:js-bench>
+                    </wc_js-bench>
+                    <wc_js-bench>
                         var xyz= 0
                         _bench.begin()
                             xyz= 1
                         _bench.end()
-                    </wc:js-bench>
-                </wc:js-bench_list>
-            </wc:spacer>
-        </wc:desktop>
+                    </wc_js-bench>
+                </wc_js-bench_list>
+            </wc_spacer>
+        </wc_desktop>
     </body>
 </html> 

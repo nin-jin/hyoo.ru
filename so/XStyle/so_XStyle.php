@@ -1,6 +1,8 @@
 <?php
 
-class so_XStyle extends so_meta {
+class so_XStyle
+{
+    use so_meta;
 
     protected $_dir;
     function get_dir( $dir ){
@@ -27,7 +29,7 @@ class so_XStyle extends so_meta {
     protected $_docXS;
     function get_docXS( $docXS ){
         if( isset( $docXS ) ) return $docXS;
-        $docXS= new DOMDocument( );
+        $docXS= new DOMDocument( '1.0', 'utf-8' );
         if( file_exists( $this->pathXS ) ) $docXS->load( $this->pathXS, LIBXML_COMPACT );
         return $docXS;
     }

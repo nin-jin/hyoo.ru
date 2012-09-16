@@ -1,5 +1,5 @@
 $jam.Component
-(   'wc:preview'
+(   'wc_preview'
 ,   function( nodeRoot ){
         nodeRoot=
         $jam.Node( nodeRoot )

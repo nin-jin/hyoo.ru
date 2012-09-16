@@ -44,7 +44,7 @@ $jam.define
         $jam.support.xmlModel.select(
         {   'w3c': function( str ){
             var parser= new DOMParser
-                var doc= parser.parseFromString( str, 'text/xml' )
+                var doc= parser.parseFromString( str, 'application/xml' )
                 return $jam.DOMX( doc )
             }
         ,   'ms': function( str ){

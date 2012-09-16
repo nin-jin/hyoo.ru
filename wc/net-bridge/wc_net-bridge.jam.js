@@ -1,5 +1,5 @@
 $jam.Component
-(   'wc:net-bridge'
+(   'wc_net-bridge'
 ,   function( nodeRoot ){
         nodeRoot= $jam.Node( nodeRoot )
         nodeRoot.listen
@@ -29,9 +29,9 @@ $jam.Component
             if( text === textLast ) return
             
             var xhr= new XMLHttpRequest
-            xhr.open( text ? 'PUT' : 'DELETE', nodeRoot.attr( 'wc:net-bridge_resource' ) )
+            xhr.open( text ? 'PUT' : 'DELETE', nodeRoot.attr( 'wc_net-bridge_resource' ) )
             xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
-            xhr.send( nodeRoot.attr( 'wc:net-bridge_field' ) + '=' + encodeURIComponent( text ) )
+            xhr.send( nodeRoot.attr( 'wc_net-bridge_field' ) + '=' + encodeURIComponent( text ) )
             textLast= text
             nodeRoot.state( 'modified', false )
         }

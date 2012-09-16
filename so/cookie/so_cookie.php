@@ -1,8 +1,8 @@
 <?php
 
 class so_cookie
-extends so_meta
 {
+    use so_meta;
 
     static function make( $name ){
         $cookie= new so_cookie;

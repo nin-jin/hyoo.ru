@@ -1,15 +1,13 @@
 <?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc:root
+<doc_root
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:wc="https://github.com/nin-jin/wc"
-    xmlns:doc="https://github.com/nin-jin/doc"
     >
 
     <h1>$jam.Throttler</h1>
     <p>Обёртка для функции, для выполнения её не чаще заданного числа миллисекунд. Вызов произойдёт через заданное время после первого вызова, но с параметрами от последнего на текущий момент вызова.</p>
 
-    <wc:js-test> _test.ok( $jam.Throttler ) </wc:js-test>
-    <wc:js-test>
+    <wc_js-test> _test.ok( $jam.Throttler ) </wc_js-test>
+    <wc_js-test>
         _test.deadline( 200 )
         var count= 0
         var func= $jam.Throttler( 50, function( ){
@@ -23,8 +21,8 @@
         $jam.schedule( 100, function( ){
             _test.ok( count, 1 )
         })
-    </wc:js-test>
-    <wc:js-test>
+    </wc_js-test>
+    <wc_js-test>
         _test.deadline( 200 )
         var func= $jam.Throttler( 50, function( arg ){
             _test.ok( arg, 3 )
@@ -34,6 +32,6 @@
         $jam.schedule( 10, function( ){
             func( 3 )
         })
-    </wc:js-test>
+    </wc_js-test>
 
-</doc:root>
+</doc_root>

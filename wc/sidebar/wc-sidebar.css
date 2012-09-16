@@ -1,14 +1,14 @@
-wc\:sidebar {
+wc_sidebar {
     position: relative;
     z-index: 1;
     padding: 2%;
     text-align: left;
 }
 
-[wc\:sidebar_align="left"] {
+[wc_sidebar_align="left"] {
     float: left;
 }
 
-[wc\:sidebar_align="right"] {
+[wc_sidebar_align="right"] {
     float: right;
 }

@@ -36,7 +36,7 @@ class so_Compile_CSS {
             preg_match_all
             (   '/^\s*@namespace .*$/m'
             ,   $file->content
-            ,   &$namespaceList
+            ,   $namespaceList
             );
             $head.= implode( "\n", $namespaceList[0] );
             $content.= "/* @import url( '../../{$file->id}' ); */\n{$file->content}\n";

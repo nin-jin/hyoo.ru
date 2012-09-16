@@ -1,1 +1,2 @@
 include pack= lang
+include module= wc/aspect

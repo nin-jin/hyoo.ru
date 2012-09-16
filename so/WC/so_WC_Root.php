@@ -1,10 +1,20 @@
 <?php
 
-class so_WC_Root extends so_WC_Node {
+class so_WC_Root
+extends so_WC_Node
+{
+    use so_singleton;
+
     protected $_path;
     function get_path( $path ){
         if( isset( $path ) ) return $path;
-        return dirname( dirname( dirname( __FILE__ ) ) );
+        return so_file::make( __DIR__ )->parent->parent;
+    }
+    
+    protected $_currentPack;
+    function get_currentPack( $pack ){
+        if( isset( $pack ) ) return $pack;
+        return $this->createPack( basename( getcwd() ) );
     }
     
     protected $_packs;
@@ -39,12 +49,6 @@ class so_WC_Root extends so_WC_Node {
         return $files;
     }
 
-    protected $_mixPack;
-    function get_mixPack( $value ){
-        if( isset( $value ) ) return $value;
-        return $this->createPack( '-mix' );
-    }
-    
     protected $_packCache= array();
     function createPack( $name ){
         if( key_exists( $name, $this->_packCache ) ) return $this->_packCache[ $name ];

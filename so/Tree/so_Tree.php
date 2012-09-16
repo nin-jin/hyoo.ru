@@ -1,6 +1,8 @@
 <?php
 
-class so_Tree extends so_meta {
+class so_Tree
+{
+    use so_meta;
 
     protected $_struct;
     function get_struct( $val ){
@@ -66,7 +68,7 @@ class so_Tree extends so_meta {
             endforeach;
             $lastKeyList= $keyList; 
             
-            $keyList[]= $pair[1];
+            $keyList[]= so_value::make( $pair[1] );
             $struct[]= $keyList;
 
         endforeach;
@@ -81,7 +83,7 @@ class so_Tree extends so_meta {
     }
 
     function get( $keyList ){
-        $this->aPath( &$keyList );
+        $keyList= $this->aPath( $keyList );
         $filtered= array();
         foreach( $this->struct as $chunk ):
             if( count( $chunk ) !== count( $keyList ) + 1 ) continue;

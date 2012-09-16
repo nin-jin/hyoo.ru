@@ -32,7 +32,8 @@ class so_WC_MetaPack extends so_WC_Node {
     protected $_mainModule;
     function get_mainModule( $val ){
         if( isset( $val ) ) return $val;
-        return $this->modules[0];
+        $modules= $this->modules;
+        return so_value::make( $modules[0] );
     }
     
     protected $_dependModules;
@@ -47,10 +48,10 @@ class so_WC_MetaPack extends so_WC_Node {
         $deferred= $sorted= array();
         
         $current= $this;
-        while( $current ){
+        while( true ){
             foreach( $current->dependModules as $dep ):
-                if( $sorted[ $dep->id ] ) continue;
-                if( $deferred[ $dep->id ] ) continue;
+                if( isset( $sorted[ $dep->id ] ) ) continue;
+                if( isset( $deferred[ $dep->id ] ) ) continue;
                 $deferred[ $current->id ]= $current;
                 $current= $dep;
                 continue 2;
@@ -58,6 +59,7 @@ class so_WC_MetaPack extends so_WC_Node {
             
             $sorted[ $current->id ]= $current;
             $current= end( $deferred );
+            if( !$current ) break;
             unset( $deferred[ $current->id ] );
         }
         

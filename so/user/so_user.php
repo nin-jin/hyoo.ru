@@ -1,8 +1,8 @@
 <?php
 
 class so_user
-extends so_meta
 {
+    use so_meta;
 
     protected $_id;
     function get_id( $id ){
