@@ -7,52 +7,50 @@ trait so_meta2 {
     }
     
     function __get( $name ){
-        $field= $name . '_prop';
-        if( !property_exists( $this, $field ) )
+        $valueField= $name . '_value';
+        if( !property_exists( $this, $valueField ) )
             return $this->_make_meta( $name );
         
-        $property= &$this->{ $field };
-        if( isset( $property[ 'data' ] ) )
-            return $property[ 'data' ];
+        $value= &$this->{ $valueField };
+        if( isset( $value ) )
+            return $value;
         
-        $method= $name . '_make';
-        if( method_exists( $this, $method ) )
-            return $property[ 'data' ]= $this->{ $method }();
+        $makeMethod= $name . '_make';
+        if( !method_exists( $this, $makeMethod ) )
+            return $value;
         
-        return $property[ 'data' ]= null;
+        return $value= $this->{ $makeMethod }();
     }
     protected function _make_meta( $name ){
         throw new Exception( "Property [$name] is not defined" );
     }
     
     function __isset( $name ){
-        $field= $name . '_prop';
-        if( !property_exists( $this, $field ) )
+        $valueField= $name . '_value';
+        if( !property_exists( $this, $valueField ) )
             return false;
         
-        return isset( $this->{ $field }[ 'data' ] );
+        return isset( $this->{ $valueField } );
     }
     
     function __set( $name, $value ){
-        $field= $name . '_prop';
-        if( !property_exists( $this, $field ) )
+        $valueField= $name . '_value';
+        if( !property_exists( $this, $valueField ) )
             return $this->_store_meta( $name, $value );
         
-        $method= $name . '_store';
-        if( !method_exists( $this, $method ) )
+        $storeMethod= $name . '_store';
+        if( !method_exists( $this, $storeMethod ) )
             throw new Exception( "Property [$name] is read only" );
         
-        $property= &$this->{ $field };
-        $depends= &$property[ 'depends' ];
-        if( !isset( $depends ) )
-            $depends= array( $name );
+        $dependsField= $name . '_depends';
+        $depends= property_exists( $this, $dependsField ) ? $this->{ $dependsField } : array( $name );
         
         foreach( $depends as $prop ):
             if( !isset( $this->{ $prop } ) ) continue;
             throw new Exception( "Property [$name] can not be stored because [$prop] is defined" );
         endforeach;
         
-        $property[ 'data' ]= $this->{ $method }( $value );
+        $this->{ $valueField }= $this->{ $storeMethod }( $value );
         
         return $this;
     }
@@ -61,12 +59,11 @@ trait so_meta2 {
     }
     
     function __unset( $name ){
-        $field= $name . '_prop';
-        if( !property_exists( $this, $field ) )
-            $this->_drop_meta( $name );
+        $valueField= $name . '_value';
+        if( !property_exists( $this, $valueField ) )
+            return $this->_drop_meta( $name );
         
-        $property= &$this->{ $field };
-        unset( $property[ 'data' ] );
+        unset( $this->{ $valueField } );
         
         return $this;
     }
@@ -75,18 +72,15 @@ trait so_meta2 {
     }
     
     function __call( $name, $args ){
-        if( !property_exists( $this, $name . '_prop' ) )
+        if( !property_exists( $this, $name . '_value' ) )
             return $this->_call_meta( $name, $args );
         
         $count= count( $args );
         
-        if( count( $args ) === 0 )
-            return $this->{ $name };
-        
-        if( count( $args ) === 1 ):
-            $this->{ $name }= $args[ 0 ];
-            return $this;
-        endif;
+        switch( $count ):
+            case 0: return $this->__get( $name );
+            case 1: return $this->__set( $name, $args[ 0 ] );
+        endswitch;
         
         throw new Exception( "Wrong arguments count ($count)" );
     }

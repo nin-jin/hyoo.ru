@@ -5,9 +5,8 @@ class so_phpinfo_resource
     use so_meta2;
     use so_registry;
     
-    var $id_prop= array(
-        'depends' => array( 'id', 'uri' ),
-    );
+    var $id_value;
+    var $id_depends= array( 'id', 'uri' );
     function id_make( ){
         return (string) $this->uri;
     }
@@ -16,9 +15,8 @@ class so_phpinfo_resource
         return $this->id_make();
     }
     
-    var $uri_prop= array(
-        'depends' => array( 'id', 'uri' ),
-    );
+    var $uri_value;
+    var $uri_depends= array( 'id', 'uri' );
     function uri_make( ){
         return so_query::make(array( 'phpinfo' ))->uri;
     }

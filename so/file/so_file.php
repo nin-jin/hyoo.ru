@@ -5,9 +5,8 @@ class so_file
     use so_meta2;
     use so_registry;
 
-    var $id_prop= array(
-        'depends' => array( 'id', 'path' ),
-    );
+    var $id_value;
+    var $id_depends= array( 'id', 'path' );
     function id_make(){
         return $this->path;
     }
@@ -16,9 +15,8 @@ class so_file
         return $this->path;
     }
 
-    var $path_prop= array(
-        'depends' => array( 'id', 'path' ),
-    );
+    var $path_value;
+    var $path_depends= array( 'id', 'path' );
     function path_make(){
         throw new Exception( 'Property [path] is not defined' );
     }
@@ -38,31 +36,30 @@ class so_file
         return $data;
     }
     
-    var $uri_prop= array();
+    var $uri_value;
     function uri_make( ){
         $base= so_WC_Root::make()->currentPack->path;
         $path= preg_replace( '~^' . preg_quote( $base ) . '~', '', $this->path );
         return so_uri::make( $path );
     }
     
-    var $name_prop= array();
+    var $name_value;
     function name_make( ){
         return basename( $this->path );
     }
     
-    var $nameList_prop= array();
+    var $nameList_value;
     function nameList_make( ){
         return explode( '.', $this->name );
     }
     
-    var $parent_prop= array();
+    var $parent_value;
     function parent_make( ){
         return so_file::make( dirname( $this->path ) . '/' );
     }
     
-    var $exists_prop= array(
-        'depends' => array(),
-    );
+    var $exists_value;
+    var $exists_depends= array();
     function exists_make( ){
         return file_exists( $this->path );
     }
@@ -78,9 +75,8 @@ class so_file
         return $exists;
     }
     
-    var $content_prop= array(
-        'depends' => array(),
-    );
+    var $content_value;
+    var $content_depends= array();
     function content_make( ){
         $path= $this->path;
         if( !is_file( $path ) ) return null;
@@ -111,12 +107,12 @@ class so_file
         return $this;
     }
     
-    var $version_prop= array();
+    var $version_value;
     function version_make( ){
         return strtoupper( base_convert( filemtime( $this->path ), 10, 36 ) );
     }
     
-    var $childList_prop= array();
+    var $childList_value;
     function childList_make( ){
         $list= array();
         

@@ -5,8 +5,7 @@ class so_root_resource
     use so_meta2;
     use so_registry;
     
-    var $id_prop= array(
-    );
+    var $id_value;
     function id_make( ){
         return '';
     }

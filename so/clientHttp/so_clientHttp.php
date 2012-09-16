@@ -14,13 +14,13 @@ class so_clientHttp
         'error' => 500,
     );
     
-    var $query_prop= array();
+    var $query_value;
     function query_make( ){
         $query= &$_SERVER[ 'QUERY_STRING' ];
         return so_query::make( $query ?: '' );
     }
     
-    var $method_prop= array();
+    var $method_value;
     function method_make(){
         $method= &$_SERVER[ 'REQUEST_METHOD' ];
         $method= $method ? strtolower( $method ) : 'get';
@@ -31,7 +31,7 @@ class so_clientHttp
         return $method;
     }
     
-    var $input_prop= array();
+    var $input_value;
     function input_make(){
         switch( $this->method ):
             
@@ -72,9 +72,8 @@ class so_clientHttp
         endswitch;
     }
     
-    var $output_prop= array(
-        'depends' => array(),
-    );
+    var $output_value;
+    var $output_depends= array();
     function output_make( ){
         return so_output::error( 'Response is empty' );
     }

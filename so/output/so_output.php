@@ -31,22 +31,22 @@ class so_output
         return static::make()->status( 'error' )->content(array( 'so_error' => $message ));
     }
     
-    var $status_prop= array();
+    var $status_value;
     function status_store( $data ){
         return (string) $data;
     }
     
-    var $location_prop= array();
+    var $location_value;
     function location_store( $data ){
         return (string) $data;
     }
     
-    var $content_prop= array();
+    var $content_value;
     function content_store( $data ){
         return so_page::make( $data );
     }
 
-    var $mime_prop= array();
+    var $mime_value;
     function mime_make( ){
         $content= $this->content;
         
@@ -62,7 +62,7 @@ class so_output
         return (string) $data;
     }
     
-    var $encoding_prop= array();
+    var $encoding_value;
     function encoding_make( ){
         return 'utf-8';
     }

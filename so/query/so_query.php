@@ -18,9 +18,8 @@ implements Countable, ArrayAccess, IteratorAggregate
         throw new Exception( 'Wrong type of argument' );
     }
     
-    var $string_prop= array(
-        'depends' => array( 'string', 'struct' ),
-    );
+    var $string_value;
+    var $string_depends= array( 'string', 'struct' );
     function string_make( ){
         $chunkList= array();
         foreach( $this->struct as $key => $val ):
@@ -46,9 +45,8 @@ implements Countable, ArrayAccess, IteratorAggregate
         return (string) $data;
     }
     
-    var $struct_prop= array(
-        'depends' => array( 'struct', 'string' ),
-    );
+    var $struct_value;
+    var $struct_depends= array( 'struct', 'string' );
     function struct_make( ){
         $struct= array( );
         
@@ -67,13 +65,12 @@ implements Countable, ArrayAccess, IteratorAggregate
         return (array) $data;
     }
     
-    var $uri_prop= array();
+    var $uri_value;
     function uri_make( ){
         return so_uri::make()->query( $this )->primary();
     }
     
-    var $resource_prop= array(
-    );
+    var $resource_value;
     function resource_make( ){
         $keyList= array_keys( $this->struct );
         array_unshift( $keyList, so_WC_Root::make()->currentPack->name );

@@ -5,9 +5,8 @@ class so_author_resource
     use so_meta2;
     use so_registry;
     
-    var $id_prop= array(
-        'depends' => array( 'id', 'uri', 'name' ),
-    );
+    var $id_value;
+    var $id_depends= array( 'id', 'uri', 'name' );
     function id_make( ){
         return (string) $this->uri;
     }
@@ -16,9 +15,8 @@ class so_author_resource
         return $this->id_make();
     }
     
-    var $uri_prop= array(
-        'depends' => array( 'id', 'uri', 'name' ),
-    );
+    var $uri_value;
+    var $uri_depends= array( 'id', 'uri', 'name' );
     function uri_make( ){
         return so_query::make(array(
             'author' => $this->name,
@@ -29,9 +27,8 @@ class so_author_resource
         $this->name= $query[ 'author' ];
     }
     
-    var $name_prop= array(
-        'depends' => array( 'id', 'uri', 'name' ),
-    );
+    var $name_value;
+    var $name_depends= array( 'id', 'uri', 'name' );
     function name_make( ){
         return so_user::make()->id;
     }
@@ -40,19 +37,18 @@ class so_author_resource
         return (string) $data;
     }
     
-    var $storage_prop= array();
+    var $storage_value;
     function storage_make( ){
         return so_storage::make( $this->id );
     }
     
-    var $gistAbout_prop= array();
+    var $gistAbout_value;
     function gistAbout_make(){
         return so_gist_resource::make()->name( '' )->author( $this->name )->primary();
     }
     
-    var $model_prop= array(
-        'depends' => array(),
-    );
+    var $model_value;
+    var $model_depends= array();
     function model_make( ){
         $storage= $this->storage;
         

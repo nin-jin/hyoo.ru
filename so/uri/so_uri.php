@@ -5,9 +5,8 @@ class so_uri
     use so_meta2;
     use so_registry;
     
-    var $id_prop= array(
-        'depends' => array( 'id', 'scheme', 'login', 'password', 'host', 'port', 'path', 'queryString', 'query', 'anchor' ),
-    );
+    var $id_value;
+    var $id_depends= array( 'id', 'scheme', 'login', 'password', 'host', 'port', 'path', 'queryString', 'query', 'anchor' );
     function id_make( ){
         $id= '';
         
@@ -54,44 +53,38 @@ class so_uri
         return $this->id_make();
     }
     
-    var $scheme_prop= array(
-        'depends' => array( 'id', 'scheme' ),
-    );
+    var $scheme_value;
+    var $scheme_depends= array( 'id', 'scheme' );
     function scheme_store( $data ){
         return (string) $data;
     }
     
-    var $login_prop= array(
-        'depends' => array( 'id', 'login' ),
-    );
+    var $login_value;
+    var $login_depends= array( 'id', 'login' );
     function login_store( $data ){
         return (string) $data;
     }
     
-    var $password_prop= array(
-        'depends' => array( 'id', 'password' ),
-    );
+    var $password_value;
+    var $password_depends= array( 'id', 'password' );
     function password_store( $data ){
         return (string) $data;
     }
     
-    var $host_prop= array(
-        'depends' => array( 'id', 'host' ),
-    );
+    var $host_value;
+    var $host_depends= array( 'id', 'host' );
     function host_store( $data ){
         return (string) $data;
     }
     
-    var $port_prop= array(
-        'depends' => array( 'id', 'port' ),
-    );
+    var $port_value;
+    var $port_depends= array( 'id', 'port' );
     function port_store( $data ){
         return (integer) $data;
     }
     
-    var $path_prop= array(
-        'depends' => array( 'id', 'path' ),
-    );
+    var $path_value;
+    var $path_depends= array( 'id', 'path' );
     function path_make( ){
         if( $this->host )
             return '/';
@@ -101,9 +94,8 @@ class so_uri
         return (string) $data;
     }
     
-    var $queryString_prop= array(
-        'depends' => array( 'id', 'query', 'queryString' ),
-    );
+    var $queryString_value;
+    var $queryString_depends= array( 'id', 'query', 'queryString' );
     function queryString_make( ){
         if( isset( $this->query ) ):
             return (string) $this->query;
@@ -114,9 +106,8 @@ class so_uri
         return (string) $data;
     }
     
-    var $query_prop= array(
-        'depends' => array( 'id', 'query', 'queryString' ),
-    );
+    var $query_value;
+    var $query_depends= array( 'id', 'query', 'queryString' );
     function query_make( ){
         return so_query::make( $this->queryString );
     }
@@ -124,16 +115,14 @@ class so_uri
         return so_query::make( $data );
     }
     
-    var $anchor_prop= array(
-        'depends' => array( 'id', 'anchor' ),
-    );
+    var $anchor_value;
+    var $anchor_depends= array( 'id', 'anchor' );
     function anchor_store( $data ){
         return (string) $data;
     }
     
-    var $content_prop= array(
-        'depends' => array( ),
-    );
+    var $content_value;
+    var $content_depends= array();
     function content_make( ){
         $curl= curl_init( $this->id );
         ob_start();

@@ -5,7 +5,7 @@ class so_front
     use so_meta2;
     use so_factory;
     
-    var $client_prop= array();
+    var $client_value;
     function client_make( ){
         throw new Exception( 'Default client is not implement yet' );
     }

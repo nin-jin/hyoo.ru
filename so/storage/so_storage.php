@@ -5,12 +5,12 @@ class so_storage
     use so_meta2;
     use so_registry;
 
-    var $id_prop= array( );
+    var $id_value;
     function id_store( $id ){
         return (string) $id;
     }
     
-    var $dir_prop= array( );
+    var $dir_value;
     function dir_make( ){
         $id= md5( $this->id );
         $id= substr( $id, 0, 3 ) . '/' . substr( $id, 4 );
@@ -18,14 +18,13 @@ class so_storage
         return so_file::make( 'so/storage/data/' )->go( $id . '/' );
     }
     
-    var $index_prop= array( );
+    var $index_value;
     function index_make( ){
         return $this->dir->go( 'index.txt' );
     }
     
-    var $version_prop= array(
-        'depends' => array( ),
-    );
+    var $version_value;
+    var $version_depends= array();
     function version_make( ){
         preg_match( '~= ([^\n]*)\n?$~', $this->index->content, $found );
         
@@ -41,7 +40,7 @@ class so_storage
         return $version;
     }
     
-    var $file_prop= array();
+    var $file_value;
     function file_make( ){
         $version= $this->version;
         if( !$version )
@@ -50,9 +49,8 @@ class so_storage
         return $this->dir->go( $version );
     }
     
-    var $content_prop= array(
-        'depends' => array( ),
-    );
+    var $content_value;
+    var $content_depends= array();
     function content_make( ){
         $file= $this->file;
         return $file ? $file->content : null;

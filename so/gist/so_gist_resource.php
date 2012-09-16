@@ -5,9 +5,8 @@ class so_gist_resource
     use so_meta2;
     use so_registry;
     
-    var $id_prop= array(
-        'depends' => array( 'id', 'uri', 'name', 'author' ),
-    );
+    var $id_value;
+    var $id_depends= array( 'id', 'uri', 'name', 'author' );
     function id_make( ){
         return (string) $this->uri;
     }
@@ -16,9 +15,8 @@ class so_gist_resource
         return $this->id_make();
     }
     
-    var $uri_prop= array(
-        'depends' => array( 'id', 'uri', 'name', 'author' ),
-    );
+    var $uri_value;
+    var $uri_depends= array( 'id', 'uri', 'name', 'author' );
     function uri_make( ){
         return so_query::make(array(
             'gist' => $this->name,
@@ -31,16 +29,14 @@ class so_gist_resource
         $this->author= $query[ 'by' ];
     }
     
-    var $name_prop= array(
-        'depends' => array( 'id', 'uri', 'name' ),
-    );
+    var $name_value;
+    var $name_depends= array( 'id', 'uri', 'name' );
     function name_store( $data ){
         return (string) $data;
     }
     
-    var $author_prop= array(
-        'depends' => array( 'id', 'uri', 'author' ),
-    );
+    var $author_value;
+    var $author_depends= array( 'id', 'uri', 'author' );
     function author_make( ){
         return so_user::make()->id;
     }
@@ -48,14 +44,13 @@ class so_gist_resource
         return (string) $data ?: $this->author_make();
     }
     
-    var $storage_prop= array();
+    var $storage_value;
     function storage_make( ){
         return so_storage::make( $this->id );
     }
     
-    var $content_prop= array(
-        'depends' => array(),
-    );
+    var $content_value;
+    var $content_depends= array();
     function content_make( ){
         return $this->model[ '@so_gist_content' ]->value;
     }
@@ -67,9 +62,8 @@ class so_gist_resource
         return $data;
     }
     
-    var $model_prop= array(
-        'depends' => array(),
-    );
+    var $model_value;
+    var $model_depends= array();
     function model_make( ){
         $storage= $this->storage;
         
@@ -91,7 +85,7 @@ class so_gist_resource
         return $data;
     }
     
-    var $teaser_prop= array();
+    var $teaser_value;
     function teaser_make( ){
         $storage= $this->storage;
         
