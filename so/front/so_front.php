@@ -27,8 +27,6 @@ class so_front
     function run( ){
         register_shutdown_function(array( $this, 'finalize' ));
         
-        so_output::className();
-        
         ob_start();
         
         $client= $this->client;

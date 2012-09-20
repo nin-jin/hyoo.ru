@@ -52,22 +52,22 @@ class so_clientHttp
                         
                     case 'text/xml':
                     case 'application/xml':
-                        return so_dom_list::make( array( $raw ) );
+                        return so_dom::make( $raw );
                         
                     case 'text/json':
                     case 'application/json':
-                        return so_dom_list::make( json_decode( $raw ) );
+                        return so_dom_collection::make()->list( json_decode( $raw ) );
                         
                     default:
-                        return so_dom_list::make( array() );
+                        return so_query::make( array() );
                         
                 endswitch;
                 
             case 'post':
-                return so_dom_list::make( $_POST + $_FILES );
+                return so_query::make( $_POST + $_FILES );
                 
             default:
-                return so_dom_list::make( array() );
+                return so_query::make( array() );
                 
         endswitch;
     }

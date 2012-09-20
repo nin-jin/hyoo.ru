@@ -14,7 +14,7 @@ class so_Compile_XSL {
             );
         endforeach;
         
-        $index= so_dom::make()->append( array(
+        $index= so_dom::make( array(
             'xsl:stylesheet' => array(
                 '@version' => '1.0',
                 '@xmlns:xsl' => 'http://www.w3.org/1999/XSL/Transform',

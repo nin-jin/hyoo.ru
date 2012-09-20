@@ -3,158 +3,204 @@
 class so_dom
 implements Countable, ArrayAccess, IteratorAggregate
 {
-    use so_meta;
+    use so_meta2;
 
     static function make( $DOMNode= null ){
         
-        if( !isset( $DOMNode ) ):
-            return new self;
-        elseif( $DOMNode instanceof so_dom ):
-            return $DOMNode;
-        elseif( is_string( $DOMNode ) ):
-            $doc= new DOMDocument( '1.0', 'utf-8' );
-            $doc->loadXML( $DOMNode, LIBXML_COMPACT );
-            $DOMNode= $doc->documentElement;
-        elseif( $DOMNode instanceof SimpleXMLElement ):
-            $DOMNode= dom_import_simplexml( $DOMNode );
-        elseif( $DOMNode instanceof DOMNode ):
-            $DOMNode= $DOMNode->cloneNode( true );
-        else:
-            return so_dom::make()->append( $DOMNode )->root;
-        endif;
+        if( !isset( $DOMNode ) )
+            return new static;
         
-        return so_dom::wrap( $DOMNode );
-    }
-    
-    static function wrap( $DOMNode ){
         if( $DOMNode instanceof so_dom )
             return $DOMNode;
-        if( !( $DOMNode instanceof DOMNode ) ) throw new Exception( "[{$DOMNode}] is not a DOMNode" );
-        $dom= new so_dom;
-        $dom->DOMNode= $DOMNode;
-        return $dom;
+        
+        $obj= new static;
+        
+        if( $DOMNode instanceof DOMNode )
+            return $obj->DOMNode( $DOMNode );
+        
+        if( is_string( $DOMNode ) ):
+            $doc= new DOMDocument( '1.0', 'utf-8' );
+            $doc->loadXML( $DOMNode, LIBXML_COMPACT );
+            return $obj->DOMNode( $doc->documentElement );
+        endif;
+        
+        if( $DOMNode instanceof SimpleXMLElement )
+            return $obj->DOMNode( dom_import_simplexml( $DOMNode ) );
+        
+        if( is_array( $DOMNode ) ):
+            $obj[]= $DOMNode;
+            return $obj->root;
+        endif;
+        
+        throw new Exception( 'Unsupported type of argument' );
     }
     
     public $mime= 'application/xml';
 
-    protected $_DOMNode;
-    function get_DOMNode( $DOMNode ){
-        if( !isset( $DOMNode ) ) return new DOMDocument( '1.0', 'utf-8' );
-        return $DOMNode;
+    var $DOMNode_value;
+    function DOMNode_make( ){
+        return new DOMDocument( '1.0', 'utf-8' );
     }
-    function set_DOMNode( $DOMNode ){
-        if( isset( $this->DOMNode ) ) throw new Exception( 'Redeclaration of [DOMNode]' );
-        return $DOMNode;
+    function DOMNode_store( $value ){
+        return $value;
     }
 
-    protected $_doc;
-    function get_doc( $doc ){
-        if( isset( $doc ) ) return $doc;
-        $DOMDocument= $this->DOMNode->ownerDocument;
-        if( $DOMDocument ) return so_dom::wrap( $this->DOMDocument );
-        return $this;
-    }
-
-    protected $_root;
-    function get_root( $root ){
-        if( isset( $root ) ) return $root;
-        $rootElement= $this->DOMDocument->documentElement;
-        if( !$rootElement ) throw new Exception( "Document have not a root element" );
-        return so_dom::wrap( $rootElement );
-    }
-
-    protected $_DOMDocument;
-    function get_DOMDocument( $DOMDocument ){
-        if( isset( $DOMDocument ) ) return $DOMDocument;
+    var $DOMDocument_value;
+    function DOMDocument_make( ){
         $DOMNode= $this->DOMNode;
         $DOMDocument= $DOMNode->ownerDocument;
         if( $DOMDocument ) return $DOMDocument;
         return $DOMNode;
     }
     
+    var $doc_value;
+    function doc_make( ){
+        return so_dom::make( $this->DOMDocument );
+    }
+
+    var $root_value;
+    function root_make( ){
+        $rootElement= $this->DOMDocument->documentElement;
+        if( !$rootElement ) throw new Exception( "Document have not a root element" );
+        return so_dom::make( $rootElement );
+    }
+
     function __toString( ){
         return $this->DOMDocument->saveXML( $this->DOMNode );
     }
     
-    protected $_name;
-    function get_name( $name ){
-        if( isset( $name ) ) return $name;
-
-        $DOMNode= $this->DOMNode;
-        $name= $DOMNode->nodeName;
-        
-        if( $DOMNode instanceof DOMAttr ):
-            return "@{$name}";
-        endif;
-        
-        if( $DOMNode instanceof DOMProcessingInstruction ):
-            return "?{$name}";
-        endif;
-
-        return $name;
+    var $name_value;
+    function name_make( ){
+        return $this->DOMNode->nodeName;
     }
 
-    protected $_value;
-    function get_value( $value ){
+    var $value_value;
+    function value_make( ){
         return $this->DOMNode->nodeValue;
     }
-
-    protected $_childList;
-    function get_childList( $childList ){
-        return so_dom_list::make( $this->DOMNode->childNodes );
+    
+    var $parent_value;
+    function parent_make( ){
+        $parent= $this->DOMNode->parentNode;
+        if( !$parent ) return null;
+        return so_dom::make( $parent );
+    }
+    function parent_store( $parent ){
+        if( $parent ):
+            $parent= so_dom::make( $parent );
+            $parent[]= $this;
+            return $parent;
+        else:
+            $DOMNode= $this->DOMNode;
+            $DOMNode->parentNode->removeChild( $DOMNode );
+        endif;
     }
 
-    protected $_attrList;
-    function get_attrList( $attrList ){
-        return so_dom_list::make( $this->DOMNode->attributes );
+    var $child_value;
+    function child_make( ){
+        $list= array();
+        foreach( $this->DOMNode->childNodes as $node )
+            $list[]= $node;
+        return so_dom_collection::make()->list( $list );
     }
 
-    function append( ){
-        foreach( func_get_args() as $arg ):
-            if( is_null( $arg ) ) continue 1;
-            
+    var $attr_value;
+    function attr_make(){
+        $list= array();
+        foreach( $this->DOMNode->attributes as $node )
+            $list[]= $node;
+        return so_dom_collection::make()->list( $list );
+    }
+
+    function select( $query ){
+        $xpath = new DOMXPath( $this->DOMDocument );
+        $found= $xpath->query( $query, $this->DOMNode );
+        $nodeList= array();
+        foreach( $found as $node ):
+            $nodeList[]= $node;
+        endforeach;
+        return so_dom_collection::make()->list( $nodeList );
+    }
+    
+    function drop( ){
+        $DOMNode= $this->DOMNode;
+        $DOMNode->parentNode->removeChild( $DOMNode );
+        return $this;
+    }
+    
+    function count( ){
+        $DOMNode= $this->DOMNode;
+        return $DOMNode->attributes->length + $DOMNode->childNodes->length;
+    }
+
+    function offsetExists( $key ){
+        if( $key[0] === '@' ):
+            $name= substr( $key, 1 );
+            return $this->DOMNode->hasAttribute( $name );
+        endif;
+        
+        return isset( $this->child[ $key ] );
+    }
+    
+    function offsetGet( $key ){
+        if( $key[0] === '@' ):
+            $name= substr( $key, 1 );
+            return $this->DOMNode->getAttribute( $name );
+        endif;
+        
+        $list= array();
+        foreach( $this->child as $item ):
+            if( $item->name != $key ) continue;
+            $list= array_merge( $list, $item->child->list );
+        endforeach;
+        
+        return so_dom_collection::make()->list( $list );
+    }
+    
+    function offsetSet( $key, $value ){
+        if( !$key ):
             $DOMNode= $this->DOMNode;
             
-            if( is_scalar( $arg ) ):
-                $arg= $this->DOMDocument->createTextNode( $arg );
-                $DOMNode->appendChild( $arg );
-                continue 1;
+            if( is_scalar( $value ) ):
+                $value= $this->DOMDocument->createTextNode( $value );
+                $DOMNode->appendChild( $value );
+                return $this;
             endif;
             
-            if( is_object( $arg ) ):
-                if( $arg instanceof SimpleXMLElement ):
-                    $arg= dom_import_simplexml( $arg );
-                    $DOMNode->appendChild( $arg );
-                    continue 1;
+            if( is_object( $value ) ):
+                if( $value instanceof SimpleXMLElement ):
+                    $value= dom_import_simplexml( $value );
+                    $DOMNode->appendChild( $value );
+                    return $this;
                 endif;
                 
-                if( isset( $arg->DOMNode ) ):
-                    $arg= $arg->DOMNode;
+                if( isset( $value->DOMNode ) ):
+                    $value= $value->DOMNode;
                 endif;
                 
-                if( $arg instanceof DOMDocument ):
-                    foreach( $arg->childNodes as $node ):
-                        $this->append( $node );
+                if( $value instanceof DOMDocument ):
+                    foreach( $value->childNodes as $node ):
+                        $this[]= $node;
                     endforeach;
-                    continue 1;
+                    return $this;
                 endif;
                 
-                if( $arg instanceof DOMNode ):
-                    $arg= $this->DOMDocument->importNode( $arg->cloneNode( true ), true );
-                    $DOMNode->appendChild( $arg );
-                    continue 1;
+                if( $value instanceof DOMNode ):
+                    $value= $this->DOMDocument->importNode( $value->cloneNode( true ), true );
+                    $DOMNode->appendChild( $value );
+                return $this;
                 endif;
             endif;
             
-            foreach( $arg as $key => $value ):
-                if( is_numeric( $key ) ):
-                    $this->append( $value );
+            foreach( $value as $key => $value ):
+                if( is_int( $key ) ):
+                    $this[]= $value;
                     continue 1;
                 endif;
                 
                 if( $key[0] === '#' ):
                     if( !is_scalar( $value ) ):
-                        $value= '' . so_dom::make( $value )->root();
+                        $value= (string) so_dom::make( $value );
                     endif;
 
                     if( $key === '#text' ):
@@ -176,7 +222,7 @@ implements Countable, ArrayAccess, IteratorAggregate
                     $name= substr( $key, 1 );
                     
                     if( !is_scalar( $value ) ):
-                        $value= '' . so_dom::make( $value )->root();
+                        $value= (string) so_dom::make( $value );
                     endif;
 
                     $DOMNode->setAttribute( $name, $value );
@@ -215,77 +261,21 @@ implements Countable, ArrayAccess, IteratorAggregate
                 endif;
                 
                 $element= $this->DOMDocument->createElement( $key );
-                so_dom::wrap( $element )->append( $value );
+                so_dom::make( $element )[]= $value;
                 $DOMNode->appendChild( $element );
             endforeach;
-
-        endforeach;
-        return $this;
-    }
-    
-    function select( $query ){
-        $xpath = new DOMXPath( $this->doc->DOMNode );
-        $found= $xpath->query( $query, $this->DOMNode );
-        $nodeList= array();
-        foreach( $found as $node ):
-            $nodeList[]= so_dom::make( $node );
-        endforeach;
-        return $nodeList;
-    }
-    
-    function drop( ){
-        $this->DOMNode->parentNode->removeChild( $this->DOMNode );
-        return $this;
-    }
-    
-    function count( ){
-        $DOMNode= $this->DOMNode;
-        return $DOMNode->attributes->length + $DOMNode->childNodes->length;
-    }
-
-    function offsetExists( $key ){
-        if( $key[0] === '@' ):
-            $name= substr( $key, 1 );
-            return $this->DOMNode->hasAttribute( $name );
-        endif;
-        
-        foreach( $this->DOMNode->childNodes as $child ):
-            if( $child->nodeName !== $key ) continue;
-            return true;
-        endforeach;
-        
-        return false;
-    }
-    
-    function offsetGet( $key ){
-        if( $key[0] === '@' ):
-            $name= substr( $key, 1 );
-            return so_dom::wrap( $this->DOMNode->getAttributeNode( $name ) );
-        endif;
-        
-        $list= array();
-        foreach( $this->childList as $child ):
-            if( $child->name !== $key ) continue;
-            $list[]= $child;
-        endforeach;
-        
-        return so_dom_list::make( $list );
-    }
-    
-    function offsetSet( $key, $value ){
-        if( !$key ):
-            $this->append( $value );
             return $this;
         endif;
         
         if( $key[0] === '@' ):
-            $this->append(array( $key => $value ));
+            $name= substr( $key, 1 );
+            $this->DOMNode->setAttribute( $name, $value );
             return $this;
         endif;
         
-        unset( $this[ $key ] );
+        $this->child[ $key ]->parent= null;
         
-        $this->append(array( $key => $value ));
+        $this[]= array( $key => $value );
         return $this;
     }
     
@@ -296,10 +286,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             return $this;
         endif;
 
-        foreach( $this->DOMNode->childNodes as $child ):
-            if( $child->nodeName !== $key ) continue;
-            $this->DOMNode->removeChild( $child );
-        endforeach;
+        $this->child[ $key ]->parent= null;
         
         return $this;
     }
@@ -317,7 +304,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $list[]= $child;
         endforeach;
         
-        return so_dom_Iterator::make( $list );
+        return so_dom_collection::make()->list( $list )->getIterator();
     }
     
 }

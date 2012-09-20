@@ -64,13 +64,13 @@ class so_file
         return file_exists( $this->path );
     }
     function exists_store( $exists ){
-        unset( $this->childList );
         if( $exists ):
             if( $this->exists ) return $exists;
             $this->parent->exists= true;
             mkdir( $this->path, null, true );
         else:
             unlink( $this->path );
+            unset( $this->child );
         endif;
         return $exists;
     }
@@ -138,8 +138,8 @@ class so_file
         return strtoupper( base_convert( $this->SplFileObject->getMTime(), 10, 36 ) );
     }
     
-    var $childList_value;
-    function childList_make( ){
+    var $child_value;
+    function child_make( ){
         $list= array();
         
         if( $this->exists ):
@@ -154,7 +154,7 @@ class so_file
         
         natsort( $list );
         
-        return $list;
+        return so_file_collection::make()->list( $list );
     }
     
     function go( $path ){
