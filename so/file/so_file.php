@@ -45,7 +45,7 @@ class so_file
     
     var $name_value;
     function name_make( ){
-        return basename( $this->path );
+        return $this->SplFileObject->getBasename();
     }
     
     var $nameList_value;
@@ -68,9 +68,9 @@ class so_file
         if( $exists ):
             if( $this->exists ) return $exists;
             $this->parent->exists= true;
-            @mkdir( $this->path, 0777, true );
+            mkdir( $this->path, null, true );
         else:
-            @unlink( $this->path );
+            unlink( $this->path );
         endif;
         return $exists;
     }
@@ -80,7 +80,14 @@ class so_file
     function content_make( ){
         $path= $this->path;
         if( !is_file( $path ) ) return null;
-        return file_get_contents( $path );
+        $SplFileObject= $this->SplFileObject;
+        $SplFileObject->rewind();
+        
+        $content= '';
+        foreach( $SplFileObject as $line )
+            $content.= $line;
+        
+        return $content;
     }
     function content_store( $content ){
         if( isset( $this->content ) )
@@ -88,20 +95,39 @@ class so_file
                 return $content;
         
         $this->parent->exists= true;
-        file_put_contents( $this->path, $content );
+        
+        $lock= $this->lock;
+        $this->lock= true;
+            $SplFileObject= $this->SplFileObject;
+            $SplFileObject->ftruncate( 0 );
+            $SplFileObject->fwrite( $content );
+            $SplFileObject->fflush();
+        $this->lock= $lock;
+        
         unset( $this->version );
         return $content;
     }
     
+    var $lock_value= false;
+    var $lock_depends= array();
+    function lock_store( $value ){
+        if( $value == $this->lock )
+            return $value;
+        
+        $this->SplFileObject->flock( $value ? LOCK_EX : LOCK_UN );
+        
+        return $value;
+    }
+    
+    var $SplFileObject_value;
+    function SplFileObject_make( ){
+        return new SplFileObject( $this->path, 'a+b' );
+    }
+    
     function append( $content ){
-        $f= fopen( $this->path, 'ab' );
-        if( !$f )
-            throw new Exception( "Can not open file [{$this->path}]" );
+        $count= $this->SplFileObject->fwrite( (string) $content );
         
-        $count= fwrite( $f, (string) $content );
-        fclose( $f );
-        
-        if( $count === false )
+        if( is_null( $count ) )
             throw new Exception( "Can not append to file [{$this->path}]" );
         
         return $this;
@@ -109,7 +135,7 @@ class so_file
     
     var $version_value;
     function version_make( ){
-        return strtoupper( base_convert( filemtime( $this->path ), 10, 36 ) );
+        return strtoupper( base_convert( $this->SplFileObject->getMTime(), 10, 36 ) );
     }
     
     var $childList_value;

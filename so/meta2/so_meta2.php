@@ -60,10 +60,11 @@ trait so_meta2 {
     
     function __unset( $name ){
         $valueField= $name . '_value';
+        
         if( !property_exists( $this, $valueField ) )
             return $this->_drop_meta( $name );
         
-        unset( $this->{ $valueField } );
+        $this->{ $valueField }= null;
         
         return $this;
     }

@@ -2,12 +2,11 @@
 
 class so_user
 {
-    use so_meta;
+    use so_meta2;
+    use so_registry;
 
-    protected $_id;
-    function get_id( $id ){
-        if( isset( $id ) ) return $id;
-        
+    var $id_value;
+    function id_make( ){
         $cookie= so_cookie::make( 'so_user_id' );
         
         $id= $cookie->value;
@@ -19,15 +18,9 @@ class so_user
         
         return $id;
     }
-    function set_id( $id ){
-        if( isset( $this->id ) ) throw new Exception( 'Redeclaration of $id' );
-        return $id;
-    }
 
-    protected $_key;
-    function get_key( $key ){
-        if( isset( $key ) ) return $key;
-        
+    var $key_value;
+    function key_make( $key ){
         $cookie= so_cookie::make( 'so_user_key' );
         
         $key= $cookie->value;
@@ -37,10 +30,6 @@ class so_user
             $cookie->value= $key;
         endif;
         
-        return $key;
-    }
-    function set_key( $key ){
-        so_cookie::make( 'so_user_key' )->value= $key;
         return $key;
     }
 

@@ -2,7 +2,8 @@
 
 class so_cookie
 {
-    use so_meta;
+    use so_meta2;
+    use so_factory;
 
     static function make( $name ){
         $cookie= new so_cookie;
@@ -10,28 +11,28 @@ class so_cookie
         return $cookie;
     }
     
-    protected $_name;
-    function set_name( $name ){
-        if( isset( $this->name ) ) throw new Exception( 'Redeclaration of $name' );
-        return $name;
+    var $name_value;
+    function name_make( ){
+        throw new Exception( "Property [name] is not defined" );
+    }
+    function name_store( $value ){
+        return (string) $value;
     }
 
-    protected $_expires;
-    function get_expires( $expires ){
-        if( isset( $expires ) ) return $expires;
-        $expires= mktime( 0, 0, 0, 1, 1, 2030 );
-        return $expires;
+    var $expires_value;
+    function expires_make( ){
+        return mktime( 0, 0, 0, 1, 1, 2030 );
     }
-    function set_expires( $expires ){
-        if( isset( $this->expires ) ) throw new Exception( 'Redeclaration of $expires' );
-        return $expires;
+    function expires_store( $value ){
+        return (integer) $value;
     }
 
-    protected $_value;
-    function get_value( $value ){
+    var $value_value;
+    var $value_depends= array();
+    function value_make( ){
         return $_COOKIE[ $this->name ];
     }
-    function set_value( $value ){
+    function value_store( $value ){
         $_COOKIE[ $this->name ]= $value;
         setcookie( $this->name, $value, $this->expires );
         return $value;

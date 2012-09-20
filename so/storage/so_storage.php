@@ -1,6 +1,7 @@
 <?php
 
 class so_storage
+//implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta2;
     use so_registry;
@@ -66,9 +67,15 @@ class so_storage
         return $content;
     }
     
-    //protected $_uri;
-    //function get_uri( $uri ){
-    //    return strtr( $this->dir->go( $this->version )->path, array( '~' => '%7E', '#' => '%23' ) );
-    //}
+    var $uri_value;
+    function uri_make(){
+        return $this->dir->go( $this->version )->uri;
+    }
+    
+    function append( $value ){
+        $this->file->append( $value );
+        unset( $this->content );
+        return $this;
+    }
     
 }

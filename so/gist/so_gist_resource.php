@@ -97,7 +97,7 @@ class so_gist_resource
                 '@so_uri' => (string) $this->uri,
                 '@so_gist_name' => (string) $this->name,
                 '@so_gist_author' => (string) $this->author,
-                '@so_gist_external' => (string) $storage->file->uri,
+                '@so_gist_external' => (string) $storage->uri,
             ),
         ) );
     }
