@@ -108,6 +108,9 @@ class so_compiler
         $sources= $this->sourcesJS;
         $target= $this->target;
         
+        if( !count( $sources ) )
+            return $this;
+        
         $index= <<<JS
 ;(function( modules ){
     var scripts= document.getElementsByTagName( 'script' )
@@ -172,6 +175,9 @@ JS;
         $sources= $this->sourcesCSS;
         $target= $this->target;
         
+        if( !count( $sources ) )
+            return $this;
+        
         $index= array();
         if( count( $sources ) > 32 ):
             $pages= array();
@@ -211,6 +217,9 @@ JS;
     function compileXSL( ){
         $sources= $this->sourcesXSL;
         $target= $this->target;
+        
+        if( !count( $sources ) )
+            return $this;
         
         $index= so_dom::make( array(
             'xsl:stylesheet' => array(
@@ -261,6 +270,9 @@ JS;
     function compilePHP( ){
         $sources= $this->sourcesPHP;
         $target= $this->target;
+        
+        if( !count( $sources ) )
+            return $this;
         
         $index= array( "<?php" );
         foreach( $sources as $source )
