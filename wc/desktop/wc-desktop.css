@@ -5,5 +5,5 @@ wc_desktop {
     text-align: center;
     overflow: hidden;
     position: relative;
-    background: fixed url( '../../wc/desktop/wc-desktop_light.png' ) left top no-repeat #ccc;
+    background: fixed url( '../../wc/desktop/wc-desktop_light.png' ) left top no-repeat #bbb;
 }
