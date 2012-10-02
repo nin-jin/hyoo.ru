@@ -1,7 +1,7 @@
 $jam.define
 (   '$jam.log'
 ,   new function(){
-        var console= $jam.glob().console
+        var console= window.console
         if( !console || !console.log ){
             return function(){
                 alert( [].slice.call( arguments ) )

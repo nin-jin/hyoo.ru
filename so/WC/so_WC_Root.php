@@ -14,7 +14,7 @@ extends so_WC_Node
     protected $_currentPack;
     function get_currentPack( $pack ){
         if( isset( $pack ) ) return $pack;
-        return $this->createPack( basename( getcwd() ) );
+        return $this->createPack( 'so' );
     }
     
     protected $_packs;

@@ -7,7 +7,7 @@ $jam.define
         (   function( ){
                 var sel= $jam.selection()
                 if( sel.rangeCount ) this.$= sel.getRangeAt( 0 ).cloneRange()
-                else this.$= $jam.doc().createRange()
+                else this.$= document.createRange()
                 return this
             }
         ,   function( range ){

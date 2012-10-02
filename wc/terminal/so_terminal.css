@@ -1,0 +1,30 @@
+wc_terminal {
+    display: block; zoom: 1;
+    position: relative;
+    font-color: black;
+    text-align: left;
+    overflow: auto;
+    min-width: 10em;
+    
+    margin: 0 auto;
+
+    border-radius: 2px;
+    border: 1px solid #aaa;
+    background: white;
+
+    box-shadow: 4px 4px 5px rgba( 0, 0, 0, .5 );
+}
+
+wc_terminal_out {
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: .25em;
+    display: block;
+    min-height: 1em;
+    font: 16px/1.25 monospace;
+}
+
+wc_terminal_in {
+    display: block;
+    white-space: pre;
+}

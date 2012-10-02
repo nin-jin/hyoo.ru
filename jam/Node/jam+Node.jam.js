@@ -4,22 +4,22 @@ $jam.define
         
         klass.Element=
         function( name ){
-            return klass.create( $jam.doc().createElement( name ) )
+            return klass.create( document.createElement( name ) )
         }
         
         klass.Text=
         function( str ){
-            return klass.create( $jam.doc().createTextNode( str ) )
+            return klass.create( document.createTextNode( str ) )
         }
         
         klass.Comment=
         function( str ){
-            return klass.create( $jam.doc().createComment( str ) )
+            return klass.create( document.createComment( str ) )
         }
         
         klass.Fragment=
         function( ){
-            return klass.create( $jam.doc().createDocumentFragment() )
+            return klass.create( document.createDocumentFragment() )
         }
         
         proto.text=

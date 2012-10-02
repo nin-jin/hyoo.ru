@@ -56,7 +56,7 @@ class so_clientHttp
                         
                     case 'text/json':
                     case 'application/json':
-                        return so_dom_collection::make()->list( json_decode( $raw ) );
+                        return so_dom_collection::make( json_decode( $raw ) );
                         
                     default:
                         return so_query::make( array() );
@@ -89,13 +89,15 @@ class so_clientHttp
         if( $type === 'application/xml' ):
             $accept= preg_split( '~, ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
             if( in_array( 'text/html', $accept ) && !in_array( 'application/xhtml+xml', $accept ) ):
+                
                 $type= 'text/html';
                 $xs= new so_XStyle;
                 $xs->pathXSL= so_file::make( 'so/-mix/index.xsl' )->path;
                 $xsl= $xs->docXSL;
-                foreach( $xsl[ 'xsl:include' ] as $dom ):
-                    $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href']->value );
+                foreach( $xsl->child[ 'xsl:include' ] as $dom ):
+                    $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
                 endforeach;
+                
                 $content= (string) $xs->process( $content );
                 $content= preg_replace( '~^<\\?xml .+?\\?>\n?~', '', $content );
                 $type= 'text/html';

@@ -4,7 +4,7 @@ $jam.Class( function( klass, proto ){
     proto.constructor=
     $jam.Poly
     (   function( ){
-            this.$= $jam.doc().createEvent( 'Event' )
+            this.$= document.createEvent( 'Event' )
             this.$.initEvent( '', true, true )
             return this
         }

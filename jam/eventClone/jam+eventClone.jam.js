@@ -10,7 +10,7 @@ $jam.define
             $jam.Event().type( '$jam.eventClone' ).scream( event.target() )
         }
         
-        $jam.Node( $jam.doc().documentElement )
+        $jam.Node( document.documentElement )
         .listen( 'keyup', handler )
     }
 )

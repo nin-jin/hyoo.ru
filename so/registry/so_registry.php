@@ -7,20 +7,18 @@ trait so_registry
     }
 
     static $all= array();
+    #static $id_prop= 'id';
     
     static function make( $id= null ){
-        if( !isset( $id ) )
-            return static::makeInstance();
-        
         if( $id instanceof static )
-            $id= $id->id;
+            $id= $id->{ static::$id_prop };
         
         $cached= &static::$all[ (string) $id ];
         if( $cached ) return $cached;
         
         $obj= static::makeInstance();
-        $obj->id= $id;
-        $cached2= &static::$all[ $obj->id ];
+        $obj->{ static::$id_prop }= $id;
+        $cached2= &static::$all[ (string) $obj->{ static::$id_prop } ];
         
         if( !$cached2 ) $cached2= $obj;
         $cached= $cached2;
@@ -28,8 +26,12 @@ trait so_registry
         return $cached;
     }
     
+    static function ensure( &$value ){
+        return $value= static::make( $value );
+    }
+    
     function primary( ){
-        $cache= &static::$all[ $this->id ];
+        $cache= &static::$all[ (string) $this->{ static::$id_prop } ];
         if( !$cache ) $cache= $this;
         return $cache;
     }

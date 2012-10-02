@@ -12,21 +12,12 @@ $jam.Component
             .parent( nodeRoot )
             
             var sourceLast= ''
-            var update= function( ){
+            var update= function( addon ){
                 //var source= $jam.String( nodeSource.text() ).replace( /\n?\r?$/, '\n' ).$
+                addon= addon || ''
                 var source= nodeSource.text()
-                if( source === sourceLast ) return
+                if( !addon && source === sourceLast ) return
                 sourceLast= source
-                
-                source=
-                $jam.String( source )
-                .process( $lang ( nodeRoot.attr( 'wc_editor_hlight' ) ) )
-                .replace( /  /g, '\u00A0 ' )
-                .replace( /  /g, ' \u00A0' )
-                //.replace( /[^\n<>](?:<[^<>]+>)*$/, '$&\n' )
-                .replace( /$/, '\n' )
-                .replace( /\n/g, '<br/>' )
-                .$
                 
                 var nodeRange= $jam.DomRange().aimNodeContent( nodeSource )
                 var startPoint= $jam.DomRange().collapse2start()
@@ -47,8 +38,25 @@ $jam.Component
                     var offsetEnd= metRange.text().length
                     //console.log(metRange.html(),metRange.text(), offsetEnd)
                 }
+                
                 //console.log(offsetStart,offsetEnd)
+                var offsetCut= offsetEnd || source.length
+                source= source.substring( 0, offsetCut ) + addon + source.substring( offsetCut )
+                if( offsetStart >= offsetCut ) offsetStart= offsetStart + addon.length
+                if( offsetEnd >= offsetCut ) offsetEnd= offsetEnd + addon.length
+                
+                source=
+                $jam.String( source )
+                .process( $lang ( nodeRoot.attr( 'wc_editor_hlight' ) ) )
+                .replace( /  /g, '\u00A0 ' )
+                .replace( /  /g, ' \u00A0' )
+                //.replace( /[^\n<>](?:<[^<>]+>)*$/, '$&\n' )
+                .replace( /$/, '\n' )
+                .replace( /\n/g, '<br/>' )
+                .$
+                
                 nodeSource.html( source )
+                
                 var selRange= $jam.DomRange()
                 if( hasStart ){
                     var startRange= nodeRange.clone().move( offsetStart )
@@ -69,7 +77,7 @@ $jam.Component
             }
             
             var onEdit=
-            nodeRoot.listen( '$jam.eventEdit', $jam.Throttler( 100, update ) )
+            nodeRoot.listen( '$jam.eventEdit', $jam.Throttler( 100, function(){ update() } ) )
             
             var onEnter=
             nodeRoot.listen( 'keypress', function( event ){
@@ -172,6 +180,38 @@ $jam.Component
                 event.defaultBehavior( false )
             })
             
+            var onDragEnter=
+            nodeRoot.listen( 'dragenter', function( event ){
+                event.defaultBehavior( false )
+            })
+            
+            var onDragOver=
+            nodeRoot.listen( 'dragover', function( event ){
+                event.defaultBehavior( false )
+            })
+            
+            var onDragLeave=
+            nodeRoot.listen( 'dragleave', function( event ){
+                event.defaultBehavior( false )
+            })
+            
+            var onDrop=
+            nodeRoot.listen( 'drop', function( event ){
+                event.defaultBehavior( false )
+                function upload( file ){
+                    var reader= new FileReader
+                    reader.onload= function( ){
+                        var result= $jam.http( '?image=' + Math.random() ).put({ content: reader.result })
+                        var link= String( $jam.domx.parse( result ).select(' // so_image / @so_image_link ') )
+                        update( '\n./' + link + '\n' )
+                    }
+                    reader.readAsDataURL( file )
+                }
+                var files= event.$.dataTransfer.files
+                for( var i= 0; i < files.length; ++i )
+                    upload( files[ i ] )
+            })
+            
             this.destroy= function( ){
                 onEdit.sleep()
                 onLeave.sleep()
@@ -179,6 +219,9 @@ $jam.Component
             
             update()
             nodeRoot.attr( 'wc_editor_inited', true )
+            
+            if( nodeRoot.attr( 'wc_editor_active' ) == 'true' )
+                nodeSource.editable( true )
         }
     }
 )

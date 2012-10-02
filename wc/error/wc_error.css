@@ -1,5 +1,5 @@
 wc_error {
-    display: block;
+    display: inline-block;
     text-align: left;
     overflow: auto;
     white-space: pre-wrap;
@@ -8,4 +8,9 @@ wc_error {
     font-size: 12px;
     font-family: monospace;
     background: pink;
+    
+    border-radius: 2px;
+    border: 1px solid #aaa;
+
+    box-shadow: 4px 4px 5px rgba( 0, 0, 0, .5 );
 }

@@ -6,17 +6,17 @@ class so_page
     static function make( $data ){
         $page= array();
         
-        $mix= so_WC_Root::make()->currentPack->createModule( '-mix' );
+        $moduleMix= so_module::make( __DIR__ )->package[ '-mix' ];
         
         $page[ '?xml-stylesheet' ]= array(
-            'href' => '-mix/index.xsl?' . $mix->createFile( 'index.xsl' )->version,
+            'href' => (string) $moduleMix[ 'index.xsl' ]->uri,
             'type' =>'text/xsl',
         );
         
-        $page[ 'html' ]= array(
+        $page[]= array(
             'so_page' => array(
-                'so_page_script' => '-mix/index.js?' . $mix->createFile( 'index.js' )->version,
-                'so_page_stylesheet' => '-mix/index.css?' . $mix->createFile( 'index.css' )->version,
+                '@so_page_script' => (string) $moduleMix[ 'index.js' ]->uri,
+                '@so_page_stylesheet' => (string) $moduleMix[ 'index.css' ]->uri,
                 $data,
             ),
         );

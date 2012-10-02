@@ -7,11 +7,11 @@ $jam.define
             if( event.keyMeta() ) return
             if( event.keyAlt() ) return
             if( event.keyCode() != 46 ) return
-            if( !$jam.glob().confirm( 'Are you sure to delee this?' ) ) return
+            if( !window.confirm( 'Are you sure to delee this?' ) ) return
             $jam.Event().type( '$jam.eventDelete' ).scream( event.target() )
         }
         
-        $jam.Node( $jam.doc().documentElement )
+        $jam.Node( document.documentElement )
         .listen( 'keyup', handler )
     }
 )

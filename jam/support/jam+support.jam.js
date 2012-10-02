@@ -9,9 +9,9 @@ $jam.define
             return sup
         }
     
-        var node= $jam.doc().createElement( 'div' )
+        var node= document.createElement( 'div' )
         
         this.msie= Support( /*@cc_on!@*/ false )
-        this.xmlModel= Support( ( $jam.glob().DOMParser && $jam.glob().XSLTProcessor ) ? 'w3c' : 'ms' )
+        this.xmlModel= Support( ( window.DOMParser && window.XSLTProcessor ) ? 'w3c' : 'ms' )
     }
 )

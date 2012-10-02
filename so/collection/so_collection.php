@@ -5,6 +5,22 @@ trait so_collection
 {
     #use so_meta2;
     
+    static function make( $list= null ){
+        if( $list instanceof static )
+            return $list;
+        
+        $obj= new static;
+        
+        if( isset( $list ) )
+            $obj->list( $list );
+        
+        return $obj;
+    }
+    
+    static function ensure( &$value ){
+        return $value= static::make( $value );
+    }
+    
     var $list_value;
     function list_make( ){
         return array();
@@ -13,10 +29,6 @@ trait so_collection
         return (array) $list;
     }
     
-    function wrapItem( $item ){
-        return $item;
-    }
-
     function count( ){
         return count( $this->list );
     }
@@ -26,7 +38,7 @@ trait so_collection
     }
     
     function offsetGet( $key ){
-        return $this->wrapItem( $this->list[ $key ] );
+        return $this->list[ $key ];
     }
     
     function offsetSet( $key, $value ){

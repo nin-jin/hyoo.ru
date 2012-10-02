@@ -1,7 +1,7 @@
 $jam.Component
 (   'a'
 ,   function( el ){
-        var isTarget= ( el.href == $jam.doc().location.href )
+        var isTarget= ( el.href == document.location.href )
         $jam.Node( el ).state( 'target', isTarget )
     }
 )

@@ -11,7 +11,7 @@ $jam.define
             $jam.Event().type( '$jam.eventCommit' ).scream( event.target() )
         }
         
-        $jam.Node( $jam.doc().documentElement )
+        $jam.Node( document.documentElement )
         .listen( 'keydown', handler )
         
         this.toString= $jam.Value( '$jam.eventCommit' )

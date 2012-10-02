@@ -18,7 +18,7 @@ $jam.define
         }
 
         var node=
-        $jam.Node( $jam.doc().documentElement )
+        $jam.Node( document.documentElement )
         
         node.listen( 'keyup', handler )
         node.listen( 'cut', handler )

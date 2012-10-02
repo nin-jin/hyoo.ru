@@ -14,6 +14,7 @@
             <wc_paper>
                 <wc_spacer>
                     <xsl:apply-templates select="." mode="so_author_title" />
+                    <xsl:apply-templates select="." mode="so_author_catch" />
                     <xsl:apply-templates select="." mode="so_author_descr" />
                 </wc_spacer>
             </wc_paper>
@@ -34,22 +35,38 @@
         <h1>
             <form
                 method="move"
-                action="?"
+                action="{@so_uri}"
+                wc_form="wc_form"
                 >
                 <wc_field wc_field_name="author">
                     <wc_editor>
                         <xsl:value-of select=" @so_author_name " />
                     </wc_editor>
                 </wc_field>
-                <input
-                    type="hidden"
-                    name="from"
-                    value="{ @so_uri }"
-                />
             </form>
         </h1>
     </xsl:template>
 
+    <xsl:template match=" so_author " mode="so_author_catch" />
+    <xsl:template match=" so_author[ @so_author_catch ] " mode="so_author_catch">
+        <p>
+            <form
+                method="put"
+                action="{@so_uri}"
+                wc_form="wc_form"
+                >
+                <xsl:text>Никто ещё не представился как </xsl:text>
+                <b>
+                    <xsl:value-of select=" @so_author_name " />
+                </b>
+                <xsl:text> </xsl:text>
+                <wc_button>
+                    <button>Да это же я!</button>
+                </wc_button>
+            </form>
+        </p>
+    </xsl:template>
+    
     <xsl:template match=" so_author " mode="so_author_descr" />
     <xsl:template match=" so_author[ @so_author_about ] " mode="so_author_descr">
         <xsl:apply-templates select=" key( 'so_uri', @so_author_about ) " mode="so_gist_view" />

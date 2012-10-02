@@ -3,7 +3,9 @@
 class so_user
 {
     use so_meta2;
+    
     use so_registry;
+    static $id_prop= 'id';
 
     var $id_value;
     function id_make( ){
@@ -18,9 +20,13 @@ class so_user
         
         return $id;
     }
+    function id_store( $data ){
+        if( !$data ) return null;
+        return (string) $data;
+    }
 
     var $key_value;
-    function key_make( $key ){
+    function key_make( ){
         $cookie= so_cookie::make( 'so_user_key' );
         
         $key= $cookie->value;

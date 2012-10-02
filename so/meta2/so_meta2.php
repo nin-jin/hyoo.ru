@@ -21,8 +21,8 @@ trait so_meta2 {
         
         return $value= $this->{ $makeMethod }();
     }
-    protected function _make_meta( $name ){
-        throw new Exception( "Property [$name] is not defined" );
+    function _make_meta( $name ){
+        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __isset( $name ){
@@ -54,8 +54,8 @@ trait so_meta2 {
         
         return $this;
     }
-    protected function _store_meta( $name, $value ){
-        throw new Exception( "Property [$name] is not defined" );
+    function _store_meta( $name, $value ){
+        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __unset( $name ){
@@ -68,8 +68,8 @@ trait so_meta2 {
         
         return $this;
     }
-    protected function _drop_meta( $name ){
-        throw new Exception( "Property [$name] is not defined" );
+    function _drop_meta( $name ){
+        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __call( $name, $args ){
@@ -86,12 +86,58 @@ trait so_meta2 {
         throw new Exception( "Wrong arguments count ($count)" );
     }
     
-    protected function _call_meta( $name, $args ){
-        throw new Exception( "Method [$name] is not defined" );
+    function _call_meta( $name, $args ){
+        throw new Exception( "Method [$name] is not defined in (" . get_class( $this ) . ")" );
+    }
+    
+    function _string_meta( $prefix= '' ){
+        $string= '';
+        
+        foreach( get_object_vars( $this ) as $key => $val ):
+            $key= preg_replace( '~_value$~', '', $key );
+            
+            if( preg_match( '~_depends$~', $key ) )
+                continue;
+            
+            $key= $prefix . $key;
+            
+            if( is_array( $val ) )
+                $val= so_array::make( $val );
+            
+            if( is_string( $val ) )
+                $val= "'" . strtr( $val, array( "'" => "\'", "\n" => "\\n" ) ) . "'";
+            
+            if( is_bool( $val ) )
+                $val= $val ? 'TRUE' : 'FALSE';
+            
+            if( is_null( $val ) )
+                $val= 'NULL';
+            
+            $string.= $key . '= ' . trim( $val, "\n" ) . "\n";// . '=' . $key . "\n";
+        endforeach;
+        
+        $string= preg_replace( '~^~m', '    ', $string );
+        
+        return get_class( $this ) . " {\n" . $string . "}\n";
     }
     
     function __toString( ){
-        return print_r( $this, true );
+        static $processing;
+        
+        if( $processing )
+            return '@';
+        
+        $processing= true;
+        
+        try {
+            $string= (string) $this->_string_meta();
+        } catch( Exception $exception ){
+            echo $exception;
+            $string= '#';
+        }
+        
+        $processing= false;
+        return $string;
     }
 
     function destroy( ){
@@ -100,4 +146,5 @@ trait so_meta2 {
         foreach( $vars as $name => $value )
             unset( $this->$name );
     }
+    
 }

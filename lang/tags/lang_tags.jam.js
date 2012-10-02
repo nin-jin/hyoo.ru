@@ -7,8 +7,8 @@ $jam.define
             return tags.root( tags.content( str ) )
         }
         
-        tags.root= $lang.Wrapper( 'lang:tags' )
-        tags.item= $lang.Wrapper( 'lang:tags_item' )
+        tags.root= $lang.Wrapper( 'lang_tags' )
+        tags.item= $lang.Wrapper( 'lang_tags_item' )
         
         tags.content=
         $lang.Parser( new function(){

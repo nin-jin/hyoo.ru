@@ -33,9 +33,9 @@ class so_front
         $query= $client->query;
         $resource= $query->resource;
         
-        $url= $resource->id;
-        if( $query->uri->id != $url )
-            return $client->output= so_output::moved( $url );
+        $uri= $resource->uri;
+        if( $query->uri != $uri )
+            return $client->output= so_output::moved( $uri );
         
         return $client->output= $resource->{ $client->method }( $client->input );
     }

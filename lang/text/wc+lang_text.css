@@ -1,9 +1,9 @@
-lang\:text:after {
+lang_text:after {
     display: inline;
     content: attr( title );
 }
 
-lang\:text_hidden {
+lang_text_hidden {
     display: inline-block;
     display: none\9;
     width: 1px;

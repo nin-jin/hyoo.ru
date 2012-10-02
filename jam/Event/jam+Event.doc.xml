@@ -8,8 +8,8 @@
     <p>Обёртка для объектов-событий предоставляющая кроссбраузерный апи к ним. При вызове без параметров создаёт новый объект события, который можно настроить через специальные методы.</p>
 
     <wc_js-test>
-        var node1= $jam.Node( $jam.doc() )
-        var node2= $jam.Node( $jam.doc().body )
+        var node1= $jam.Node( document )
+        var node2= $jam.Node( document.body )
 
         var obs=
         $jam.Observer()
@@ -24,7 +24,7 @@
         obs.sleep()
     </wc_js-test>
     <wc_js-test>
-        var node= $jam.Node( $jam.doc().body )
+        var node= $jam.Node( document.body )
         var catched= false
 
         var obs=
@@ -43,8 +43,8 @@
     </wc_js-test>
 
     <wc_js-test>
-        var node1= $jam.Node( $jam.doc() )
-        var node2= $jam.Node( $jam.doc().body )
+        var node1= $jam.Node( document )
+        var node2= $jam.Node( document.body )
 
         var obs=
         $jam.Observer()
@@ -59,7 +59,7 @@
         obs.sleep()
     </wc_js-test>
     <wc_js-test>
-        var node= $jam.Node( $jam.doc().body )
+        var node= $jam.Node( document.body )
         var catched= false
 
         var obs=

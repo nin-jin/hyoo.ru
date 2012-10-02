@@ -35,6 +35,10 @@ implements Countable, ArrayAccess, IteratorAggregate
         throw new Exception( 'Unsupported type of argument' );
     }
     
+    static function ensure( &$value ){
+        return $value= static::make( $value );
+    }
+    
     public $mime= 'application/xml';
 
     var $DOMNode_value;
@@ -65,7 +69,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         return so_dom::make( $rootElement );
     }
 
-    function __toString( ){
+    function _string_meta( ){
         return $this->DOMDocument->saveXML( $this->DOMNode );
     }
     
@@ -96,30 +100,30 @@ implements Countable, ArrayAccess, IteratorAggregate
         endif;
     }
 
-    var $child_value;
-    function child_make( ){
+    var $childs_value;
+    function childs_make( ){
         $list= array();
         foreach( $this->DOMNode->childNodes as $node )
             $list[]= $node;
-        return so_dom_collection::make()->list( $list );
+        return so_dom_collection::make( $list );
     }
 
-    var $attr_value;
-    function attr_make(){
+    var $attrs_value;
+    function attrs_make( ){
         $list= array();
         foreach( $this->DOMNode->attributes as $node )
             $list[]= $node;
-        return so_dom_collection::make()->list( $list );
+        return so_dom_collection::make( $list );
     }
 
     function select( $query ){
-        $xpath = new DOMXPath( $this->DOMDocument );
+        $xpath = new domxPath( $this->DOMDocument );
         $found= $xpath->query( $query, $this->DOMNode );
         $nodeList= array();
         foreach( $found as $node ):
             $nodeList[]= $node;
         endforeach;
-        return so_dom_collection::make()->list( $nodeList );
+        return so_dom_collection::make( $nodeList );
     }
     
     function drop( ){
@@ -151,14 +155,17 @@ implements Countable, ArrayAccess, IteratorAggregate
         $list= array();
         foreach( $this->child as $item ):
             if( $item->name != $key ) continue;
-            $list= array_merge( $list, $item->child->list );
+            $list= array_merge( $list, $item->childs->list );
         endforeach;
         
-        return so_dom_collection::make()->list( $list );
+        return so_dom_collection::make( $list );
     }
     
     function offsetSet( $key, $value ){
         if( !$key ):
+            if( !isset( $value ) )
+                return $this;
+            
             $DOMNode= $this->DOMNode;
             
             if( is_scalar( $value ) ):
@@ -193,6 +200,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             endif;
             
             foreach( $value as $key => $value ):
+                
                 if( is_int( $key ) ):
                     $this[]= $value;
                     continue 1;
@@ -304,7 +312,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $list[]= $child;
         endforeach;
         
-        return so_dom_collection::make()->list( $list )->getIterator();
+        return so_dom_collection::make( $list )->getIterator();
     }
     
 }

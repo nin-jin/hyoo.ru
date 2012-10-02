@@ -6,11 +6,9 @@
 
 <xsl:template match=" so_error ">
     <wc_spacer>
-        <wc_paper>
-            <wc_error>
-                <xsl:apply-templates select=" text() " />
-            </wc_error>
-        </wc_paper>
+        <wc_error>
+            <xsl:apply-templates select=" text() " />
+        </wc_error>
     </wc_spacer>
 </xsl:template>
 

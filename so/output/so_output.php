@@ -70,7 +70,7 @@ class so_output
         return (string) $data;
     }
     
-    function __toString( ){
-        return (string) $this->content;
+    function _string_meta( ){
+        return $this->content;
     }
 }

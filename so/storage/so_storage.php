@@ -4,7 +4,9 @@ class so_storage
 //implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta2;
+    
     use so_registry;
+    static $id_prop= 'id';
 
     var $id_value;
     function id_store( $id ){

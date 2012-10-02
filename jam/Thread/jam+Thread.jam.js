@@ -3,8 +3,8 @@ $jam.define
 ,   $jam.Lazy( function(){
     
         var poolNode= $jam.Lazy( function(){
-            var body= $jam.doc().getElementsByTagName( 'body' )[ 0 ]
-            var pool= $jam.doc().createElement( 'wc_Thread:pool' )
+            var body= document.getElementsByTagName( 'body' )[ 0 ]
+            var pool= document.createElement( 'wc_Thread:pool' )
             pool.style.display= 'none'
             body.insertBefore( pool, body.firstChild )
             return $jam.Value( pool )
@@ -20,12 +20,12 @@ $jam.define
     
                 var starter= free.pop()
                 if( !starter ){
-                    var starter= $jam.doc().createElement( 'button' )
+                    var starter= document.createElement( 'button' )
                     poolNode().appendChild( starter )
                 }
                 
                 starter.onclick= function( ev ){
-                    ( ev || $jam.glob().event ).cancelBubble= true
+                    ( ev || window.event ).cancelBubble= true
                     res= proc.apply( self, args )
                 }
                 starter.click()

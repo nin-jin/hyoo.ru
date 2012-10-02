@@ -23,37 +23,49 @@
                 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
                 
-                <xsl:apply-templates select=" so_page_stylesheet " mode="so_page_special" />
+                <xsl:apply-templates select=" . " mode="so_page_stylesheet" />
+                <xsl:apply-templates select=" . " mode="so_page_script" />
+                <xsl:call-template name="so_compiler_bundle" />
                 
             </head>
             <body>
                 <wc_desktop>
-                    
                     <a href="?"><wc_logo>Gist!</wc_logo></a>
                     
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
                     
-                    <xsl:apply-templates select=" so_error " />
-                    
                     <xsl:apply-templates select=" key( 'so_uri', @so_page_uri ) " />
+                    <xsl:apply-templates select=" * [ not( @so_uri ) ] " />
                     
                 </wc_desktop>
-                
-                <xsl:apply-templates select=" so_page_script " mode="so_page_special" />
                 
             </body>
         </html>
         
     </xsl:template>
 
-    <xsl:template match=" so_page_stylesheet " />
-    <xsl:template match=" so_page_stylesheet " mode="so_page_special">
-        <link href="{ . }" rel="stylesheet" />
+    <xsl:template match=" head ">
+        <xsl:apply-templates />
+    </xsl:template>
+    
+    <xsl:template match=" body ">
+        <wc_spacer>
+            <wc_paper>
+                <wc_spacer>
+                    <xsl:apply-templates />
+                </wc_spacer>
+            </wc_paper>
+        </wc_spacer>
+    </xsl:template>
+    
+    <xsl:template match=" so_page " mode="so_page_stylesheet" />
+    <xsl:template match=" so_page " mode="so_page_stylesheet">
+        <link href="{ @so_page_stylesheet }" rel="stylesheet" />
     </xsl:template>
 
-    <xsl:template match=" so_page_script " />
-    <xsl:template match=" so_page_script " mode="so_page_special">
-        <script src="{ . }">//</script>
+    <xsl:template match=" so_page " mode="so_page_script" />
+    <xsl:template match=" so_page " mode="so_page_script">
+        <script src="{ @so_page_script }">//</script>
     </xsl:template>
 
     <xsl:template match=" so_page_aside " />

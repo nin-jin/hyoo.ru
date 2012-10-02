@@ -6,13 +6,13 @@ new function( ){
         return php.root( php.content( str ) )
     }
 
-    php.root= $lang.Wrapper( 'lang:php' )
-    php.dollar= $lang.Wrapper( 'lang:php_dollar' )
-    php.variable= $lang.Wrapper( 'lang:php_variable' )
-    php.string= $lang.Wrapper( 'lang:php_string' )
-    php.number= $lang.Wrapper( 'lang:php_number' )
-    php.func= $lang.Wrapper( 'lang:php_func' )
-    php.keyword= $lang.Wrapper( 'lang:php_keyword' )
+    php.root= $lang.Wrapper( 'lang_php' )
+    php.dollar= $lang.Wrapper( 'lang_php_dollar' )
+    php.variable= $lang.Wrapper( 'lang_php_variable' )
+    php.string= $lang.Wrapper( 'lang_php_string' )
+    php.number= $lang.Wrapper( 'lang_php_number' )
+    php.func= $lang.Wrapper( 'lang_php_func' )
+    php.keyword= $lang.Wrapper( 'lang_php_keyword' )
     
     php.content=
     $lang.Parser( new function(){

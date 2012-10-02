@@ -1,15 +1,20 @@
 $jam.define
-(   '$jam.DOMX'
+(   '$jam.domx'
 ,   $jam.Class( function( klass, proto ){
     
         proto.constructor=
         function( dom ){
-            if( dom.toDOMDocument ) dom= dom.toDOMDocument()
+            if( dom.toDOMNode ) dom= dom.toDOMNode()
             this.$= dom
             return this
         }
         
         proto.toDOMDocument=
+        function( ){
+            return this.$.ownerDocument || this.$
+        }
+        
+        proto.toDOMNode=
         function( ){
             return this.$
         }
@@ -32,28 +37,34 @@ $jam.define
                 var proc= new XSLTProcessor
                 proc.importStylesheet( $jam.raw( stylesheet ) )
                 var doc= proc.transformToDocument( this.$ )
-                return $jam.DOMX( doc )
+                return $jam.domx( doc )
             }
         ,   'ms': function( stylesheet ){
                 var text= this.$.transformNode( $jam.raw( stylesheet ) )
-                return $jam.DOMX.parse( text )
+                return $jam.domx.parse( text )
             }
         })
+        
+        proto.select=
+        function( xpath ){
+            result= this.toDOMDocument().evaluate( xpath, this.toDOMNode(), null, null, null ).iterateNext()
+            return $jam.domx( result )
+        }
         
         klass.parse=
         $jam.support.xmlModel.select(
         {   'w3c': function( str ){
-            var parser= new DOMParser
+                var parser= new DOMParser
                 var doc= parser.parseFromString( str, 'application/xml' )
-                return $jam.DOMX( doc )
+                return $jam.domx( doc )
             }
         ,   'ms': function( str ){
                 var doc= new ActiveXObject( 'MSXML2.DOMDocument' )
                 doc.async= false
                 doc.loadXML( str )
-                return $jam.DOMX( doc )
+                return $jam.domx( doc )
             }
         })
-
+        
     })
 )

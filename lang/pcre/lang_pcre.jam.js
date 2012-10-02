@@ -6,11 +6,11 @@ new function(){
         return pcre.root( pcre.content( str ) )
     }
 
-    pcre.root= $lang.Wrapper( 'lang:pcre' )
-    pcre.backslash= $lang.Wrapper( 'lang:pcre_backslash' )
-    pcre.control= $lang.Wrapper( 'lang:pcre_control' )
-    pcre.spec= $lang.Wrapper( 'lang:pcre_spec' )
-    pcre.text= $lang.Wrapper( 'lang:pcre_text' )
+    pcre.root= $lang.Wrapper( 'lang_pcre' )
+    pcre.backslash= $lang.Wrapper( 'lang_pcre_backslash' )
+    pcre.control= $lang.Wrapper( 'lang_pcre_control' )
+    pcre.spec= $lang.Wrapper( 'lang_pcre_spec' )
+    pcre.text= $lang.Wrapper( 'lang_pcre_text' )
     
     pcre.content=
     $lang.Parser( new function(){

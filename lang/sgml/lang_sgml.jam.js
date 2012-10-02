@@ -6,14 +6,14 @@ new function(){
         return sgml.root( sgml.content( str ) )
     }
 
-    sgml.root= $lang.Wrapper( 'lang:sgml' )
-    sgml.tag= $lang.Wrapper( 'lang:sgml_tag' )
-    sgml.tagBracket= $lang.Wrapper( 'lang:sgml_tag-bracket' )
-    sgml.tagName= $lang.Wrapper( 'lang:sgml_tag-name' )
-    sgml.attrName= $lang.Wrapper( 'lang:sgml_attr-name' )
-    sgml.attrValue= $lang.Wrapper( 'lang:sgml_attr-value' )
-    sgml.comment= $lang.Wrapper( 'lang:sgml_comment' )
-    sgml.decl= $lang.Wrapper( 'lang:sgml_decl' )
+    sgml.root= $lang.Wrapper( 'lang_sgml' )
+    sgml.tag= $lang.Wrapper( 'lang_sgml_tag' )
+    sgml.tagBracket= $lang.Wrapper( 'lang_sgml_tag-bracket' )
+    sgml.tagName= $lang.Wrapper( 'lang_sgml_tag-name' )
+    sgml.attrName= $lang.Wrapper( 'lang_sgml_attr-name' )
+    sgml.attrValue= $lang.Wrapper( 'lang_sgml_attr-value' )
+    sgml.comment= $lang.Wrapper( 'lang_sgml_comment' )
+    sgml.decl= $lang.Wrapper( 'lang_sgml_decl' )
     
     sgml.tag=
     $jam.Pipe
@@ -49,7 +49,7 @@ new function(){
             }
         
         })
-    ,   $lang.Wrapper( 'lang:sgml_tag' )
+    ,   $lang.Wrapper( 'lang_sgml_tag' )
     )
 
     sgml.content=

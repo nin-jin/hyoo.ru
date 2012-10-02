@@ -4,14 +4,14 @@
     xml:lang="ru"
     >
 
-    <h1>$jam.DOMX</h1>
+    <h1>$jam.domx</h1>
     <p>Обёртка вокруг XML документа.</p>
 
     <wc_js-test>
     <![CDATA[
         with( $jam ){
             var str= '<xxx/>'
-            _test.ok( $jam.DOMX.parse( str ).toString(), str )
+            _test.ok( $jam.domx.parse( str ).toString(), str )
         }
     ]]>
     </wc_js-test>
@@ -19,9 +19,9 @@
     <wc_js-test>
     <![CDATA[
         with( $jam ){
-            var xml= $jam.DOMX.parse( '<xxx />' )
-            var xsl= $jam.DOMX.parse( '<stylesheet version="1.0" xmlns="http://www.w3.org/1999/XSL/Transform"><template match="xxx"><yyy xmlns="y"/></template></stylesheet>' )
-            var res= $jam.DOMX.parse( '<yyy xmlns="y" />' )
+            var xml= $jam.domx.parse( '<xxx />' )
+            var xsl= $jam.domx.parse( '<stylesheet version="1.0" xmlns="http://www.w3.org/1999/XSL/Transform"><template match="xxx"><yyy xmlns="y"/></template></stylesheet>' )
+            var res= $jam.domx.parse( '<yyy xmlns="y" />' )
             _test.ok( xml.transform( xsl ).toString(), res.toString() )
         }
     ]]>

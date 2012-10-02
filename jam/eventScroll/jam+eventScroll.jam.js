@@ -9,7 +9,7 @@ $jam.define
             .scream( event.target() )
         }
         
-        var docEl= $jam.Node( $jam.doc().documentElement )
+        var docEl= $jam.Node( document.documentElement )
         docEl.listen( 'mousewheel', handler )
         docEl.listen( 'DOMMouseScroll', handler )
     }

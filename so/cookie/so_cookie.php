@@ -30,7 +30,7 @@ class so_cookie
     var $value_value;
     var $value_depends= array();
     function value_make( ){
-        return $_COOKIE[ $this->name ];
+        return so_value::make( $_COOKIE[ $this->name ] );
     }
     function value_store( $value ){
         $_COOKIE[ $this->name ]= $value;

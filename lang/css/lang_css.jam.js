@@ -6,17 +6,17 @@ new function(){
         return css.root( css.stylesheet( str ) )
     }
     
-    css.root= $lang.Wrapper( 'lang:css' )
-    css.remark= $lang.Wrapper( 'lang:css_remark' )
-    css.string= $lang.Wrapper( 'lang:css_string' )
-    css.bracket= $lang.Wrapper( 'lang:css_bracket' )
-    css.selector= $lang.Wrapper( 'lang:css_selector' )
-    css.tag= $lang.Wrapper( 'lang:css_tag' )
-    css.id= $lang.Wrapper( 'lang:css_id' )
-    css.klass= $lang.Wrapper( 'lang:css_class' )
-    css.pseudo= $lang.Wrapper( 'lang:css_pseudo' )
-    css.property= $lang.Wrapper( 'lang:css_property' )
-    css.value= $lang.Wrapper( 'lang:css_value' )
+    css.root= $lang.Wrapper( 'lang_css' )
+    css.remark= $lang.Wrapper( 'lang_css_remark' )
+    css.string= $lang.Wrapper( 'lang_css_string' )
+    css.bracket= $lang.Wrapper( 'lang_css_bracket' )
+    css.selector= $lang.Wrapper( 'lang_css_selector' )
+    css.tag= $lang.Wrapper( 'lang_css_tag' )
+    css.id= $lang.Wrapper( 'lang_css_id' )
+    css.klass= $lang.Wrapper( 'lang_css_class' )
+    css.pseudo= $lang.Wrapper( 'lang_css_pseudo' )
+    css.property= $lang.Wrapper( 'lang_css_property' )
+    css.value= $lang.Wrapper( 'lang_css_value' )
     
     css.stylesheet=
     $lang.Parser( new function( ){

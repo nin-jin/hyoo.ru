@@ -1,6 +1,6 @@
 $jam.define
 (  '$jam.selection'
 ,   function( ){
-        return $jam.glob().getSelection()
+        return window.getSelection()
     }
 )

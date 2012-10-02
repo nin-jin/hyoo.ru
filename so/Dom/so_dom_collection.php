@@ -4,7 +4,6 @@ class so_dom_collection
 implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta2;
-    use so_factory;
     use so_collection;
     
     var $parent_value;
@@ -13,7 +12,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         foreach( $this as $item ):
             $list[]= $item->parent;
         endforeach;
-        return so_dom_collection::make()->list( $list );
+        return so_dom_collection::make( $list );
     }
     function parent_store( $parent ){
         foreach( $this as $item ):
@@ -45,7 +44,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $list[]= $item;
         endforeach;
         
-        return so_dom_collection::make()->list( $list );
+        return so_dom_collection::make( $list );
     }
     
     function offsetSet( $key, $value ){
@@ -57,7 +56,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         $list= array();
         foreach( $this as $item ):
             if( $item->name != $key ) continue;
-            $list= array_merge( $list, $item->child->list );
+            $list= array_merge( $list, $item->childs->list );
         endforeach;
         
         return $this;
@@ -74,7 +73,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         return $this;
     }
     
-    function __toString( ){
+    function _string_meta( ){
         $string= '';
         
         foreach( $this as $item )

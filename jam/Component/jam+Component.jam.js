@@ -4,7 +4,7 @@ $jam.define
         if(!( this instanceof $jam.Component )) return new $jam.Component( tagName, factory )
         var fieldName= 'componnet|' + tagName + '|' + (new Date).getTime()
     
-        var nodes= $jam.doc().getElementsByTagName( tagName )
+        var nodes= document.getElementsByTagName( tagName )
     
         var elements= []
     
@@ -93,15 +93,15 @@ $jam.define
         }
     
         var interval=
-        $jam.glob().setInterval( tracking, 50 )
+        window.setInterval( tracking, 50 )
     
         $jam.domReady.then(function whenReady(){
-            $jam.glob().clearInterval( interval )
+            window.clearInterval( interval )
             attachIfLoaded= attach
             tracking()
         })
     
-        var docEl= $jam.doc().documentElement
+        var docEl= document.documentElement
         docEl.addEventListener( 'DOMNodeInserted', function whenNodeInserted( ev ){
             var node= ev.target
             //$jam.schedule( 0, function( ){

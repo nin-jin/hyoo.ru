@@ -18,6 +18,10 @@ implements Countable, ArrayAccess, IteratorAggregate
         throw new Exception( 'Wrong type of argument' );
     }
     
+    static function ensure( &$value ){
+        return $value= static::make( $value );
+    }
+    
     var $string_value;
     var $string_depends= array( 'string', 'struct' );
     function string_make( ){
@@ -67,7 +71,7 @@ implements Countable, ArrayAccess, IteratorAggregate
     
     var $uri_value;
     function uri_make( ){
-        return so_uri::make()->query( $this )->primary();
+        return so_uri::makeInstance()->query( $this )->primary();
     }
     
     var $resource_value;
@@ -77,9 +81,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         
         while( count( $keyList ) ):
             $class= implode( '_', $keyList );
-            if( count( $keyList ) < 2 ) $class.= '_root';
-            $class.= '_resource';
-            
+            if( count( $keyList ) < 2 ) $class.= '_rootResource';
             if( class_exists( $class ) ) break;
             array_pop( $keyList );
         endwhile;
@@ -87,7 +89,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         return $class::make( $this->uri );
     }
     
-    function __toString( ){
+    function _string_meta( ){
         return $this->string;
     }
     

@@ -6,68 +6,76 @@ new function(){
         return md.root( md.content( str ) )
     }
 
-    md.root= $lang.Wrapper( 'lang:md' )
+    md.root= $lang.Wrapper( 'lang_md' )
 
-    md.header1= $lang.Wrapper( 'lang:md_header-1' )
-    md.header2= $lang.Wrapper( 'lang:md_header-2' )
-    md.header3= $lang.Wrapper( 'lang:md_header-3' )
-    md.header4= $lang.Wrapper( 'lang:md_header-4' )
-    md.header5= $lang.Wrapper( 'lang:md_header-5' )
-    md.header6= $lang.Wrapper( 'lang:md_header-6' )
-    md.headerMarker= $lang.Wrapper( 'lang:md_header-marker' )
+    md.header1= $lang.Wrapper( 'lang_md_header-1' )
+    md.header2= $lang.Wrapper( 'lang_md_header-2' )
+    md.header3= $lang.Wrapper( 'lang_md_header-3' )
+    md.header4= $lang.Wrapper( 'lang_md_header-4' )
+    md.header5= $lang.Wrapper( 'lang_md_header-5' )
+    md.header6= $lang.Wrapper( 'lang_md_header-6' )
+    md.headerMarker= $lang.Wrapper( 'lang_md_header-marker' )
 
-    md.quote= $lang.Wrapper( 'lang:md_quote' )
-    md.quoteMarker= $lang.Wrapper( 'lang:md_quote-marker' )
+    md.pros= $lang.Wrapper( 'lang_md_pros' )
+    md.cons= $lang.Wrapper( 'lang_md_cons' )
+    md.disputes= $lang.Wrapper( 'lang_md_disputes' )
+    
+    md.marker= $lang.Wrapper( 'lang_md_marker' )
+    
+    md.quote= $lang.Wrapper( 'lang_md_quote' )
+    md.quoteMarker= $lang.Wrapper( 'lang_md_quote-marker' )
 
-    md.quoteInline= $lang.Wrapper( 'lang:md_quote-inline' )
-    md.quoteInlineMarker= $lang.Wrapper( 'lang:md_quote-inline-marker' )
+    md.quoteInline= $lang.Wrapper( 'lang_md_quote-inline' )
+    md.quoteInlineMarker= $lang.Wrapper( 'lang_md_quote-inline-marker' )
 
-    md.image= $lang.Wrapper( 'lang:md_image' )
-    md.imageHref= $lang.Wrapper( 'lang:md_image-href' )
+    md.image= $lang.Wrapper( 'lang_md_image' )
+    md.imageHref= $lang.Wrapper( 'lang_md_image-href' )
 
-    md.embed= $lang.Wrapper( 'lang:md_embed' )
-    md.embedHref= $lang.Wrapper( 'lang:md_embed-href' )
+    md.embed= $lang.Wrapper( 'lang_md_embed' )
+    md.embedHref= $lang.Wrapper( 'lang_md_embed-href' )
 
-    md.link= $lang.Wrapper( 'lang:md_link' )
-    md.linkMarker= $lang.Wrapper( 'lang:md_link-marker' )
-    md.linkTitle= $lang.Wrapper( 'lang:md_link-title' )
-    md.linkHref= $lang.Wrapper( 'lang:md_link-href' )
+    md.link= $lang.Wrapper( 'lang_md_link' )
+    md.linkMarker= $lang.Wrapper( 'lang_md_link-marker' )
+    md.linkTitle= $lang.Wrapper( 'lang_md_link-title' )
+    md.linkHref= $lang.Wrapper( 'lang_md_link-href' )
 
-    md.author= $lang.Wrapper( 'lang:md_author' )
-    md.indent= $lang.Wrapper( 'lang:md_indent' )
+    md.author= $lang.Wrapper( 'lang_md_author' )
+    md.indent= $lang.Wrapper( 'lang_md_indent' )
 
-    md.escapingMarker= $lang.Wrapper( 'lang:md_escaping-marker' )
+    md.escapingMarker= $lang.Wrapper( 'lang_md_escaping-marker' )
 
-    md.emphasis= $lang.Wrapper( 'lang:md_emphasis' )
-    md.emphasisMarker= $lang.Wrapper( 'lang:md_emphasis-marker' )
+    md.emphasis= $lang.Wrapper( 'lang_md_emphasis' )
+    md.emphasisMarker= $lang.Wrapper( 'lang_md_emphasis-marker' )
 
-    md.strong= $lang.Wrapper( 'lang:md_strong' )
-    md.strongMarker= $lang.Wrapper( 'lang:md_strong-marker' )
+    md.strong= $lang.Wrapper( 'lang_md_strong' )
+    md.strongMarker= $lang.Wrapper( 'lang_md_strong-marker' )
 
-    md.super= $lang.Wrapper( 'lang:md_super' )
-    md.superMarker= $lang.Wrapper( 'lang:md_super-marker' )
+    md.super= $lang.Wrapper( 'lang_md_super' )
+    md.superMarker= $lang.Wrapper( 'lang_md_super-marker' )
 
-    md.sub= $lang.Wrapper( 'lang:md_sub' )
-    md.subMarker= $lang.Wrapper( 'lang:md_sub-marker' )
+    md.sub= $lang.Wrapper( 'lang_md_sub' )
+    md.subMarker= $lang.Wrapper( 'lang_md_sub-marker' )
 
-    md.math= $lang.Wrapper( 'lang:md_math' )
-    md.remark= $lang.Wrapper( 'lang:md_remark' )
+    md.math= $lang.Wrapper( 'lang_md_math' )
+    md.remark= $lang.Wrapper( 'lang_md_remark' )
 
-    md.table= $lang.Wrapper( 'lang:md_table' )
-    md.tableRow= $lang.Wrapper( 'lang:md_table-row' )
-    md.tableCell= $lang.Wrapper( 'lang:md_table-cell' )
-    md.tableMarker= $lang.Wrapper( 'lang:md_table-marker' )
+    md.table= $lang.Wrapper( 'lang_md_table' )
+    md.tableRow= $lang.Wrapper( 'lang_md_table-row' )
+    md.tableCell= $lang.Wrapper( 'lang_md_table-cell' )
+    md.tableMarker= $lang.Wrapper( 'lang_md_table-marker' )
 
-    md.code= $lang.Wrapper( 'lang:md_code' )
-    md.codeMarker= $lang.Wrapper( 'lang:md_code-marker' )
-    md.codeLang= $lang.Wrapper( 'lang:md_code-lang' )
-    md.codeContent= $lang.Wrapper( 'lang:md_code-content' )
+    md.code= $lang.Wrapper( 'lang_md_code' )
+    md.codeMarker= $lang.Wrapper( 'lang_md_code-marker' )
+    md.codeLang= $lang.Wrapper( 'lang_md_code-lang' )
+    md.codePath= $lang.Wrapper( 'lang_md_code-path' )
+    md.codeMeta= $lang.Wrapper( 'lang_md_code-meta' )
+    md.codeContent= $lang.Wrapper( 'lang_md_code-content' )
 
-    md.html= $lang.Wrapper( 'lang:md_html' )
-    md.htmlTag= $lang.Wrapper( 'lang:md_html-tag' )
-    md.htmlContent= $lang.Wrapper( 'lang:md_html-content' )
+    md.html= $lang.Wrapper( 'lang_md_html' )
+    md.htmlTag= $lang.Wrapper( 'lang_md_html-tag' )
+    md.htmlContent= $lang.Wrapper( 'lang_md_html-content' )
 
-    md.para= $lang.Wrapper( 'lang:md_para' )
+    md.para= $lang.Wrapper( 'lang_md_para' )
 
     md.inline=
     $lang.Parser( new function(){
@@ -191,7 +199,23 @@ new function(){
         function( marker, content ){
             return md.header3( md.headerMarker( marker ) + md.inline( content ) )
         }
-
+        
+        // +   Pros
+        this[ /^(\+   )(.*?)$/.source ]=
+        function( marker, content ){
+            return md.pros( md.marker( marker ) + md.inline( content ) )
+        }
+        // −   Cons
+        this[ /^(−   )(.*?)$/.source ]=
+        function( marker, content ){
+            return md.cons( md.marker( marker ) + md.inline( content ) )
+        }
+        // ±   Disputes 
+        this[ /^(±   )(.*?)$/.source ]=
+        function( marker, content ){
+            return md.disputes( md.marker( marker ) + md.inline( content ) )
+        }
+        
         // block quote
         // >   content
         this[ /^(>   )(.*?)$/.source ]=
@@ -215,7 +239,7 @@ new function(){
         
         // image
         // http://gif1.ru/gifs/267.gif
-        this[ /^((?:[\?\/\.]|https?:|ftps?:).*?)$(\n?)/.source ]=
+        this[ /^((?:[\?\/\.]|https?:|ftps?:|data:).*?)$(\n?)/.source ]=
         function( url, close ){
             var href= md.embedHref( url + close )
             url= url.replace( /\xAD/g, '' )
@@ -245,7 +269,7 @@ new function(){
                     cells[ c ]= md.tableCell( cell )
                 }
                 row= cells.join( '' )
-                var rowSep= '<lang:md_table-row-sep><wc_lang-md_table-cell colspan="300">\n--</wc_lang-md_table-cell></lang:md_table-row-sep>'
+                var rowSep= '<lang_md_table-row-sep><wc_lang-md_table-cell colspan="300">\n--</wc_lang-md_table-cell></lang_md_table-row-sep>'
                 rows[ r ]= rowSep + md.tableRow( row )
             }
             content= rows.join( '' )
@@ -256,15 +280,16 @@ new function(){
         // source code
         // #lang
         //     some code
-        this[ /^(\$)([\w-]+)((?:\n    [^\n]*)*)(?=\n|$)/.source ]=
-        function( marker, lang, content ){
+        this[ /^(#   )([^\n\r]*[\. ])?([\w-]+)((?:\n    [^\n]*)*)(?=\n|$)/.source ]=
+        function( marker, path, lang, content ){
             content= content.replace( /\n    /g, '\n' )
             content= $lang( lang )( content )
             content= content.replace( /\n/g, '\n' + md.indent( '    ' ) )
             content= md.codeContent( content )
             marker= md.codeMarker( marker )
-            lang= md.codeLang( lang )
-            return md.code( marker + lang + content )
+            path= path ? md.codePath( path ) : ''
+            lang= md.codeLang( lang + name )
+            return md.code( marker + md.codeMeta( path + lang ) + content )
         }
         
         // simple paragraph

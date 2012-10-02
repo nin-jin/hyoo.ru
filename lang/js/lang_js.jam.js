@@ -6,16 +6,16 @@ new function(){
         return js.root( js.content( str ) )
     }
 
-    js.root= $lang.Wrapper( 'lang:js' )
-    js.remark= $lang.Wrapper( 'lang:js_remark' )
-    js.string= $lang.Wrapper( 'lang:js_string' )
-    js.internal= $lang.Wrapper( 'lang:js_internal' )
-    js.external= $lang.Wrapper( 'lang:js_external' )
-    js.keyword= $lang.Wrapper( 'lang:js_keyword' )
-    js.number= $lang.Wrapper( 'lang:js_number' )
-    js.regexp= $lang.Wrapper( 'lang:js_regexp' )
-    js.bracket= $lang.Wrapper( 'lang:js_bracket' )
-    js.operator= $lang.Wrapper( 'lang:js_operator' )
+    js.root= $lang.Wrapper( 'lang_js' )
+    js.remark= $lang.Wrapper( 'lang_js_remark' )
+    js.string= $lang.Wrapper( 'lang_js_string' )
+    js.internal= $lang.Wrapper( 'lang_js_internal' )
+    js.external= $lang.Wrapper( 'lang_js_external' )
+    js.keyword= $lang.Wrapper( 'lang_js_keyword' )
+    js.number= $lang.Wrapper( 'lang_js_number' )
+    js.regexp= $lang.Wrapper( 'lang_js_regexp' )
+    js.bracket= $lang.Wrapper( 'lang_js_bracket' )
+    js.operator= $lang.Wrapper( 'lang_js_operator' )
          
     js.content=
     $lang.Parser( new function(){

@@ -1,18 +1,18 @@
-lang\:pcre {
+lang_pcre {
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
     line-height: 1;
 }
 
-lang\:pcre_backslash {
+lang_pcre_backslash {
     color: #aaa;
 }
 
-lang\:pcre_spec {
+lang_pcre_spec {
     color: red;
 }
 
-lang\:pcre_control {
+lang_pcre_control {
     font-weight: bold;
     color: #c33;
 }

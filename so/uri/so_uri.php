@@ -3,43 +3,45 @@
 class so_uri
 {
     use so_meta2;
-    use so_registry;
     
-    var $id_value;
-    var $id_depends= array( 'id', 'scheme', 'login', 'password', 'host', 'port', 'path', 'queryString', 'query', 'anchor' );
-    function id_make( ){
-        $id= '';
+    use so_registry;
+    static $id_prop= 'string';
+    
+    var $string_value;
+    var $string_depends= array( 'string', 'scheme', 'login', 'password', 'host', 'port', 'path', 'queryString', 'query', 'anchor' );
+    function string_make( ){
+        $string= '';
         
         if( $this->scheme )
-            $id.= urlencode( $this->scheme ) . ':';
+            $string.= urlencode( $this->scheme ) . ':';
         
         if( $this->host ):
-            $id.= '//';
+            $string.= '//';
             if( $this->login ):
-                $id.= urlencode( $this->login );
+                $string.= urlencode( $this->login );
                 if( $this->password )
-                    $id.= ':' . urlencode( $this->password );
-                $id.= '@';
+                    $string.= ':' . urlencode( $this->password );
+                $string.= '@';
             endif;
-            $id.= urlencode( $this->host );
+            $string.= urlencode( $this->host );
             if( $this->port )
-                $id.= ':' . urlencode( $this->port );
+                $string.= ':' . urlencode( $this->port );
         endif;
         
         if( $this->path )
-            $id.= $this->path;
+            $string.= $this->path;
         
         $queryString= $this->queryString;
         if( $queryString )
-            $id.= '?' . $queryString;
+            $string.= '?' . $queryString;
         
         if( $this->anchor )
-            $id.= '#' . urlencode( $this->anchor );
+            $string.= '#' . urlencode( $this->anchor );
         
-        return $id;
+        return $string;
     }
-    function id_store( $id ){
-        preg_match( '~^(?:(\w*):)?(?://(?:([^/:]*)(?:\:([^/]*))?@)?([^/:]*)(?:\:(\d*))?)?([^?#]*)(?:\?([^#]*))?(?:#(.*)|)?$~', $id, $found );
+    function string_store( $string ){
+        preg_match( '~^(?:(\w*):)?(?://(?:([^/:]*)(?:\:([^/]*))?@)?([^/:]*)(?:\:(\d*))?)?([^?#]*)(?:\?([^#]*))?(?:#(.*)|)?$~', $string, $found );
         
         $this->scheme= so_value::make( $found[ 1 ] );
         $this->login= so_value::make( $found[ 2 ] );
@@ -49,42 +51,40 @@ class so_uri
         $this->path= so_value::make( $found[ 6 ] );
         $this->queryString= so_value::make( $found[ 7 ] );
         $this->anchor= so_value::make( $found[ 8 ] );
-        
-        return $this->id_make();
     }
     
     var $scheme_value;
-    var $scheme_depends= array( 'id', 'scheme' );
+    var $scheme_depends= array( 'string', 'scheme' );
     function scheme_store( $data ){
         return (string) $data;
     }
     
     var $login_value;
-    var $login_depends= array( 'id', 'login' );
+    var $login_depends= array( 'string', 'login' );
     function login_store( $data ){
         return (string) $data;
     }
     
     var $password_value;
-    var $password_depends= array( 'id', 'password' );
+    var $password_depends= array( 'string', 'password' );
     function password_store( $data ){
         return (string) $data;
     }
     
     var $host_value;
-    var $host_depends= array( 'id', 'host' );
+    var $host_depends= array( 'string', 'host' );
     function host_store( $data ){
         return (string) $data;
     }
     
     var $port_value;
-    var $port_depends= array( 'id', 'port' );
+    var $port_depends= array( 'string', 'port' );
     function port_store( $data ){
         return (integer) $data;
     }
     
     var $path_value;
-    var $path_depends= array( 'id', 'path' );
+    var $path_depends= array( 'string', 'path' );
     function path_make( ){
         if( $this->host )
             return '/';
@@ -95,7 +95,7 @@ class so_uri
     }
     
     var $queryString_value;
-    var $queryString_depends= array( 'id', 'query', 'queryString' );
+    var $queryString_depends= array( 'string', 'query', 'queryString' );
     function queryString_make( ){
         if( isset( $this->query ) ):
             return (string) $this->query;
@@ -107,7 +107,7 @@ class so_uri
     }
     
     var $query_value;
-    var $query_depends= array( 'id', 'query', 'queryString' );
+    var $query_depends= array( 'string', 'query', 'queryString' );
     function query_make( ){
         return so_query::make( $this->queryString );
     }
@@ -116,7 +116,7 @@ class so_uri
     }
     
     var $anchor_value;
-    var $anchor_depends= array( 'id', 'anchor' );
+    var $anchor_depends= array( 'string', 'anchor' );
     function anchor_store( $data ){
         return (string) $data;
     }
@@ -124,7 +124,7 @@ class so_uri
     var $content_value;
     var $content_depends= array();
     function content_make( ){
-        $curl= curl_init( $this->id );
+        $curl= curl_init( $this->string );
         ob_start();
             curl_exec( $curl );
         $data= ob_get_clean();
@@ -143,7 +143,7 @@ class so_uri
         return $data;
     }
     function content_store( $data ){
-        $curl= curl_init( $this->id );
+        $curl= curl_init( $this->string );
         $file= tmpfile();
         fwrite( $file, $data );
         fseek( $file, 0 ); // ?
@@ -158,8 +158,8 @@ class so_uri
         return $data;
     }
     
-    function __toString( ){
-        return $this->id;
+    function _string_meta( ){
+        return $this->string;
     }
     
 }

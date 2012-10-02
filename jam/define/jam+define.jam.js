@@ -1,12 +1,13 @@
 $jam.define=
-new function( ){
+function( ){
 
     var Ghost= function(){}
+    var global= this
     
     return function( key, value ){
         var keyList= key.split( '.' )
         
-        var obj= $jam.glob()
+        var obj= global
         while( true ){
             key= keyList.shift()
             if( !keyList.length ) break
@@ -35,4 +36,4 @@ new function( ){
         return this
     }
     
-}
+}.apply( this )

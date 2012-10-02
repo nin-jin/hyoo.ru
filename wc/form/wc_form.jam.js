@@ -4,6 +4,8 @@ $jam.Component
         nodeRoot= $jam.Node( nodeRoot )
         if( !nodeRoot.attr( 'wc_form' ) ) return null
         
+        var nodeResult= nodeRoot.descList( 'wc_form_result' ).head()
+        
         var onSubmit= nodeRoot.listen
         (   'keydown'
         ,   function( event ){
@@ -17,20 +19,21 @@ $jam.Component
         )
         
         function send( ){
+            nodeResult.text( '' )
             var nodes= nodeRoot.$.elements
-            var data= []
+            var data= {}
             for( var i= 0; i < nodes.length; ++i ){
                 var node= nodes[ i ]
-                data.push( encodeURIComponent( node.name ) + '=' + encodeURIComponent( node.value ) )
+                data[ node.name ]= node.value
             }
             
-            var request= new XMLHttpRequest
-            request.open( nodeRoot.attr( 'method' ) || 'get', nodeRoot.$.action, false )
-            request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
-            request.send( data.join( '&' ) )
+            var response= $jam.domx.parse( $jam.http( nodeRoot.$.action ).request( nodeRoot.attr( 'method' ) || 'get', data ) )
+            var location= response.$.evaluate( '//so_relocation', response.$, null, XPathResult.STRING_TYPE, null ).stringValue
+            if( location ) document.location= location
             
-            var location= request.responseXML.evaluate( '//so_relocation', request.responseXML, null, XPathResult.STRING_TYPE, null ).stringValue
-            if( location ) document.location= location;
+            var templates= $jam.domx.parse( $jam.http( 'so/-mix/compiled.xsl' ).get() )
+            response= response.select(' // so_console_result | // so_error ').transform( templates )
+            if( nodeResult ) nodeResult.html( response )
         }
         
         return new function(){

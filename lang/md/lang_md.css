@@ -1,9 +1,9 @@
-lang\:md {
+lang_md {
     white-space: pre-wrap;
     line-height: 1.5;
 }
 
-lang\:md_embed {
+lang_md_embed {
 	display: block;
     text-align: center;
 }
@@ -13,9 +13,13 @@ lang\:md_embed {
 	width: 100%;
 	height: 100%;
 	border: none;
+    box-shadow: 1px 1px 5px rgba( 0, 0, 0, .5 );
+    border-radius: 3px;
+    background: black;
+    overflow: hidden;
 }
 
-lang\:md_embed img {
+lang_md_embed img {
     max-height: 90%;
 	max-width: 100%;
 	border: none;
@@ -23,12 +27,12 @@ lang\:md_embed img {
     border-radius: 2px;
 }
 
-lang\:md_embed img:hover {
+lang_md_embed img:hover {
     opacity: .95;
     box-shadow: 2px 2px 7px black;
 }
 
-lang\:md_embed-href {
+lang_md_embed-href {
     color: #66b;
     position: absolute;
 	opacity:  0;
@@ -36,12 +40,12 @@ lang\:md_embed-href {
     font-family: 'Courier New', monospace;
 	font-size: 10pt;
 }
-wc_editor[wc_editor_active="true"] lang\:md_embed-href {
+wc_editor[wc_editor_active="true"] lang_md_embed-href {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_embed-marker {
+lang_md_embed-marker {
     color: #666;
     position: absolute;
 	opacity:  0;
@@ -49,47 +53,47 @@ lang\:md_embed-marker {
     font-family: 'Courier New', monospace;
 	font-size: 10pt;
 }
-wc_editor[wc_editor_active="true"] lang\:md_embed-marker {
+wc_editor[wc_editor_active="true"] lang_md_embed-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_image {
+lang_md_image {
 }
 
-lang\:md_image object {
+lang_md_image object {
 	max-width: 100%;
 }
 
-lang\:md_image-href {
+lang_md_image-href {
     color: #66b;
     position: absolute;
 	opacity:  0;
 	z-index: -1;
     font-family: 'Courier New', monospace;
 }
-wc_editor[wc_editor_active="true"] lang\:md_image-href {
+wc_editor[wc_editor_active="true"] lang_md_image-href {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_link {
+lang_md_link {
     color: blue;
     font-family: 'Courier New', monospace;
     display: inline-block;
     display: inline\9; /*ie*/
 }
 
-lang\:md_link > a:hover {
+lang_md_link > a:hover {
 	/*text-decoration: none;*/
 }
 
-lang\:md_link-title {
+lang_md_link-title {
     font-family: serif;
 	white-space: nowrap;
 }
 
-lang\:md_link-href {
+lang_md_link-href {
     font-size: 13pt;
     color: #66b;
     position: absolute;
@@ -98,153 +102,180 @@ lang\:md_link-href {
     left: -1000em;
 }
 
-wc_editor[wc_editor_active="true"] lang\:md_link-href {
+wc_editor[wc_editor_active="true"] lang_md_link-href {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_link-marker {
+lang_md_link-marker {
+    font-size: 13pt;
     color: #999;
     position: absolute;
 	opacity:  0;
 	z-index: -1;
 }
-wc_editor[wc_editor_active="true"] lang\:md_link-marker {
+wc_editor[wc_editor_active="true"] lang_md_link-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_author {
+lang_md_author {
     color: #006;
 }
 
-lang\:md_indent {
+lang_md_indent {
     font-size: 12pt;
     font-family: 'Courier New', monospace;
 }
 
-lang\:md_para {
+lang_md_para {
     font-family: 'Times New Roman', serif;
 	overflow: hidden;
 }
 
-lang\:md_header-3 {
-	color: #339;
-	font-size: 20pt;
+lang_md_header-3 {
+	color: #113;
+	font-size: 16pt;
     font-family: 'Times New Roman', serif;
 }
 
-lang\:md_header-2 {
-	color: #339;
-	font-size: 26pt;
+lang_md_header-2 {
+	color: #226;
+	font-size: 22pt;
     font-family: 'Times New Roman', serif;
 }
 
-lang\:md_header-1 {
+lang_md_header-1 {
 	color: #339;
 	font-size: 30pt;
     font-family: 'Times New Roman', serif;
 }
 
-lang\:md_header-marker {
+lang_md_header-marker {
     font-size: 12pt;
     opacity: 0;
     font-family: 'Courier New', monospace;
     color: #666;
 }
 
-wc_editor[wc_editor_active="true"] lang\:md_header-marker {
+wc_editor[wc_editor_active="true"] lang_md_header-marker {
 	opacity: 1;
 }
 
-lang\:md_quote {
+lang_md_pros {
+	color: #393;
+    font-weight: bold;
+}
+
+lang_md_cons {
+	color: #933;
+    font-weight: bold;
+}
+
+lang_md_disputes {
+	color: #399;
+    font-weight: bold;
+}
+
+lang_md_marker {
+    font-size: 12pt;
+    opacity: 0;
+    font-family: 'Courier New', monospace;
+    color: #666;
+}
+
+wc_editor[wc_editor_active="true"] lang_md_marker {
+	opacity: 1;
+}
+
+lang_md_quote {
     color: green;
 }
 
-lang\:md_quote-marker {
+lang_md_quote-marker {
     color: #060;
     font-size: 12pt;
     opacity: 0;
     font-family: 'Courier New', monospace;
 }
 
-wc_editor[wc_editor_active="true"] lang\:md_quote-marker {
+wc_editor[wc_editor_active="true"] lang_md_quote-marker {
 	opacity: 1;
 }
 
-lang\:md_quote-inline {
+lang_md_quote-inline {
     color: green;
 }
 
-lang\:md_quote-inline-marker {
+lang_md_quote-inline-marker {
     color: #060;
 }
 
-lang\:md_math {
+lang_md_math {
 	color: #a30;
 }
 
-lang\:md_table {
+lang_md_table {
     display: table;
     empty-cells: show;
     border-left: 1px solid #ccc;
     border-top: 1px solid #ccc;
 }
-wc_editor[wc_editor_active="true"] lang\:md_table {
+wc_editor[wc_editor_active="true"] lang_md_table {
 	display: inline;
 	border: none;
 }
 
-lang\:md_table-row {
+lang_md_table-row {
     display: table-row;
 }
-wc_editor[wc_editor_active="true"] lang\:md_table-row {
+wc_editor[wc_editor_active="true"] lang_md_table-row {
     display: inline;
 }
 
-lang\:md_table-row-sep {
+lang_md_table-row-sep {
     position: absolute;
 	opacity:  0;
 	z-index: -1;
     font-size: 14pt;
     font-family: 'Courier New', monospace;
 }
-wc_editor[wc_editor_active="true"] lang\:md_table-row-sep {
+wc_editor[wc_editor_active="true"] lang_md_table-row-sep {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_table-cell {
+lang_md_table-cell {
     display: table-cell;
 	padding: 0 .25em;
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
-wc_editor[wc_editor_active="true"] lang\:md_table-cell {
+wc_editor[wc_editor_active="true"] lang_md_table-cell {
 	display: inline;
 	border: none;
 	padding: 0;
 }
 
-lang\:md_table-marker {
+lang_md_table-marker {
     position: absolute;
 	opacity:  0;
 	z-index: -1;
     font-size: 14pt;
     font-family: 'Courier New', monospace;
 }
-wc_editor[wc_editor_active="true"] lang\:md_table-marker {
+wc_editor[wc_editor_active="true"] lang_md_table-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_code {
+lang_md_code {
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
-    line-height: 1;
+    line-height: 1.2;
     font-size: 12pt;
 }
-lang\:md_code:after {
+lang_md_code:after {
 	display: block;
 	position: absolute;
 	top: 0;
@@ -255,21 +286,18 @@ lang\:md_code:after {
 	z-index: -1;
 }
 
-lang\:md_code-marker {
-    position: absolute;
-	opacity:  0;
-	z-index: -1;
-	font-size: 10pt;
+lang_md_code-marker {
+    font-size: 12pt;
+    opacity: 0;
     font-family: 'Courier New', monospace;
     color: #666;
 }
 
-wc_editor[wc_editor_active="true"] lang\:md_code-marker {
-	position: static;
+wc_editor[wc_editor_active="true"] lang_md_code-marker {
 	opacity: 1;
 }
 
-lang\:md_code-lang {
+lang_md_code-meta {
 	color: #666;
 	background: #eee;
 	border: 1px solid #ddd;
@@ -277,12 +305,19 @@ lang\:md_code-lang {
 	padding: 0 .2em;
 	font-size: 10pt;
 	margin-bottom: .5em;
+    line-height: 2;
+    text-align: top;
 }
 
-lang\:md_code-content {
+lang_md_code-lang {
+    font-weight: bold;
+    color: black;
 }
 
-lang\:md_escaping-marker {
+lang_md_code-content {
+}
+
+lang_md_escaping-marker {
     color: #999;
     font-family: 'Courier New', monospace;
     font-size: 8pt;
@@ -290,16 +325,16 @@ lang\:md_escaping-marker {
 	opacity:  0;
 	z-index: -1;
 }
-wc_editor[wc_editor_active="true"] lang\:md_escaping-marker {
+wc_editor[wc_editor_active="true"] lang_md_escaping-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_emphasis {
+lang_md_emphasis {
     font-style: italic;
 }
 
-lang\:md_emphasis-marker {
+lang_md_emphasis-marker {
     color: #999;
     font-family: 'Courier New', monospace;
     position: absolute;
@@ -307,16 +342,16 @@ lang\:md_emphasis-marker {
 	z-index: -1;
 	font-size: 6pt;
 }
-wc_editor[wc_editor_active="true"] lang\:md_emphasis-marker {
+wc_editor[wc_editor_active="true"] lang_md_emphasis-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_strong {
+lang_md_strong {
     font-weight: bold;
 }
 
-lang\:md_strong-marker {
+lang_md_strong-marker {
     color: #999;
     font-family: 'Courier New', monospace;
     font-size: 8pt;
@@ -324,17 +359,17 @@ lang\:md_strong-marker {
 	opacity:  0;
 	z-index: -1;
 }
-wc_editor[wc_editor_active="true"] lang\:md_strong-marker {
+wc_editor[wc_editor_active="true"] lang_md_strong-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_super {
+lang_md_super {
     vertical-align: super;
 	font-size: .75em;
 }
 
-lang\:md_super-marker {
+lang_md_super-marker {
     color: #999;
     font-family: 'Courier New', monospace;
     font-size: 8pt;
@@ -342,17 +377,17 @@ lang\:md_super-marker {
 	opacity:  0;
 	z-index: -1;
 }
-wc_editor[wc_editor_active="true"] lang\:md_super-marker {
+wc_editor[wc_editor_active="true"] lang_md_super-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_sub {
+lang_md_sub {
     vertical-align: sub;
 	font-size: .75em;
 }
 
-lang\:md_sub-marker {
+lang_md_sub-marker {
     color: #999;
     font-family: 'Courier New', monospace;
     font-size: 8pt;
@@ -360,12 +395,12 @@ lang\:md_sub-marker {
 	opacity:  0;
 	z-index: -1;
 }
-wc_editor[wc_editor_active="true"] lang\:md_sub-marker {
+wc_editor[wc_editor_active="true"] lang_md_sub-marker {
     position: static;
 	opacity: 1;
 }
 
-lang\:md_remark {
+lang_md_remark {
     color: #666;
 }
 

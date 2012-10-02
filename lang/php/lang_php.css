@@ -1,29 +1,33 @@
-lang\:php_dollar {
+lang_php {
+    white-space: pre-wrap;
+    font: monospace;
+}
+lang_php_dollar {
     font-weight: bold;
     color: #66c;
 }
 
-lang\:php_variable {
+lang_php_variable {
     color: #66c;
 }
 
-lang\:php_string {
+lang_php_string {
     color: #393;
     white-space: pre;
 }
 
-lang\:php_func {
+lang_php_func {
     color: #c66;
     font-weight: bold;
     white-space: pre;
 }
 
-lang\:php_keyword {
-    color: #399;
+lang_php_keyword {
+    color: #369;
     font-weight: bold;
 }
 
-lang\:php_number {
+lang_php_number {
     color: #939;
     white-space: pre;
     font-weight: bold;
