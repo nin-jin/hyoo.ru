@@ -3,7 +3,7 @@
 class so_query
 implements Countable, ArrayAccess, IteratorAggregate
 {
-    use so_meta2;
+    use so_meta;
     use so_factory;
     
     static $sepaName= '=';

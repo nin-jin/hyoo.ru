@@ -3,7 +3,7 @@
 trait so_collection
 #implements Countable, ArrayAccess, IteratorAggregate
 {
-    #use so_meta2;
+    #use so_meta;
     
     static function make( $list= null ){
         if( $list instanceof static )

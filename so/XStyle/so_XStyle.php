@@ -3,46 +3,43 @@
 class so_XStyle
 {
     use so_meta;
+    use so_factory;
 
-    protected $_dir;
-    function get_dir( $dir ){
-        if( isset( $dir ) ) return $dir;
+    var $dir_value;
+    function dir_make( ){
         return dirname( $this->pathXSL );
     }
 
-    protected $_pathXS;
-    function set_pathXS( $pathXS ){
-        if( isset( $this->pathXSL ) or isset( $this->pathXS ) ) throw new Exception( 'Redeclaration of $pathXS' );
+    var $pathXS_value;
+    var $pathXS_depends= array( 'pathXS', 'pathXSL' );
+    function pathXS_store( $pathXS ){
         return realpath( $pathXS );
     }
     
-    protected $_pathXSL;
-    function get_pathXSL( $pathXSL ){
-        if( isset( $pathXSL ) ) return $pathXSL;
+    var $pathXSL_value;
+    var $pathXSL_depends= array( 'pathXS', 'pathXSL' );
+    function pathXSL_make( ){
         return preg_replace( '!\.xs$!i', '.xsl', $this->pathXS );
     }
-    function set_pathXSL( $pathXSL ){
-        if( isset( $this->pathXSL ) or isset( $this->pathXS ) ) throw new Exception( 'Redeclaration of $pathXSL' );
+    function pathXSL_store( $pathXSL ){
         return realpath( $pathXSL );
     }
 
-    protected $_docXS;
-    function get_docXS( $docXS ){
-        if( isset( $docXS ) ) return $docXS;
+    var $docXS_value;
+    function docXS_make( ){
         $docXS= new DOMDocument( '1.0', 'utf-8' );
         if( file_exists( $this->pathXS ) ) $docXS->load( $this->pathXS, LIBXML_COMPACT );
         return $docXS;
     }
-    function set_docXS( $docXS ){
+    function docXS_store( $docXS ){
         $docXS= so_dom::make( $docXS );
         if( file_exists( $this->pathXS ) ) unlink( $this->pathXS );
         file_put_contents( $this->pathXS, $docXS );
         return null;
     }
 
-    protected $_docXSL;
-    function get_docXSL( $docXSL ){
-        if( isset( $docXSL ) ) return $docXSL;
+    var $docXSL_value;
+    function docXSL_make( ){
         if( file_exists( $this->pathXS ) ) $this->sync();
         $dir= getcwd();
         chdir( $this->dir );
@@ -50,16 +47,15 @@ class so_XStyle
         chdir( $dir );
         return $docXSL;
     }
-    function set_docXSL( $docXSL ){
+    function docXSL_store( $docXSL ){
         $docXSL= so_dom::create( $docXSL );
         if( file_exists( $this->pathXSL ) ) unlink( $this->pathXSL );
         file_put_contents( $this->pathXSL, $docXSL );
         return null;
     }
 
-    protected $_processor;
-    function get_processor( $processor ){
-        if( isset( $processor ) ) return $processor;
+    var $processor_value;
+    function processor_make(){
         $processor= new XSLTProcessor( );
         $processor->importStyleSheet( $this->docXSL->DOMNode );
         return $processor;

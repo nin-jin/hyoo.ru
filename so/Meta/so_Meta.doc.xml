@@ -1,9 +1,0 @@
-<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc_root
-    xmlns="http://www.w3.org/1999/xhtml"
-    >
-
-    <h1>so_meta</h1>
-    <p>Базовый класс, реализующий удобный способ определения свойств объекта, сериализацию в строку и тд.</p>
-
-</doc_root>

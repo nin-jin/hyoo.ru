@@ -2,7 +2,7 @@
 
 class so_output
 {
-    use so_meta2;
+    use so_meta;
     use so_factory;
     
     static function ok( $message= null ){
@@ -68,6 +68,22 @@ class so_output
     }
     function encoding_store( $data ){
         return (string) $data;
+    }
+    
+    var $private_value;
+    function private_make( ){
+        return false;
+    }
+    function private_store( $data ){
+        return (boolean) $data;
+    }
+    
+    var $cache_value;
+    function cache_make( ){
+        return false;
+    }
+    function cache_store( $data ){
+        return (boolean) $data;
     }
     
     function _string_meta( ){

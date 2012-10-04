@@ -3,7 +3,7 @@
 class so_dom_collection
 implements Countable, ArrayAccess, IteratorAggregate
 {
-    use so_meta2;
+    use so_meta;
     use so_collection;
     
     var $parent_value;

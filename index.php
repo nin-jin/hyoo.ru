@@ -10,12 +10,17 @@ so_error::monitor();
 $cacheControl= &$_SERVER[ 'HTTP_CACHE_CONTROL' ];
 $origin= &$_SERVER[ 'HTTP_ORIGIN' ];
 if( !$origin && $cacheControl == 'no-cache' ):
-    so_compiler::make()
+    pms_compiler::make()
         ->package( 'so' )
         ->clean()
         ->compile()
         ->minify()
         ->bundle()
+    ;
+    pms_compiler::make()
+        ->package( 'pms' )
+        ->clean()
+        ->compile()
     ;
 endif;
 

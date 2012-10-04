@@ -2,7 +2,7 @@
 
 class so_cookie
 {
-    use so_meta2;
+    use so_meta;
     use so_factory;
 
     static function make( $name ){

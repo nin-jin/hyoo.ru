@@ -3,7 +3,7 @@
 class so_storage
 //implements Countable, ArrayAccess, IteratorAggregate
 {
-    use so_meta2;
+    use so_meta;
     
     use so_registry;
     static $id_prop= 'id';

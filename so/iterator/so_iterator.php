@@ -3,7 +3,7 @@
 class so_iterator
 implements Iterator
 {
-    use so_meta2;
+    use so_meta;
     use so_factory;
 
     var $collection_value;

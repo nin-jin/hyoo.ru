@@ -25,7 +25,6 @@
                 
                 <xsl:apply-templates select=" . " mode="so_page_stylesheet" />
                 <xsl:apply-templates select=" . " mode="so_page_script" />
-                <xsl:call-template name="so_compiler_bundle" />
                 
             </head>
             <body>

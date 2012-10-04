@@ -6,10 +6,10 @@ class so_page
     static function make( $data ){
         $page= array();
         
-        $moduleMix= so_module::make( __DIR__ )->package[ '-mix' ];
+        $moduleMix= pms_module::make( __DIR__ )->package[ '-mix' ];
         
         $page[ '?xml-stylesheet' ]= array(
-            'href' => (string) $moduleMix[ 'index.xsl' ]->uri,
+            'href' => (string) $moduleMix[ 'compiled.xsl' ]->uri,
             'type' =>'text/xsl',
         );
         

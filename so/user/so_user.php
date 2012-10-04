@@ -2,7 +2,7 @@
 
 class so_user
 {
-    use so_meta2;
+    use so_meta;
     
     use so_registry;
     static $id_prop= 'id';

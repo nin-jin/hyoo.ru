@@ -2,7 +2,7 @@
 
 class so_author
 {
-    use so_meta2;
+    use so_meta;
     use so_resource;
     
     var $uri_value;
@@ -62,6 +62,7 @@ class so_author
     
     function get( $data= null ){
         $output= $this->storage->version ? so_output::ok() : so_output::missed();
+        
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->name,

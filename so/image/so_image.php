@@ -2,7 +2,7 @@
 
 class so_image
 {
-    use so_meta2;
+    use so_meta;
     use so_resource;
     
     var $uri_value;
@@ -58,12 +58,12 @@ class so_image
     
     function put( $data ){
         $this->storage->content= base64_decode( preg_replace( '~^.*?,~', '', $data[ 'content' ] ) );
-        //$image= new Imagick( (string) $in );
-        //$size= $image->getImageGeometry();
-        //if( $size[ 'width' ] > 800 or $size[ 'height' ] > 600 ):
-        //    $image->adaptiveResizeImage( 800, 600, true );
-        //    $image->writeImage( (string) $out );
-        //endif;
+        $image= new Imagick( (string) $this->storage->file );
+        $size= $image->getImageGeometry();
+        if( $size[ 'width' ] > 800 or $size[ 'height' ] > 600 ):
+            $image->adaptiveResizeImage( 800, 600, true );
+            $image->writeImage( (string) $this->storage->file );
+        endif;
         return so_output::ok()->content( $this->model );
     }
 

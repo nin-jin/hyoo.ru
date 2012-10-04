@@ -3,7 +3,7 @@
 class so_array
 extends ArrayObject
 {
-    use so_meta2;
+    use so_meta;
     
     static function make( $array ){
         return new static( $array );

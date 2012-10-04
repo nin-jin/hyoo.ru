@@ -2,7 +2,7 @@
 
 class so_clientHttp
 {
-    use so_meta2;
+    use so_meta;
     use so_singleton;
     
     static $codeMap= array(
@@ -85,6 +85,8 @@ class so_clientHttp
         $output= $this->output;
         $type= $output->mime;
         $content= $output->content;
+        $cache= $output->cache;
+        $private= $output->private;
         
         if( $type === 'application/xml' ):
             $accept= preg_split( '~, ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
@@ -94,7 +96,7 @@ class so_clientHttp
                 $xs= new so_XStyle;
                 $xs->pathXSL= so_file::make( 'so/-mix/index.xsl' )->path;
                 $xsl= $xs->docXSL;
-                foreach( $xsl->child[ 'xsl:include' ] as $dom ):
+                foreach( $xsl->childs[ 'xsl:include' ] as $dom ):
                     $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
                 endforeach;
                 
@@ -107,6 +109,15 @@ class so_clientHttp
         $encoding= $output->encoding;
         $code= static::$codeMap[ $output->status ];
         header( "Content-Type: {$type}", true, $code );
+        
+        if( !$private )
+            header( "Access-Control-Allow-Origin: *", true );
+        
+        if( $cache ):
+            header( "Cache-Control: " . ( $private ? 'private' : 'public' ), true );
+        else:
+            header( "Cache-Control: no-cache", true );
+        endif;
         
         if( $location= $output->location ):
             header( "Location: {$location}", true );

@@ -3,7 +3,7 @@
 class so_dom
 implements Countable, ArrayAccess, IteratorAggregate
 {
-    use so_meta2;
+    use so_meta;
 
     static function make( $DOMNode= null ){
         

@@ -2,7 +2,7 @@
 
 trait so_proxy
 {
-    #use so_meta2;
+    #use so_meta;
     #static $proxy_prop= 'proxy';
 
     function _make_meta( $name ){

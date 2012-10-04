@@ -2,7 +2,7 @@
 
 class so_gist
 {
-    use so_meta2;
+    use so_meta;
     use so_resource;
     
     var $uri_value;
