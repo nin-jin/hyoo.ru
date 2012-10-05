@@ -21,7 +21,7 @@ function copy_r( $path, $dest )
 {
     if( is_dir($path) )
     {
-        @mkdir( $dest );
+        @mkdir( $dest, 0777, true );
         $objects = scandir($path);
         if( sizeof($objects) > 0 )
         {

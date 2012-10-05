@@ -81,7 +81,7 @@ implements ArrayAccess
         if( $exists ):
             if( $this->exists ) return $exists;
             $this->parent->exists= true;
-            mkdir( $this->path, null, true );
+            mkdir( $this->path, 0777, true );
         else:
             unlink( $this->path );
             unset( $this->childs );

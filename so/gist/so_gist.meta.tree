@@ -1,4 +1,4 @@
-include module= so/Error
+include module= so/error
 include module= html/root
 include module= html/html
 include module= html/body

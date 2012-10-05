@@ -15,12 +15,7 @@ if( !$origin && $cacheControl == 'no-cache' ):
         ->clean()
         ->compile()
         ->minify()
-        ->bundle()
-    ;
-    pms_compiler::make()
-        ->package( 'pms' )
-        ->clean()
-        ->compile()
+        //->bundle()
     ;
 endif;
 
