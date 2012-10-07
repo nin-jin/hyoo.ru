@@ -16,9 +16,9 @@ class so_storage
     var $dir_value;
     function dir_make( ){
         $id= md5( $this->id );
-        $id= substr( $id, 0, 3 ) . '/' . substr( $id, 4 );
+        $id= substr( $id, 0, 3 ) . '/' . substr( $id, 4, 7 );
         #$id= strtr( $this->id, array( '?' => '', '=' => '/=', '+' => '/+' ) );
-        return so_file::make( 'so/storage/data/' )->go( $id . '/' );
+        return so_file::make( '-so_storage' )->go( $id );
     }
     
     var $index_value;

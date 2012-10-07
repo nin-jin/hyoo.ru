@@ -123,7 +123,7 @@ class so_clientHttp
             header( "Location: {$location}", true );
         endif;
         
-        echo $content;
+        echo str_pad( $content, 512, ' ', STR_PAD_RIGHT );
         
         return $this;
     }

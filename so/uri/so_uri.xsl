@@ -4,10 +4,9 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
-    <xsl:key
-        name="so_uri"
-        match=" * "
-        use=" @so_uri "
+    <xsl:variable
+        name="so_uri_map"
+        select=" // *[ @so_uri ] | document( // @so_uri_external ) // *[ @so_uri ] "
     />
     
 </xsl:stylesheet>

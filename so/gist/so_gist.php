@@ -2,26 +2,25 @@
 
 class so_gist
 {
-    use so_meta;
     use so_resource;
     
     var $uri_value;
-    var $uri_depends= array( 'uri', 'name', 'author' );
+    var $uri_depends= array( 'uri', 'id', 'author' );
     function uri_make( ){
         return so_query::make(array(
-            'gist' => $this->name,
+            'gist' => $this->id,
             'by' => $this->author,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $this->name= $query[ 'gist' ];
+        $this->id= $query[ 'gist' ];
         $this->author= $query[ 'by' ];
     }
     
-    var $name_value;
-    var $name_depends= array( 'uri', 'name' );
-    function name_store( $data ){
+    var $id_value;
+    var $id_depends= array( 'uri', 'id' );
+    function id_store( $data ){
         return (string) $data;
     }
     
@@ -39,10 +38,18 @@ class so_gist
         return so_storage::make( $this->uri );
     }
     
+    var $version_value;
+    function version_make( ){
+        return $this->storage->version;
+    }
+    
     var $content_value;
     var $content_depends= array();
     function content_make( ){
-        return $this->model[ '@so_gist_content' ];
+        if( $this->version )
+            return $this->model[ '@so_gist_content' ];
+        
+        return '   ...';
     }
     function content_store( $data ){
         $data= (string) $data;
@@ -55,59 +62,32 @@ class so_gist
     var $model_value;
     var $model_depends= array();
     function model_make( ){
-        $storage= $this->storage;
-        
-        if( $storage->version )
-            return so_dom::make( $storage->content );
+        if( $this->version )
+            return so_dom::make( $this->storage->content );
         
         return so_dom::make( array(
             'so_gist' => array(
                 '@so_uri' => (string) $this->uri,
-                '@so_gist_name' => (string) $this->name,
+                '@so_gist_id' => (string) $this->id,
                 '@so_gist_author' => (string) $this->author,
-                '@so_gist_content' => "    ...\n",
+                '@so_gist_content' => (string) $this->content,
             ),
         ) );
     }
     function model_store( $data ){
         $this->storage->content= (string) $data->doc;
-        unset( $this->teaser );
+        unset( $this->version );
         return $data;
     }
     
     var $teaser_value;
     function teaser_make( ){
-        $storage= $this->storage;
-        
-        if( !$storage->version )
+        if( !$this->version )
             return $this->model;
         
-        return so_dom::make( array(
-            'so_gist' => array(
-                '@so_uri' => (string) $this->uri,
-                '@so_gist_name' => (string) $this->name,
-                '@so_gist_author' => (string) $this->author,
-                '@so_gist_external' => (string) $storage->uri,
-            ),
-        ) );
-    }
-    
-    function get( $data= null ){
-        $output= $this->storage->version ? so_output::ok() : so_output::missed();
-        
-        $output->content= array(
-            '@so_page_uri' => (string) $this->uri,
-            '@so_page_title' => (string) $this->name,
-            //'so_page_aside' => array(
-            //    123
-            //    //'include' => array(
-            //    //    '@href' => 'so/content/navigation.gist.xml',
-            //    //),
-            //),
-            $this->teaser,
-        );
-        
-        return $output;
+        return so_dom::make(array(
+            'so_gist/@so_uri_external' => (string) $this->storage->uri,
+        ));
     }
     
     function delete( $data ){
@@ -118,18 +98,6 @@ class so_gist
     function put( $data ){
         $this->content= (string) $data[ 'content' ];
         return so_output::ok( 'Content updated' );
-    }
-
-    function move( $data ){
-        $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
-        $gist= so_gist::makeInstance()->name( $name )->author( $this->author )->primary();
-        
-        if( $gist != $this ):
-            $gist->put(array( 'content' => $this->content ));
-            $this->delete(array( 'content' => "    /Content moved to [new location\\{$gist->uri}]/.\n" ));
-        endif;
-        
-        return so_output::ok()->content(array( 'so_relocation' => (string) $gist->uri ));
     }
 
 }

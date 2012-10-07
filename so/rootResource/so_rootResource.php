@@ -2,17 +2,15 @@
 
 class so_rootResource
 {
-    use so_meta;
     use so_resource;
     
     var $uri_value;
     function uri_make( ){
-        return '';
+        return so_author::make()->uri;
     }
     function uri_store( $data ){
         if( !(string)$data )
-            $data= so_query::make(array( 'author' ))->resource->uri;
-        
+            return null;
         return $data;
     }
     

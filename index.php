@@ -1,7 +1,7 @@
 <?php require_once( __DIR__ . '/so/autoload/so_autoload.php' );
 
-ini_set( 'html_errors', 0 );
-ini_set( 'display_errors', 1 );
+foreach( parse_ini_file( __DIR__ . '/php.ini' ) as $key => $value )
+    ini_set( $key, $value );
 
 //include_once( __DIR__ . '/so/-mix/compiled.php' );
 

@@ -30,21 +30,10 @@ implements ArrayAccess
     
     var $uri_value;
     function uri_make( ){
-        $base= explode( '/', so_root::make()->dir );
-        $path= explode( '/', $this->path );
-        
-        while( isset( $base[ 0 ] ) ):
-            if( $base[ 0 ] != $path[ 0 ] ) break;
-            array_shift( $base );
-            array_shift( $path );
-        endwhile;
-        
-        $path= implode( '/', $path );
-        
-        if( count( $base ) )
-            $path= str_repeat( '../', count( $base ) ) . $path;
-        
-        return so_uri::makeInstance()->path( $path )->queryString( $this->version )->primary();
+        $uri= so_uri::makeInstance();
+        $uri->path= $this->relate( so_root::make()->dir );
+        $uri->queryString= $this->version;
+        return $uri->primary();
     }
     
     var $name_value;
@@ -119,6 +108,7 @@ implements ArrayAccess
         $this->lock= $lock;
         
         unset( $this->version );
+        unset( $this->exists );
         return $content;
     }
     
@@ -149,6 +139,8 @@ implements ArrayAccess
         if( is_null( $count ) )
             throw new Exception( "Can not append to file [{$this->path}]" );
         
+        unset( $this->version );
+        
         return $this;
     }
     
@@ -178,6 +170,24 @@ implements ArrayAccess
         return so_file_collection::make( $list );
     }
     
+    function relate( $base ){
+        $base= explode( '/', (string) so_file::make( $base ) );
+        $path= explode( '/', $this->path );
+        
+        while( isset( $base[ 0 ] ) ):
+            if( $base[ 0 ] != $path[ 0 ] ) break;
+            array_shift( $base );
+            array_shift( $path );
+        endwhile;
+        
+        $path= implode( '/', $path );
+        
+        if( count( $base ) )
+            $path= str_repeat( '../', count( $base ) ) . $path;
+        
+        return $path;
+    }
+    
     function go( $path ){
         return so_file::make( rtrim( $this->path, '/' ) . '/' . $path );
     }
@@ -187,6 +197,43 @@ implements ArrayAccess
             $file= $this->go( uniqid( $prefix ) . $postfix );
             if( !$file->exists ) return $file;
         endwhile;
+    }
+    
+    function move( $target ){
+        if( !$this->exists )
+            return $this;
+            
+        so_file::ensure( $target );
+        $target->parent->exists= true;
+        
+        if( false === rename( (string) $this, (string) $target ) )
+            throw new Exception( "Can not copy [{$this}] to [{$target}]" );
+        
+        unset( $this->version );
+        unset( $this->exists );
+        unset( $this->content );
+        unset( $target->version );
+        unset( $target->exists );
+        unset( $target->content );
+        
+        return $target;
+    }
+    
+    function copy( $target ){
+        if( !$this->exists )
+            return $this;
+            
+        so_file::ensure( $target );
+        $target->parent->exists= true;
+        
+        if( false === copy( (string) $this, (string) $target ) )
+            throw new Exception( "Can not copy [{$this}] to [{$target}]" );
+        
+        unset( $target->version );
+        unset( $target->exists );
+        unset( $target->content );
+        
+        return $target;
     }
     
     function _string_meta( ){

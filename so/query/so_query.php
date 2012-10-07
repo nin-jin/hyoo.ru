@@ -7,7 +7,7 @@ implements Countable, ArrayAccess, IteratorAggregate
     use so_factory;
     
     static $sepaName= '=';
-    static $sepaChunk= '/';
+    static $sepaChunk= '/&';
     
     static function make( $uri= null ){
         $obj= new static;
@@ -34,7 +34,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             if( $val ):
                 $chunk= urlencode( $val );
                 if( $key ):
-                    $chunk= $key . static::$sepaName . $chunk;
+                    $chunk= $key . static::$sepaName[0] . $chunk;
                 endif;
             else:
                 $chunk= $key;
@@ -43,7 +43,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $chunkList[]= $chunk;
         endforeach;
         
-        return implode( static::$sepaChunk, $chunkList );
+        return implode( static::$sepaChunk[0], $chunkList );
     }
     function string_store( $data ){
         return (string) $data;
@@ -54,10 +54,10 @@ implements Countable, ArrayAccess, IteratorAggregate
     function struct_make( ){
         $struct= array( );
         
-        $chunkList= explode( static::$sepaChunk, $this->string );
+        $chunkList= preg_split( '~[' . static::$sepaChunk . ']~', $this->string );
         foreach( $chunkList as $chunk ):
             if( !$chunk ) continue;
-            $pair= explode( static::$sepaName, $chunk, 2 );
+            $pair= preg_split( '~[' . static::$sepaName . ']~', $chunk, 2 );
             $key= &$pair[0];
             $val= &$pair[1];
             $struct[ urldecode( $key ) ]= urldecode( $val );

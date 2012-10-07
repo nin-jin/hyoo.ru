@@ -9,7 +9,7 @@ class so_page
         $moduleMix= pms_module::make( __DIR__ )->package[ '-mix' ];
         
         $page[ '?xml-stylesheet' ]= array(
-            'href' => (string) $moduleMix[ 'compiled.xsl' ]->uri,
+            'href' => (string) $moduleMix[ 'index.xsl' ]->uri,
             'type' =>'text/xsl',
         );
         

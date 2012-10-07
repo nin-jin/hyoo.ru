@@ -33,7 +33,7 @@
                     
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
                     
-                    <xsl:apply-templates select=" key( 'so_uri', @so_page_uri ) " />
+                    <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_page_uri ] " />
                     <xsl:apply-templates select=" * [ not( @so_uri ) ] " />
                     
                 </wc_desktop>

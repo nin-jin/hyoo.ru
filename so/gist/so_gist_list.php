@@ -1,8 +1,7 @@
 <?php
 
-class so_gist
+class so_gist_list
 {
-    use so_meta;
     use so_resource;
     
     var $uri_value;

@@ -11,10 +11,7 @@ $jam.Component
         
         nodeRoot.listen
         (   '$jam.eventEdit'
-        ,   function( ){
-                var text= $jam.html2text( nodeRoot.html() )
-                nodeInput.$.value= text
-            }
+        ,   sync
         )
         
         var onEdit=
@@ -24,7 +21,7 @@ $jam.Component
         )
         
         function sync( ){
-            var text= $jam.html2text( nodeRoot.html() )
+            var text= $jam.html2text( nodeRoot.html() ).replace( /[\n\r]+/g, '' )
             nodeInput.$.value= text
         }
         

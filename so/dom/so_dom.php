@@ -268,6 +268,11 @@ implements Countable, ArrayAccess, IteratorAggregate
                     continue 1;
                 endif;
                 
+                $keys= explode( '/', $key );
+                while( count( $keys ) > 1 )
+                    $value= array( array_pop( $keys ) => $value );
+                $key= $keys[0];
+                
                 $element= $this->DOMDocument->createElement( $key );
                 so_dom::make( $element )[]= $value;
                 $DOMNode->appendChild( $element );

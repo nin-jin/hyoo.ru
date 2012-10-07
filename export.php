@@ -1,56 +1,38 @@
 <?php
 
-function rrmdir($dir) { 
-   if (is_dir($dir)) { 
-     $objects = scandir($dir); 
-     foreach ($objects as $object) { 
-       if ($object != "." && $object != "..") { 
-         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
-       } 
-     } 
-     reset($objects); 
-     rmdir($dir); 
-   } 
- }
+header( 'Content-Type: text/plain', true );
 
-function rchdir($dir) {
-   chdir( $dir ) or die( "Can not chdir to [{$dir}]");
-}
+foreach( parse_ini_file( __DIR__ . '/php.ini' ) as $key => $value )
+    ini_set( $key, $value );
 
-function copy_r( $path, $dest )
-{
-    if( is_dir($path) )
-    {
-        @mkdir( $dest, 0777, true );
-        $objects = scandir($path);
-        if( sizeof($objects) > 0 )
-        {
-            foreach( $objects as $file )
-            {
-                if( $file[0] == "." || $file == "-export" )
-                    continue;
-                // go on
-                if( is_dir( $path.'/'.$file ) )
-                {
-                    copy_r( $path.'/'.$file, $dest.'/'.$file );
-                }
-                else
-                {
-                    copy( $path.'/'.$file, $dest.'/'.$file );
-                }
-            }
-        }
-        return true;
-    }
-    elseif( is_file($path) )
-    {
-        return copy($path, $dest);
-    }
-    else
-    {
-        return false;
-    }
-}
+require_once( __DIR__ . '/so/autoload/so_autoload.php' );
+
+$root= so_root::make()->dir;
+$export= $root[ '-export' ];
+
+$root[ 'compiled.php' ]->copy( $export[ 'index.php' ] );
+$root[ '.htaccess' ]->copy( $export[ '.htaccess' ] );
+$root[ 'php.ini' ]->copy( $export[ 'php.ini' ] );
+
+foreach( so_root::make()->packages as $package ):
+    foreach( $package->sources as $source ):
+        $file= $source->file;
+        $target= $export->go( $file->relate( $root ) );
+        $file->copy( $target );
+    endforeach;
+    
+    $mix= $package->dir[ '-mix' ];
+    $target= $export[ $package->name ][ '-mix' ];
+    $mix[ 'compiled.js' ]->copy( $target[ 'index.js' ] );
+    $mix[ 'compiled.css' ]->copy( $target[ 'index.css' ] );
+    $mix[ 'compiled.xsl' ]->copy( $target[ 'index.xsl' ] );
+    $mix[ 'compiled.php' ]->copy( $target[ 'index.php' ] );
+endforeach;
+
+@header( 'Location: -export/', true, 302 );
+
+exit();
+
 
 function pack_file( $from, $to ){
     $content= file_get_contents( $from );
@@ -59,48 +41,3 @@ function pack_file( $from, $to ){
     gzclose( $zip );
 }
 
-copy_r('.', '-export');
-rchdir( '-export' );
-    foreach( glob( '*.*' ) as $file ):
-        if( !preg_match( '/\.(php|cmd)$/', $file ) ) continue;
-        unlink( $file );
-    endforeach;
-    foreach( glob( '*', GLOB_ONLYDIR ) as $pack ):
-        if( $pack[0] === '-' ) continue;
-        rchdir( $pack );
-            foreach( glob( '*.*' ) as $file ):
-                if( !preg_match( '/\.(cmd)$/', $file ) ) continue;
-                unlink( $file );
-            endforeach;
-            foreach( glob( '*', GLOB_ONLYDIR ) as $module ):
-                if( in_array( $module, array( '-mix', '-mix+doc' ) ) ):
-                    rchdir( $module );
-                        @unlink( 'index.css' );
-                        @unlink( 'index.xsl' );
-                        @unlink( 'index.js' );
-                        @unlink( 'index.php' );
-                        @rename( 'compiled.css', 'index.css' );
-                        @rename( 'compiled.xsl', 'index.xsl' );
-                        @rename( 'compiled.js', 'index.js' );
-                        @rename( 'compiled.php', 'index.php' );
-                        foreach( glob( '*.*' ) as $file ):
-                            if( in_array( $file, array( 'index.css', 'index.js', 'index.xsl', 'index.php', 'index.doc.xml' ) ) ) continue;
-                            unlink( $file );
-                        endforeach;
-                    rchdir( '..' );
-                    continue;
-                endif;
-                rchdir( $module );
-                    foreach( glob( '*.*' ) as $file ):
-                        if( !preg_match( '/\.(css|xsl|js|jam|tree|cmd|php)$/', $file ) ) continue;
-                        unlink( $file );
-                    endforeach;
-                rchdir( '..' );
-                if( !glob( $module . '/*' ) ):
-                    rrmdir( $module );
-                endif;
-            endforeach;
-        rchdir( '..' );
-    endforeach;
-rchdir( '..' );
-@header( 'Location: -export/', true, 302 );

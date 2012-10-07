@@ -2,7 +2,6 @@
 
 class so_image
 {
-    use so_meta;
     use so_resource;
     
     var $uri_value;

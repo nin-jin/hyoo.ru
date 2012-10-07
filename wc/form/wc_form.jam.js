@@ -19,7 +19,15 @@ $jam.Component
         )
         
         function send( ){
-            nodeResult.text( '' )
+            var method= nodeRoot.attr( 'method' ) || 'get'
+            
+            if( nodeResult ){
+                nodeResult.text( '' )
+            } else if( method == 'get' ){
+                nodeRoot.$.submit()
+                return 
+            }
+            
             var nodes= nodeRoot.$.elements
             var data= {}
             for( var i= 0; i < nodes.length; ++i ){
@@ -27,7 +35,7 @@ $jam.Component
                 data[ node.name ]= node.value
             }
             
-            var response= $jam.domx.parse( $jam.http( nodeRoot.$.action ).request( nodeRoot.attr( 'method' ) || 'get', data ) )
+            var response= $jam.domx.parse( $jam.http( nodeRoot.$.action ).request( method, data ) )
             var location= response.$.evaluate( '//so_relocation', response.$, null, XPathResult.STRING_TYPE, null ).stringValue
             if( location ) document.location= location
             
