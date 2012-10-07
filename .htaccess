@@ -1,0 +1,4 @@
+<files ~ "(^\w+|\.(xml|xsl|js|css|txt|html?))$">
+SetOutputFilter DEFLATE
+</files>
+
