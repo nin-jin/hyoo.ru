@@ -2,9 +2,11 @@ wc_footer {
     width: 100%;
     display: block;
     overflow: hidden;
-    border-top: 1px solid #999;
-    padding: .1em 0;
-    font-size: 10pt;
+    padding: 1% 0;
+    font: 12pt/1 serif;
     text-align: center;
     clear: both;
+    color: #666;
+    position: absolute;
+    bottom: 0;
 }

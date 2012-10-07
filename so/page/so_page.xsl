@@ -36,6 +36,12 @@
                     <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_page_uri ] " />
                     <xsl:apply-templates select=" * [ not( @so_uri ) ] " />
                     
+                    <wc_footer>
+                        <a href="https://github.com/nin-jin/PMS" title="Исходники этого сайта">Gist!</a>
+                        <xsl:text> @ </xsl:text>
+                        <a href="http://vrozetke.com/" title="Бесплатный Хостинг">Vrozetke.com</a>
+                    </wc_footer>
+                    
                 </wc_desktop>
                 
             </body>

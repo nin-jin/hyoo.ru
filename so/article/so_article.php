@@ -20,7 +20,12 @@ class so_article
     
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
+    function name_make( ){
+        return '...';
+    }
     function name_store( $data ){
+        if( !(string)$data )
+            return null;
         return (string) $data;
     }
     
