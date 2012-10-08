@@ -9,13 +9,13 @@ class so_article
     function uri_make( ){
         return so_query::make(array(
             'article' => $this->name,
-            'by' => $this->author,
+            'author' => $this->author,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
         $this->name= $query[ 'article' ];
-        $this->author= $query[ 'by' ];
+        $this->author= $query[ 'author' ];
     }
     
     var $name_value;
@@ -72,7 +72,7 @@ class so_article
         ) );
     }
     function model_store( $data ){
-        $this->storage->content= (string) $data->doc;
+        $this->storage->content= $data->doc;
         unset( $this->version );
         return $data;
     }

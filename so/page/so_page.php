@@ -6,7 +6,7 @@ class so_page
     static function make( $data ){
         $page= array();
         
-        $moduleMix= pms_module::make( __DIR__ )->package[ '-mix' ];
+        $moduleMix= so_root::make()[ so_root::$mainPackageName ][ '-mix' ];
         
         $page[ '?xml-stylesheet' ]= array(
             'href' => (string) $moduleMix[ 'index.xsl' ]->uri,

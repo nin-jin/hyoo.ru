@@ -8,14 +8,15 @@ class so_gist
     var $uri_depends= array( 'uri', 'id', 'author' );
     function uri_make( ){
         return so_query::make(array(
-            'gist' => $this->id,
-            'by' => $this->author,
+            'gist',
+            'author' => $this->author,
+            'id' => $this->id,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $this->id= $query[ 'gist' ];
-        $this->author= $query[ 'by' ];
+        $this->author= $query[ 'author' ];
+        $this->id= $query[ 'id' ];
     }
     
     var $id_value;
@@ -49,7 +50,7 @@ class so_gist
         if( $this->version )
             return $this->model[ '@so_gist_content' ];
         
-        return '   ...';
+        return '    ...';
     }
     function content_store( $data ){
         $data= (string) $data;
@@ -75,7 +76,7 @@ class so_gist
         ) );
     }
     function model_store( $data ){
-        $this->storage->content= (string) $data->doc;
+        $this->storage->content= $data->doc;
         unset( $this->version );
         return $data;
     }

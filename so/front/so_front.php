@@ -34,6 +34,9 @@ class so_front
         $resource= $query->resource;
         
         $uri= $resource->uri;
+        #echo($uri);
+        #echo($query->uri);
+        #var_dump($uri == $query->uri);
         if( $query->uri != $uri )
             return $client->output= so_output::moved( $uri );
         

@@ -97,19 +97,16 @@ class so_uri
     var $queryString_value;
     var $queryString_depends= array( 'string', 'query', 'queryString' );
     function queryString_make( ){
-        if( isset( $this->query ) ):
-            return (string) $this->query;
-        endif;
-        return '';
+        return (string) $this->query;
     }
     function queryString_store( $data ){
-        return (string) $data;
+        $this->query= so_query::make( (string) $data );
     }
     
     var $query_value;
     var $query_depends= array( 'string', 'query', 'queryString' );
     function query_make( ){
-        return so_query::make( $this->queryString );
+        return so_query::make();
     }
     function query_store( $data ){
         return so_query::make( $data );

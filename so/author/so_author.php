@@ -19,7 +19,7 @@ class so_author
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
     function name_make( ){
-        return so_user::make()->id;
+        return 'Nin Jin'; //so_user::make()->id;
     }
     function name_store( $data ){
         if( !(string)$data )
@@ -60,7 +60,7 @@ class so_author
         ) );
     }
     function model_store( $data ){
-        $this->storage->content= (string) $data->doc;
+        $this->storage->content= $data->doc;
         unset( $this->version );
         return $data;
     }

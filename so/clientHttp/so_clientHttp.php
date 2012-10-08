@@ -83,18 +83,17 @@ class so_clientHttp
     
     function send( ){
         $output= $this->output;
-        $type= $output->mime;
         $content= $output->content;
+        $mime= $content->mime;
         $cache= $output->cache;
         $private= $output->private;
         
-        if( $type === 'application/xml' ):
+        if( $mime === 'application/xml' ):
             $accept= preg_split( '~, ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
             if( in_array( 'text/html', $accept ) && !in_array( 'application/xhtml+xml', $accept ) ):
                 
-                $type= 'text/html';
                 $xs= new so_XStyle;
-                $xs->pathXSL= so_file::make( 'so/-mix/index.xsl' )->path;
+                $xs->pathXSL= so_file::make( so_root::$mainPackageName . '/-mix/index.xsl' )->path;
                 $xsl= $xs->docXSL;
                 foreach( $xsl->childs[ 'xsl:include' ] as $dom ):
                     $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
@@ -102,13 +101,13 @@ class so_clientHttp
                 
                 $content= (string) $xs->process( $content );
                 $content= preg_replace( '~^<\\?xml .+?\\?>\n?~', '', $content );
-                $type= 'text/html';
+                $mime= 'text/html';
             endif;
         endif;
         
         $encoding= $output->encoding;
         $code= static::$codeMap[ $output->status ];
-        header( "Content-Type: {$type}", true, $code );
+        header( "Content-Type: {$mime}", true, $code );
         
         if( !$private )
             header( "Access-Control-Allow-Origin: *", true );

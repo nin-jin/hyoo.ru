@@ -43,25 +43,9 @@ class so_output
     
     var $content_value;
     function content_store( $data ){
-        return so_page::make( $data );
+        return so_content::make( so_page::make( $data ) );
     }
 
-    var $mime_value;
-    function mime_make( ){
-        $content= $this->content;
-        
-        if( is_string( $content ) )
-            return 'text/plain';
-        
-        if( !$content )
-            return '';
-        
-        return $content->mime;
-    }
-    function mime_store( $data ){
-        return (string) $data;
-    }
-    
     var $encoding_value;
     function encoding_make( ){
         return 'utf-8';

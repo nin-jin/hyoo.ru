@@ -39,7 +39,7 @@ $jam.Component
             var location= response.$.evaluate( '//so_relocation', response.$, null, XPathResult.STRING_TYPE, null ).stringValue
             if( location ) document.location= location
             
-            var templates= $jam.domx.parse( $jam.http( 'so/-mix/compiled.xsl' ).get() )
+            var templates= $jam.domx.parse( $jam.http( 'appGist/-mix/compiled.xsl' ).get() )
             response= response.select(' // so_console_result | // so_error ').transform( templates )
             if( nodeResult ) nodeResult.html( response )
         }

@@ -31,7 +31,7 @@ implements ArrayAccess
     var $uri_value;
     function uri_make( ){
         $uri= so_uri::makeInstance();
-        $uri->path= $this->relate( so_root::make()->dir );
+        $uri->path= strtr( $this->relate( so_root::make()->dir ), array( '%' => urlencode( '%' ) ) );
         $uri->queryString= $this->version;
         return $uri->primary();
     }
@@ -192,9 +192,10 @@ implements ArrayAccess
         return so_file::make( rtrim( $this->path, '/' ) . '/' . $path );
     }
     
-    function createUniq( $prefix= '', $postfix= '' ){
+    function createUniq( $extension= '' ){
+        $postfix= $extension ? ( '.' . $extension ) : '';
         while( true ):
-            $file= $this->go( uniqid( $prefix ) . $postfix );
+            $file= $this->go( uniqid() . $postfix );
             if( !$file->exists ) return $file;
         endwhile;
     }

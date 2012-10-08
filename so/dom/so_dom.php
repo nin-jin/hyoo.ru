@@ -39,7 +39,8 @@ implements Countable, ArrayAccess, IteratorAggregate
         return $value= static::make( $value );
     }
     
-    public $mime= 'application/xml';
+    var $mime= 'application/xml';
+    var $extension= 'xml';
 
     var $DOMNode_value;
     function DOMNode_make( ){

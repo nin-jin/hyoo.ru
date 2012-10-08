@@ -15,10 +15,14 @@ class so_storage
     
     var $dir_value;
     function dir_make( ){
-        $id= md5( $this->id );
-        $id= substr( $id, 0, 3 ) . '/' . substr( $id, 4, 7 );
-        #$id= strtr( $this->id, array( '?' => '', '=' => '/=', '+' => '/+' ) );
-        return so_file::make( '-so_storage' )->go( $id );
+        #$id= md5( $this->id );
+        #$id= substr( $id, 0, 3 ) . '/' . substr( $id, 4, 7 );
+        $tokens= explode( ';', $this->id );
+        
+        foreach( $tokens as &$token )
+            $token= substr( md5( $token ), 0, 10 );
+        
+        return so_file::make( '-so_storage' )->go( implode( '/', $tokens ) );
     }
     
     var $index_value;
@@ -59,10 +63,11 @@ class so_storage
         return $file ? $file->content : null;
     }
     function content_store( $content ){
-        if( $content == $this->content )
+        so_content::ensure( $content );
+        if( (string) $content == $this->content )
             return $content;
         
-        $file= $this->dir->createUniq();
+        $file= $this->dir->createUniq( $content->extension );
         $file->content= (string) $content;
         $this->version= $file->name;
         

@@ -6,7 +6,7 @@
     
     <xsl:variable
         name="so_uri_map"
-        select=" // *[ @so_uri ] | document( // @so_uri_external ) // *[ @so_uri ] "
+        select=" // *[ @so_uri ] | document( // @so_uri_external, / ) // *[ @so_uri ] "
     />
     
 </xsl:stylesheet>

@@ -7,6 +7,8 @@ implements ArrayAccess
     
     use so_singleton;
     static $id_prop= 'dir';
+    
+    static $mainPackageName;
 
     var $dir_value;
     function dir_make( ){

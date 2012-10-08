@@ -3,18 +3,17 @@
 foreach( parse_ini_file( __DIR__ . '/php.ini' ) as $key => $value )
     ini_set( $key, $value );
 
-//include_once( __DIR__ . '/so/-mix/compiled.php' );
-
 so_error::monitor();
+so_root::$mainPackageName= 'appGist';
 
 $cacheControl= &$_SERVER[ 'HTTP_CACHE_CONTROL' ];
 $origin= &$_SERVER[ 'HTTP_ORIGIN' ];
 if( !$origin && $cacheControl == 'no-cache' ):
     pms_compiler::make()
-        ->package( 'so' )
+        ->package( so_root::$mainPackageName )
         ->clean()
         ->compile()
-        ->minify()
+        //->minify()
         //->bundle()
     ;
 endif;
