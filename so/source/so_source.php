@@ -1,6 +1,6 @@
 <?php
 
-class pms_source
+class so_source
 {
     use so_meta;
     
@@ -15,12 +15,12 @@ class pms_source
         
         while( $nameList ):
             array_shift( $nameList );
-            $className= $nameList ? 'pms_source__' . implode( '_', $nameList ) : 'pms_source';
+            $className= $nameList ? 'so_source__' . implode( '_', $nameList ) : 'so_source';
             if( class_exists( $className ) )
                 return $className::makeAdapter( $file );
         endwhile;
         
-        throw new Exception( "Can not make (pms_source) for [{$file}]" );
+        throw new Exception( "Can not make (so_source) for [{$file}]" );
     }
     
     var $file_value;
@@ -66,12 +66,12 @@ class pms_source
     
     var $module_value;
     function module_make( ){
-        return pms_module::make( $this->file->parent );
+        return so_module::make( $this->file->parent );
     }
     
     var $sources_value;
     function sources_make( ){
-        return pms_source_collection::make(array( (string) $this->file => $this ));
+        return so_source_collection::make(array( (string) $this->file => $this ));
     }
     
     var $exists_value;
@@ -86,7 +86,7 @@ class pms_source
     
     var $uses_value;
     function uses_make( ){
-        return pms_module_collection::make();
+        return so_module_collection::make();
     }
     
 }

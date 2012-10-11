@@ -23,8 +23,10 @@ class so_output
         return static::make()->status( 'see' )->location( $uri )->content(array( 'so_relocation' => $uri ));
     }
 
-    static function missed( ){
-        return static::make()->status( 'missed' );
+    static function missed( $message= null ){
+        $obj= static::make()->status( 'missed' );
+        if( $message ) $obj->content= array( 'so_error' => $message );
+        return $obj;
     }
     
     static function error( $message= null ){
@@ -42,6 +44,9 @@ class so_output
     }
     
     var $content_value;
+    function content_make( ){
+        return so_content::make( so_page::make(array( 'so_error' => 'Empty response' )) );
+    }
     function content_store( $data ){
         return so_content::make( so_page::make( $data ) );
     }

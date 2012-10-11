@@ -1,7 +1,7 @@
 <?php
 
-class pms_source__jam_js
-extends pms_source
+class so_source__jam_js
+extends so_source
 {
 
     var $uses_value;
@@ -39,7 +39,7 @@ extends pms_source
         
         $uses+= $this->module->modules->list;
         
-        return pms_module_collection::make( $uses );
+        return so_module_collection::make( $uses );
     }
 
     function uriJS_make( ){

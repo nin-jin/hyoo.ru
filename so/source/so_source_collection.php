@@ -1,6 +1,6 @@
 <?php
 
-class pms_source_collection
+class so_source_collection
 implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta;
@@ -13,7 +13,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         foreach( $this as $source )
             $list+= $source->uses->list;
         
-        return pms_module_collection::make( $list );
+        return so_module_collection::make( $list );
     }
     
     var $sources_value;

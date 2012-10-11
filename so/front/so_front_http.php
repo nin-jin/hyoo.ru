@@ -1,10 +1,9 @@
 <?php
 
-class so_clientHttp
+class so_front_http
+extends so_front
 {
-    use so_meta;
-    use so_singleton;
-    
+
     static $codeMap= array(
         'ok' => 200,
         'moved' => 301,
@@ -14,29 +13,35 @@ class so_clientHttp
         'error' => 500,
     );
     
-    var $query_value;
-    function query_make( ){
-        $query= &$_SERVER[ 'QUERY_STRING' ];
-        return so_query::make( $query ?: '' );
+    var $dir_value;
+    function dir_make( ){
+        return so_file::make( dirname( so_value::make( $_SERVER[ 'SCRIPT_FILENAME' ] ) ) );
     }
     
+    var $uri_value;
+    function uri_make( ){
+        $uri= so_value::make( $_SERVER[ 'REQUEST_URI' ] );
+        return so_uri::make( $uri );
+    }
+
     var $method_value;
-    function method_make(){
-        $method= &$_SERVER[ 'REQUEST_METHOD' ];
-        $method= $method ? strtolower( $method ) : 'get';
-        
-        if( !in_array( $method, array( 'get', 'put', 'post', 'delete', 'move', 'copy' ) ) )
-            throw new Exception( "Method [{$method}] is not supported" );
-        
-        return $method;
+    function method_make( ){
+        $method= so_value::make( $_SERVER[ 'REQUEST_METHOD' ] );
+        return strtolower( $method ?: 'get' );
     }
-    
-    var $input_value;
-    function input_make(){
+
+    var $data_value;
+    function data_make( ){
         switch( $this->method ):
             
-            case 'move':
-            case 'put':
+            case 'get':
+            case 'head':
+                return null;
+            
+            case 'post':
+                return so_query::make( $_POST + $_FILES );
+            
+            default:
                 $raw= '';
                 $input= fopen( 'php://input', 'r' );
                 while( $chunk= fread( $input, 1024 ) ) $raw.= $chunk;
@@ -49,40 +54,25 @@ class so_clientHttp
                     case 'application/x-www-form-urlencoded':
                         return so_query::make( $raw );
                         break;
-                        
+                    
                     case 'text/xml':
                     case 'application/xml':
                         return so_dom::make( $raw );
-                        
+                    
                     case 'text/json':
                     case 'application/json':
-                        return so_dom_collection::make( json_decode( $raw ) );
-                        
+                        return json_decode( $raw );
+                    
                     default:
-                        return so_query::make( array() );
-                        
+                        return $raw;
+                    
                 endswitch;
-                
-            case 'post':
-                return so_query::make( $_POST + $_FILES );
-                
-            default:
-                return so_query::make( array() );
-                
+            
         endswitch;
     }
-    
-    var $output_value;
-    var $output_depends= array();
-    function output_make( ){
-        return so_output::error( 'Response is empty' );
-    }
-    function output_store( $data ){
-        return $data;
-    }
-    
+
     function send( ){
-        $output= $this->output;
+        $output= $this->result;
         $content= $output->content;
         $mime= $content->mime;
         $cache= $output->cache;
@@ -93,7 +83,7 @@ class so_clientHttp
             if( in_array( 'text/html', $accept ) && !in_array( 'application/xhtml+xml', $accept ) ):
                 
                 $xs= new so_XStyle;
-                $xs->pathXSL= so_file::make( so_root::$mainPackageName . '/-mix/index.xsl' )->path;
+                $xs->pathXSL= (string) so_front::make()->package['-mix']['index.xsl']->file;
                 $xsl= $xs->docXSL;
                 foreach( $xsl->childs[ 'xsl:include' ] as $dom ):
                     $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
@@ -125,10 +115,6 @@ class so_clientHttp
         echo str_pad( $content, 512, ' ', STR_PAD_RIGHT );
         
         return $this;
-    }
-    
-    function run( ){
-        return so_front::make()->client( $this )->run();
     }
     
 }

@@ -31,7 +31,7 @@ implements ArrayAccess
     var $uri_value;
     function uri_make( ){
         $uri= so_uri::makeInstance();
-        $uri->path= strtr( $this->relate( so_root::make()->dir ), array( '%' => urlencode( '%' ) ) );
+        $uri->path= strtr( $this->relate( so_front::make()->dir ), array( '%' => urlencode( '%' ) ) );
         $uri->queryString= $this->version;
         return $uri->primary();
     }
@@ -174,7 +174,7 @@ implements ArrayAccess
         $base= explode( '/', (string) so_file::make( $base ) );
         $path= explode( '/', $this->path );
         
-        while( isset( $base[ 0 ] ) ):
+        while( isset( $base[ 0 ] ) and isset( $path[ 0 ] ) ):
             if( $base[ 0 ] != $path[ 0 ] ) break;
             array_shift( $base );
             array_shift( $path );

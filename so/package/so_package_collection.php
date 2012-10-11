@@ -1,6 +1,6 @@
 <?php
 
-class pms_package_collection
+class so_package_collection
 implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta;
@@ -13,7 +13,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             if( !is_numeric( $key ) )
                 continue;
             unset( $list[ $key ] );
-            $package= pms_package::make( $package );
+            $package= so_package::make( $package );
             $list+= $package->packages->list;
         endforeach;
         
@@ -27,7 +27,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         foreach( $this as $package )
             $list+= $package->modules->list;
         
-        return pms_module_collection::make( $list );
+        return so_module_collection::make( $list );
     }
     
     var $sources_value;

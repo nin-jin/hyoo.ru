@@ -1,6 +1,6 @@
 <?php
 
-class pms_compiler
+class so_compiler
 {
     use so_meta;
     use so_factory;
@@ -11,7 +11,7 @@ class pms_compiler
         throw new Exception( "Property [package] is not defined" );
     }
     function package_store( $data ){
-        return pms_package::make( $data );
+        return so_package::make( $data );
     }
 
     var $modules_value;
@@ -20,7 +20,7 @@ class pms_compiler
         return $this->package->depends;
     }
     function modules_store( $data ){
-        return pms_module_collection::make( $data );
+        return so_module_collection::make( $data );
     }
 
     var $sources_value;
@@ -33,15 +33,15 @@ class pms_compiler
             $sources+= $module->sources->list;
         endforeach;
         
-        return pms_source_collection::make( $sources );
+        return so_source_collection::make( $sources );
     }
 
     var $exclude_value;
     function exclude_make( ){
-        return pms_package_collection::make();
+        return so_package_collection::make();
     }
     function exclude_store( $data ){
-        return pms_package_collection::make( $data );
+        return so_package_collection::make( $data );
     }
 
     var $target_value;
@@ -49,7 +49,7 @@ class pms_compiler
         return $this->package[ '-mix' ];
     }
     function target_store( $data ){
-        return pms_module::make( $data );
+        return so_module::make( $data );
     }
     
     var $sourcesJS_value;
@@ -61,7 +61,7 @@ class pms_compiler
             $list[]= $source;
         endforeach;
         
-        return pms_source_collection::make( $list );
+        return so_source_collection::make( $list );
     }
     
     var $sourcesCSS_value;
@@ -70,7 +70,7 @@ class pms_compiler
         foreach( $this->sources as $source )
             if( $source->extension == 'css' )
                 $list[]= $source;
-        return pms_source_collection::make( $list );
+        return so_source_collection::make( $list );
     }
     
     var $sourcesXSL_value;
@@ -79,7 +79,7 @@ class pms_compiler
         foreach( $this->sources as $source )
             if( $source->extension == 'xsl' )
                 $list[]= $source;
-        return pms_source_collection::make( $list );
+        return so_source_collection::make( $list );
     }
     
     var $sourcesPHP_value;
@@ -88,7 +88,7 @@ class pms_compiler
         foreach( $this->sources as $source )
             if( $source->extension == 'php' )
                 $list[]= $source;
-        return pms_source_collection::make( $list );
+        return so_source_collection::make( $list );
     }
     
     function clean( ){
@@ -143,7 +143,7 @@ class pms_compiler
 JS;
         
         foreach( $sources as $source )
-            $index.= "    '../../" .  $source->uri . "', \n";
+            $index.= "    '" .  $source->file->relate( $target->dir ) . '?' . $source->version . "', \n";
         
         $index.= "    null \n])\n";
         
@@ -151,7 +151,7 @@ JS;
         
         $compiled= array();
         foreach( $sources as $source )
-            $compiled[]= "// ../../" . $source->uri . "\n\n" .  $source->content;
+            $compiled[]= "// " . $source->file->relate( $target->dir ) . '?' . $source->version . "\n\n" .  $source->content;
         $compiled= implode( "\n\n", $compiled );
         
         $target[ 'compiled.js' ]->content= $compiled;
@@ -187,18 +187,18 @@ JS;
                 $pages[ $pageNumb ][]= $source;
             endforeach;
             foreach( $pages as $pageNumb => $page ):
-                $page= pms_source_collection::make( $page );
+                $page= so_source_collection::make( $page );
                 $pageContent= array();
                 foreach( $page as $source ):
-                    $pageContent[]= "@import url( '../../{$source->uri}' );";
+                    $pageContent[]= "@import url( '" . $source->file->relate( $target->dir ) . '?' . $source->version . "' );";
                 endforeach;
-                $pageFile= $target[ "page_{$pageNumb}.css" ];
+                $pageFile= $target[ "page_{$pageNumb}.css" ]->file;
                 $pageFile->content= implode( "\n", $pageContent );
-                $index[]= "@import url( '../../{$pageFile->uri}' );";
+                $index[]= "@import url( '" . $pageFile->relate( $target->dir ) . '?' . $pageFile->version . "' );";
             endforeach;
         else:
             foreach( $sources as $source )
-                $index[]= "@import url( '../../" . $source->uri . "' );";
+                $index[]= "@import url( '" . $source->file->relate( $target->dir ) . '?' . $source->version . "' );";
         endif;
         $index= implode( "\n", $index );
         
@@ -206,7 +206,7 @@ JS;
         
         $compiled= array();
         foreach( $sources as $source )
-            $compiled[]= "/* ../../" . $source->uri . " */\n\n" .  $source->content;
+            $compiled[]= "/* " . $source->file->relate( $target->dir ) . '?' . $source->version . " */\n\n" .  $source->content;
         $compiled= implode( "\n\n", $compiled );
         
         $target[ 'compiled.css' ]->content= $compiled;
@@ -229,14 +229,15 @@ JS;
         ) );
         
         foreach( $this->exclude as $package ):
+            $file= $package[ '-mix' ][ 'index.xsl' ]->file;
             $index[]= array( 'xsl:include' => array(
-                '@href' => "../../" . $package[ '-mix' ][ 'index.xsl' ]->uri, 
+                '@href' => $file->relate( $target->dir ) . '?' . $file->version,
             ) );
         endforeach;
         
         foreach( $sources as $source ):
             $index[]= array( 'xsl:include' => array(
-                '@href' => "../../" . $source->uri, 
+                '@href' => $source->file->relate( $target->dir ) . '?' . $source->version,
             ) );
         endforeach;
         
@@ -250,14 +251,15 @@ JS;
         ) );
         
         foreach( $this->exclude as $package ):
+            $file= $package[ '-mix' ][ 'compiled.xsl' ]->file;
             $compiled[]= array( 'xsl:include' => array(
-                '@href' => "../../" . $package[ '-mix' ][ 'compiled.xsl' ]->uri, 
+                '@href' => $file->relate( $target->dir ) . '?' . $file->version,
             ) );
         endforeach;
         
         foreach( $sources as $source ):
             $compiled[]= array(
-                '#comment' => " ../../{$source->uri} ",
+                '#comment' => " " . $source->file->relate( $target->dir ) . '?' . $source->version . " ",
                 $source->content->childs,
             );
         endforeach;
@@ -276,14 +278,14 @@ JS;
         
         $index= array( "<?php" );
         foreach( $sources as $source )
-            $index[]= "require( '" . $source->uri . "' );";
+            $index[]= "require( '" . $source->file->relate( $target->dir ) . '?' . $source->version . "' );";
         $index= implode( "\n", $index );
         
         $target[ 'index.php' ]->content= $index;
         
         $compiled= array( "<?php" );
         foreach( $sources as $source )
-            $compiled[]= "// ../../" . $source->uri . " */\n" . substr( $source->content, 6 );
+            $compiled[]= "// " . $source->file->relate( $target->dir ) . '?' . $source->version . " \n" . substr( $source->content, 6 );
         $compiled= implode( "\n\n", $compiled );
         
         $target[ 'compiled.php' ]->content= $compiled;
@@ -352,7 +354,7 @@ JS;
         if( $target[ 'minified.xsl' ]->exists ):
             $bundleXSL= $target[ 'minified.xsl' ]->content;
             
-            $list= $bundleXSL->select( '/*/xsl:template[ @name = "pms_compiler_bundle" ]' );
+            $list= $bundleXSL->select( '/*/xsl:template[ @name = "so_compiler_bundle" ]' );
             if( count( $list ) ):
                 $dom= $list[0];
                 $dom[]= array(

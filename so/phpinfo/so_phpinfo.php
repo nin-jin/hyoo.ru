@@ -9,7 +9,7 @@ class so_phpinfo
         return so_query::make(array( 'phpinfo' ))->uri;
     }
     function uri_store( $data ){
-        return so_uri::make( $data );
+        return null;
     }    
     
     function get( ){

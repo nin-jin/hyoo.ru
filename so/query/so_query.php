@@ -89,8 +89,7 @@ implements Countable, ArrayAccess, IteratorAggregate
     var $resource_value;
     function resource_make( ){
         $keyList= array_keys( $this->struct );
-        #array_unshift( $keyList, so_root::$mainPackageName );
-        array_unshift( $keyList, 'so' );
+        array_unshift( $keyList, so_front::make()->package->name );
         
         while( count( $keyList ) ):
             $class= implode( '_', $keyList );

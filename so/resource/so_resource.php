@@ -8,6 +8,10 @@ trait so_resource
     use so_registry;
     static $id_prop= 'uri';
     
+    function execute( $method, $data= null ){
+        return $this->{ $method }( $data );
+    }
+    
     function _string_meta( $prefix= '' ){
         return $this->uri;
     }

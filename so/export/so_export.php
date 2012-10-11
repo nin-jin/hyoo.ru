@@ -38,7 +38,7 @@ class so_export
             $mix[ 'compiled.php' ]->copy( $target[ 'index.php' ] );
         endforeach;
         
-        return so_output::found( '-export/' );
+        return so_output::found( so_root::make()->dir[ '-export' ]->relate( so_front::make()->dir ) . '/' );
     }
     
 }

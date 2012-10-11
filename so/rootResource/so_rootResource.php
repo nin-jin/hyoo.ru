@@ -6,19 +6,16 @@ class so_rootResource
     
     var $uri_value;
     function uri_make( ){
-        return so_author::make()->uri;
+        return so_phpinfo::make()->uri;
     }
     function uri_store( $data ){
         if( !(string)$data )
             return null;
-        return $data;
+        return so_uri::make( $data );
     }
     
     function get( $data ){
-        if( $this->uri )
-            return so_output::missed( "Missed handler for [{$this->uri}]" );
-        
-        return so_output::moved( '?author' );
+        return so_output::missed( "Missed handler for [{$this->uri}]" );
     }
     
 }

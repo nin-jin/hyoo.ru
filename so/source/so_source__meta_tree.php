@@ -1,7 +1,7 @@
 <?php
 
-class pms_source__meta_tree
-extends pms_source
+class so_source__meta_tree
+extends so_source
 {
 
     var $uses_value;
@@ -34,7 +34,7 @@ extends pms_source
             $depends+= $module->modules->list;
         endforeach;
         
-        return pms_module_collection::make( $depends );
+        return so_module_collection::make( $depends );
     }
 
 }

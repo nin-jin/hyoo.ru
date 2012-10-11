@@ -8,8 +8,6 @@ implements ArrayAccess
     use so_singleton;
     static $id_prop= 'dir';
     
-    static $mainPackageName;
-
     var $dir_value;
     function dir_make( ){
         return so_file::make( __DIR__ . '/../..' );
@@ -34,7 +32,7 @@ implements ArrayAccess
             $list+= $package->packages->list;
         endforeach;
         
-        return pms_package_collection::make( $list );
+        return so_package_collection::make( $list );
     }
     
     var $modules_value;
@@ -63,7 +61,7 @@ implements ArrayAccess
     }
     
     function offsetGet( $name ){
-        return pms_package::make( $this->dir->go( $name ) );
+        return so_package::make( $this->dir->go( $name ) );
     }
 
     function offsetSet( $name, $value ){

@@ -1,6 +1,6 @@
 <?php
 
-class pms_module_collection
+class so_module_collection
 implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta;
@@ -13,7 +13,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         foreach( $this as $module )
             $list+= $module->sources->list;
         
-        return pms_source_collection::make( $list );
+        return so_source_collection::make( $list );
     }
     
     var $depends_value;
@@ -41,7 +41,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             endwhile;
         endforeach;
         
-        return pms_module_collection::make( $out );
+        return so_module_collection::make( $out );
     }
     
 }

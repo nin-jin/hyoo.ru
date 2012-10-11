@@ -1,6 +1,6 @@
 <?php
 
-class pms_package
+class so_module
 implements ArrayAccess
 {
     use so_meta;
@@ -21,54 +21,54 @@ implements ArrayAccess
         return $this->dir->name;
     }
     
+    var $root_value;
+    function root_make( ){
+        return $this->package->root;
+    }
+    
+    var $package_value;
+    function package_make( ){
+        return so_package::make( $this->dir->parent );
+    }
+    
+    var $modules_value;
+    function modules_make( ){
+        return so_module_collection::make(array( (string) $this->dir => $this ));
+    }
+    
+    var $sources_value;
+    function sources_make(){
+        $list= array();
+        
+        foreach( $this->dir->childs as $child ):
+            if( $child->type != 'file' )
+                continue;
+            $source= $this[ $child->name ];
+            $list+= $source->sources->list;
+        endforeach;
+        
+        return so_source_collection::make( $list );
+    }
+    
     var $exists_value;
     function exists_make( ){
         return $this->dir->exists;
     }
 
-    var $root_value;
-    function root_make( ){
-        return so_root::make( $this->dir->parent );
-    }
-    
-    var $packages_value;
-    function packages_make( ){
-        return pms_package_collection::make(array( (string) $this->dir => $this ));
-    }
-    
-    var $modules_value;
-    function modules_make(){
-        $list= array();
-        
-        foreach( $this->dir->childs as $child ):
-            if( $child->type != 'dir' )
-                continue;
-            $module= $this[ $child->name ];
-            $list+= $module->modules->list;
-        endforeach;
-        
-        return pms_module_collection::make( $list );
-    }
-    
-    var $sources_value;
-    function sources_make( ){
-        return $this->modules->sources;
-    }
-    
-    var $depends_value;
-    function depends_make( ){
-        return $this->modules->depends;
-    }
-    
     var $version_value;
     function version_make( ){
         $version= '';
         
-        foreach( $this->modules as $module )
-            if( ( $v= $module->version ) > $version )
+        foreach( $this->sources as $source )
+            if( ( $v= $source->version ) > $version )
                 $version= $v;
         
         return $version;
+    }
+    
+    var $uses_value;
+    function uses_make( ){
+        return $this->sources->uses;
     }
     
     function offsetExists( $name ){
@@ -76,7 +76,7 @@ implements ArrayAccess
     }
     
     function offsetGet( $name ){
-        return pms_module::make( $this->dir->go( $name ) );
+        return so_source::make( $this->dir->go( $name ) );
     }
 
     function offsetSet( $name, $value ){

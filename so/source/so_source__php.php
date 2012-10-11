@@ -1,21 +1,21 @@
 <?php
 
-class pms_source__xsl
-extends pms_source
+class so_source__php
+extends so_source
 {
 
     var $uses_value;
     function uses_make( ){
         
         preg_match_all
-        (   '/<([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)/'
+        (   '/\b(?:extends|implements|use|new)\s+([a-zA-Z0-9]+)_([a-zA-Z0-9]+)/'
         ,   $this->file->content
         ,   $matches1
         ,   PREG_SET_ORDER
         );
         
         preg_match_all
-        (   '/ ([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)[\w-]*=[\'"]/'
+        (   '/\b([a-zA-Z0-9]+)_([a-zA-Z0-9]+)\w*::/'
         ,   $this->file->content
         ,   $matches2
         ,   PREG_SET_ORDER
@@ -34,11 +34,7 @@ extends pms_source
             $depends+= $module->modules->list;
         endforeach;
         
-        return pms_module_collection::make( $depends );
-    }
-
-    function content_make( ){
-        return so_dom::make( $this->file->content );
+        return so_module_collection::make( $depends );
     }
 
 }
