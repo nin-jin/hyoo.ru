@@ -58,7 +58,7 @@ class so_compiler
         
         foreach( $this->sources as $source ):
             if( $source->extension != 'js' ) continue;
-            $list[]= $source;
+            $list+= $source->sources->list;
         endforeach;
         
         return so_source_collection::make( $list );
@@ -69,7 +69,7 @@ class so_compiler
         $list= array();
         foreach( $this->sources as $source )
             if( $source->extension == 'css' )
-                $list[]= $source;
+                $list+= $source->sources->list;
         return so_source_collection::make( $list );
     }
     
@@ -78,7 +78,7 @@ class so_compiler
         $list= array();
         foreach( $this->sources as $source )
             if( $source->extension == 'xsl' )
-                $list[]= $source;
+                $list+= $source->sources->list;
         return so_source_collection::make( $list );
     }
     
@@ -87,7 +87,7 @@ class so_compiler
         $list= array();
         foreach( $this->sources as $source )
             if( $source->extension == 'php' )
-                $list[]= $source;
+                $list+= $source->sources->list;
         return so_source_collection::make( $list );
     }
     
@@ -351,23 +351,30 @@ JS;
             $target[ 'bundle.js' ]->content= $bundleJS;
         endif;
         
-        if( $target[ 'minified.xsl' ]->exists ):
-            $bundleXSL= $target[ 'minified.xsl' ]->content;
-            
-            $list= $bundleXSL->select( '/*/xsl:template[ @name = "so_compiler_bundle" ]' );
-            if( count( $list ) ):
-                $dom= $list[0];
-                $dom[]= array(
-                    'script' => array(
-                        $bundleJS,
+        return $this;
+    }
+    
+    function dumpDepends( ){
+        $target= $this->target;
+        
+        $depends= so_dom::make(array( 'so_depends_map' => null ));
+        foreach( $this->modules as $base ):
+            $uses= array();
+            foreach( $base->uses as $module )
+                $uses[]= array(
+                    'so_depends_target' => array(
+                        '@so_module' => (string) $module->dir->relate( $target->dir ),
                     )
                 );
-                
-                $target[ 'bundle.xsl' ]->content= $bundleXSL;
-            endif;
-        endif;
+            $depends[]= array(
+                'so_depends_base' => array(
+                    '@so_module' => (string) $base->dir->relate( $target->dir ),
+                    $uses,
+                )
+            );
+        endforeach;
         
-        return $this;
+        $target[ 'depends.xml' ]->content= $depends;
     }
     
 }

@@ -287,7 +287,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             return $this;
         endif;
         
-        $this->child[ $key ]->parent= null;
+        $this->childs[ $key ]->parent= null;
         
         $this[]= array( $key => $value );
         return $this;

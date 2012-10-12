@@ -14,7 +14,7 @@ extends so_rootResource
         return so_uri::make( $data );
     }
     
-    function get( $data ){
+    function get_resource( $data ){
         return so_output::missed( "Missed handler for [{$this->uri}]" );
     }
     

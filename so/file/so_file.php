@@ -32,7 +32,6 @@ implements ArrayAccess
     function uri_make( ){
         $uri= so_uri::makeInstance();
         $uri->path= strtr( $this->relate( so_front::make()->dir ), array( '%' => urlencode( '%' ) ) );
-        $uri->queryString= $this->version;
         return $uri->primary();
     }
     
