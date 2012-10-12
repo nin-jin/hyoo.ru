@@ -52,7 +52,7 @@ class so_gist_list
         ) );
     }
     
-    function get( $data= null ){
+    function get_resource( $data= null ){
         $output= $this->storage->version ? so_output::ok() : so_output::missed();
         
         $output->content= array(
@@ -64,7 +64,7 @@ class so_gist_list
         return $output;
     }
     
-    function post( $data= null ){
+    function post_resource( $data= null ){
         $gist= so_gist::make( $data[ 'gist' ] );
         
         if( !count( $this->model->select( " // so_gist [ @so_uri = '{$gist}' ]" ) ) )

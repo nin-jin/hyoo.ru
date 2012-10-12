@@ -11,7 +11,7 @@ class so_export
     function uri_store( $data ){
     }    
     
-    function get( ){
+    function get_resource( ){
         
         $root= so_root::make()->dir;
         $export= $root[ '-export' ];

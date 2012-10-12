@@ -12,7 +12,7 @@ class so_phpinfo
         return null;
     }    
     
-    function get( ){
+    function get_resource( ){
         ob_start();
             phpinfo();
         $html= ob_get_clean();

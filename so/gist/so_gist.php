@@ -91,12 +91,7 @@ class so_gist
         ));
     }
     
-    function delete( $data ){
-        $this->content= $data[ 'content' ] ?: "    /Content deleted/.\n";
-        return so_output::ok( 'Content deleted' );
-    }
-
-    function put( $data ){
+    function put_resource( $data ){
         $this->content= (string) $data[ 'content' ];
         return so_output::ok( 'Content updated' );
     }

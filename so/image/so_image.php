@@ -43,7 +43,7 @@ class so_image
         ) );
     }
     
-    function get( $data= null ){
+    function get_resource( $data= null ){
         $output= so_output::ok();
         
         $output->content= array(
@@ -55,7 +55,7 @@ class so_image
         return $output;
     }
     
-    function put( $data ){
+    function put_resource( $data ){
         $this->storage->content= base64_decode( preg_replace( '~^.*?,~', '', $data[ 'content' ] ) );
         $image= new Imagick( (string) $this->storage->file );
         $size= $image->getImageGeometry();
@@ -66,7 +66,7 @@ class so_image
         return so_output::ok()->content( $this->model );
     }
 
-    function post( $data ){
+    function post_resource( $data ){
     }
 
 }

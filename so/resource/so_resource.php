@@ -9,7 +9,7 @@ trait so_resource
     static $id_prop= 'uri';
     
     function execute( $method, $data= null ){
-        return $this->{ $method }( $data );
+        return $this->{ $method . '_resource' }( $data );
     }
     
     function _string_meta( $prefix= '' ){

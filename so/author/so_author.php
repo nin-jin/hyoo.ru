@@ -65,7 +65,7 @@ class so_author
         return $data;
     }
     
-    function get( $data= null ){
+    function get_resource( $data= null ){
         $output= $this->version ? so_output::ok() : so_output::missed();
         
         $output->content= array(
@@ -78,12 +78,12 @@ class so_author
         return $output;
     }
     
-    function delete( $data ){
+    function delete_resource( $data ){
         $this->gist->content= $data[ 'content' ] ?: "    /Author deleted/.\n";
         return so_output::ok( 'Author deleted' );
     }
 
-    function move( $data ){
+    function move_resource( $data ){
         $name= $data[ 'name' ];
         $target= so_author::makeInstance()->name( $name )->primary();
         

@@ -77,7 +77,7 @@ class so_article
         return $data;
     }
     
-    function get( $data= null ){
+    function get_resource( $data= null ){
         $output= ( $this->version || $this->gist->version ) ? so_output::ok() : so_output::missed();
         
         $output->content= array(
@@ -90,12 +90,12 @@ class so_article
         return $output;
     }
     
-    function delete( $data ){
+    function delete_resource( $data ){
         $this->gist->content= $data[ 'content' ] ?: "    /Article deleted/.\n";
         return so_output::ok( 'Article deleted' );
     }
 
-    function move( $data ){
+    function move_resource( $data ){
         $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
         $target= so_article::makeInstance()->name( $name )->author( $this->author )->primary();
         

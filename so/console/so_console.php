@@ -20,7 +20,7 @@ class so_console
         ) );
     }
     
-    function get( $data= null ){
+    function get_resource( $data= null ){
         $output= so_output::ok();
         
         $output->content= array(
@@ -32,7 +32,7 @@ class so_console
         return $output;
     }
     
-    function post( $data ){
+    function post_resource( $data ){
         $result= eval( $data[ 'code' ] );
         $lang= 'text';
         if( $result instanceof DOMNode ) $result= so_dom::make( $result );
