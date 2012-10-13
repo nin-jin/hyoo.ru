@@ -1,1 +1,2 @@
+include module= so/autoload
 include module= so/compiler

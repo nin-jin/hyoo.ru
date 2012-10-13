@@ -71,12 +71,11 @@ extends so_front
         endswitch;
     }
 
-    function send( ){
-        $output= $this->result;
-        $content= $output->content;
+    function send( $response ){
+        $content= $response->content;
         $mime= $content->mime;
-        $cache= $output->cache;
-        $private= $output->private;
+        $cache= $response->cache;
+        $private= $response->private;
         
         if( $mime === 'application/xml' ):
             $accept= preg_split( '~, ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
@@ -95,8 +94,8 @@ extends so_front
             endif;
         endif;
         
-        $encoding= $output->encoding;
-        $code= static::$codeMap[ $output->status ];
+        $encoding= $response->encoding;
+        $code= static::$codeMap[ $response->status ];
         header( "Content-Type: {$mime}", true, $code );
         
         if( !$private )
@@ -108,7 +107,7 @@ extends so_front
             header( "Cache-Control: no-cache", true );
         endif;
         
-        if( $location= $output->location ):
+        if( $location= $response->location ):
             header( "Location: {$location}", true );
         endif;
         

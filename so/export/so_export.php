@@ -2,23 +2,14 @@
 
 class so_export
 {
-    use so_resource;
-    
-    var $uri_value;
-    function uri_make( ){
-        return so_query::make(array( 'export' ))->uri;
-    }
-    function uri_store( $data ){
-    }    
-    
-    function get_resource( ){
+
+    static function start( ){
+        $rootDir= so_root::make()->dir;
+        $export= $rootDir[ '-export' ];
         
-        $root= so_root::make()->dir;
-        $export= $root[ '-export' ];
-        
-        $root[ 'compiled.php' ]->copy( $export[ 'index.php' ] );
-        $root[ '.htaccess' ]->copy( $export[ '.htaccess' ] );
-        $root[ 'php.ini' ]->copy( $export[ 'php.ini' ] );
+        $rootDir[ 'release.php' ]->copy( $export[ 'index.php' ] );
+        $rootDir[ '.htaccess' ]->copy( $export[ '.htaccess' ] );
+        $rootDir[ 'php.ini' ]->copy( $export[ 'php.ini' ] );
         
         foreach( so_root::make()->packages as $package ):
             foreach( $package->sources as $source ):
@@ -26,7 +17,7 @@ class so_export
                 if( preg_match( '~\.(js|css|xsl|php|meta.tree|doc.xml)$~', $file->name ) )
                     continue;
                 
-                $target= $export->go( $file->relate( $root ) );
+                $target= $export->go( $file->relate( $rootDir ) );
                 $file->copy( $target );
             endforeach;
             

@@ -5,6 +5,12 @@ class so_compiler
     use so_meta;
     use so_factory;
     
+    static function start( $package= null ){
+        $packages= $package ? array( $package ) : so_root::make()->packages;
+        foreach( $packages as $package )
+            static::make()->package( $package )->clean()->compile()->minify()->dumpDepends();
+    }
+    
     var $package_value;
     var $package_depends= array( 'package', 'modules' );
     function package_make( ){
@@ -278,14 +284,14 @@ JS;
         
         $index= array( "<?php" );
         foreach( $sources as $source )
-            $index[]= "require( '" . $source->file->relate( $target->dir ) . '?' . $source->version . "' );";
+            $index[]= "require( __DIR__ . '/" . $source->file->relate( $target->dir ) . "' );";
         $index= implode( "\n", $index );
         
         $target[ 'index.php' ]->content= $index;
         
         $compiled= array( "<?php" );
         foreach( $sources as $source )
-            $compiled[]= "// " . $source->file->relate( $target->dir ) . '?' . $source->version . " \n" . substr( $source->content, 6 );
+            $compiled[]= "// " . $source->file->relate( $target->dir ) . " \n" . substr( $source->content, 6 );
         $compiled= implode( "\n\n", $compiled );
         
         $target[ 'compiled.php' ]->content= $compiled;
@@ -355,26 +361,19 @@ JS;
     }
     
     function dumpDepends( ){
-        $target= $this->target;
+        $root= so_root::make();
         
-        $depends= so_dom::make(array( 'so_depends_map' => null ));
+        $map= array();
         foreach( $this->modules as $base ):
-            $uses= array();
-            foreach( $base->uses as $module )
-                $uses[]= array(
-                    'so_depends_target' => array(
-                        '@so_module' => (string) $module->dir->relate( $target->dir ),
-                    )
-                );
-            $depends[]= array(
-                'so_depends_base' => array(
-                    '@so_module' => (string) $base->dir->relate( $target->dir ),
-                    $uses,
-                )
-            );
+            foreach( $base->uses as $target ):
+                $map[ $target->dir->relate( $root->dir ) ][ $base->dir->relate( $root->dir ) ]= 1;
+            endforeach;
+        endforeach;
+        foreach( $map as &$module ):
+            $module= array_keys( $module );
         endforeach;
         
-        $target[ 'depends.xml' ]->content= $depends;
+        $this->target[ 'depends.json' ]->content= json_encode( $map, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES );
     }
     
 }
