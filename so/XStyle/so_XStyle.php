@@ -41,10 +41,7 @@ class so_XStyle
     var $docXSL_value;
     function docXSL_make( ){
         if( file_exists( $this->pathXS ) ) $this->sync();
-        $dir= getcwd();
-        chdir( $this->dir );
-        $docXSL= so_dom::make( file_get_contents( $this->pathXSL ) );
-        chdir( $dir );
+        $docXSL= so_dom::make( so_file::make( $this->pathXSL ) );
         return $docXSL;
     }
     function docXSL_store( $docXSL ){

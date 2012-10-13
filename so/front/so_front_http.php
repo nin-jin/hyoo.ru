@@ -47,7 +47,7 @@ extends so_front
                 while( $chunk= fread( $input, 1024 ) ) $raw.= $chunk;
                 fclose( $input );
                 
-                $type= strtolower( so_value::make( $_SERVER[ 'CONTENT_TYPE' ] ) ?: '' );
+                $type= preg_replace( '~;.*$~', '', so_value::make( $_SERVER[ 'CONTENT_TYPE' ] ) ?: '' );
                 
                 switch( $type ):
                     
@@ -78,8 +78,8 @@ extends so_front
         $private= $response->private;
         
         if( $mime === 'application/xml' ):
-            $accept= preg_split( '~, ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
-            if( in_array( 'text/html', $accept ) && !in_array( 'application/xhtml+xml', $accept ) ):
+            $accept= preg_split( '~[,;] ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
+            if( !in_array( 'application/xhtml+xml', $accept ) ):
                 
                 $xs= new so_XStyle;
                 $xs->pathXSL= (string) so_front::make()->package['-mix']['index.xsl']->file;
@@ -88,7 +88,7 @@ extends so_front
                     $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
                 endforeach;
                 
-                $content= (string) $xs->process( $content );
+                $content= (string) $xs->process( (string) $content );
                 $content= preg_replace( '~^<\\?xml .+?\\?>\n?~', '', $content );
                 $mime= 'text/html';
             endif;

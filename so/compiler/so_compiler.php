@@ -8,7 +8,7 @@ class so_compiler
     static function start( $package= null ){
         $packages= $package ? array( $package ) : so_root::make()->packages;
         foreach( $packages as $package )
-            static::make()->package( $package )->clean()->compile()->minify()->dumpDepends();
+            static::make()->package( $package )->clean()->compile()->minify()->bundle()->dumpDepends();
     }
     
     var $package_value;

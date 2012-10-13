@@ -5,7 +5,7 @@ implements Countable, ArrayAccess, IteratorAggregate
 {
     use so_meta;
 
-    static function make( $DOMNode= null ){
+    static function make( $DOMNode= null, $base= null ){
         
         if( !isset( $DOMNode ) )
             return new static;
@@ -18,9 +18,18 @@ implements Countable, ArrayAccess, IteratorAggregate
         if( $DOMNode instanceof DOMNode )
             return $obj->DOMNode( $DOMNode );
         
+        if( $DOMNode instanceof so_file ):
+            if( !$base )
+                $base= (string) $DOMNode->parent;
+            $DOMNode= (string) $DOMNode->content;
+        endif;
+        
         if( is_string( $DOMNode ) ):
+            $dir= getcwd();
+            chdir( $base ?: (string) so_front::make()->dir );
             $doc= new DOMDocument( '1.0', 'utf-8' );
             $doc->loadXML( $DOMNode, LIBXML_COMPACT );
+            chdir( $dir );
             return $obj->DOMNode( $doc->documentElement );
         endif;
         
