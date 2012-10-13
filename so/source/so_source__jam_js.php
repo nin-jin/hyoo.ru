@@ -32,7 +32,7 @@ extends so_source
             if( $module === $this->module )
                 continue;
             if( !$module->exists )
-                throw new Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
+                throw new \Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
             
             $uses+= $module->modules->list;
         endforeach;

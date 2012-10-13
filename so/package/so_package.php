@@ -1,7 +1,7 @@
 <?php
 
 class so_package
-implements ArrayAccess
+implements \ArrayAccess
 {
     use so_meta;
     
@@ -10,7 +10,7 @@ implements ArrayAccess
     
     var $dir_value;
     function dir_make( ){
-        throw new Exception( 'Property [dir] is not defined' );
+        throw new \Exception( 'Property [dir] is not defined' );
     }
     function dir_store( $data ){
         return so_file::make( $data );
@@ -80,11 +80,11 @@ implements ArrayAccess
     }
 
     function offsetSet( $name, $value ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
     function offsetUnset( $name ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
 }

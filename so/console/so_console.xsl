@@ -21,6 +21,7 @@
                                 wc_editor_hlight="php"
                                 wc_editor_active="true"
                                 >
+                                <xsl:comment/>
                             </wc_editor>
                         </wc_field>
                     </wc_terminal_in>

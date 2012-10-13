@@ -23,10 +23,10 @@ class so_export
             
             $mix= $package->dir[ '-mix' ];
             $target= $export[ $package->name ][ '-mix' ];
-            $mix[ 'compiled.js' ]->copy( $target[ 'index.js' ] );
-            $mix[ 'compiled.css' ]->copy( $target[ 'index.css' ] );
-            $mix[ 'compiled.xsl' ]->copy( $target[ 'index.xsl' ] );
-            $mix[ 'compiled.php' ]->copy( $target[ 'index.php' ] );
+            $mix[ 'release.js' ]->copy( $target[ 'release.js' ] );
+            $mix[ 'release.css' ]->copy( $target[ 'release.css' ] );
+            $mix[ 'release.xsl' ]->copy( $target[ 'release.xsl' ] );
+            $mix[ 'release.php' ]->copy( $target[ 'release.php' ] );
         endforeach;
         
         return so_output::found( so_root::make()->dir[ '-export' ]->relate( so_front::make()->dir ) . '/' );

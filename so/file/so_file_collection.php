@@ -1,7 +1,7 @@
 <?php
 
 class so_file_collection
-implements Countable, ArrayAccess, IteratorAggregate
+implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     use so_meta;
     use so_collection;

@@ -7,7 +7,7 @@ class so_application
     
     static $response;
     
-    static function start( $package ){
+    static function start( $package, $mode= 'dev' ){
         register_shutdown_function(array( get_class(), 'finalize' ));
         
         ob_start();
@@ -16,6 +16,8 @@ class so_application
         
         foreach( parse_ini_file( so_file::make( 'php.ini' ) ) as $key => $value )
             ini_set( $key, $value );
+        
+        so_page::$mode= $mode;
         
         $front= so_front::make()->package( $package );
         

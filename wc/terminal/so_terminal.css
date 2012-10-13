@@ -26,5 +26,4 @@ wc_terminal_out {
 
 wc_terminal_in {
     display: block;
-    white-space: pre;
 }

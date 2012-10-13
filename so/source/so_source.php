@@ -15,17 +15,17 @@ class so_source
         
         while( $nameList ):
             array_shift( $nameList );
-            $className= $nameList ? 'so_source__' . implode( '_', $nameList ) : 'so_source';
+            $className= __NAMESPACE__ . '\\' . ( $nameList ? 'so_source__' . implode( '_', $nameList ) : 'so_source' );
             if( class_exists( $className ) )
                 return $className::makeAdapter( $file );
         endwhile;
         
-        throw new Exception( "Can not make (so_source) for [{$file}]" );
+        throw new \Exception( "Can not make (so_source) for [{$file}]" );
     }
     
     var $file_value;
     function file_make( ){
-        throw new Exception( 'Property [file] is not defined' );
+        throw new \Exception( 'Property [file] is not defined' );
     }
     function file_store( $data ){
         return so_file::make( $data );

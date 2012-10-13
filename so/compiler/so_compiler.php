@@ -14,7 +14,7 @@ class so_compiler
     var $package_value;
     var $package_depends= array( 'package', 'modules' );
     function package_make( ){
-        throw new Exception( "Property [package] is not defined" );
+        throw new \Exception( "Property [package] is not defined" );
     }
     function package_store( $data ){
         return so_package::make( $data );
@@ -123,27 +123,16 @@ class so_compiler
     var script= document.currentScript || scripts[ scripts.length - 1 ]
     var dir= script.src.replace( /[^\/]+$/, '' )
         
-    try {
-        document.write( '' )
-        var canWrite= true
-    } catch( e ){ }
-    
-    if( canWrite ){
-        var module
-        while( module= modules.shift() ){
-            document.write( '<script src="' + dir + module + '"><' + '/script>' )
-        }
-    } else {
-        var next= function( ){
-            var module= modules.shift()
-            if( !module ) return
-            var loader= document.createElement( 'script' )
-            loader.src= dir + module
-            loader.onload= next
-            script.parentNode.insertBefore( loader, script )
-        }
-        next()
+    var next= function( ){
+        var module= modules.shift()
+        if( !module ) return
+        var loader= document.createElement( 'script' )
+        loader.parentScript= script
+        loader.src= dir + module
+        loader.onload= next
+        script.parentNode.insertBefore( loader, script )
     }
+    next()
 }).call( this, [
 
 JS;
@@ -153,14 +142,19 @@ JS;
         
         $index.= "    null \n])\n";
         
-        $target[ 'index.js' ]->content= $index;
+        $target[ 'dev.js' ]->content= $index;
         
         $compiled= array();
-        foreach( $sources as $source )
-            $compiled[]= "// " . $source->file->relate( $target->dir ) . '?' . $source->version . "\n\n" .  $source->content;
-        $compiled= implode( "\n\n", $compiled );
+        foreach( $sources as $source ):
+            $content= $source->content;
+            $content= preg_replace( '~^\s*//.*$\n~m', '', $content );
+            $content= preg_replace( '~\n/\\*[\w\W]*?\\*/~', '', $content );
+            
+            $compiled[]= "// " . $source->file->uri . "\n" .  $content;
+        endforeach;
+        $compiled= implode( ";\n", $compiled );
         
-        $target[ 'compiled.js' ]->content= $compiled;
+        $target[ 'release.js' ]->content= $compiled;
         
         $library= <<<JS
 new function( window, document ){
@@ -208,14 +202,14 @@ JS;
         endif;
         $index= implode( "\n", $index );
         
-        $target[ 'index.css' ]->content= $index;
+        $target[ 'dev.css' ]->content= $index;
         
         $compiled= array();
         foreach( $sources as $source )
             $compiled[]= "/* " . $source->file->relate( $target->dir ) . '?' . $source->version . " */\n\n" .  $source->content;
         $compiled= implode( "\n\n", $compiled );
         
-        $target[ 'compiled.css' ]->content= $compiled;
+        $target[ 'release.css' ]->content= $compiled;
         
         return $this;
     }
@@ -235,7 +229,7 @@ JS;
         ) );
         
         foreach( $this->exclude as $package ):
-            $file= $package[ '-mix' ][ 'index.xsl' ]->file;
+            $file= $package[ '-mix' ][ 'dev.xsl' ]->file;
             $index[]= array( 'xsl:include' => array(
                 '@href' => $file->relate( $target->dir ) . '?' . $file->version,
             ) );
@@ -247,7 +241,7 @@ JS;
             ) );
         endforeach;
         
-        $target[ 'index.xsl' ]->content= $index;
+        $target[ 'dev.xsl' ]->content= $index;
         
         $compiled= so_dom::make( array(
             'xsl:stylesheet' => array(
@@ -257,7 +251,7 @@ JS;
         ) );
         
         foreach( $this->exclude as $package ):
-            $file= $package[ '-mix' ][ 'compiled.xsl' ]->file;
+            $file= $package[ '-mix' ][ 'release.xsl' ]->file;
             $compiled[]= array( 'xsl:include' => array(
                 '@href' => $file->relate( $target->dir ) . '?' . $file->version,
             ) );
@@ -270,7 +264,7 @@ JS;
             );
         endforeach;
         
-        $target[ 'compiled.xsl' ]->content= $compiled;
+        $target[ 'release.xsl' ]->content= $compiled;
         
         return $this;
     }
@@ -287,14 +281,14 @@ JS;
             $index[]= "require( __DIR__ . '/" . $source->file->relate( $target->dir ) . "' );";
         $index= implode( "\n", $index );
         
-        $target[ 'index.php' ]->content= $index;
+        $target[ 'dev.php' ]->content= $index;
         
-        $compiled= array( "<?php" );
+        $compiled= array( "<?php namespace " . $this->package->name . ";" );
         foreach( $sources as $source )
             $compiled[]= "// " . $source->file->relate( $target->dir ) . " \n" . substr( $source->content, 6 );
         $compiled= implode( "\n\n", $compiled );
         
-        $target[ 'compiled.php' ]->content= $compiled;
+        $target[ 'release.php' ]->content= $compiled;
         
         return $this;
     }
@@ -307,22 +301,22 @@ JS;
         $minifiedJS= preg_replace( '~^//.*$\n~m', '', $minifiedJS );
         $minifiedJS= preg_replace( '~\n/\\*[\w\W]*?\\*/~', '', $minifiedJS );
         
-        $minifiedCSS= $target[ 'compiled.css' ]->content;
+        $minifiedCSS= $target[ 'release.css' ]->content;
         $minifiedCSS= preg_replace( '~/\\*[\w\W]*?\\*/~', '', $minifiedCSS );
         $minifiedCSS= preg_replace( '~^\s+~m', '', $minifiedCSS );
         $minifiedCSS= preg_replace( '~[\r\n]~', '', $minifiedCSS );
         
         $minifiedXSL= null;
-        if( $target[ 'compiled.xsl' ]->exists ):
-            $minifiedXSL= $target[ 'compiled.xsl' ]->content;
-            $doc= new DOMDocument();
+        if( $target[ 'release.xsl' ]->exists ):
+            $minifiedXSL= $target[ 'release.xsl' ]->content;
+            $doc= new \DOMDocument();
             $doc->formatOutput= false;
             $doc->preserveWhiteSpace= false;
             $doc->loadXML( (string) $minifiedXSL );
             $minifiedXSL= $doc->C14N();
         endif;
         
-        $minifiedPHP= $target[ 'compiled.php' ]->content;
+        $minifiedPHP= $target[ 'release.php' ]->content;
         
         if( $minifiedJS ) $target[ 'minified.js' ]->content= $minifiedJS;
         if( $minifiedCSS ) $target[ 'minified.css' ]->content= $minifiedCSS;

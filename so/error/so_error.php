@@ -35,7 +35,7 @@ class so_error
     }
     
     static function monitor( ){
-        set_error_handler( array( 'so_error', 'handle' ), E_ALL );
+        set_error_handler( array( __NAMESPACE__ . '\\so_error', 'handle' ), E_ALL );
     }
     
     static function trigger( $message ){

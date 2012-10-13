@@ -1,7 +1,7 @@
 <?php
 
 class so_storage
-//implements Countable, ArrayAccess, IteratorAggregate
+//implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     use so_meta;
     

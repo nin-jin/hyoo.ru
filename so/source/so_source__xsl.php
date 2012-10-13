@@ -29,7 +29,7 @@ extends so_source
             
             $module= $this->root[ $packName ][ $moduleName ];
             if( !$module->exists )
-                throw new Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
+                throw new \Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
             
             $depends+= $module->modules->list;
         endforeach;

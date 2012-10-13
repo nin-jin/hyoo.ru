@@ -35,7 +35,7 @@ class so_console
     function post_resource( $data ){
         $result= eval( $data[ 'code' ] );
         $lang= 'text';
-        if( $result instanceof DOMNode ) $result= so_dom::make( $result );
+        if( $result instanceof \DOMNode ) $result= so_dom::make( $result );
         if( $result instanceof so_dom ) $lang= 'sgml';
         
         if( is_array( $result ) ):

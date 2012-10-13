@@ -1,7 +1,7 @@
 <?php
 
 class so_root
-implements ArrayAccess
+implements \ArrayAccess
 {
     use so_meta;
     
@@ -65,11 +65,11 @@ implements ArrayAccess
     }
 
     function offsetSet( $name, $value ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
     function offsetUnset( $name ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
 }

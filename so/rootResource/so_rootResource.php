@@ -5,7 +5,12 @@ class so_rootResource
     use so_resource;
     
     var $uri_value;
+    function uri_make( ){
+        return so_uri::make( '?phpinfo' );
+    }
     function uri_store( $data ){
+        if( !(string)$data )
+            return null;
         return so_uri::make( $data );
     }
     

@@ -11,6 +11,21 @@
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     />
     
+    <xsl:variable
+        name="so_page_stylesheet"
+        select="/processing-instruction()[ name() = 'xml-stylesheet' ]"
+    />
+    
+    <xsl:variable
+        name="so_page_mode"
+        select=" substring-before( substring-after( $so_page_stylesheet, '-mix/' ), '.xsl' ) "
+    />
+    
+    <xsl:variable
+        name="so_page_base"
+        select=" substring-before( substring-after( $so_page_stylesheet, 'href=&quot;' ), concat( $so_page_mode, '.xsl' ) ) "
+    />
+    
     <xsl:template match=" so_page ">
         
         <html>
@@ -23,8 +38,7 @@
                 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
                 
-                <xsl:apply-templates select=" . " mode="so_page_stylesheet" />
-                <xsl:apply-templates select=" . " mode="so_page_script" />
+                <xsl:apply-templates select=" . " mode="so_page_resources" />
                 
             </head>
             <body>
@@ -63,14 +77,9 @@
         </wc_spacer>
     </xsl:template>
     
-    <xsl:template match=" so_page " mode="so_page_stylesheet" />
-    <xsl:template match=" so_page " mode="so_page_stylesheet">
-        <link href="{ @so_page_stylesheet }" rel="stylesheet" />
-    </xsl:template>
-
-    <xsl:template match=" so_page " mode="so_page_script" />
-    <xsl:template match=" so_page " mode="so_page_script">
-        <script src="{ @so_page_script }">//</script>
+    <xsl:template match=" so_page " mode="so_page_resources">
+        <link href="{ $so_page_base }{ $so_page_mode }.css" rel="stylesheet" />
+        <script src="{ $so_page_base }{ $so_page_mode }.js">//</script>
     </xsl:template>
 
     <xsl:template match=" so_page_aside " />

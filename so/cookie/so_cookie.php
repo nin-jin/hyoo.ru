@@ -13,7 +13,7 @@ class so_cookie
     
     var $name_value;
     function name_make( ){
-        throw new Exception( "Property [name] is not defined" );
+        throw new \Exception( "Property [name] is not defined" );
     }
     function name_store( $value ){
         return (string) $value;

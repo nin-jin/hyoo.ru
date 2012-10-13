@@ -1,7 +1,7 @@
 <?php
 
 class so_dom
-implements Countable, ArrayAccess, IteratorAggregate
+implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     use so_meta;
 
@@ -15,7 +15,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         
         $obj= new static;
         
-        if( $DOMNode instanceof DOMNode )
+        if( $DOMNode instanceof \DOMNode )
             return $obj->DOMNode( $DOMNode );
         
         if( $DOMNode instanceof so_file ):
@@ -27,7 +27,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         if( is_string( $DOMNode ) ):
             $dir= getcwd();
             chdir( $base ?: (string) so_front::make()->dir );
-            $doc= new DOMDocument( '1.0', 'utf-8' );
+            $doc= new \DOMDocument( '1.0', 'utf-8' );
             $doc->loadXML( $DOMNode, LIBXML_COMPACT );
             chdir( $dir );
             return $obj->DOMNode( $doc->documentElement );
@@ -41,7 +41,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             return $obj->root;
         endif;
         
-        throw new Exception( 'Unsupported type of argument' );
+        throw new \Exception( 'Unsupported type of argument' );
     }
     
     static function ensure( &$value ){
@@ -53,7 +53,7 @@ implements Countable, ArrayAccess, IteratorAggregate
 
     var $DOMNode_value;
     function DOMNode_make( ){
-        return new DOMDocument( '1.0', 'utf-8' );
+        return new \DOMDocument( '1.0', 'utf-8' );
     }
     function DOMNode_store( $value ){
         return $value;
@@ -75,7 +75,7 @@ implements Countable, ArrayAccess, IteratorAggregate
     var $root_value;
     function root_make( ){
         $rootElement= $this->DOMDocument->documentElement;
-        if( !$rootElement ) throw new Exception( "Document have not a root element" );
+        if( !$rootElement ) throw new \Exception( "Document have not a root element" );
         return so_dom::make( $rootElement );
     }
 
@@ -195,14 +195,14 @@ implements Countable, ArrayAccess, IteratorAggregate
                     $value= $value->DOMNode;
                 endif;
                 
-                if( $value instanceof DOMDocument ):
+                if( $value instanceof \DOMDocument ):
                     foreach( $value->childNodes as $node ):
                         $this[]= $node;
                     endforeach;
                     return $this;
                 endif;
                 
-                if( $value instanceof DOMNode ):
+                if( $value instanceof \DOMNode ):
                     $value= $this->DOMDocument->importNode( $value->cloneNode( true ), true );
                     $DOMNode->appendChild( $value );
                 return $this;
@@ -233,7 +233,7 @@ implements Countable, ArrayAccess, IteratorAggregate
                         continue 1;
                     endif;
                             
-                    throw new Exception( "Wrong special element name [{$key}]" );
+                    throw new \Exception( "Wrong special element name [{$key}]" );
                 endif;
                         
                 if( $key[0] === '@' ):

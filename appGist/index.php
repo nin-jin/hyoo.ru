@@ -3,4 +3,4 @@
 if( !so_value::make( $_SERVER[ 'HTTP_ORIGIN' ] ) )
     so_compiler::start( 'appGist' );
     
-so_application::start( 'appGist' );
+so_application::start( 'appGist', 'dev' );

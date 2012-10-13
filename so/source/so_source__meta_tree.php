@@ -16,7 +16,7 @@ extends so_source
             $package= $this->root[ trim( $packageId ) ];
             
             if( !$package->exists )
-                throw new Exception( "Pack [{$package->dir}] not found for [{$this->file}]" );
+                throw new \Exception( "Pack [{$package->dir}] not found for [{$this->file}]" );
             
             $depends+= $package->modules->list;
         endforeach;
@@ -29,7 +29,7 @@ extends so_source
             
             $module= $this->root[ $names[0] ][ $names[1] ];
             if( !$module->exists )
-                throw new Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
+                throw new \Exception( "Module [{$module->dir}] not found for [{$this->file}]" );
             
             $depends+= $module->modules->list;
         endforeach;

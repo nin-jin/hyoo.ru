@@ -1,7 +1,7 @@
 <?php
 
 class so_dom_collection
-implements Countable, ArrayAccess, IteratorAggregate
+implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     use so_meta;
     use so_collection;
@@ -52,7 +52,7 @@ implements Countable, ArrayAccess, IteratorAggregate
             $this->list[ $key ]->content= $value;
             return $this;
         endif;
-        throw new Exception( 'Not implemented yet' );
+        throw new \Exception( 'Not implemented yet' );
         $list= array();
         foreach( $this as $item ):
             if( $item->name != $key ) continue;

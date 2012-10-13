@@ -1,7 +1,7 @@
 <?php
 
 class so_query
-implements Countable, ArrayAccess, IteratorAggregate
+implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     use so_meta;
     use so_factory;
@@ -15,7 +15,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         if( is_string( $uri ) ) return $obj->string( $uri );
         if( is_array( $uri ) ) return $obj->struct( $uri );
         if( $uri instanceof so_query ) return $uri;
-        throw new Exception( 'Wrong type of argument' );
+        throw new \Exception( 'Wrong type of argument' );
     }
     
     static function ensure( &$value ){
@@ -92,7 +92,7 @@ implements Countable, ArrayAccess, IteratorAggregate
         array_unshift( $keyList, so_front::make()->package->name );
         
         while( count( $keyList ) ):
-            $class= implode( '_', $keyList );
+            $class= __NAMESPACE__ . '\\' . implode( '_', $keyList );
             if( count( $keyList ) < 2 ) $class.= '_rootResource';
             if( class_exists( $class ) ) break;
             array_pop( $keyList );
@@ -119,15 +119,15 @@ implements Countable, ArrayAccess, IteratorAggregate
     }
     
     function offsetSet( $key, $value ){
-        throw new Exception( 'Query is read only' );
+        throw new \Exception( 'Query is read only' );
     }
     
     function offsetUnset( $key ){
-        throw new Exception( 'Query is read only' );
+        throw new \Exception( 'Query is read only' );
     }
     
     function getIterator( ){
-        return new ArrayIterator( $this->struct );
+        return new \ArrayIterator( $this->struct );
     }
     
 }

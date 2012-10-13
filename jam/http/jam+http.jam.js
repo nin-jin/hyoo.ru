@@ -17,8 +17,10 @@ $jam.http= $jam.Class( function( klass, proto ){
             }
             data= chunks.join( '&' )
             channel.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
+            channel.setRequestHeader( 'Accept', 'application/xhtml+xml, */*' )
         }
         channel.send( data )
+        if( channel.responseXML ) return $jam.domx( channel.responseXML )
         return channel.responseText
     }
     

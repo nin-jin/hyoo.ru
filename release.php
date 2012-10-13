@@ -1,3 +1,3 @@
-<?php require_once( __DIR__ . '/appGist/-mix/index.php' );
+<?php require_once( __DIR__ . '/appGist/-mix/release.php' );
 
-so_application::start( 'appGist' );
+\appGist\so_application::start( 'appGist', 'release' );

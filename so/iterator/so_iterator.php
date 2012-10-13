@@ -1,14 +1,14 @@
 <?php
 
 class so_iterator
-implements Iterator
+implements \Iterator
 {
     use so_meta;
     use so_factory;
 
     var $collection_value;
     function collection_make( ){
-        throw new Exception( 'Property [collection] is not defined' );
+        throw new \Exception( 'Property [collection] is not defined' );
     }
     function collection_store( $value ){
         return $value;
@@ -21,7 +21,7 @@ implements Iterator
 
     var $ArrayIterator_value;
     function ArrayIterator_make( ){
-        return new ArrayIterator( $this->keyList );
+        return new \ArrayIterator( $this->keyList );
     }
     
     function current( ){

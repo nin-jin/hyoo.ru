@@ -1,7 +1,7 @@
 <?php
 
 trait so_collection
-#implements Countable, ArrayAccess, IteratorAggregate
+#implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     #use so_meta;
     
@@ -42,11 +42,11 @@ trait so_collection
     }
     
     function offsetSet( $key, $value ){
-        throw new Exception( 'Collection is read only' );
+        throw new \Exception( 'Collection is read only' );
     }
     
     function offsetUnset( $key ){
-        throw new Exception( 'Collection is read only' );
+        throw new \Exception( 'Collection is read only' );
     }
     
     function getIterator( ){

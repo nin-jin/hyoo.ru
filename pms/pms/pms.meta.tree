@@ -1,2 +1,3 @@
 include module= so/autoload
 include module= so/compiler
+include module= so/export

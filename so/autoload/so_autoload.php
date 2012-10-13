@@ -24,6 +24,6 @@ if( !class_exists( 'so_autoload' ) ):
     
     }
     
-    spl_autoload_register(array( 'so_autoload', 'load' ));
+    spl_autoload_register(array( __NAMESPACE__ . '\\so_autoload', 'load' ));
 
 endif;

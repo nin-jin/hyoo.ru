@@ -1,7 +1,7 @@
 <?php
 
 class so_file
-implements ArrayAccess
+implements \ArrayAccess
 {
     use so_meta;
     
@@ -10,7 +10,7 @@ implements ArrayAccess
     
     var $path_value;
     function path_make(){
-        throw new Exception( 'Property [path] is not defined' );
+        throw new \Exception( 'Property [path] is not defined' );
     }
     function path_store( $data ){
         if( !preg_match( '~^([^/\\\\:]+:|[/\\\\])~', $data ) ):
@@ -124,19 +124,19 @@ implements ArrayAccess
     
     var $SplFileInfo_value;
     function SplFileInfo_make( ){
-        return new SplFileInfo( $this->path );
+        return new \SplFileInfo( $this->path );
     }
     
     var $SplFileObject_value;
     function SplFileObject_make( ){
-        return new SplFileObject( $this->path, 'a+b' );
+        return new \SplFileObject( $this->path, 'a+b' );
     }
     
     function append( $content ){
         $count= $this->SplFileObject->fwrite( (string) $content );
         
         if( is_null( $count ) )
-            throw new Exception( "Can not append to file [{$this->path}]" );
+            throw new \Exception( "Can not append to file [{$this->path}]" );
         
         unset( $this->version );
         
@@ -207,7 +207,7 @@ implements ArrayAccess
         $target->parent->exists= true;
         
         if( false === rename( (string) $this, (string) $target ) )
-            throw new Exception( "Can not copy [{$this}] to [{$target}]" );
+            throw new \Exception( "Can not copy [{$this}] to [{$target}]" );
         
         unset( $this->version );
         unset( $this->exists );
@@ -227,7 +227,7 @@ implements ArrayAccess
         $target->parent->exists= true;
         
         if( false === copy( (string) $this, (string) $target ) )
-            throw new Exception( "Can not copy [{$this}] to [{$target}]" );
+            throw new \Exception( "Can not copy [{$this}] to [{$target}]" );
         
         unset( $target->version );
         unset( $target->exists );
@@ -249,11 +249,11 @@ implements ArrayAccess
     }
 
     function offsetSet( $name, $value ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
     function offsetUnset( $name ){
-        throw new Exception( "Not implemented" );
+        throw new \Exception( "Not implemented" );
     }
 
 }

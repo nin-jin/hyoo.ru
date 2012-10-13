@@ -27,7 +27,7 @@ class so_XStyle
 
     var $docXS_value;
     function docXS_make( ){
-        $docXS= new DOMDocument( '1.0', 'utf-8' );
+        $docXS= new \DOMDocument( '1.0', 'utf-8' );
         if( file_exists( $this->pathXS ) ) $docXS->load( $this->pathXS, LIBXML_COMPACT );
         return $docXS;
     }

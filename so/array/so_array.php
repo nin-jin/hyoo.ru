@@ -1,7 +1,7 @@
 <?php
 
 class so_array
-extends ArrayObject
+extends \ArrayObject
 {
     use so_meta;
     

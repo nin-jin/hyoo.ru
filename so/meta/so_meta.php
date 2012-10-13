@@ -22,7 +22,7 @@ trait so_meta {
         return $value= $this->{ $makeMethod }();
     }
     function _make_meta( $name ){
-        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
+        throw new \Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __isset( $name ){
@@ -40,14 +40,14 @@ trait so_meta {
         
         $storeMethod= $name . '_store';
         if( !method_exists( $this, $storeMethod ) )
-            throw new Exception( "Property [$name] is read only" );
+            throw new \Exception( "Property [$name] is read only" );
         
         $dependsField= $name . '_depends';
         $depends= property_exists( $this, $dependsField ) ? $this->{ $dependsField } : array( $name );
         
         foreach( $depends as $prop ):
             if( !isset( $this->{ $prop } ) ) continue;
-            throw new Exception( "Property [$name] can not be stored because [$prop] is defined" );
+            throw new \Exception( "Property [$name] can not be stored because [$prop] is defined" );
         endforeach;
         
         $this->{ $valueField }= $this->{ $storeMethod }( $value );
@@ -55,7 +55,7 @@ trait so_meta {
         return $this;
     }
     function _store_meta( $name, $value ){
-        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
+        throw new \Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __unset( $name ){
@@ -69,7 +69,7 @@ trait so_meta {
         return $this;
     }
     function _drop_meta( $name ){
-        throw new Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
+        throw new \Exception( "Property [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function __call( $name, $args ){
@@ -83,11 +83,11 @@ trait so_meta {
             case 1: return $this->__set( $name, $args[ 0 ] );
         endswitch;
         
-        throw new Exception( "Wrong arguments count ($count)" );
+        throw new \Exception( "Wrong arguments count ($count)" );
     }
     
     function _call_meta( $name, $args ){
-        throw new Exception( "Method [$name] is not defined in (" . get_class( $this ) . ")" );
+        throw new \Exception( "Method [$name] is not defined in (" . get_class( $this ) . ")" );
     }
     
     function _string_meta( $prefix= '' ){
@@ -131,7 +131,7 @@ trait so_meta {
         
         try {
             $string= (string) $this->_string_meta();
-        } catch( Exception $exception ){
+        } catch( \Exception $exception ){
             echo $exception;
             $string= '#';
         }

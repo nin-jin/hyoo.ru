@@ -76,7 +76,7 @@ class so_Tree
     
     function get( $keyList ){
         if( is_string( $keyList ) ) $keyList= explode( static::$separatorOfKeys, $keyList );
-        if( !is_array( $keyList ) ) throw new Exception( 'Wrong path type' );
+        if( !is_array( $keyList ) ) throw new \Exception( 'Wrong path type' );
         $filtered= array();
         foreach( $this->struct as $chunk ):
             if( count( $chunk ) !== count( $keyList ) + 1 ) continue;
