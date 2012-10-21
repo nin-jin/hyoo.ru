@@ -8,19 +8,28 @@ $jam.Component
             
             var nodeResult= nodeRoot.descList( 'wc_form_result' ).head()
             
+            var onCommit= nodeRoot.listen
+            (   $jam.eventCommit
+            ,   send
+            )
+            
             var onSubmit= nodeRoot.listen
-            (   'keydown'
+            (   'submit'
+            ,   send
+            )
+            
+            var onClick= nodeRoot.listen
+            (   'click'
             ,   function( event ){
-                    if( !event.keyMeta() ) return
-                    if( event.keyShift() ) return
-                    if( event.keyAlt() ) return
-                    if( !event.keyCode().enter && !event.keyCode().s ) return
-                    event.defaultBehavior( false )
-                    send()
+                    if( event.target().type !== 'submit' )
+                        return
+                    send( event )
                 }
             )
             
-            function send( ){
+            function send( event ){
+                event.defaultBehavior( false )
+                console.log(event.$)
                 var method= nodeRoot.attr( 'method' ) || 'get'
                 
                 if( nodeResult ){
@@ -32,6 +41,9 @@ $jam.Component
                 
                 var nodes= nodeRoot.$.elements
                 var data= {}
+                if( event.target().name && event.target().value )
+                    data[ event.target().name ]= event.target().value
+                
                 for( var i= 0; i < nodes.length; ++i ){
                     var node= nodes[ i ]
                     data[ node.name ]= node.value
@@ -42,7 +54,7 @@ $jam.Component
                 if( location ) document.location= location
                 
                 var templates= $jam.domx.parse( $jam.http( currentScript.src.replace( /[^\/]*$/, 'release.xsl' ) ).get() )
-                response= response.select(' // so_console_result | // so_error ').transform( templates )
+                response= response.select(' / * / * ').transform( templates )
                 if( nodeResult ) nodeResult.html( response )
             }
             

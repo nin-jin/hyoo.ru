@@ -38,7 +38,7 @@ class so_console
         if( $result instanceof \DOMNode ) $result= so_dom::make( $result );
         if( $result instanceof so_dom ) $lang= 'sgml';
         
-        if( is_array( $result ) ):
+        if( is_array( $result ) || is_bool( $result ) || is_null( $result ) ):
             $result= var_export( $result, true );
             $lang= 'php';
         endif;

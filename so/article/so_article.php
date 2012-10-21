@@ -9,19 +9,20 @@ class so_article
     function uri_make( ){
         return so_query::make(array(
             'article' => $this->name,
-            'author' => $this->author,
+            'author' => (string) $this->author->name,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
         $this->name= $query[ 'article' ];
-        $this->author= $query[ 'author' ];
+        $author= so_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $this->author= $author;
     }
     
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
     function name_make( ){
-        return '...';
+        return so_crypt::generateId();
     }
     function name_store( $data ){
         if( !(string)$data )
@@ -32,10 +33,10 @@ class so_article
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return so_user::make()->id;
+        return so_author::make();
     }
     function author_store( $data ){
-        return (string) $data ?: $this->author_make();
+        return so_author::make( $data );
     }
     
     var $storage_value;
@@ -90,18 +91,25 @@ class so_article
         return $output;
     }
     
-    function delete_resource( $data ){
-        $this->gist->content= $data[ 'content' ] ?: "    /Article deleted/.\n";
-        return so_output::ok( 'Article deleted' );
-    }
+    #function delete_resource( $data ){
+    #    $this->gist->content= $data[ 'content' ] ?: "    /Article deleted/.\n";
+    #    return so_output::ok( 'Article deleted' );
+    #}
 
     function move_resource( $data ){
         $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
-        $target= so_article::makeInstance()->name( $name )->author( $this->author )->primary();
+        $force= (boolean) $data[ 'force' ];
         
-        if( $target != $this ):
-            $target->gist->put(array( 'content' => $this->gist->content ));
-            $this->delete(array( 'content' => "    /Article moved to [new location\\{$target}]/.\n" ));
+        $target= so_article::makeInstance()->name( $name )->primary();
+        
+        if( $target !== $this ):
+            if( $target->gist->version && !$force ):
+                return so_output::conflict( 'Article already exists' );
+            endif;
+            
+            $target->gist->put_resource(array( 'content' => $this->gist->content ));
+            if( $this->gist->version && $target->author === $this->author )
+                $this->gist->put_resource(array( 'content' => "    /Article moved to [new location\\{$target}]/.\n" ));
         endif;
         
         return so_output::ok()->content(array( 'so_relocation' => (string) $target ));

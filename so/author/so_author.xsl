@@ -15,7 +15,6 @@
             <wc_paper>
                 <wc_spacer>
                     <xsl:apply-templates select="." mode="so_author_head" />
-                    <xsl:apply-templates select="." mode="so_author_catch" />
                     <xsl:apply-templates select="." mode="so_author_body" />
                 </wc_spacer>
             </wc_paper>
@@ -44,38 +43,26 @@
                         <xsl:value-of select=" @so_author_name " />
                     </wc_editor>
                 </wc_field>
-                <input
-                    type="hidden"
-                    name="by"
-                    value="{ @so_author_author }"
-                />
             </form>
         </h1>
     </xsl:template>
     
-    <xsl:template match=" so_author " mode="so_author_catch" />
-    <xsl:template match=" so_author[ @so_author_catch ] " mode="so_author_catch">
-        <p>
-            <form
-                method="put"
-                action="{@so_uri}"
-                wc_form="wc_form"
-                >
-                <xsl:text>Никто ещё не представился как </xsl:text>
-                <b>
-                    <xsl:value-of select=" @so_author_name " />
-                </b>
-                <xsl:text> </xsl:text>
-                <wc_button>
-                    <button>Да это же я!</button>
-                </wc_button>
-            </form>
-        </p>
+    <xsl:template match=" so_author " mode="so_author_body">
+        <wc_spacer>
+            <wc_error>Такого автора ещё не существует</wc_error>
+        </wc_spacer>
+        <form
+            method="put"
+            action="{@so_uri}"
+            wc_form="wc_form"
+            >
+            <wc_form_result></wc_form_result>
+            <wc_button>
+                <button>Да это же я!</button>
+            </wc_button>
+        </form>
     </xsl:template>
-    
-    <xsl:template match=" so_author " mode="so_author_body" />
-    <xsl:template match=" so_author[ @so_author_gist ] " mode="so_author_body">
-        <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_author_gist ] " />
+    <xsl:template match=" so_author[ @so_author_key ] " mode="so_author_body">
+        <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_author_about ] " />
     </xsl:template>
-    
 </xsl:stylesheet>

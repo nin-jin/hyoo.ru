@@ -6,8 +6,11 @@ wc_error {
     word-break: break-all;
     padding: 4px;
     font-size: 12px;
+    line-height: 1.15;
+    vertical-align: bottom;
     font-family: monospace;
     background: pink;
+    margin: 3pt;
     
     border-radius: 2px;
     border: 1px solid #aaa;

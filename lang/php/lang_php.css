@@ -1,6 +1,6 @@
 lang_php {
     white-space: pre-wrap;
-    font: monospace;
+    font-family: 'Courier New', monospace;
 }
 lang_php_dollar {
     font-weight: bold;

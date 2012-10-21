@@ -19,12 +19,15 @@ class so_author
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
     function name_make( ){
-        return 'Nin Jin'; //so_user::make()->id;
+        return so_user::make()->author->name;
     }
     function name_store( $data ){
-        if( !(string)$data )
+        $data= (string) $data;
+        
+        if( !$data )
             return null;
-        return (string) $data;
+        
+        return $data;
     }
     
     var $storage_value;
@@ -37,12 +40,27 @@ class so_author
         return $this->storage->version;
     }
     
-    var $gist_value;
-    function gist_make( ){
+    var $about_value;
+    function about_make( ){
         if( $this->version )
-            return so_gist::make( $this->model[ '@so_author_gist' ] );
+            return so_gist::make( $this->model[ '@so_author_about' ] );
         
-        return so_gist::makeInstance()->id( $this->uri )->author( $this->name )->primary();
+        return so_gist::makeInstance()->id( $this->uri )->author( $this )->primary();
+    }
+    
+    var $key_value;
+    function key_make( ){
+        if( !$this->version )
+            return '';
+        
+        return (string) $this->model[ '@so_author_key' ];
+    }
+    function key_store( $data ){
+        $model= $this->model;
+        
+        $model[ '@so_author_key' ]= (string) $data;
+        
+        $this->model= $model;
     }
     
     var $model_value;
@@ -55,13 +73,14 @@ class so_author
             'so_author' => array(
                 '@so_uri' => (string) $this->uri,
                 '@so_author_name' => (string) $this->name,
-                '@so_author_gist' => (string) $this->gist,
+                '@so_author_about' => (string) $this->about,
             ),
         ) );
     }
     function model_store( $data ){
         $this->storage->content= $data->doc;
         unset( $this->version );
+        unset( $this->key );
         return $data;
     }
     
@@ -72,27 +91,29 @@ class so_author
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->name,
             $this->model,
-            $this->gist->teaser,
+            $this->about->teaser,
         );
         
         return $output;
     }
     
-    function delete_resource( $data ){
-        $this->gist->content= $data[ 'content' ] ?: "    /Author deleted/.\n";
-        return so_output::ok( 'Author deleted' );
-    }
-
-    function move_resource( $data ){
-        $name= $data[ 'name' ];
-        $target= so_author::makeInstance()->name( $name )->primary();
+    #function move_resource( $data ){
+    #    $name= $data[ 'name' ];
+    #    $target= so_author::makeInstance()->name( $name )->primary();
+    #    
+    #    if( $target != $this ):
+    #        $target->about->put(array( 'content' => $this->about->content ));
+    #        $this->delete(array( 'content' => "    /Author moved to [new location\\{$target}]/.\n" ));
+    #    endif;
+    #    
+    #    return so_output::ok()->content(array( 'so_relocation' => (string) $target ));
+    #}
+    #
+    function put_resource( $data ){
+        $author= $this->version ? $user->author : $this;
+        so_user::make()->author= $author;
         
-        if( $target != $this ):
-            $target->gist->put(array( 'content' => $this->gist->content ));
-            $this->delete(array( 'content' => "    /Author moved to [new location\\{$target}]/.\n" ));
-        endif;
-        
-        return so_output::ok()->content(array( 'so_relocation' => (string) $target ));
+        return so_output::ok()->content(array( 'so_relocation' => (string) $author ));
     }
 
 }

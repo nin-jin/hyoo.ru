@@ -8,7 +8,7 @@ $jam.http= $jam.Class( function( klass, proto ){
     proto.request= function( method, data ){
         var channel= new XMLHttpRequest
         channel.open( method, this.$.uri, false )
-        if( data && !( data instanceof String ) ){
+        if( data && !( data instanceof String ) && !( data instanceof FormData ) ){
             var chunks= []
             for( var key in data ){
                 if( !data.hasOwnProperty( key ) )

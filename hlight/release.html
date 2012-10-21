@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>hlight js library</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        
+        <script src="-mix/bundle.js"></script>
+        
+        <style>
+            html {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                margin: 0;
+                padding: 1em;
+                background: #bbb;
+            }
+            h2 {
+                margin: 0;
+                padding: 0 .2em;
+                position: absolute;
+                top: -.55em;
+                font: 20pt/1 'Times', serif;
+                text-align: center;
+                background: #ffb;
+                border: 1px solid #999;
+                box-shadow: 1px 1px 2px rgba( 0, 0, 0, .75 );
+            }
+            section {
+                display: inline-block;
+                vertical-align: top;
+                position: relative;
+                background: white;
+                padding: 2em;
+                margin: 1em;
+                border: 1px solid #999;
+                box-shadow: 3px 3px 6px rgba( 0, 0, 0, .75 );
+            }
+        </style>
+    </head>
+    <body>
+        
+        <section>
+            <h2>JS</h2>
+            <wc_hlight wc_hlight_lang="js">
+                $my.hello= function( arg ){
+                    $jam.log( 'hello ' + arg )
+                }
+            </wc_hlight>
+        </section>
+        
+        <section>
+            <h2>PCRE</h2>
+            <wc_hlight wc_hlight_lang="pcre">
+                ^\$([a-z]*)(\.|$)
+            </wc_hlight>
+        </section>
+        
+        <section>
+            <h2>CSS</h2>
+            <wc_hlight wc_hlight_lang="css">
+                button[type='reset']:hover {
+                    background-color: red;
+                }
+            </wc_hlight>
+        </section>
+        
+        <section>
+            <h2>SGML</h2>
+            <wc_hlight wc_hlight_lang="sgml">
+                &lt;wc_hlight wc_hlight_lang="js"&gt;
+                    $my.hello= function( arg ){
+                        $jam.log( 'hello ' + arg )
+                    }
+                &lt;/wc_hlight&gt;
+            </wc_hlight>
+        </section>
+        
+        <section>
+            <h2>PHP</h2>
+            <wc_hlight wc_hlight_lang="php">
+                class god {
+                    use so_singleton;
+                    
+                    static function makeInstance( ){
+                        return new \SplFileInfo( __DIR__ );
+                    }
+                }
+            </wc_hlight>
+        </section>
+        
+        <section>
+            <h2>MD</h2>
+            <wc_hlight wc_hlight_lang="md">
+                !!! Hello!
+                
+                #   hello.js
+                    $my.hello= function( arg ){
+                        $jam.log( 'hello ' + arg )
+                    }
+                
+                #   ReadMe.md
+                        [About this MD syntax\../?article=Язык+разметки+MD;author=Nin+Jin]
+                        [Download hlight library\./-mix/bundle.js]
+            </wc_hlight>
+        </section>
+        
+    </body>
+</html>

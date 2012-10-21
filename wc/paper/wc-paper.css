@@ -2,7 +2,7 @@ wc_paper {
     display: block; zoom: 1;
     position: relative;
     font-color: black;
-    text-align: left;
+    text-align: center;
     overflow: auto;
     max-width: 50em;
     min-width: 10em;

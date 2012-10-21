@@ -21,12 +21,25 @@ class so_export
                 $file->copy( $target );
             endforeach;
             
-            $mix= $package->dir[ '-mix' ];
+            $target= $export[ $package->name ];
+            foreach( $package->dir->childs as $file ):
+                if( $file->type != 'file' )
+                    continue;
+                
+                if( !preg_match( '~^release\.~', $file->name ) )
+                    continue;
+                
+                $file->copy( $target[ $file->name ] );
+            endforeach;
+            
             $target= $export[ $package->name ][ '-mix' ];
-            $mix[ 'release.js' ]->copy( $target[ 'release.js' ] );
-            $mix[ 'release.css' ]->copy( $target[ 'release.css' ] );
-            $mix[ 'release.xsl' ]->copy( $target[ 'release.xsl' ] );
-            $mix[ 'release.php' ]->copy( $target[ 'release.php' ] );
+            foreach( $package->dir[ '-mix' ]->childs as $file ):
+                if( !preg_match( '~^(release|bundle)\.~', $file->name ) )
+                    continue;
+                
+                $file->copy( $target[ $file->name ] );
+            endforeach;
+            
         endforeach;
         
         return so_output::found( so_root::make()->dir[ '-export' ]->relate( so_front::make()->dir ) . '/' );

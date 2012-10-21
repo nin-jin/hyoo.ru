@@ -239,12 +239,12 @@ new function(){
         
         // image
         // http://gif1.ru/gifs/267.gif
-        this[ /^((?:[\?\/\.]|https?:|ftps?:|data:).*?)$(\n?)/.source ]=
-        function( url, close ){
-            var href= md.embedHref( url + close )
-            url= url.replace( /\xAD/g, '' )
-            var embed= md.embed( '<a href="' + $jam.htmlEscape( url ) + '"><img src="' + $jam.htmlEscape( url ) + '" /></a>' )
-            return href + embed
+        this[ /^((?:[\?\/\.]|https?:|ftps?:|data:).*?)(?:(\\)((?:[\?\/\.]|https?:|ftps?:|data:).*?))?$(\n?)/.source ]=
+        function( src, middle, link, close ){
+            var prolog= md.embedHref( src + ( middle || '' ) + ( link || '' ) + close )
+            //url= url.replace( /\xAD/g, '' ) TODO: перенсти в редактор в onpaste
+            var embed= md.embed( '<a href="' + $jam.htmlEscape( link || src ) + '"><img src="' + $jam.htmlEscape( src ) + '" /></a>' )
+            return prolog + embed
         }
     
         // table

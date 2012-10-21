@@ -163,7 +163,7 @@ $jam.Component
             
             var onLeave=
             nodeSource.listen( 'blur', function( event ){
-                $jam.Event().type( '$jam.eventCommit' ).scream( nodeRoot )
+                //$jam.Event().type( '$jam.eventCommit' ).scream( nodeRoot )
             })
             
             var onActivate=
@@ -202,17 +202,18 @@ $jam.Component
             nodeRoot.listen( 'drop', function( event ){
                 event.defaultBehavior( false )
                 function upload( file ){
-                    var reader= new FileReader
-                    reader.onload= function( ){
-                        var result= $jam.http( '?image=' + Math.random() ).put({ content: reader.result })
-                        var link= String( $jam.domx.parse( result ).select(' // so_image / @so_image_link ') )
-                        update( '\n./' + link + '\n' )
-                    }
-                    reader.readAsDataURL( file )
+                    var form = new FormData()
+                    form.append( 'file', file )
+                    var resource= '?image=' + Math.random()
+                    var result= $jam.http( resource ).post( form )
+                    var src= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @so_image_maximal ').$.value
+                    var link= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @so_image_original ').$.value
+                    update( '\n./' + src + '\\./' + link + '\n' )
                 }
                 var files= event.$.dataTransfer.files
-                for( var i= 0; i < files.length; ++i )
+                for( var i= 0; i < files.length; ++i ){
                     upload( files[ i ] )
+                }
             })
             
             this.destroy= function( ){

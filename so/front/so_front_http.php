@@ -9,7 +9,9 @@ extends so_front
         'moved' => 301,
         'found' => 302,
         'see' => 303,
+        'forbidden' => 403,
         'missed' => 404,
+        'conflict' => 409,
         'error' => 500,
     );
     
@@ -39,7 +41,10 @@ extends so_front
                 return null;
             
             case 'post':
-                return so_query::make( $_POST + $_FILES );
+                $data= $_POST;
+                foreach( $_FILES as $key => $info )
+                    $data[ $key ]= so_file::make( $info[ 'tmp_name' ] );
+                return so_array::make( $data );
             
             default:
                 $raw= '';
@@ -80,7 +85,7 @@ extends so_front
         if( $mime === 'application/xml' ):
             $accept= preg_split( '~[,;] ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
             if( !in_array( 'application/xhtml+xml', $accept ) ):
-                
+                /*
                 $xs= new so_XStyle;
                 $xs->pathXSL= (string) so_front::make()->package['-mix']['index.xsl']->file;
                 $xsl= $xs->docXSL;
@@ -90,7 +95,7 @@ extends so_front
                 
                 $content= (string) $xs->process( (string) $content );
                 $content= preg_replace( '~^<\\?xml .+?\\?>\n?~', '', $content );
-                $mime= 'text/html';
+                $mime= 'text/html';*/
             endif;
         endif;
         

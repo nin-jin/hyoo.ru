@@ -35,14 +35,16 @@ wc_button button {
     
     -webkit-background-clip: padding-box;
     box-shadow: 1px 1px 1px #000;
+    box-shadow: 2px 2px 3px rgba( 0, 0, 0, .75 );
 }
 
 wc_button button:hover {
-    background: -o-linear-gradient( -90deg, #fff, #bbb );
-    background: -moz-linear-gradient( -90deg, #fff, #bbb );
-    background: -webkit-gradient( linear, left top, left bottom, from( #fff ), to( #bbb ) );
+    background: -o-linear-gradient( -90deg, #fff, #ccc );
+    background: -moz-linear-gradient( -90deg, #fff, #ccc );
+    background: -webkit-gradient( linear, left top, left bottom, from( #fff ), to( #ccc ) );
 
     box-shadow: 2px 2px 2px #000;
+    box-shadow: 4px 4px 5px rgba( 0, 0, 0, .5 );
 }
 
 wc_button button:active {

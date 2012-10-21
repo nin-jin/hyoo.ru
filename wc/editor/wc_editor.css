@@ -1,9 +1,14 @@
 wc_editor {
-    display: none;
+    visibility: hidden;
+    display: block;
+}
+
+wc_editor[wc_editor_hlight] {
+    text-align: left;
 }
 
 [wc_editor_inited="true"] {
-    display: block;
+    visibility: visible;
 }
 
 .wc_editor_content {

@@ -31,5 +31,11 @@ class so_crypt
         
         return $key;
     }
+    
+    static function hash( ){
+        $data= func_get_args();
+        $key= sha1( so_query::make( $data ) );
+        return $key;
+    }
 
 }

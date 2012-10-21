@@ -78,7 +78,15 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
         return array();
     }
     function struct_store( $data ){
-        return (array) $data;
+        $struct= array();
+        foreach( $data as $key => $value ):
+            $value= (string) $value;
+            if( is_int( $key ) )
+                $struct+= so_query::make( $value )->struct;
+            else
+                $struct[ $key ]= $value;
+        endforeach;
+        return $struct;
     }
     
     var $uri_value;
@@ -99,6 +107,30 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
         endwhile;
         
         return $class::make( $this->uri );
+    }
+    
+    function match( $subject ){
+        so_query::ensure( $subject );
+        
+        $iterP= $this->getIterator();
+        $iterS= $subject->getIterator();
+        while( true ):
+            if( !$iterP->valid() )
+                return !$iterS->valid();
+            
+            if( !$iterS->valid() )
+                return false;
+            
+            if( $iterP->key() !== $iterS->key() )
+                return false;
+            
+            if( $iterP->current() )
+                if( $iterP->current() !== $iterS->current() )
+                    return false;
+            
+            $iterP->next();
+            $iterS->next();
+        endwhile;
     }
     
     function _string_meta( ){

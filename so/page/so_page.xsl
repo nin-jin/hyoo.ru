@@ -44,6 +44,7 @@
             <body>
                 <wc_desktop>
                     <a href="?"><wc_logo>Gist!</wc_logo></a>
+                    <a href="?article">записать мысль</a>
                     
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
                     

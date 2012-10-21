@@ -11,12 +11,26 @@ class so_output
         return $obj;
     }
 
-    static function found( $uri ){
-        return static::make()->status( 'found' )->location( $uri )->content(array( 'so_relocation' => $uri ));
+    static function found( $uri= null ){
+        $obj= static::make()->status( 'found' );
+        
+        if( $uri ):
+            $obj->location= $uri;
+            $obj->content= array( 'so_relocation' => $uri );
+        endif;
+        
+        return $obj;
     }
 
-    static function moved( $uri ){
-        return static::make()->status( 'moved' )->location( $uri )->content(array( 'so_relocation' => $uri ));
+    static function moved( $uri= null ){
+        $obj= static::make()->status( 'moved' );
+        
+        if( $uri ):
+            $obj->location= $uri;
+            $obj->content= array( 'so_relocation' => $uri );
+        endif;
+        
+        return $obj;
     }
 
     static function see( $uri ){
@@ -31,6 +45,14 @@ class so_output
     
     static function error( $message= null ){
         return static::make()->status( 'error' )->content(array( 'so_error' => $message ));
+    }
+    
+    static function conflict( $message= null ){
+        return static::make()->status( 'conflict' )->content(array( 'so_conflict' => $message ));
+    }
+    
+    static function forbidden( $message= null ){
+        return static::make()->status( 'forbidden' )->content(array( 'so_error' => $message ));
     }
     
     var $status_value;

@@ -3,26 +3,33 @@
 class so_user
 {
     use so_meta;
-    
-    use so_registry;
-    static $id_prop= 'id';
+    use so_singleton;
 
-    var $id_value;
-    function id_make( ){
-        $cookie= so_cookie::make( 'so_user_id' );
+    var $author_value;
+    function author_make( ){
+        $cookie= so_cookie::make( 'so_user_author' );
         
-        $id= $cookie->value;
-        
-        if( !$id ):
-            $id= so_crypt::generateId();
-            $cookie->value= $id;
+        if( $cookie->value ):
+            $author= so_author::make( $cookie->value );
+            
+            if( !$author->key )
+                return $author;
+            
+            if( $author->key == so_crypt::hash( $author->uri, $this->key ) )
+                return $author;
         endif;
         
-        return $id;
+        $author= so_author::makeInstance()->name( so_crypt::generateId() )->primary();
+        $cookie->value= (string) $author;
+        
+        return $author;
     }
-    function id_store( $data ){
-        if( !$data ) return null;
-        return (string) $data;
+    function author_store( $data ){
+        so_author::ensure( $data );
+        $data->key= so_crypt::hash( $data->uri, $this->key );
+        $cookie= so_cookie::make( 'so_user_author' );
+        $cookie->value= (string) $data;
+        return $data;
     }
 
     var $key_value;

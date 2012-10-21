@@ -127,7 +127,7 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
     }
 
     function select( $query ){
-        $xpath = new domxPath( $this->DOMDocument );
+        $xpath = new \DOMXPath( $this->DOMDocument );
         $found= $xpath->query( $query, $this->DOMNode );
         $nodeList= array();
         foreach( $found as $node ):
@@ -220,19 +220,28 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
                     if( !is_scalar( $value ) ):
                         $value= (string) so_dom::make( $value );
                     endif;
-
+                    
                     if( $key === '#text' ):
                         $value= $this->DOMDocument->createTextNode( $value );
                         $DOMNode->appendChild( $value );
                         continue 1;
                     endif;
-                            
+                    
                     if( $key === '#comment' ):
                         $value= $this->DOMDocument->createComment( $value );
                         $DOMNode->appendChild( $value );
                         continue 1;
                     endif;
-                            
+                    
+                    if( $key === '#html' ):
+                        $doc= new \DOMDocument( '1.0' );
+                        $errors= libxml_use_internal_errors( true );
+                        $doc->loadHTML( $value );
+                        libxml_use_internal_errors( $errors );
+                        $DOMNode->appendChild( $this->DOMDocument->importNode( $doc->documentElement, true ) );
+                        continue 1;
+                    endif;
+                    
                     throw new \Exception( "Wrong special element name [{$key}]" );
                 endif;
                         

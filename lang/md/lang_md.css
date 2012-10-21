@@ -134,21 +134,24 @@ lang_md_para {
 }
 
 lang_md_header-3 {
-	color: #339;
+	color: #006;
 	font-size: 16pt;
     font-family: 'Times New Roman', serif;
+    margin-left: -30pt;
 }
 
 lang_md_header-2 {
-	color: #339;
+	color: #006;
 	font-size: 22pt;
     font-family: 'Times New Roman', serif;
+    margin-left: -30pt;
 }
 
 lang_md_header-1 {
-	color: #339;
+	color: #006;
 	font-size: 30pt;
     font-family: 'Times New Roman', serif;
+    margin-left: -30pt;
 }
 
 lang_md_header-marker {

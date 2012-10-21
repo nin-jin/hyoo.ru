@@ -17,7 +17,7 @@ class so_storage
     function dir_make( ){
         #$id= md5( $this->id );
         #$id= substr( $id, 0, 3 ) . '/' . substr( $id, 4, 7 );
-        $tokens= explode( ';', $this->id );
+        $tokens= explode( '=', $this->id );
         
         foreach( $tokens as &$token )
             $token= substr( md5( $token ), 0, 10 );
@@ -27,22 +27,16 @@ class so_storage
     
     var $index_value;
     function index_make( ){
-        return $this->dir->go( 'index.txt' );
+        return so_storage_index::make( $this->dir->go( 'index.sqlite' ) );
     }
     
     var $version_value;
     var $version_depends= array();
     function version_make( ){
-        preg_match( '~= ([^\n]*)\n?$~', $this->index->content, $found );
-        
-        if( !$found )
-            return null;
-        
-        return $found[1];
+        return $this->index->tail[ 'so_storage_version' ];
     }
     function version_store( $version ){
-        $version= $version;
-        $this->index->append( '= ' . $version . "\n" );
+        $this->index[]= array( 'so_storage_version' => $version );
         unset( $this->file );
         return $version;
     }
@@ -80,8 +74,14 @@ class so_storage
     }
     
     function append( $value ){
-        $this->file->append( $value );
-        unset( $this->content );
+        
+        if( $this->file ):
+            $this->file->append( $value );
+            unset( $this->content );
+        else:
+            $this->content= $value;
+        endif;
+        
         return $this;
     }
     

@@ -37,6 +37,9 @@ class so_application
         if( $error )
             static::$response= so_output::error( $error );
         
+        if( !static::$response )
+            static::$response= so_output::error( 'Empty response' );
+        
         so_front::make()->send( static::$response );
     }
     

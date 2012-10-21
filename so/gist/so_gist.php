@@ -9,13 +9,14 @@ class so_gist
     function uri_make( ){
         return so_query::make(array(
             'gist',
-            'author' => $this->author,
-            'id' => $this->id,
+            'author' => (string) $this->author->name,
+            'id' => (string) $this->id,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $this->author= $query[ 'author' ];
+        $author= so_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $this->author= $author;
         $this->id= $query[ 'id' ];
     }
     
@@ -28,10 +29,10 @@ class so_gist
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return so_user::make()->id;
+        return so_author::make();
     }
     function author_store( $data ){
-        return (string) $data ?: $this->author_make();
+        return so_author::make( $data );
     }
     
     var $storage_value;
@@ -92,7 +93,8 @@ class so_gist
     }
     
     function put_resource( $data ){
-        $this->content= (string) $data[ 'content' ];
+        $gist= so_gist::makeInstance()->id( $this->id )->primary();
+        $gist->content= (string) $data[ 'content' ];
         return so_output::ok( 'Content updated' );
     }
 

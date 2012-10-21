@@ -1,0 +1,3 @@
+include module= so/error
+include module= so/conflict
+include module= so/relocation

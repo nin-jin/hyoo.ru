@@ -31,24 +31,22 @@
     
     <xsl:template match=" so_article " mode="so_article_head" />
     <xsl:template match=" so_article[ @so_article_name ] " mode="so_article_head">
-        <h1>
-            <form
-                method="get"
-                action="?"
-                wc_form="wc_form"
-                >
-                <wc_field wc_field_name="article">
+        <form
+            method="move"
+            action="{ @so_uri }"
+            wc_form="wc_form"
+            >
+            <wc_form_result>
+                <xsl:comment/>
+            </wc_form_result>
+            <h1>
+                <wc_field wc_field_name="name">
                     <wc_editor>
                         <xsl:value-of select=" @so_article_name " />
                     </wc_editor>
                 </wc_field>
-                <input
-                    type="hidden"
-                    name="by"
-                    value="{ @so_article_author }"
-                />
-            </form>
-        </h1>
+            </h1>
+        </form>
     </xsl:template>
     
     <xsl:template match=" so_article " mode="so_article_body" />
