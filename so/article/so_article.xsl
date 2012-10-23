@@ -24,11 +24,9 @@
     <xsl:template match=" so_article " mode="so_article_permalink" />
     <xsl:template match=" so_article[ @so_uri ] " mode="so_article_permalink">
         <wc_pop-tool_item>
-            <wc_permalink title="Постоянная ссылка на эту запись">
-                <a href="{ @so_uri }">
-                    <xsl:value-of select=" @so_article_name " />
-                </a>
-            </wc_permalink>
+            <a href="{ @so_uri }" title="Постоянная ссылка на эту запись">
+                <xsl:value-of select=" @so_article_name " />
+            </a>
         </wc_pop-tool_item>
     </xsl:template>
     

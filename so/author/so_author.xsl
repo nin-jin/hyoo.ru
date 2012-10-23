@@ -24,11 +24,9 @@
     <xsl:template match=" so_author " mode="so_author_permalink" />
     <xsl:template match=" so_author[ @so_uri ] " mode="so_author_permalink">
         <wc_pop-tool_item>
-            <wc_permalink title="Постоянная ссылка на этого автора">
-                <a href="{ @so_uri }">
-                    <xsl:apply-templates select=" . " mode="so_author_name" />
-                </a>
-            </wc_permalink>
+            <a href="{ @so_uri }" title="Постоянная ссылка на этого автора">
+                <xsl:apply-templates select=" . " mode="so_author_name" />
+            </a>
         </wc_pop-tool_item>
     </xsl:template>
     
