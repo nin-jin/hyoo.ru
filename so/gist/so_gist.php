@@ -92,7 +92,7 @@ class so_gist
         ));
     }
     
-    function put_resource( $data ){
+    function post_resource( $data ){
         $gist= so_gist::makeInstance()->id( $this->id )->primary();
         $gist->content= (string) $data[ 'content' ];
         return so_output::ok( 'Content updated' );

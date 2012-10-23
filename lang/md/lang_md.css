@@ -89,7 +89,7 @@ lang_md_link > a:hover {
 }
 
 lang_md_link-title {
-    font-family: serif;
+    font-family: 'Times', serif;
 	white-space: nowrap;
 }
 
@@ -129,28 +129,28 @@ lang_md_indent {
 }
 
 lang_md_para {
-    font-family: 'Times New Roman', serif;
+    font-family: 'Times', serif;
 	overflow: hidden;
 }
 
 lang_md_header-3 {
 	color: #006;
 	font-size: 16pt;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Times', serif;
     margin-left: -30pt;
 }
 
 lang_md_header-2 {
 	color: #006;
 	font-size: 22pt;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Times', serif;
     margin-left: -30pt;
 }
 
 lang_md_header-1 {
 	color: #006;
 	font-size: 30pt;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Times', serif;
     margin-left: -30pt;
 }
 

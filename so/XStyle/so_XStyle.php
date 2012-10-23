@@ -45,7 +45,7 @@ class so_XStyle
         return $docXSL;
     }
     function docXSL_store( $docXSL ){
-        $docXSL= so_dom::create( $docXSL );
+        $docXSL= so_dom::make( $docXSL );
         if( file_exists( $this->pathXSL ) ) unlink( $this->pathXSL );
         file_put_contents( $this->pathXSL, $docXSL );
         return null;

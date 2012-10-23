@@ -35,6 +35,14 @@ implements \ArrayAccess
         return $uri->primary();
     }
     
+    var $uriVersioned_value;
+    function uriVersioned_make( ){
+        $uri= so_uri::makeInstance();
+        $uri->path= strtr( $this->relate( so_front::make()->dir ), array( '%' => urlencode( '%' ) ) );
+        $uri->queryString= $this->version;
+        return $uri->primary();
+    }
+    
     var $name_value;
     function name_make( ){
         return $this->SplFileInfo->getBasename();

@@ -3,7 +3,7 @@ wc_footer {
     display: block;
     overflow: hidden;
     padding: 1% 0;
-    font: 12pt/1 serif;
+    font: 12pt/1 'Times', serif;
     text-align: center;
     clear: both;
     color: #666;

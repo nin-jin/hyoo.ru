@@ -23,7 +23,7 @@ trait so_database
     
     var $connection_value;
     function connection_make(){
-        $connection= new PDO( 'sqlite:' . $this->file );
+        $connection= new \PDO( 'sqlite:' . $this->file );
         
         $connection->query( "create table if not exists [{$this->name}] ( [{$this->mainField}] primary key )" );
         
@@ -59,7 +59,7 @@ trait so_database
     
     var $dump_value;
     function dump_make( ){
-        $list= $this->request( "select * from [{$this->name}]" )->fetchAll( PDO::FETCH_ASSOC );
+        $list= $this->request( "select * from [{$this->name}]" )->fetchAll( \PDO::FETCH_ASSOC );
         $hash= array();
         
         foreach( $list as $row )
@@ -70,7 +70,7 @@ trait so_database
     
     var $head_value;
     function head_make( ){
-        $result= $this->request( "select * from [{$this->name}] limit 1" )->fetch( PDO::FETCH_ASSOC );
+        $result= $this->request( "select * from [{$this->name}] limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
             return null;
@@ -80,7 +80,7 @@ trait so_database
     
     var $tail_value;
     function tail_make( ){
-        $result= $this->request( "select * from [{$this->name}] order by _ROWID_ desc limit 1" )->fetch( PDO::FETCH_ASSOC );
+        $result= $this->request( "select * from [{$this->name}] order by _ROWID_ desc limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
             return null;
@@ -119,7 +119,7 @@ trait so_database
     }
     
     function offsetGet( $id ){
-        $result= $this->request( "select * from [{$this->name}] where [{$this->mainField}] = ", $id )->fetch( PDO::FETCH_ASSOC );
+        $result= $this->request( "select * from [{$this->name}] where [{$this->mainField}] = ", $id )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
             return null;

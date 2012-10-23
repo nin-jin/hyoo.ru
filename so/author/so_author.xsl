@@ -7,11 +7,11 @@
     
     <xsl:template match=" so_author ">
         <wc_spacer>
-            <wc_top-tool>
-                <wc_top-tool_pane>
+            <wc_pop-tool>
+                <wc_pop-tool_pane wc_pop-tool_edge="top">
                     <xsl:apply-templates select="." mode="so_author_permalink" />
-                </wc_top-tool_pane>
-            </wc_top-tool>
+                </wc_pop-tool_pane>
+            </wc_pop-tool>
             <wc_paper>
                 <wc_spacer>
                     <xsl:apply-templates select="." mode="so_author_head" />
@@ -23,11 +23,13 @@
     
     <xsl:template match=" so_author " mode="so_author_permalink" />
     <xsl:template match=" so_author[ @so_uri ] " mode="so_author_permalink">
-        <wc_top-tool_item>
-            <wc_permalink title="Ссылка на эту запись">
-                <a href="{ @so_uri }">#</a>
+        <wc_pop-tool_item>
+            <wc_permalink title="Постоянная ссылка на этого автора">
+                <a href="{ @so_uri }">
+                    <xsl:apply-templates select=" . " mode="so_author_name" />
+                </a>
             </wc_permalink>
-        </wc_top-tool_item>
+        </wc_pop-tool_item>
     </xsl:template>
     
     <xsl:template match=" so_author " mode="so_author_head" />
@@ -40,11 +42,16 @@
                 >
                 <wc_field wc_field_name="author">
                     <wc_editor>
-                        <xsl:value-of select=" @so_author_name " />
+                        <xsl:apply-templates select=" . " mode="so_author_name" />
                     </wc_editor>
                 </wc_field>
             </form>
         </h1>
+    </xsl:template>
+    
+    <xsl:template match=" so_author " mode="so_author_name" />
+    <xsl:template match=" so_author[ @so_author_name ] " mode="so_author_name">
+        <xsl:value-of select=" @so_author_name " />
     </xsl:template>
     
     <xsl:template match=" so_author " mode="so_author_body">

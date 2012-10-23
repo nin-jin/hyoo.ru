@@ -86,6 +86,7 @@ class so_article
             '@so_page_title' => (string) $this->name,
             $this->model,
             $this->gist->teaser,
+            $this->author->model,
         );
         
         return $output;
@@ -107,9 +108,9 @@ class so_article
                 return so_output::conflict( 'Article already exists' );
             endif;
             
-            $target->gist->put_resource(array( 'content' => $this->gist->content ));
+            $target->gist->post_resource(array( 'content' => $this->gist->content ));
             if( $this->gist->version && $target->author === $this->author )
-                $this->gist->put_resource(array( 'content' => "    /Article moved to [new location\\{$target}]/.\n" ));
+                $this->gist->post_resource(array( 'content' => "    /Article moved to [new location\\{$target}]/.\n" ));
         endif;
         
         return so_output::ok()->content(array( 'so_relocation' => (string) $target ));

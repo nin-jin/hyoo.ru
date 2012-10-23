@@ -6,11 +6,12 @@
     
     <xsl:template match=" so_article ">
         <wc_spacer>
-            <wc_top-tool>
-                <wc_top-tool_pane>
+            <wc_pop-tool>
+                <wc_pop-tool_pane wc_pop-tool_edge="top">
+                    <xsl:apply-templates select="." mode="so_article_author" />
                     <xsl:apply-templates select="." mode="so_article_permalink" />
-                </wc_top-tool_pane>
-            </wc_top-tool>
+                </wc_pop-tool_pane>
+            </wc_pop-tool>
             <wc_paper>
                 <wc_spacer>
                     <xsl:apply-templates select="." mode="so_article_head" />
@@ -22,11 +23,28 @@
     
     <xsl:template match=" so_article " mode="so_article_permalink" />
     <xsl:template match=" so_article[ @so_uri ] " mode="so_article_permalink">
-        <wc_top-tool_item>
-            <wc_permalink title="Ссылка на эту запись">
-                <a href="{ @so_uri }">#</a>
+        <wc_pop-tool_item>
+            <wc_permalink title="Постоянная ссылка на эту запись">
+                <a href="{ @so_uri }">
+                    <xsl:value-of select=" @so_article_name " />
+                </a>
             </wc_permalink>
-        </wc_top-tool_item>
+        </wc_pop-tool_item>
+    </xsl:template>
+    
+    <xsl:template match=" so_article " mode="so_article_author" />
+    <xsl:template match=" so_article[ @so_article_author ] " mode="so_article_author">
+        <wc_pop-tool_item>
+            <a
+                href="{ @so_article_author }"
+                title="Автор статьи"
+                >
+                <xsl:apply-templates
+                    select=" $so_uri_map[ @so_uri = current()/@so_article_author ] "
+                    mode="so_author_name"
+                />
+            </a>
+        </wc_pop-tool_item>
     </xsl:template>
     
     <xsl:template match=" so_article " mode="so_article_head" />

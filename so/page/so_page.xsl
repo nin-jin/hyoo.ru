@@ -35,21 +35,22 @@
                     <xsl:value-of select=" @so_page_title " />
                 </title>
                 
-                <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+                <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
-                
-                <xsl:apply-templates select=" . " mode="so_page_resources" />
                 
             </head>
             <body>
                 <wc_desktop>
-                    <a href="?"><wc_logo>Gist!</wc_logo></a>
-                    <a href="?article">записать мысль</a>
-                    
+                    <xsl:apply-templates select=" . " mode="so_page_logo" />
+                    <xsl:apply-templates select=" . " mode="so_page_tools" />
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
                     
                     <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_page_uri ] " />
                     <xsl:apply-templates select=" * [ not( @so_uri ) ] " />
+                    
+                    <wc_spacer>
+                        <wc_error><strong>Внимание!</strong> Это альфа-версия сайта, поэтому сохранность внесённых вами изменений пока не гарантируется!</wc_error>
+                    </wc_spacer>
                     
                     <wc_footer>
                         <a href="https://github.com/nin-jin/PMS" title="Исходники этого сайта">Gist!</a>
@@ -59,6 +60,8 @@
                     
                 </wc_desktop>
                 
+                <xsl:apply-templates select=" . " mode="so_page_script" />
+                <xsl:apply-templates select=" . " mode="so_page_styles" />
             </body>
         </html>
         
@@ -78,11 +81,30 @@
         </wc_spacer>
     </xsl:template>
     
-    <xsl:template match=" so_page " mode="so_page_resources">
-        <link href="{ $so_page_base }{ $so_page_mode }.css" rel="stylesheet" />
-        <script src="{ $so_page_base }{ $so_page_mode }.js">//</script>
+    <xsl:template match=" so_page " mode="so_page_styles" />
+    <xsl:template match=" so_page[ @so_page_styles ] " mode="so_page_styles">
+        <link href="{ @so_page_styles }" rel="stylesheet" />
     </xsl:template>
 
+    <xsl:template match=" so_page " mode="so_page_script" />
+    <xsl:template match=" so_page[ @so_page_script ] " mode="so_page_script">
+        <script src="{ @so_page_script }">//</script>
+    </xsl:template>
+
+    <xsl:template match=" so_page " mode="so_page_tools">
+        <wc_pop-tool>
+            <wc_pop-tool_pane wc_pop-tool_edge="bottom">
+                <wc_pop-tool_item>
+                    <a href="?article">записать мысль</a>
+                </wc_pop-tool_item>
+            </wc_pop-tool_pane>
+        </wc_pop-tool>
+    </xsl:template>
+    
+    <xsl:template match=" so_page " mode="so_page_logo">
+        <a href="?"><wc_logo>Gist!</wc_logo></a>
+    </xsl:template>
+    
     <xsl:template match=" so_page_aside " />
     <xsl:template match=" so_page_aside " mode="so_page_special">
         <wc_sidebar wc_sidebar_align="right">

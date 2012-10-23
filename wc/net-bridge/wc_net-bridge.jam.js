@@ -29,7 +29,7 @@ $jam.Component
             if( text === textLast ) return
             
             var xhr= new XMLHttpRequest
-            xhr.open( text ? 'PUT' : 'DELETE', nodeRoot.attr( 'wc_net-bridge_resource' ) )
+            xhr.open( 'POST' , nodeRoot.attr( 'wc_net-bridge_resource' ) )
             xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
             xhr.send( nodeRoot.attr( 'wc_net-bridge_field' ) + '=' + encodeURIComponent( text ) )
             textLast= text

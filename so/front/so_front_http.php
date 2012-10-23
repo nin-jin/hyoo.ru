@@ -23,6 +23,7 @@ extends so_front
     var $uri_value;
     function uri_make( ){
         $uri= so_value::make( $_SERVER[ 'REQUEST_URI' ] );
+        $uri= mb_convert_encoding( $uri, 'UTF-8', 'windows-1251' );
         return so_uri::make( $uri );
     }
 
@@ -85,9 +86,8 @@ extends so_front
         if( $mime === 'application/xml' ):
             $accept= preg_split( '~[,;] ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
             if( !in_array( 'application/xhtml+xml', $accept ) ):
-                /*
                 $xs= new so_XStyle;
-                $xs->pathXSL= (string) so_front::make()->package['-mix']['index.xsl']->file;
+                $xs->pathXSL= (string) so_front::make()->package['-mix']['release.xsl']->file;
                 $xsl= $xs->docXSL;
                 foreach( $xsl->childs[ 'xsl:include' ] as $dom ):
                     $dom['@href']= preg_replace( '!\?[^?]*$!', '', $dom['@href'] );
@@ -95,7 +95,7 @@ extends so_front
                 
                 $content= (string) $xs->process( (string) $content );
                 $content= preg_replace( '~^<\\?xml .+?\\?>\n?~', '', $content );
-                $mime= 'text/html';*/
+                $mime= 'text/html';
             endif;
         endif;
         

@@ -1,6 +1,6 @@
 wc_path {
     display: block;
-    font: 20px/1 serif;
+    font: 20px/1 'Times', serif;
     color: #333;
     text-align: left;
     padding: .4em .4em;
