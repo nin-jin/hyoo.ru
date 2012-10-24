@@ -1,6 +1,6 @@
 <?php
 
-class so_gist
+class mixer_gist
 {
     use so_resource;
     
@@ -15,7 +15,7 @@ class so_gist
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $author= so_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $author= mixer_author::makeInstance()->name( $query[ 'author' ] )->primary();
         $this->author= $author;
         $this->id= $query[ 'id' ];
     }
@@ -29,10 +29,10 @@ class so_gist
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return so_author::make();
+        return mixer_author::make();
     }
     function author_store( $data ){
-        return so_author::make( $data );
+        return mixer_author::make( $data );
     }
     
     var $storage_value;
@@ -49,14 +49,14 @@ class so_gist
     var $content_depends= array();
     function content_make( ){
         if( $this->version )
-            return $this->model[ '@so_gist_content' ];
+            return $this->model[ '@mixer_gist_content' ];
         
         return '    ...';
     }
     function content_store( $data ){
         $data= (string) $data;
         $model= $this->model;
-        $model[ '@so_gist_content' ]= $data;
+        $model[ '@mixer_gist_content' ]= $data;
         $this->model= $model;
         return $data;
     }
@@ -68,11 +68,11 @@ class so_gist
             return so_dom::make( $this->storage->content );
         
         return so_dom::make( array(
-            'so_gist' => array(
+            'mixer_gist' => array(
                 '@so_uri' => (string) $this->uri,
-                '@so_gist_id' => (string) $this->id,
-                '@so_gist_author' => (string) $this->author,
-                '@so_gist_content' => (string) $this->content,
+                '@mixer_gist_id' => (string) $this->id,
+                '@mixer_gist_author' => (string) $this->author,
+                '@mixer_gist_content' => (string) $this->content,
             ),
         ) );
     }
@@ -88,12 +88,12 @@ class so_gist
             return $this->model;
         
         return so_dom::make(array(
-            'so_gist/@so_uri_external' => (string) $this->storage->uri,
+            'mixer_gist/@so_uri_external' => (string) $this->storage->uri,
         ));
     }
     
     function post_resource( $data ){
-        $gist= so_gist::makeInstance()->id( $this->id )->primary();
+        $gist= mixer_gist::makeInstance()->id( $this->id )->primary();
         $gist->content= (string) $data[ 'content' ];
         return so_output::ok( 'Content updated' );
     }

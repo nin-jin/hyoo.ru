@@ -288,7 +288,7 @@ new function(){
             content= md.codeContent( content )
             marker= md.codeMarker( marker )
             path= path ? md.codePath( path ) : ''
-            lang= md.codeLang( lang + name )
+            lang= md.codeLang( lang )
             return md.code( marker + md.codeMeta( path + lang ) + content )
         }
         

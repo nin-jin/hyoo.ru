@@ -1,3 +1,0 @@
-include module= so/application
-include module= so/article
-include module= so/console

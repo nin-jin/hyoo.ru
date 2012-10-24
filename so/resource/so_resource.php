@@ -8,6 +8,11 @@ trait so_resource
     use so_registry;
     static $id_prop= 'uri';
     
+    var $subscribers_value;
+    function subscribers_make( ){
+        return so_subscriber_list::makeInstance()->subject( $this->uri );
+    }
+    
     function execute( $method, $data= null ){
         return $this->{ $method . '_resource' }( $data );
     }

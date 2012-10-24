@@ -9,7 +9,7 @@ wc_pop-tool {
     font: 14pt/1 'Times', serif;
 }
 
-wc_pop-tool_pane {
+wc_pop-tool_panel {
     display: inline-table;
     position: relative;
     box-shadow: 2px 2px 3px rgba( 0, 0, 0, .25 );
@@ -17,36 +17,37 @@ wc_pop-tool_pane {
     border: 1px solid #aaa;
     background: #eee;
     text-align: left;
+    margin: 1pt 5pt;
 }
 
-wc_pop-tool_pane[ wc_pop-tool_edge = "top" ] {
+wc_pop-tool_panel[ wc_pop-tool_edge = "top" ] {
     top: 21pt;
     -webkit-transition: top .2s .2s;
     transition: top .2s .2s;
 }
 
-wc_pop-tool_pane[ wc_pop-tool_edge = "bottom" ] {
+wc_pop-tool_panel[ wc_pop-tool_edge = "bottom" ] {
     bottom: 23pt;
     -webkit-transition: bottom .2s .2s;
     transition: bottom .2s .2s;
 }
 
-wc_pop-tool:focus wc_pop-tool_pane[ wc_pop-tool_edge = "top" ] {
+wc_pop-tool:focus wc_pop-tool_panel[ wc_pop-tool_edge = "top" ] {
     top: 2pt;
 }
 
-wc_pop-tool:focus wc_pop-tool_pane[ wc_pop-tool_edge = "bottom" ] {
-    bottom: 3pt;
+wc_pop-tool:focus wc_pop-tool_panel[ wc_pop-tool_edge = "bottom" ] {
+    bottom: 2pt;
 }
 
-wc_pop-tool:hover wc_pop-tool_pane[ wc_pop-tool_edge = "top" ] {
+wc_pop-tool:hover wc_pop-tool_panel[ wc_pop-tool_edge = "top" ] {
     top: 2pt;
     -webkit-transition: top .1s .1s;
     transition: top .1s .1s;
 }
 
-wc_pop-tool:hover wc_pop-tool_pane[ wc_pop-tool_edge = "bottom" ] {
-    bottom: 3pt;
+wc_pop-tool:hover wc_pop-tool_panel[ wc_pop-tool_edge = "bottom" ] {
+    bottom: 2pt;
     -webkit-transition: bottom .1s .1s;
     transition: bottom .1s .1s;
 }
@@ -104,8 +105,8 @@ wc_pop-tool a {
 
 wc_pop-tool a:hover {
     opacity: 1;
-}
-
-wc_pop-tool a:hover {
     text-decoration: none;
+    background: -o-linear-gradient( -90deg, white, #eee );
+    background: -moz-linear-gradient( -90deg, white, #eee );
+    background: -webkit-gradient( linear, left top, left bottom, from( white ), to( #eee ) );
 }

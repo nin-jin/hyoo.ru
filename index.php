@@ -1,1 +1,1 @@
-<?php require( __DIR__ . '/appGist/index.php' );
+<?php require( __DIR__ . '/mixer/index.php' );

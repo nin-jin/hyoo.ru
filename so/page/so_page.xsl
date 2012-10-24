@@ -38,9 +38,12 @@
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
                 
+                <xsl:apply-templates select=" . " mode="so_page_styles" />
+                <xsl:apply-templates select=" . " mode="so_page_script" />
             </head>
             <body>
                 <wc_desktop>
+                    
                     <xsl:apply-templates select=" . " mode="so_page_logo" />
                     <xsl:apply-templates select=" . " mode="so_page_tools" />
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
@@ -59,9 +62,6 @@
                     </wc_footer>
                     
                 </wc_desktop>
-                
-                <xsl:apply-templates select=" . " mode="so_page_script" />
-                <xsl:apply-templates select=" . " mode="so_page_styles" />
             </body>
         </html>
         
@@ -93,11 +93,19 @@
 
     <xsl:template match=" so_page " mode="so_page_tools">
         <wc_pop-tool>
-            <wc_pop-tool_pane wc_pop-tool_edge="bottom">
+            <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?article">записать мысль</a>
+                    <a href="?author">ваш профиль</a>
                 </wc_pop-tool_item>
-            </wc_pop-tool_pane>
+            </wc_pop-tool_panel>
+            <wc_pop-tool_panel wc_pop-tool_edge="bottom">
+                <wc_pop-tool_item>
+                    <a href="?article;list">ваши записи</a>
+                </wc_pop-tool_item>
+                <wc_pop-tool_item>
+                    <a href="?article">+</a>
+                </wc_pop-tool_item>
+            </wc_pop-tool_panel>
         </wc_pop-tool>
     </xsl:template>
     

@@ -1,6 +1,6 @@
 <?php
 
-class so_article
+class mixer_article
 {
     use so_resource;
     
@@ -15,7 +15,7 @@ class so_article
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
         $this->name= $query[ 'article' ];
-        $author= so_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $author= mixer_author::makeInstance()->name( $query[ 'author' ] )->primary();
         $this->author= $author;
     }
     
@@ -33,10 +33,10 @@ class so_article
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return so_author::make();
+        return mixer_author::make();
     }
     function author_store( $data ){
-        return so_author::make( $data );
+        return mixer_author::make( $data );
     }
     
     var $storage_value;
@@ -52,9 +52,9 @@ class so_article
     var $gist_value;
     function gist_make( ){
         if( $this->version )
-            return so_gist::make( $this->model[ '@so_article_gist' ] );
+            return mixer_gist::make( $this->model[ '@mixer_article_gist' ] );
         
-        return so_gist::makeInstance()->id( $this->uri )->author( $this->author )->primary();
+        return mixer_gist::makeInstance()->id( $this->uri )->author( $this->author )->primary();
     }
     
     var $model_value;
@@ -64,11 +64,11 @@ class so_article
             return so_dom::make( $this->storage->content );
         
         return so_dom::make( array(
-            'so_article' => array(
+            'mixer_article' => array(
                 '@so_uri' => (string) $this->uri,
-                '@so_article_name' => (string) $this->name,
-                '@so_article_author' => (string) $this->author,
-                '@so_article_gist' => (string) $this->gist,
+                '@mixer_article_name' => (string) $this->name,
+                '@mixer_article_author' => (string) $this->author,
+                '@mixer_article_gist' => (string) $this->gist,
             ),
         ) );
     }
@@ -101,7 +101,7 @@ class so_article
         $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
         $force= (boolean) $data[ 'force' ];
         
-        $target= so_article::makeInstance()->name( $name )->primary();
+        $target= mixer_article::makeInstance()->name( $name )->primary();
         
         if( $target !== $this ):
             if( $target->gist->version && !$force ):

@@ -53,7 +53,7 @@ class so_XStyle
 
     var $processor_value;
     function processor_make(){
-        $processor= new XSLTProcessor( );
+        $processor= new \XSLTProcessor( );
         $processor->importStyleSheet( $this->docXSL->DOMNode );
         return $processor;
     }

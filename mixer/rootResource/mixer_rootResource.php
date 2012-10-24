@@ -1,6 +1,6 @@
 <?php
 
-class appGist_rootResource
+class mixer_rootResource
 extends so_rootResource
 {
 

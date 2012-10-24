@@ -1,6 +1,6 @@
 <?php
 
-class so_author
+class mixer_author
 {
     use so_resource;
     
@@ -43,9 +43,9 @@ class so_author
     var $about_value;
     function about_make( ){
         if( $this->version )
-            return so_gist::make( $this->model[ '@so_author_about' ] );
+            return mixer_gist::make( $this->model[ '@mixer_author_about' ] );
         
-        return so_gist::makeInstance()->id( $this->uri )->author( $this )->primary();
+        return mixer_gist::makeInstance()->id( $this->uri )->author( $this )->primary();
     }
     
     var $key_value;
@@ -53,12 +53,12 @@ class so_author
         if( !$this->version )
             return '';
         
-        return (string) $this->model[ '@so_author_key' ];
+        return (string) $this->model[ '@mixer_author_key' ];
     }
     function key_store( $data ){
         $model= $this->model;
         
-        $model[ '@so_author_key' ]= (string) $data;
+        $model[ '@mixer_author_key' ]= (string) $data;
         
         $this->model= $model;
     }
@@ -70,10 +70,10 @@ class so_author
             return so_dom::make( $this->storage->content );
         
         return so_dom::make( array(
-            'so_author' => array(
+            'mixer_author' => array(
                 '@so_uri' => (string) $this->uri,
-                '@so_author_name' => (string) $this->name,
-                '@so_author_about' => (string) $this->about,
+                '@mixer_author_name' => (string) $this->name,
+                '@mixer_author_about' => (string) $this->about,
             ),
         ) );
     }
@@ -99,7 +99,7 @@ class so_author
     
     #function move_resource( $data ){
     #    $name= $data[ 'name' ];
-    #    $target= so_author::makeInstance()->name( $name )->primary();
+    #    $target= mixer_author::makeInstance()->name( $name )->primary();
     #    
     #    if( $target != $this ):
     #        $target->about->put(array( 'content' => $this->about->content ));

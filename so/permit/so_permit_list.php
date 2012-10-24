@@ -19,13 +19,13 @@ class so_permit_list
     
     var $owner_value;
     function owner_make( ){
-        return so_author::make();
+        return mixer_author::make();
     }
     function owner_store( $data ){
         if( !$data )
             return null;
         
-        return so_author::make( $data );
+        return mixer_author::make( $data );
     }
     
     var $database_value;

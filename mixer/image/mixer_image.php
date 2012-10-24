@@ -1,6 +1,6 @@
 <?php
 
-class so_image
+class mixer_image
 {
     use so_resource;
     
@@ -33,21 +33,21 @@ class so_image
     
     var $fileOrinal_value;
     function fileOrinal_make( ){
-        return $this->storage->dir[ 'so_image_original.jpeg' ];
+        return $this->storage->dir[ 'mixer_image_original.jpeg' ];
     }
     
     var $fileMaximal_value;
     function fileMaximal_make( ){
-        return $this->storage->dir[ 'so_image_maximal.jpeg' ];
+        return $this->storage->dir[ 'mixer_image_maximal.jpeg' ];
     }
     
     var $model_value;
     function model_make( ){
         return so_dom::make( array(
-            'so_image' => array(
+            'mixer_image' => array(
                 '@so_uri' => (string) $this->uri,
-                '@so_image_original' => (string) $this->fileOrinal->uri,
-                '@so_image_maximal' => (string) $this->fileMaximal->uri,
+                '@mixer_image_original' => (string) $this->fileOrinal->uri,
+                '@mixer_image_maximal' => (string) $this->fileMaximal->uri,
             ),
         ) );
     }
@@ -67,7 +67,7 @@ class so_image
     function post_resource( $data ){
         $this->storage->dir->exists= true;
         
-        $image= new Imagick( (string) $data[ 'file' ] );
+        $image= new \Imagick( (string) $data[ 'file' ] );
         $image->writeImage( (string) $this->fileOrinal );
         
         $size= $image->getImageGeometry();
