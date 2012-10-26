@@ -19,6 +19,7 @@ class so_page
             'so_page' => array(
                 '@so_page_styles' => (string) $moduleMix[ static::$mode . '.css' ]->uriVersioned,
                 '@so_page_script' => (string) $moduleMix[ static::$mode . '.js' ]->uriVersioned,
+                '@so_page_icon' => (string) so_file::make( 'icon.png' )->uriVersioned,
                 $data,
             ),
         );

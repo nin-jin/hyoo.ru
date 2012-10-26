@@ -57,7 +57,7 @@
             <wc_error>Такого автора ещё не существует</wc_error>
         </wc_spacer>
         <form
-            method="put"
+            method="post"
             action="{@so_uri}"
             wc_form="wc_form"
             >
@@ -67,7 +67,18 @@
             </wc_button>
         </form>
     </xsl:template>
-    <xsl:template match=" mixer_author[ @mixer_author_key ] " mode="mixer_author_body">
-        <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@mixer_author_about ] " />
+    
+    <xsl:template match=" mixer_author[ @so_gist_exists ] " mode="mixer_author_body">
+        <wc_net-bridge
+            wc_net-bridge_resource="{ @so_uri }"
+            wc_net-bridge_field="mixer_author_about"
+            >
+            <wc_editor
+                wc_editor_hlight="md"
+                >
+                <xsl:value-of select=" @mixer_author_about " />
+            </wc_editor>
+        </wc_net-bridge>
     </xsl:template>
+
 </xsl:stylesheet>

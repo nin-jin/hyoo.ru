@@ -11,6 +11,17 @@ class so_output
         return $obj;
     }
 
+    static function created( $uri= null ){
+        $obj= static::make()->status( 'created' );
+        
+        if( $uri ):
+            $obj->location= $uri;
+            $obj->content= array( 'so_relocation' => $uri );
+        endif;
+        
+        return $obj;
+    }
+
     static function found( $uri= null ){
         $obj= static::make()->status( 'found' );
         

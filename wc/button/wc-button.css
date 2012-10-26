@@ -1,13 +1,11 @@
 wc_button {
-    display: inline-block; zoom: 1;
+    display: inline-block;
     position: relative;
-    $padding: .1em;
 }
 
 wc_button button {
     white-space: normal;
     cursor: pointer;
-    $width: 1%;
     overflow: visible;
     z-index: 0;
     text-align: center;
@@ -17,7 +15,6 @@ wc_button button {
     top: -1px;
 
     padding: .2em .4em;
-    $padding: .1em .2em;
 
     font-size: 14px;
     line-height: 1.2;

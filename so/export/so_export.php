@@ -5,11 +5,12 @@ class so_export
 
     static function start( ){
         $rootDir= so_root::make()->dir;
-        $export= $rootDir[ '-export' ];
+        $export= $rootDir[ '-so_export' ];
         
         $rootDir[ 'release.php' ]->copy( $export[ 'index.php' ] );
         $rootDir[ '.htaccess' ]->copy( $export[ '.htaccess' ] );
         $rootDir[ 'php.ini' ]->copy( $export[ 'php.ini' ] );
+        $rootDir[ 'icon.png' ]->copy( $export[ 'icon.png' ] );
         
         foreach( so_root::make()->packages as $package ):
             foreach( $package->sources as $source ):
@@ -42,7 +43,7 @@ class so_export
             
         endforeach;
         
-        return so_output::found( so_root::make()->dir[ '-export' ]->relate( so_front::make()->dir ) . '/' );
+        return $export->uri;
     }
     
 }

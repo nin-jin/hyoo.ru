@@ -40,6 +40,7 @@
                 
                 <xsl:apply-templates select=" . " mode="so_page_styles" />
                 <xsl:apply-templates select=" . " mode="so_page_script" />
+                <xsl:apply-templates select=" . " mode="so_page_icon" />
             </head>
             <body>
                 <wc_desktop>
@@ -89,6 +90,11 @@
     <xsl:template match=" so_page " mode="so_page_script" />
     <xsl:template match=" so_page[ @so_page_script ] " mode="so_page_script">
         <script src="{ @so_page_script }">//</script>
+    </xsl:template>
+
+    <xsl:template match=" so_page " mode="so_page_icon" />
+    <xsl:template match=" so_page[ @so_page_icon ] " mode="so_page_icon">
+        <link rel="icon" href="{ @so_page_icon }" />
     </xsl:template>
 
     <xsl:template match=" so_page " mode="so_page_tools">

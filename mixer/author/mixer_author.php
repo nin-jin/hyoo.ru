@@ -2,7 +2,7 @@
 
 class mixer_author
 {
-    use so_resource;
+    use so_gist;
     
     var $uri_value;
     var $uri_depends= array( 'uri', 'name' );
@@ -19,7 +19,20 @@ class mixer_author
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
     function name_make( ){
-        return so_user::make()->author->name;
+        $cookie= so_cookie::make( 'mixer_author_name' );
+        $userKey= so_user::make()->key;
+        
+        if( $cookie->value ):
+            $author= mixer_author::makeInstance()->name( $cookie->value );
+            
+            if( !$author->key )
+                return $author->name;
+            
+            if( $author->key == so_crypt::hash( (string) $author->uri, $userKey ) )
+                return $author->name;
+        endif;
+        
+        return substr( md5( $userKey ), 0, 8 );
     }
     function name_store( $data ){
         $data= (string) $data;
@@ -30,71 +43,65 @@ class mixer_author
         return $data;
     }
     
-    var $storage_value;
-    function storage_make( ){
-        return so_storage::make( $this->uri );
-    }
-    
-    var $version_value;
-    function version_make( ){
-        return $this->storage->version;
-    }
-    
-    var $about_value;
-    function about_make( ){
-        if( $this->version )
-            return mixer_gist::make( $this->model[ '@mixer_author_about' ] );
-        
-        return mixer_gist::makeInstance()->id( $this->uri )->author( $this )->primary();
-    }
-    
-    var $key_value;
-    function key_make( ){
-        if( !$this->version )
-            return '';
-        
-        return (string) $this->model[ '@mixer_author_key' ];
-    }
-    function key_store( $data ){
-        $model= $this->model;
-        
-        $model[ '@mixer_author_key' ]= (string) $data;
-        
-        $this->model= $model;
-    }
-    
-    var $model_value;
-    var $model_depends= array();
-    function model_make( ){
-        if( $this->version )
-            return so_dom::make( $this->storage->content );
-        
+    var $modelBase_value;
+    function modelBase_make( ){
         return so_dom::make( array(
             'mixer_author' => array(
                 '@so_uri' => (string) $this->uri,
                 '@mixer_author_name' => (string) $this->name,
-                '@mixer_author_about' => (string) $this->about,
+                '@mixer_author_about' => '    ...',
             ),
         ) );
     }
-    function model_store( $data ){
-        $this->storage->content= $data->doc;
-        unset( $this->version );
-        unset( $this->key );
-        return $data;
+    
+    var $about_value;
+    var $about_depends= array();
+    function about_make( ){
+        return (string) $this->model[ '@mixer_author_about' ];
+    }
+    function about_store( $data ){
+        $model= $this->model;
+        $model[ '@mixer_author_about' ]= (string) $data;
+        $this->model= $model;
+    }
+    
+    var $key_value;
+    var $key_depends= array();
+    function key_make( ){
+        return (string) $this->model[ '@mixer_author_key' ];
+    }
+    function key_store( $data ){
+        $model= $this->model;
+        $model[ '@mixer_author_key' ]= (string) $data;
+        $this->model= $model;
     }
     
     function get_resource( $data= null ){
-        $output= $this->version ? so_output::ok() : so_output::missed();
+        $output= $this->exists ? so_output::ok() : so_output::missed();
         
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->name,
-            $this->model,
-            $this->about->teaser,
+            $this->teaser,
         );
         
         return $output;
+    }
+    
+    function post_resource( $data ){
+        $authorCurrent= mixer_author::make();
+        
+        if( $this->key && $this !== $authorCurrent )
+            return so_output::forbidden( "User [{$this->name}] is already registered" );
+        
+        $this->about= so_value::make( $data[ 'mixer_author_about' ] ) ?: $this->about;
+        $this->key= so_crypt::hash( $this->uri, so_user::make()->key );
+        $this->exists= true;
+        
+        so_cookie::make( 'mixer_author_name' )->value= $this->name;
+        
+        #return so_output::ok( 'Updated' );
+        return so_output::created( (string) $this );
     }
     
     #function move_resource( $data ){
@@ -109,11 +116,5 @@ class mixer_author
     #    return so_output::ok()->content(array( 'so_relocation' => (string) $target ));
     #}
     #
-    function put_resource( $data ){
-        $author= $this->version ? $user->author : $this;
-        so_user::make()->author= $author;
-        
-        return so_output::ok()->content(array( 'so_relocation' => (string) $author ));
-    }
 
 }

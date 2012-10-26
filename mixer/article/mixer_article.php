@@ -2,7 +2,7 @@
 
 class mixer_article
 {
-    use so_resource;
+    use so_gist;
     
     var $uri_value;
     var $uri_depends= array( 'uri', 'name', 'author' );
@@ -39,64 +39,52 @@ class mixer_article
         return mixer_author::make( $data );
     }
     
-    var $storage_value;
-    function storage_make( ){
-        return so_storage::make( $this->uri );
-    }
-    
-    var $version_value;
-    function version_make( ){
-        return $this->storage->version;
-    }
-    
-    var $gist_value;
-    function gist_make( ){
-        if( $this->version )
-            return mixer_gist::make( $this->model[ '@mixer_article_gist' ] );
-        
-        return mixer_gist::makeInstance()->id( $this->uri )->author( $this->author )->primary();
-    }
-    
-    var $model_value;
-    var $model_depends= array();
-    function model_make( ){
-        if( $this->version )
-            return so_dom::make( $this->storage->content );
-        
+    var $modelBase_value;
+    function modelBase_make( ){
         return so_dom::make( array(
             'mixer_article' => array(
                 '@so_uri' => (string) $this->uri,
                 '@mixer_article_name' => (string) $this->name,
                 '@mixer_article_author' => (string) $this->author,
-                '@mixer_article_gist' => (string) $this->gist,
+                '@mixer_article_content' => '    ...',
             ),
         ) );
     }
-    function model_store( $data ){
-        $this->storage->content= $data->doc;
-        unset( $this->version );
-        return $data;
+    
+    var $content_value;
+    var $content_depends= array();
+    function content_make( ){
+        return (string) $this->model[ '@mixer_article_content' ];
+    }
+    function content_store( $data ){
+        $model= $this->model;
+        $model[ '@mixer_article_content' ]= (string) $data;
+        $this->model= $model;
     }
     
     function get_resource( $data= null ){
-        $output= ( $this->version || $this->gist->version ) ? so_output::ok() : so_output::missed();
+        $output= $this->exists ? so_output::ok() : so_output::missed();
         
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->name,
-            $this->model,
-            $this->gist->teaser,
-            $this->author->model,
+            $this->teaser,
+            $this->author->teaser,
         );
         
         return $output;
     }
     
-    #function delete_resource( $data ){
-    #    $this->gist->content= $data[ 'content' ] ?: "    /Article deleted/.\n";
-    #    return so_output::ok( 'Article deleted' );
-    #}
-
+    function post_resource( $data ){
+        if( $this->author !== mixer_author::make() )
+            return so_output::forbidden( "Permission denied" );
+        
+        $this->content= so_value::make( $data[ 'mixer_article_content' ] ) ?: $this->content;
+        $this->exists= true;
+        
+        return so_output::created( (string) $this );
+    }
+    
     function move_resource( $data ){
         $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
         $force= (boolean) $data[ 'force' ];
@@ -104,16 +92,18 @@ class mixer_article
         $target= mixer_article::makeInstance()->name( $name )->primary();
         
         if( $target !== $this ):
-            if( $target->gist->version && !$force ):
+            if( $target->exists && !$force ):
                 return so_output::conflict( 'Article already exists' );
             endif;
             
-            $target->gist->post_resource(array( 'content' => $this->gist->content ));
-            if( $this->gist->version && $target->author === $this->author )
-                $this->gist->post_resource(array( 'content' => "    /Article moved to [new location\\{$target}]/.\n" ));
+            $target->content= $this->content;
+            if( $this->exists && $target->author === $this->author ):
+                $this->content= "    /Article moved to [new location\\{$target}]/.\n";
+                $this->exists= false;
+            endif;
         endif;
         
-        return so_output::ok()->content(array( 'so_relocation' => (string) $target ));
+        return so_output::created( (string) $target );
     }
 
 }

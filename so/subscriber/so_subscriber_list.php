@@ -58,7 +58,10 @@ class so_subscriber_list
     }
     
     function get_resource( $data ){
-        return so_output::ok()->content( $this->model );
+        return so_output::ok()->content( array(
+            '@so_page_uri' => (string) $this->uri,
+            $this->model,
+        ) );
     }
 
     function post( $data ){

@@ -21,7 +21,7 @@ class mixer_image_search
     var $search_value;
     var $search_depends= array( 'uri', 'search' );
     function search_make( ){
-        return 'foobar';
+        return 'facepalm';
     }
     function search_store( $data ){
         if( !$data ) return null;

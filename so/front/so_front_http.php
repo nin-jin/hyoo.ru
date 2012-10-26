@@ -6,6 +6,7 @@ extends so_front
 
     static $codeMap= array(
         'ok' => 200,
+        'created' => 201,
         'moved' => 301,
         'found' => 302,
         'see' => 303,

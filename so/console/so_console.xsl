@@ -32,7 +32,7 @@
     
     <xsl:template match=" so_console_result ">
         <wc_hlight wc_hlight_lang="{ @so_console_lang }">
-            <xsl:value-of select=" so_console_content " />
+            <xsl:value-of select=" @so_console_content " />
         </wc_hlight>
     </xsl:template>
     

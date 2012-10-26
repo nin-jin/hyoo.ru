@@ -163,7 +163,7 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
         endif;
         
         $list= array();
-        foreach( $this->child as $item ):
+        foreach( $this->childs as $item ):
             if( $item->name != $key ) continue;
             $list= array_merge( $list, $item->childs->list );
         endforeach;

@@ -46,7 +46,7 @@ class so_console
         return so_output::ok()->content( array(
             'so_console_result' => array(
                 '@so_console_lang' => $lang,
-                'so_console_content' => (string) $result,
+                '@so_console_content' => (string) $result,
             )
         ) );
     }

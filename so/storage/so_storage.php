@@ -15,14 +15,17 @@ class so_storage
     
     var $dir_value;
     function dir_make( ){
-        #$id= md5( $this->id );
-        #$id= substr( $id, 0, 3 ) . '/' . substr( $id, 4, 7 );
-        $tokens= explode( '=', $this->id );
+        $pair= explode( '=', $this->id, 2 );
         
-        foreach( $tokens as &$token )
-            $token= substr( md5( $token ), 0, 10 );
+        $key= strtr( $pair[ 0 ], array( '?' => '=' ) );
         
-        return so_file::make( '-so_storage' )->go( implode( '/', $tokens ) );
+        $val= &$pair[ 1 ];
+        $val= md5( $val );
+        $val= substr( $val, 0, 3 ) . '/' . substr( $val, 4, 7 );
+        
+        $path= $key . '/' . $val;
+        
+        return so_file::make( '-so_storage' )->go( $path );
     }
     
     var $index_value;

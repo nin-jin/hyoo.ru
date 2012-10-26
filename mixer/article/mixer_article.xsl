@@ -65,9 +65,17 @@
         </form>
     </xsl:template>
     
-    <xsl:template match=" mixer_article " mode="mixer_article_body" />
-    <xsl:template match=" mixer_article[ @mixer_article_gist ] " mode="mixer_article_body">
-        <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@mixer_article_gist ] " />
+    <xsl:template match=" mixer_article " mode="mixer_article_body">
+        <wc_net-bridge
+            wc_net-bridge_resource="{ @so_uri }"
+            wc_net-bridge_field="mixer_article_content"
+            >
+            <wc_editor
+                wc_editor_hlight="md"
+                >
+                <xsl:value-of select=" @mixer_article_content " />
+            </wc_editor>
+        </wc_net-bridge>
     </xsl:template>
     
 </xsl:stylesheet>

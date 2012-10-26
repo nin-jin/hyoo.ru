@@ -13,18 +13,41 @@ trait so_database
     
     var $file_value;
     function file_make( ){
-        return ':memory:';
+        return false;
     }
     function file_store( $data ){
-        so_file::ensure( $data );
-        $data->parent->exists= true;
-        return $data;
+        return so_file::make( $data );
+    }
+    
+    var $exists_value;
+    function exists_make( ){
+        $file= $this->file;
+        return $file ? $file->exists : true;
+    }
+    
+    var $dsn_value;
+    function dsn_make( ){
+        $file= $this->file;
+        
+        if( !$file )
+            return "sqlite::memory:";
+        
+        $file->parent->exists= true;
+        
+        return "sqlite:{$file}";
+    }
+    
+    var $emptyRow_value;
+    function emptyRow_make( ){
+        $row= array( $this->mainField => null );
+        foreach( $this->fields as $field )
+            $row[ $field ]= null;
+        return $row;
     }
     
     var $connection_value;
-    function connection_make(){
-        $connection= new \PDO( 'sqlite:' . $this->file );
-        
+    function connection_make( ){
+        $connection= new \PDO( $this->dsn );
         $connection->query( "create table if not exists [{$this->name}] ( [{$this->mainField}] primary key )" );
         
         foreach( $this->fields as $field )
@@ -59,6 +82,9 @@ trait so_database
     
     var $dump_value;
     function dump_make( ){
+        if( !$this->exists )
+            return array();
+        
         $list= $this->request( "select * from [{$this->name}]" )->fetchAll( \PDO::FETCH_ASSOC );
         $hash= array();
         
@@ -70,6 +96,9 @@ trait so_database
     
     var $head_value;
     function head_make( ){
+        if( !$this->exists )
+            return $this->emptyRow;
+        
         $result= $this->request( "select * from [{$this->name}] limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
@@ -80,6 +109,9 @@ trait so_database
     
     var $tail_value;
     function tail_make( ){
+        if( !$this->exists )
+            return $this->emptyRow;
+        
         $result= $this->request( "select * from [{$this->name}] order by _ROWID_ desc limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
@@ -115,10 +147,16 @@ trait so_database
     }
     
     function offsetExists( $id ){
+        if( !$this->exists )
+            return false;
+        
         return (boolean) $this[ $id ];
     }
     
     function offsetGet( $id ){
+        if( !$this->exists )
+            return $this->emptyRow;
+        
         $result= $this->request( "select * from [{$this->name}] where [{$this->mainField}] = ", $id )->fetch( \PDO::FETCH_ASSOC );
         
         if( $result === false )
@@ -128,6 +166,9 @@ trait so_database
     }
     
     function offsetUnset( $id ){
+        if( !$this->exists )
+            return $this;
+        
         return $this->request( "delete from [{$this->name}] where [{$this->mainField}] = ", $id );
     }
 
