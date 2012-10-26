@@ -28,10 +28,16 @@ trait so_gist
     var $model_value;
     var $model_depends= array();
     function model_make( ){
-        if( $this->version )
-            return so_dom::make( $this->storage->content );
+        if( !$this->version )
+            return $this->modelBase;
         
-        return $this->modelBase;
+        $model= so_dom::make( (string) $this->storage->content );
+        $model[]= $this->modelBase->attrs;
+        
+        if( $this->storage->content != $model )
+            $this->model= $model;
+        
+        return $model;
     }
     function model_store( $data ){
         $doc= so_dom::make();
@@ -49,7 +55,10 @@ trait so_gist
             return $this->model;
         
         return so_dom::make(array(
-            'so_gist/@so_uri_external' => (string) $this->storage->uri,
+            'so_gist' => array(
+                '@so_gist_uri' => (string) $this->uri,
+                '@so_uri_external' => (string) $this->storage->uri,
+            ),
         ));
     }
     

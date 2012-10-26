@@ -101,12 +101,17 @@
         <wc_pop-tool>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
+                    <a href="?article=О+проекте+Gist!;author=Nin+Jin">О проекте Gist!</a>
+                </wc_pop-tool_item>
+            </wc_pop-tool_panel>
+            <wc_pop-tool_panel wc_pop-tool_edge="bottom">
+                <wc_pop-tool_item>
                     <a href="?author">ваш профиль</a>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?article;list">ваши записи</a>
+                    <a href="?article;list;author">ваши записи</a>
                 </wc_pop-tool_item>
                 <wc_pop-tool_item>
                     <a href="?article">+</a>

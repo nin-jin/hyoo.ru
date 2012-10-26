@@ -1,6 +1,6 @@
 <?php
 
-class mixer_article_list
+class mixer_article_list_author
 {
     use so_gist_list;
     
@@ -9,20 +9,29 @@ class mixer_article_list
     function uri_make( ){
         return so_query::make(array(
             'article;list',
+            'author' => (string) $this->author->name,
         ))->uri;
     }
     function uri_store( $data ){
+        $query= so_uri::make( $data )->query;
+        $author= mixer_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $this->author= $author;
+    }
+    
+    var $author_value;
+    var $author_depends= array( 'uri', 'author' );
+    function author_make( ){
+        return mixer_author::make();
+    }
+    function author_store( $data ){
+        return mixer_author::make( $data );
     }
     
     function get_resource( $data= null ){
         $articleList= array();
-        $authorHash= array();
         
-        foreach( $this->map as $article ):
+        foreach( $this->map as $article )
             $articleList[]= $article->teaser;
-            $author= $article->author;
-            $authorHash[ (string) $author ]= $author->teaser;
-        endforeach;
         
         return so_output::ok()->content( array(
             '@so_page_uri' => (string) $this->uri,
@@ -30,7 +39,7 @@ class mixer_article_list
                 '@so_uri' => (string) $this->uri,
                 $articleList,
             ),
-            array_values( $authorHash ),
+            $this->author->teaser,
         ) );
     }
     

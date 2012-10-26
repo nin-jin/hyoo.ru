@@ -1,6 +1,6 @@
 wc_pop-tool {
     display: inline-block;
-    min-width: 50%;
+    min-width: 10em;
     vertical-align: bottom;
     position: relative;
     font-color: black;

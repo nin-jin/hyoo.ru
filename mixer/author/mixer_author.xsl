@@ -10,6 +10,7 @@
             <wc_pop-tool>
                 <wc_pop-tool_panel wc_pop-tool_edge="top">
                     <xsl:apply-templates select="." mode="mixer_author_permalink" />
+                    <xsl:apply-templates select="." mode="mixer_author_article-list" />
                 </wc_pop-tool_panel>
             </wc_pop-tool>
             <wc_paper>
@@ -26,6 +27,15 @@
         <wc_pop-tool_item>
             <a href="{ @so_uri }" title="Постоянная ссылка на этого автора">
                 <xsl:apply-templates select=" . " mode="mixer_author_name" />
+            </a>
+        </wc_pop-tool_item>
+    </xsl:template>
+    
+    <xsl:template match=" mixer_author " mode="mixer_author_article-list" />
+    <xsl:template match=" mixer_author[ @mixer_author_article-list ] " mode="mixer_author_article-list">
+        <wc_pop-tool_item>
+            <a href="{ @mixer_author_article-list }" title="Статьи этого автора">
+                <xsl:text>Статьи</xsl:text>
             </a>
         </wc_pop-tool_item>
     </xsl:template>

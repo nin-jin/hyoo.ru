@@ -4,6 +4,10 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
+    <xsl:template match=" mixer_article_list ">
+        <xsl:apply-templates select=" * | document( * / @so_uri_external, . ) // *[ @so_uri ] " />
+    </xsl:template>
+    
     <xsl:template match=" mixer_article ">
         <wc_spacer>
             <wc_pop-tool>

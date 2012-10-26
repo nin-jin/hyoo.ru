@@ -6,7 +6,7 @@ extends so_rootResource
 
     var $uri_value;
     function uri_make( ){
-        return so_uri::make( '?article=О+проекте+Gist!;author=Nin+Jin' );
+        return so_uri::make( '?article;list' );
     }
     function uri_store( $data ){
         if( !(string)$data )

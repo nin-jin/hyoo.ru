@@ -136,6 +136,10 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
         return so_dom_collection::make( $nodeList );
     }
     
+    function cloneTree( ){
+        return static::make( $this->DOMNode->cloneNode( true ) );
+    }
+    
     function drop( ){
         $DOMNode= $this->DOMNode;
         $DOMNode->parentNode->removeChild( $DOMNode );

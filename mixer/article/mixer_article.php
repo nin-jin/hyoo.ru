@@ -46,7 +46,6 @@ class mixer_article
                 '@so_uri' => (string) $this->uri,
                 '@mixer_article_name' => (string) $this->name,
                 '@mixer_article_author' => (string) $this->author,
-                '@mixer_article_content' => '    ...',
             ),
         ) );
     }
@@ -81,6 +80,9 @@ class mixer_article
         
         $this->content= so_value::make( $data[ 'mixer_article_content' ] ) ?: $this->content;
         $this->exists= true;
+        
+        $this->author->articleList->append( $this );
+        mixer_article_list::make()->append( $this );
         
         return so_output::created( (string) $this );
     }

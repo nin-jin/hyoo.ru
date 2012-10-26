@@ -37,8 +37,8 @@ trait so_database
         return "sqlite:{$file}";
     }
     
-    var $emptyRow_value;
-    function emptyRow_make( ){
+    var $emptyRecord_value;
+    function emptyRecord_make( ){
         $row= array( $this->mainField => null );
         foreach( $this->fields as $field )
             $row[ $field ]= null;
@@ -85,11 +85,11 @@ trait so_database
         if( !$this->exists )
             return array();
         
-        $list= $this->request( "select * from [{$this->name}]" )->fetchAll( \PDO::FETCH_ASSOC );
+        $list= $this->request( "select * from [{$this->name}] order by _ROWID_ desc" )->fetchAll( \PDO::FETCH_ASSOC );
         $hash= array();
         
-        foreach( $list as $row )
-            $hash[ $row[ $this->mainField ] ]= $row;
+        foreach( $list as $record )
+            $hash[ $record[ $this->mainField ] ]= $record;
         
         return $hash;
     }
@@ -97,7 +97,7 @@ trait so_database
     var $head_value;
     function head_make( ){
         if( !$this->exists )
-            return $this->emptyRow;
+            return $this->emptyRecord;
         
         $result= $this->request( "select * from [{$this->name}] limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
@@ -110,7 +110,7 @@ trait so_database
     var $tail_value;
     function tail_make( ){
         if( !$this->exists )
-            return $this->emptyRow;
+            return $this->emptyRecord;
         
         $result= $this->request( "select * from [{$this->name}] order by _ROWID_ desc limit 1" )->fetch( \PDO::FETCH_ASSOC );
         
@@ -155,7 +155,7 @@ trait so_database
     
     function offsetGet( $id ){
         if( !$this->exists )
-            return $this->emptyRow;
+            return $this->emptyRecord;
         
         $result= $this->request( "select * from [{$this->name}] where [{$this->mainField}] = ", $id )->fetch( \PDO::FETCH_ASSOC );
         

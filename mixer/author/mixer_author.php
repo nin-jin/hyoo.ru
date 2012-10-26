@@ -43,13 +43,18 @@ class mixer_author
         return $data;
     }
     
+    var $articleList_value;
+    function articleList_make( ){
+        return mixer_article_list_author::makeInstance()->author( $this )->primary();
+    }
+    
     var $modelBase_value;
     function modelBase_make( ){
         return so_dom::make( array(
             'mixer_author' => array(
                 '@so_uri' => (string) $this->uri,
                 '@mixer_author_name' => (string) $this->name,
-                '@mixer_author_about' => '    ...',
+                '@mixer_author_article-list' => (string) $this->articleList,
             ),
         ) );
     }
