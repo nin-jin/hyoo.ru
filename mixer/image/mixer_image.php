@@ -41,6 +41,11 @@ class mixer_image
         return $this->storage->dir[ 'mixer_image_maximal.jpeg' ];
     }
     
+    var $filePreview_value;
+    function filePreview_make( ){
+        return $this->storage->dir[ 'mixer_image_preview.jpeg' ];
+    }
+    
     var $model_value;
     function model_make( ){
         return so_dom::make( array(
@@ -48,6 +53,7 @@ class mixer_image
                 '@so_uri' => (string) $this->uri,
                 '@mixer_image_original' => (string) $this->fileOrinal->uri,
                 '@mixer_image_maximal' => (string) $this->fileMaximal->uri,
+                '@mixer_image_preview' => (string) $this->filePreview->uri,
             ),
         ) );
     }
@@ -65,16 +71,23 @@ class mixer_image
     }
     
     function post_resource( $data ){
+        if( $this->storage->dir->exists )
+            return so_output::conflict( 'Image already exists' );
+        
         $this->storage->dir->exists= true;
         
         $image= new \Imagick( (string) $data[ 'file' ] );
         $image->writeImage( (string) $this->fileOrinal );
         
         $size= $image->getImageGeometry();
-        
         if( $size[ 'width' ] > 800 or $size[ 'height' ] > 600 )
             $image->adaptiveResizeImage( 800, 600, true );
         $image->writeImage( (string) $this->fileMaximal );
+        
+        $size= $image->getImageGeometry();
+        if( $size[ 'width' ] > 100 or $size[ 'height' ] > 100 )
+            $image->adaptiveResizeImage( 100, 100, true );
+        $image->writeImage( (string) $this->filePreview );
         
         return so_output::ok()->content( $this->model );
     }

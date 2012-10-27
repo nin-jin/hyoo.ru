@@ -37,6 +37,7 @@ class mixer_article_list_author
             '@so_page_uri' => (string) $this->uri,
             'mixer_article_list' => array(
                 '@so_uri' => (string) $this->uri,
+                '@mixer_article_author' => (string) $this->author,
                 $articleList,
             ),
             $this->author->teaser,

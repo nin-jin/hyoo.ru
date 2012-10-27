@@ -57,9 +57,9 @@
                     </wc_spacer>
                     
                     <wc_footer>
-                        <a href="https://github.com/nin-jin/PMS" title="Исходники этого сайта">Gist!</a>
-                        <xsl:text> @ </xsl:text>
-                        <a href="http://vrozetke.com/" title="Бесплатный Хостинг">Vrozetke.com</a>
+                        <a href="http://vrozetke.com/">Бесплатный Хостинг</a>
+                        <xsl:text> | </xsl:text>
+                        <a href="mailto:nin-jin@ya.ru">Экстренная связь с машинистом</a>
                     </wc_footer>
                     
                 </wc_desktop>
