@@ -14,6 +14,14 @@ trait so_gist
         return $this->storage->version;
     }
     
+    var $listList_value;
+    function listList_make( ){
+        return array(
+            $this->author->articleList,
+            mixer_article_list::make(),
+        );
+    }
+    
     var $exists_value;
     var $exists_depends= array();
     function exists_make( ){
@@ -23,6 +31,14 @@ trait so_gist
         $model= $this->model;
         $model[ '@so_gist_exists' ]= $data ? 'true' : 'false';
         $this->model= $model;
+        
+        if( $data ):
+            foreach( $this->listList as $list )
+                $list->append( $this );
+        else:
+            foreach( $this->listList as $list )
+                $list->drop( $this );
+        endif;
     }
     
     var $model_value;

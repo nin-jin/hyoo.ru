@@ -107,14 +107,14 @@ new function(){
             close= md.linkMarker( close )
             href= title ? md.linkHref( href ) : md.linkTitle( href )
             title= md.linkTitle( md.inline( title ) )
-            return md.link( '<a href="' + $jam.htmlEscape( uri ) + '">' + open + title + middle + href + close + '</a>' )
+            return md.link( '<a wc_link="true" href="' + $jam.htmlEscape( uri ) + '">' + open + title + middle + href + close + '</a>' )
         }
         
         // image
         // [url]
         this[ /(\[)([^\[\]]+)(\])/.source ]=
         function( open, href, close ){
-            return md.image( md.imageHref( open + href + close ) + '<a href="' + $jam.htmlEscape( href ) + '"><object data="' + $jam.htmlEscape( href ) + '"></object></a>' )
+            return md.image( md.imageHref( open + href + close ) + '<a wc_link="true" href="' + $jam.htmlEscape( href ) + '"><object data="' + $jam.htmlEscape( href ) + '"></object></a>' )
         }
         
         // emphasis
@@ -243,7 +243,7 @@ new function(){
         function( src, middle, link, close ){
             var prolog= md.embedHref( src + ( middle || '' ) + ( link || '' ) + close )
             //url= url.replace( /\xAD/g, '' ) TODO: перенсти в редактор в onpaste
-            var embed= md.embed( '<a href="' + $jam.htmlEscape( link || src ) + '"><img src="' + $jam.htmlEscape( src ) + '" /></a>' )
+            var embed= md.embed( '<a wc_link="true" href="' + $jam.htmlEscape( link || src ) + '"><img src="' + $jam.htmlEscape( src ) + '" /></a>' )
             return prolog + embed
         }
     

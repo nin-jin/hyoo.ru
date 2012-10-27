@@ -84,10 +84,6 @@ lang_md_link {
     display: inline\9; /*ie*/
 }
 
-lang_md_link > a:hover {
-	/*text-decoration: none;*/
-}
-
 lang_md_link-title {
     font-family: 'Times', serif;
 	white-space: nowrap;

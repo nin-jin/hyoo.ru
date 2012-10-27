@@ -1,8 +1,2 @@
 include module= so/error
-include module= html/root
-include module= html/html
-include module= html/body
-include module= html/form
-include module= html/a
-include module= html/h
 include module= lang/md

@@ -12,7 +12,7 @@
         <wc_button>
             <button
                 type="submit"
-                name="force"
+                name="so_conflict_force"
                 value="true"
                 >
                 <xsl:text>Знаю, пофиг!</xsl:text>

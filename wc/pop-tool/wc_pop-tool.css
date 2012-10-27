@@ -68,6 +68,7 @@ wc_pop-tool_item {
     vertical-align: bottom;
     background: transparent;
     border-right: 1px solid #aaa;
+    text-align: center;
 }
 wc_pop-tool_item:last-child {
     border-right: none;
@@ -94,17 +95,21 @@ wc_pop-tool input:focus {
     outline: none;
 }
 
-wc_pop-tool a {
+wc_pop-tool a[wc_reset],
+wc_pop-tool button[wc_reset] {
     display: block;
     white-space: nowrap;
     padding: 3pt 5pt;
     margin: 0;
-    vertical-align: top;
+    vertical-align: middle;
     opacity: .75;
+    color: #66b;
+    cursor: pointer;
 }
 
-wc_pop-tool a:hover {
-    opacity: 1;
+wc_pop-tool a[wc_reset]:hover,
+wc_pop-tool button[wc_reset]:hover {
+    opacity: .99;
     text-decoration: none;
     background: -o-linear-gradient( -90deg, white, #eee );
     background: -moz-linear-gradient( -90deg, white, #eee );

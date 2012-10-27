@@ -26,9 +26,19 @@
         select=" substring-before( substring-after( $so_page_stylesheet, 'href=&quot;' ), concat( $so_page_mode, '.xsl' ) ) "
     />
     
+    <xsl:variable
+        name="so_page_uri"
+        select=" / so_page / @so_page_uri "
+    />
+    
+    <xsl:variable
+        name="so_page_resource"
+        select=" $so_uri_map[ @so_uri = $so_page_uri ] "
+    />
+    
     <xsl:template match=" so_page ">
         
-        <html>
+        <html wc_reset="true">
             <head>
                 
                 <title>
@@ -42,14 +52,14 @@
                 <xsl:apply-templates select=" . " mode="so_page_script" />
                 <xsl:apply-templates select=" . " mode="so_page_icon" />
             </head>
-            <body>
+            <body wc_reset="true">
                 <wc_desktop>
                     
                     <xsl:apply-templates select=" . " mode="so_page_logo" />
                     <xsl:apply-templates select=" . " mode="so_page_tools" />
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
                     
-                    <xsl:apply-templates select=" $so_uri_map[ @so_uri = current()/@so_page_uri ] " />
+                    <xsl:apply-templates select=" $so_page_resource " />
                     <xsl:apply-templates select=" * [ not( @so_uri ) ] " />
                     
                     <wc_spacer>
@@ -57,9 +67,9 @@
                     </wc_spacer>
                     
                     <wc_footer>
-                        <a href="http://vrozetke.com/">Бесплатный Хостинг</a>
+                        <a href="http://vrozetke.com/" wc_link="true">Бесплатный Хостинг</a>
                         <xsl:text> | </xsl:text>
-                        <a href="mailto:nin-jin@ya.ru">Экстренная связь с машинистом</a>
+                        <a href="mailto:nin-jin@ya.ru" wc_link="true">Экстренная связь с машинистом</a>
                     </wc_footer>
                     
                 </wc_desktop>
@@ -101,20 +111,20 @@
         <wc_pop-tool>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?article=О+проекте+Gist!;author=Nin+Jin">О проекте Gist!</a>
+                    <a href="?article=О+проекте+Gist!;author=Nin+Jin" wc_reset="true">О проекте Gist!</a>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?author">ваш профиль</a>
+                    <a href="?author" wc_reset="true">ваш профиль</a>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?article;list;author">ваши записи</a>
+                    <a href="?article;list;author" wc_reset="true">ваши записи</a>
                 </wc_pop-tool_item>
                 <wc_pop-tool_item>
-                    <a href="?article">+</a>
+                    <a href="?article" wc_reset="true">+</a>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
         </wc_pop-tool>

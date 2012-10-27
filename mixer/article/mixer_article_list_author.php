@@ -34,7 +34,8 @@ class mixer_article_list_author
             $articleList[]= $article->teaser;
         
         return so_output::ok()->content( array(
-            '@so_page_uri' => (string) $this->uri,
+            '@so_page_uri' => (string) $this,
+            '@so_page_author' => (string) $this->author,
             'mixer_article_list' => array(
                 '@so_uri' => (string) $this->uri,
                 '@mixer_article_author' => (string) $this->author,

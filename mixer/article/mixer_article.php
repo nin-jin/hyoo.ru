@@ -61,6 +61,24 @@ class mixer_article
         $this->model= $model;
     }
     
+    var $annotation_value;
+    var $annotation_depends= array();
+    function annotation_make( ){
+        return (string) $this->model[ '@mixer_article_annotation' ];
+    }
+    function annotation_store( $data ){
+        $model= $this->model;
+        $model[ '@mixer_article_annotation' ]= (string) $data;
+        $this->model= $model;
+    }
+    
+    function listList_make( ){
+        return array(
+            $this->author->articleList,
+            mixer_article_list::make(),
+        );
+    }
+    
     function get_resource( $data= null ){
         $output= $this->exists ? so_output::ok() : so_output::missed();
         
@@ -78,31 +96,45 @@ class mixer_article
         if( $this->author !== mixer_author::make() )
             return so_output::forbidden( "Permission denied" );
         
-        $this->content= so_value::make( $data[ 'mixer_article_content' ] ) ?: $this->content;
+        $this->content= $data[ 'mixer_article_content' ] ?: $this->content;
+        $this->annotation= $data[ 'mixer_article_annotation' ] ?: $this->annotation;
         $this->exists= true;
-        
-        $this->author->articleList->append( $this );
-        mixer_article_list::make()->append( $this );
         
         return so_output::created( (string) $this );
     }
     
+    function delete_resource( $data ){
+        if( $this->author !== mixer_author::make() )
+            return so_output::forbidden( "Permission denied" );
+        
+        $this->content= $data[ 'mixer_article_content' ] ?: '    /Article removed/';
+        $this->annotation= $data[ 'mixer_article_annotation' ] ?: '';
+        $this->exists= false;
+        
+        return so_output::ok( 'Deleted' );
+    }
+    
     function move_resource( $data ){
-        $name= strtr( $data[ 'name' ], array( "\n" => '', "\r" => '' ) );
-        $force= (boolean) $data[ 'force' ];
+        $name= strtr( $data[ 'mixer_article_name' ], array( "\n" => '', "\r" => '' ) );
+        $force= ( $data[ 'so_conflict_force' ] == 'true' );
         
         $target= mixer_article::makeInstance()->name( $name )->primary();
         
-        if( $target !== $this ):
-            if( $target->exists && !$force ):
-                return so_output::conflict( 'Article already exists' );
-            endif;
-            
-            $target->content= $this->content;
-            if( $this->exists && $target->author === $this->author ):
-                $this->content= "    /Article moved to [new location\\{$target}]/.\n";
-                $this->exists= false;
-            endif;
+        if( $target === $this )
+            return so_output::on( 'Same name' );
+        
+        if( $target->exists && !$force )
+            return so_output::conflict( 'Article already exists' );
+        
+        $target->post_resource(array(
+            'mixer_article_content' => $this->content,
+            'mixer_article_annotation' => $this->annotation,
+        ));
+        
+        if( $this->exists && $target->author === $this->author ):
+            $this->delete_resource(array(
+                'mixer_article_content' => "    /Article moved to [new location\\{$target}]/.\n",
+            ));
         endif;
         
         return so_output::created( (string) $target );

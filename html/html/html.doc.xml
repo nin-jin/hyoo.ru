@@ -1,9 +1,0 @@
-<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc_root
-    xmlns="http://www.w3.org/1999/xhtml"
-    >
-
-    <h1>html</h1>
-    <p>Стилизация основных html элементов. Для сброса стилизации используется класс <code>reset=true</code>.</p>
-    
-</doc_root>
