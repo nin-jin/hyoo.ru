@@ -80,8 +80,6 @@ wc_editor[wc_editor_active="true"] lang_md_image-href {
 lang_md_link {
     color: blue;
     font-family: 'Courier New', monospace;
-    display: inline-block;
-    display: inline\9; /*ie*/
 }
 
 lang_md_link-title {
@@ -90,7 +88,7 @@ lang_md_link-title {
 }
 
 lang_md_link-href {
-    font-size: 13pt;
+    font-size: 11pt;
     color: #66b;
     position: absolute;
 	opacity:  0;

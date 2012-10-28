@@ -5,6 +5,29 @@ new function(){
     function( str ){
         return md.root( md.content( str ) )
     }
+    
+    md.html2text= function( text ){
+        return $jam.html2text
+        (   text
+            .replace( /<h1[^>]*>/gi, '\n!!! ' )
+            .replace( /<h2[^>]*>/gi, '\n!!  ' )
+            .replace( /<h[3-7][^>]*>/gi, '\n!   ' )
+            .replace( /<\/?code[^>]*>/gi, '' )
+            .replace( /<pre[^>]*>([\s\S]+?)<\/pre>/gi, function( str, code ){
+                console.log( code )
+                return '\n#   text\n    ' + code.replace( /[\r\n]+$/, '' ).replace( /\n/g, '\n    ' )  + '\n'
+            })
+            .replace( /<a wc_link="true"[^>]*>/gi, '' )
+            .replace( /<a[^>]* href="([^">]+)"[^>]*>([\s\S]*?)<\/a>/gi, function( str, link, text ){
+                if( !text ) return str
+                if( text === link ) text= ''
+                return '[' + text + '\\' + link + ']'
+            })
+            .replace( /<li[^>]*>/gi, '\n    • ' )
+            .replace( /<p[^>]*>/gi, '\n    ' )
+            .replace( /<\/(h[1-6]|p|li)>/gi, '\n' )
+        )
+    }
 
     md.root= $lang.Wrapper( 'lang_md' )
 
@@ -90,9 +113,16 @@ new function(){
         this[ /([0-9∅‰∞∀∃∫√×±≤+−≥≠<>%])/.source ]=
         md.math
         
+        // hlight off
+        // ``
+        this[ /(`)(.+?)(`)/.source ]=
+        function( open, text, close ){
+            return md.escapingMarker( open ) + text + md.escapingMarker( close )
+        }
+        
         // escaping
         // ** // ^^ __ [[ ]]
-        this[ /(\*\*|\/\/|\^\^|__|\[\[|\]\]|\\\\)/.source ]=
+        this[ /(\*\*|\/\/|\^\^|__|\[\[|\]\]|``|\\\\)/.source ]=
         function( symbol ){
             return md.escapingMarker( symbol[0] ) + symbol[1]
         }
@@ -112,10 +142,10 @@ new function(){
         
         // image
         // [url]
-        this[ /(\[)([^\[\]]+)(\])/.source ]=
-        function( open, href, close ){
-            return md.image( md.imageHref( open + href + close ) + '<a wc_link="true" href="' + $jam.htmlEscape( href ) + '"><object data="' + $jam.htmlEscape( href ) + '"></object></a>' )
-        }
+        //this[ /(\[)([^\[\]]+)(\])/.source ]=
+        //function( open, href, close ){
+        //    return md.image( md.imageHref( open + href + close ) + '<a wc_link="true" href="' + $jam.htmlEscape( href ) + '"><object data="' + $jam.htmlEscape( href ) + '"></object></a>' )
+        //}
         
         // emphasis
         // /some text/

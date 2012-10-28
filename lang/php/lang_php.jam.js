@@ -6,6 +6,8 @@ new function( ){
         return php.root( php.content( str ) )
     }
 
+    php.html2text= $jam.html2text
+
     php.root= $lang.Wrapper( 'lang_php' )
     php.dollar= $lang.Wrapper( 'lang_php_dollar' )
     php.variable= $lang.Wrapper( 'lang_php_variable' )

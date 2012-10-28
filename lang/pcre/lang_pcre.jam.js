@@ -6,6 +6,8 @@ new function(){
         return pcre.root( pcre.content( str ) )
     }
 
+    pcre.html2text= $jam.html2text
+
     pcre.root= $lang.Wrapper( 'lang_pcre' )
     pcre.backslash= $lang.Wrapper( 'lang_pcre_backslash' )
     pcre.control= $lang.Wrapper( 'lang_pcre_control' )

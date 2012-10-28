@@ -12,10 +12,12 @@ $jam.Component
             .parent( nodeRoot )
             
             var sourceLast= ''
-            var update= function( addon ){
+            var update= function( addon, replace ){
                 //var source= $jam.String( nodeSource.text() ).replace( /\n?\r?$/, '\n' ).$
                 addon= addon || ''
-                var source= nodeSource.text()
+                var hlighter= $lang ( nodeRoot.attr( 'wc_editor_hlight' ) )
+                var source= replace || $jam.html2text( nodeSource.html() )
+                
                 if( !addon && source === sourceLast ) return
                 sourceLast= source
                 
@@ -47,7 +49,7 @@ $jam.Component
                 
                 source=
                 $jam.String( source )
-                .process( $lang ( nodeRoot.attr( 'wc_editor_hlight' ) ) )
+                .process( hlighter )
                 .replace( /  /g, '\u00A0 ' )
                 .replace( /  /g, ' \u00A0' )
                 //.replace( /[^\n<>](?:<[^<>]+>)*$/, '$&\n' )
@@ -164,6 +166,15 @@ $jam.Component
             var onLeave=
             nodeSource.listen( 'blur', function( event ){
                 //$jam.Event().type( '$jam.eventCommit' ).scream( nodeRoot )
+            })
+            
+            var onPaste=
+            nodeSource.listen( 'paste', function( event ){
+                $jam.schedule( 0, function( ){
+                    var hlighter= $lang ( nodeRoot.attr( 'wc_editor_hlight' ) )
+                    var source= hlighter.html2text( nodeSource.html() )
+                    update( '', source )
+                })
             })
             
             var onActivate=

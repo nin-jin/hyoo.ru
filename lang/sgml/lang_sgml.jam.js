@@ -6,6 +6,8 @@ new function(){
         return sgml.root( sgml.content( str ) )
     }
 
+    sgml.html2text= $jam.html2text
+
     sgml.root= $lang.Wrapper( 'lang_sgml' )
     sgml.tag= $lang.Wrapper( 'lang_sgml_tag' )
     sgml.tagBracket= $lang.Wrapper( 'lang_sgml_tag-bracket' )

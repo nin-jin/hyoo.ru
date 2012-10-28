@@ -10,7 +10,7 @@ extends so_source
         $package= $this->package;
         
         preg_match_all
-        (   '/\$([a-zA-Z0-9]+)(?:[._]([a-zA-Z0-9]+))?(?![a-zA-Z0-9$])/'
+        (   '/\$([a-zA-Z][a-zA-Z0-9]+)(?:[._]([a-zA-Z0-9]+))?(?![a-zA-Z0-9$])/'
         ,   $this->file->content
         ,   $matches
         ,   PREG_SET_ORDER

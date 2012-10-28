@@ -1,0 +1,1 @@
+$lang.jsm= $lang.js

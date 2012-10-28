@@ -1,0 +1,1 @@
+$lang.xbl= $lang.xml

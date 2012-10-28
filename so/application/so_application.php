@@ -26,7 +26,7 @@ class so_application
         
         $uriStandard= $resource->uri;
         if( $query->uri != $uriStandard )
-            return static::$response= so_output::moved( $uriStandard );
+            return static::$response= so_output::moved( (string) $uriStandard );
         
         static::$response= $resource->execute( $front->method, $front->data );
     }

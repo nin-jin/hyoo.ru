@@ -1,0 +1,1 @@
+$lang.html= $lang.sgml

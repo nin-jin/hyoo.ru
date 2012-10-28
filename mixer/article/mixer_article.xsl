@@ -6,7 +6,7 @@
     
     <xsl:template match=" mixer_article_list ">
         <xsl:apply-templates
-            select=" * | document( * / @so_uri_external, . ) // *[ @so_uri ] "
+            select=" * | document( * / @so_uri_external, / ) // *[ @so_uri ] "
             mode="so_gist_teaser"
         />
     </xsl:template>

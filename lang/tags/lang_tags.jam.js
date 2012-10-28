@@ -7,6 +7,8 @@ $jam.define
             return tags.root( tags.content( str ) )
         }
         
+        tags.html2text= $jam.html2text
+        
         tags.root= $lang.Wrapper( 'lang_tags' )
         tags.item= $lang.Wrapper( 'lang_tags_item' )
         

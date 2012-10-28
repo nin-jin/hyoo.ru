@@ -1,0 +1,1 @@
+$lang.htm= $lang.html

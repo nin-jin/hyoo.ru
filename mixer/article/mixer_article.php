@@ -107,8 +107,6 @@ class mixer_article
         if( $this->author !== mixer_author::make() )
             return so_output::forbidden( "Permission denied" );
         
-        $this->content= $data[ 'mixer_article_content' ] ?: '    /Article removed/';
-        $this->annotation= $data[ 'mixer_article_annotation' ] ?: '';
         $this->exists= false;
         
         return so_output::ok( 'Deleted' );
@@ -121,20 +119,18 @@ class mixer_article
         $target= mixer_article::makeInstance()->name( $name )->primary();
         
         if( $target === $this )
-            return so_output::on( 'Same name' );
+            return so_output::ok( 'Same name' );
         
         if( $target->exists && !$force )
             return so_output::conflict( 'Article already exists' );
         
-        $target->post_resource(array(
-            'mixer_article_content' => $this->content,
-            'mixer_article_annotation' => $this->annotation,
-        ));
+        $target->content= $this->content;
+        $target->annotation= $this->annotation;
+        $target->exists= true;
         
         if( $this->exists && $target->author === $this->author ):
-            $this->delete_resource(array(
-                'mixer_article_content' => "    /Article moved to [new location\\{$target}]/.\n",
-            ));
+            $this->content= "    /Article moved to [new location\\{$target}]/.\n";
+            $this->exists= false;
         endif;
         
         return so_output::created( (string) $target );

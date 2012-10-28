@@ -6,6 +6,8 @@ new function(){
         return css.root( css.stylesheet( str ) )
     }
     
+    css.html2text= $jam.html2text
+
     css.root= $lang.Wrapper( 'lang_css' )
     css.remark= $lang.Wrapper( 'lang_css_remark' )
     css.string= $lang.Wrapper( 'lang_css_string' )

@@ -47,7 +47,7 @@ extends so_front
                 $data= $_POST;
                 foreach( $_FILES as $key => $info )
                     $data[ $key ]= so_file::make( $info[ 'tmp_name' ] );
-                return so_array::make( $data );
+                return so_query::make( $data );
             
             default:
                 $raw= '';
@@ -87,7 +87,7 @@ extends so_front
         
         if( $mime === 'application/xml' ):
             $accept= preg_split( '~[,;] ?~', strtolower( so_value::make( $_SERVER[ 'HTTP_ACCEPT' ] ) ?: '' ) );
-            if( in_array( 'text/html', $accept ) && !in_array( 'application/xhtml+xml', $accept ) ):
+            if( !in_array( 'application/xhtml+xml', $accept ) ):
                 $xs= new so_XStyle;
                 $xs->pathXSL= (string) so_front::make()->package['-mix']['release.xsl']->file;
                 $xsl= $xs->docXSL;

@@ -6,6 +6,8 @@ new function(){
         return js.root( js.content( str ) )
     }
 
+    js.html2text= $jam.html2text
+
     js.root= $lang.Wrapper( 'lang_js' )
     js.remark= $lang.Wrapper( 'lang_js_remark' )
     js.string= $lang.Wrapper( 'lang_js_string' )
