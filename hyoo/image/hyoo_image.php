@@ -1,6 +1,6 @@
 <?php
 
-class mixer_image
+class hyoo_image
 {
     use so_resource;
     
@@ -33,27 +33,27 @@ class mixer_image
     
     var $fileOrinal_value;
     function fileOrinal_make( ){
-        return $this->storage->dir[ 'mixer_image_original.jpeg' ];
+        return $this->storage->dir[ 'hyoo_image_original.jpeg' ];
     }
     
     var $fileMaximal_value;
     function fileMaximal_make( ){
-        return $this->storage->dir[ 'mixer_image_maximal.jpeg' ];
+        return $this->storage->dir[ 'hyoo_image_maximal.jpeg' ];
     }
     
     var $filePreview_value;
     function filePreview_make( ){
-        return $this->storage->dir[ 'mixer_image_preview.jpeg' ];
+        return $this->storage->dir[ 'hyoo_image_preview.jpeg' ];
     }
     
     var $model_value;
     function model_make( ){
         return so_dom::make( array(
-            'mixer_image' => array(
+            'hyoo_image' => array(
                 '@so_uri' => (string) $this->uri,
-                '@mixer_image_original' => (string) $this->fileOrinal->uri,
-                '@mixer_image_maximal' => (string) $this->fileMaximal->uri,
-                '@mixer_image_preview' => (string) $this->filePreview->uri,
+                '@hyoo_image_original' => (string) $this->fileOrinal->uri,
+                '@hyoo_image_maximal' => (string) $this->fileMaximal->uri,
+                '@hyoo_image_preview' => (string) $this->filePreview->uri,
             ),
         ) );
     }

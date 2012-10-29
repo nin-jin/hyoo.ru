@@ -217,8 +217,8 @@ $jam.Component
                     form.append( 'file', file )
                     var resource= '?image=' + Math.random()
                     var result= $jam.http( resource ).post( form )
-                    var src= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @mixer_image_maximal ').$.value
-                    var link= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @mixer_image_original ').$.value
+                    var src= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @hyoo_image_maximal ').$.value
+                    var link= $jam.domx.parse( result ).select(' // * [ @so_uri = "' + resource + '" ] / @hyoo_image_original ').$.value
                     update( '\n./' + src + '\\./' + link + '\n' )
                 }
                 var files= event.$.dataTransfer.files

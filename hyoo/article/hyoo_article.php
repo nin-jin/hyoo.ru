@@ -1,6 +1,6 @@
 <?php
 
-class mixer_article
+class hyoo_article
 {
     use so_gist;
     
@@ -15,7 +15,7 @@ class mixer_article
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
         $this->name= $query[ 'article' ];
-        $author= mixer_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $author= hyoo_author::makeInstance()->name( $query[ 'author' ] )->primary();
         $this->author= $author;
     }
     
@@ -33,19 +33,19 @@ class mixer_article
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return mixer_author::make();
+        return hyoo_author::make();
     }
     function author_store( $data ){
-        return mixer_author::make( $data );
+        return hyoo_author::make( $data );
     }
     
     var $modelBase_value;
     function modelBase_make( ){
         return so_dom::make( array(
-            'mixer_article' => array(
+            'hyoo_article' => array(
                 '@so_uri' => (string) $this->uri,
-                '@mixer_article_name' => (string) $this->name,
-                '@mixer_article_author' => (string) $this->author,
+                '@hyoo_article_name' => (string) $this->name,
+                '@hyoo_article_author' => (string) $this->author,
             ),
         ) );
     }
@@ -53,29 +53,29 @@ class mixer_article
     var $content_value;
     var $content_depends= array();
     function content_make( ){
-        return (string) $this->model[ '@mixer_article_content' ];
+        return (string) $this->model[ '@hyoo_article_content' ];
     }
     function content_store( $data ){
         $model= $this->model;
-        $model[ '@mixer_article_content' ]= (string) $data;
+        $model[ '@hyoo_article_content' ]= (string) $data;
         $this->model= $model;
     }
     
     var $annotation_value;
     var $annotation_depends= array();
     function annotation_make( ){
-        return (string) $this->model[ '@mixer_article_annotation' ];
+        return (string) $this->model[ '@hyoo_article_annotation' ];
     }
     function annotation_store( $data ){
         $model= $this->model;
-        $model[ '@mixer_article_annotation' ]= (string) $data;
+        $model[ '@hyoo_article_annotation' ]= (string) $data;
         $this->model= $model;
     }
     
     function listList_make( ){
         return array(
             $this->author->articleList,
-            mixer_article_list::make(),
+            hyoo_article_list::make(),
         );
     }
     
@@ -93,18 +93,18 @@ class mixer_article
     }
     
     function post_resource( $data ){
-        if( $this->author !== mixer_author::make() )
+        if( $this->author !== hyoo_author::make() )
             return so_output::forbidden( "Permission denied" );
         
-        $this->content= $data[ 'mixer_article_content' ] ?: $this->content;
-        $this->annotation= $data[ 'mixer_article_annotation' ] ?: $this->annotation;
+        $this->content= $data[ 'hyoo_article_content' ] ?: $this->content;
+        $this->annotation= $data[ 'hyoo_article_annotation' ] ?: $this->annotation;
         $this->exists= true;
         
         return so_output::created( (string) $this );
     }
     
     function delete_resource( $data ){
-        if( $this->author !== mixer_author::make() )
+        if( $this->author !== hyoo_author::make() )
             return so_output::forbidden( "Permission denied" );
         
         $this->exists= false;
@@ -113,10 +113,10 @@ class mixer_article
     }
     
     function move_resource( $data ){
-        $name= strtr( $data[ 'mixer_article_name' ], array( "\n" => '', "\r" => '' ) );
+        $name= strtr( $data[ 'hyoo_article_name' ], array( "\n" => '', "\r" => '' ) );
         $force= ( $data[ 'so_conflict_force' ] == 'true' );
         
-        $target= mixer_article::makeInstance()->name( $name )->primary();
+        $target= hyoo_article::makeInstance()->name( $name )->primary();
         
         if( $target === $this )
             return so_output::ok( 'Same name' );

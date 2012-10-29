@@ -18,7 +18,7 @@ trait so_gist
     function listList_make( ){
         return array(
             $this->author->articleList,
-            mixer_article_list::make(),
+            hyoo_article_list::make(),
         );
     }
     

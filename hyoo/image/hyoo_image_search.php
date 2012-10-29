@@ -1,6 +1,6 @@
 <?php
 
-class mixer_image_search
+class hyoo_image_search
 {
     use so_resource;
     
@@ -55,10 +55,10 @@ class mixer_image_search
         $dom= so_dom::make(array( '#html' => $html ));
         
         $links= $dom->select( '//*[@id="search"]//a/@href' );
-        $imageList= so_dom::make(array( 'mixer_image_list' => null ));
+        $imageList= so_dom::make(array( 'hyoo_image_list' => null ));
         foreach( $links as $link ):
             $imageList[]= array(
-                'mixer_image/@so_uri' => (string) so_uri::make( $link->value )->query[ 'imgurl' ],
+                'hyoo_image/@so_uri' => (string) so_uri::make( $link->value )->query[ 'imgurl' ],
             );
         endforeach;
         

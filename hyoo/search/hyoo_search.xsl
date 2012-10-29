@@ -4,8 +4,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
-    <xsl:template match=" mixer_search " />
-    <xsl:template match=" mixer_search[ @mixer_search_text ] ">
+    <xsl:template match=" hyoo_search " />
+    <xsl:template match=" hyoo_search[ @hyoo_search_text ] ">
         <wc_spacer>
             <wc_paper>
                 <wc_article>
@@ -18,7 +18,7 @@
                                 >
                                 <wc_field wc_field_name="search">
                                     <wc_editor>
-                                        <xsl:value-of select=" @mixer_search_text " />
+                                        <xsl:value-of select=" @hyoo_search_text " />
                                     </wc_editor>
                                 </wc_field>
                             </form>
@@ -26,7 +26,7 @@
                     </wc_article_title>
                     <wc_article_content>
                         <iframe
-                            src="{ @mixer_search_frame }"
+                            src="{ @hyoo_search_frame }"
                             wc_reset="true"
                             style="height:60em"
                             sandbox="allow-scripts"

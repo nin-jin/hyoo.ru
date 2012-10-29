@@ -1,6 +1,6 @@
 <?php
 
-class mixer_article_list_author
+class hyoo_article_list_author
 {
     use so_gist_list;
     
@@ -14,17 +14,17 @@ class mixer_article_list_author
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $author= mixer_author::makeInstance()->name( $query[ 'author' ] )->primary();
+        $author= hyoo_author::makeInstance()->name( $query[ 'author' ] )->primary();
         $this->author= $author;
     }
     
     var $author_value;
     var $author_depends= array( 'uri', 'author' );
     function author_make( ){
-        return mixer_author::make();
+        return hyoo_author::make();
     }
     function author_store( $data ){
-        return mixer_author::make( $data );
+        return hyoo_author::make( $data );
     }
     
     function get_resource( $data= null ){
@@ -36,9 +36,9 @@ class mixer_article_list_author
         return so_output::ok()->content( array(
             '@so_page_uri' => (string) $this,
             '@so_page_author' => (string) $this->author,
-            'mixer_article_list' => array(
+            'hyoo_article_list' => array(
                 '@so_uri' => (string) $this->uri,
-                '@mixer_article_author' => (string) $this->author,
+                '@hyoo_article_author' => (string) $this->author,
                 $articleList,
             ),
             $this->author->teaser,

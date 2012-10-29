@@ -1,6 +1,6 @@
 <?php
 
-class mixer_phpinfo
+class hyoo_phpinfo
 extends so_phpinfo {
 
 }

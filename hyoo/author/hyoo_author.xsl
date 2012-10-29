@@ -5,41 +5,41 @@
     >
     
     
-    <xsl:template match=" mixer_author ">
+    <xsl:template match=" hyoo_author ">
         <wc_spacer>
             <wc_pop-tool>
                 <wc_pop-tool_panel wc_pop-tool_edge="top">
-                    <xsl:apply-templates select="." mode="mixer_author_permalink" />
-                    <xsl:apply-templates select="." mode="mixer_author_article-list" />
+                    <xsl:apply-templates select="." mode="hyoo_author_permalink" />
+                    <xsl:apply-templates select="." mode="hyoo_author_article-list" />
                 </wc_pop-tool_panel>
             </wc_pop-tool>
             <wc_paper>
                 <wc_article>
-                    <xsl:apply-templates select="." mode="mixer_author_head" />
-                    <xsl:apply-templates select="." mode="mixer_author_body" />
+                    <xsl:apply-templates select="." mode="hyoo_author_head" />
+                    <xsl:apply-templates select="." mode="hyoo_author_body" />
                 </wc_article>
             </wc_paper>
         </wc_spacer>
     </xsl:template>
     
-    <xsl:template match=" mixer_author " mode="mixer_author_permalink" />
-    <xsl:template match=" mixer_author[ @so_uri ] " mode="mixer_author_permalink">
+    <xsl:template match=" hyoo_author " mode="hyoo_author_permalink" />
+    <xsl:template match=" hyoo_author[ @so_uri ] " mode="hyoo_author_permalink">
         <wc_pop-tool_item>
             <a
                 href="{ @so_uri }"
                 title="Постоянная ссылка на этого автора"
                 wc_reset="true"
                 >
-                <xsl:apply-templates select=" . " mode="mixer_author_name" />
+                <xsl:apply-templates select=" . " mode="hyoo_author_name" />
             </a>
         </wc_pop-tool_item>
     </xsl:template>
     
-    <xsl:template match=" mixer_author " mode="mixer_author_article-list" />
-    <xsl:template match=" mixer_author[ @mixer_author_article-list ] " mode="mixer_author_article-list">
+    <xsl:template match=" hyoo_author " mode="hyoo_author_article-list" />
+    <xsl:template match=" hyoo_author[ @hyoo_author_article-list ] " mode="hyoo_author_article-list">
         <wc_pop-tool_item>
             <a
-                href="{ @mixer_author_article-list }"
+                href="{ @hyoo_author_article-list }"
                 title="Статьи этого автора"
                 wc_reset="true"
                 >
@@ -48,8 +48,8 @@
         </wc_pop-tool_item>
     </xsl:template>
     
-    <xsl:template match=" mixer_author " mode="mixer_author_head" />
-    <xsl:template match=" mixer_author[ @mixer_author_name ] " mode="mixer_author_head">
+    <xsl:template match=" hyoo_author " mode="hyoo_author_head" />
+    <xsl:template match=" hyoo_author[ @hyoo_author_name ] " mode="hyoo_author_head">
         <wc_article_title>
             <h1 wc_reset="true">
                 <form
@@ -59,7 +59,7 @@
                     >
                     <wc_field wc_field_name="author">
                         <wc_editor>
-                            <xsl:apply-templates select=" . " mode="mixer_author_name" />
+                            <xsl:apply-templates select=" . " mode="hyoo_author_name" />
                         </wc_editor>
                     </wc_field>
                 </form>
@@ -67,12 +67,12 @@
         </wc_article_title>
     </xsl:template>
     
-    <xsl:template match=" mixer_author " mode="mixer_author_name" />
-    <xsl:template match=" mixer_author[ @mixer_author_name ] " mode="mixer_author_name">
-        <xsl:value-of select=" @mixer_author_name " />
+    <xsl:template match=" hyoo_author " mode="hyoo_author_name" />
+    <xsl:template match=" hyoo_author[ @hyoo_author_name ] " mode="hyoo_author_name">
+        <xsl:value-of select=" @hyoo_author_name " />
     </xsl:template>
     
-    <xsl:template match=" mixer_author " mode="mixer_author_body">
+    <xsl:template match=" hyoo_author " mode="hyoo_author_body">
         <wc_article_content>
             <wc_spacer>
                 <wc_error>Такого автора ещё не существует</wc_error>
@@ -90,16 +90,16 @@
         </wc_article_content>
     </xsl:template>
     
-    <xsl:template match=" mixer_author[ @so_gist_exists ] " mode="mixer_author_body">
+    <xsl:template match=" hyoo_author[ @so_gist_exists ] " mode="hyoo_author_body">
         <wc_article_content>
             <wc_net-bridge
                 wc_net-bridge_resource="{ @so_uri }"
-                wc_net-bridge_field="mixer_author_about"
+                wc_net-bridge_field="hyoo_author_about"
                 >
                 <wc_editor
                     wc_editor_hlight="md"
                     >
-                    <xsl:value-of select=" @mixer_author_about " />
+                    <xsl:value-of select=" @hyoo_author_about " />
                 </wc_editor>
             </wc_net-bridge>
         </wc_article_content>

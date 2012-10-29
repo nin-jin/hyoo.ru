@@ -1,6 +1,6 @@
 <?php
 
-class mixer_article_list
+class hyoo_article_list
 {
     use so_gist_list;
     
@@ -26,7 +26,7 @@ class mixer_article_list
         
         return so_output::ok()->content( array(
             '@so_page_uri' => (string) $this->uri,
-            'mixer_article_list' => array(
+            'hyoo_article_list' => array(
                 '@so_uri' => (string) $this->uri,
                 $articleList,
             ),

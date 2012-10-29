@@ -131,7 +131,7 @@
     </xsl:template>
     
     <xsl:template match=" so_page " mode="so_page_logo">
-        <a href="?"><wc_logo>Gist!</wc_logo></a>
+        <a href="?"><wc_logo>標</wc_logo></a>
     </xsl:template>
     
     <xsl:template match=" so_page_aside " />

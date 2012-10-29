@@ -1,6 +1,6 @@
 <?php
 
-class mixer_author
+class hyoo_author
 {
     use so_gist;
     
@@ -19,11 +19,11 @@ class mixer_author
     var $name_value;
     var $name_depends= array( 'uri', 'name' );
     function name_make( ){
-        $cookie= so_cookie::make( 'mixer_author_name' );
+        $cookie= so_cookie::make( 'hyoo_author_name' );
         $userKey= so_user::make()->key;
         
         if( $cookie->value ):
-            $author= mixer_author::makeInstance()->name( $cookie->value );
+            $author= hyoo_author::makeInstance()->name( $cookie->value );
             
             if( !$author->key )
                 return $author->name;
@@ -45,16 +45,16 @@ class mixer_author
     
     var $articleList_value;
     function articleList_make( ){
-        return mixer_article_list_author::makeInstance()->author( $this )->primary();
+        return hyoo_article_list_author::makeInstance()->author( $this )->primary();
     }
     
     var $modelBase_value;
     function modelBase_make( ){
         return so_dom::make( array(
-            'mixer_author' => array(
+            'hyoo_author' => array(
                 '@so_uri' => (string) $this->uri,
-                '@mixer_author_name' => (string) $this->name,
-                '@mixer_author_article-list' => (string) $this->articleList,
+                '@hyoo_author_name' => (string) $this->name,
+                '@hyoo_author_article-list' => (string) $this->articleList,
             ),
         ) );
     }
@@ -62,22 +62,22 @@ class mixer_author
     var $about_value;
     var $about_depends= array();
     function about_make( ){
-        return (string) $this->model[ '@mixer_author_about' ];
+        return (string) $this->model[ '@hyoo_author_about' ];
     }
     function about_store( $data ){
         $model= $this->model;
-        $model[ '@mixer_author_about' ]= (string) $data;
+        $model[ '@hyoo_author_about' ]= (string) $data;
         $this->model= $model;
     }
     
     var $key_value;
     var $key_depends= array();
     function key_make( ){
-        return (string) $this->model[ '@mixer_author_key' ];
+        return (string) $this->model[ '@hyoo_author_key' ];
     }
     function key_store( $data ){
         $model= $this->model;
-        $model[ '@mixer_author_key' ]= (string) $data;
+        $model[ '@hyoo_author_key' ]= (string) $data;
         $this->model= $model;
     }
     
@@ -94,16 +94,16 @@ class mixer_author
     }
     
     function post_resource( $data ){
-        $authorCurrent= mixer_author::make();
+        $authorCurrent= hyoo_author::make();
         
         if( $this->key && $this !== $authorCurrent )
             return so_output::forbidden( "User [{$this->name}] is already registered" );
         
-        $this->about= so_value::make( $data[ 'mixer_author_about' ] ) ?: $this->about;
+        $this->about= so_value::make( $data[ 'hyoo_author_about' ] ) ?: $this->about;
         $this->key= so_crypt::hash( $this->uri, so_user::make()->key );
         $this->exists= true;
         
-        so_cookie::make( 'mixer_author_name' )->value= $this->name;
+        so_cookie::make( 'hyoo_author_name' )->value= $this->name;
         
         #return so_output::ok( 'Updated' );
         return so_output::created( (string) $this );
@@ -111,7 +111,7 @@ class mixer_author
     
     #function move_resource( $data ){
     #    $name= $data[ 'name' ];
-    #    $target= mixer_author::makeInstance()->name( $name )->primary();
+    #    $target= hyoo_author::makeInstance()->name( $name )->primary();
     #    
     #    if( $target != $this ):
     #        $target->about->put(array( 'content' => $this->about->content ));

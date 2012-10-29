@@ -1,3 +1,3 @@
-<?php require_once( __DIR__ . '/mixer/-mix/release.php' );
+<?php require_once( __DIR__ . '/hyoo/-mix/release.php' );
 
-\mixer\so_application::start( 'mixer', 'release' );
+\hyoo\so_application::start( 'hyoo', 'release' );

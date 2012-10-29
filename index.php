@@ -1,1 +1,1 @@
-<?php require( __DIR__ . '/mixer/index.php' );
+<?php require( __DIR__ . '/hyoo/index.php' );

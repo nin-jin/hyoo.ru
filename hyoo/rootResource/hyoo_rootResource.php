@@ -1,6 +1,6 @@
 <?php
 
-class mixer_rootResource
+class hyoo_rootResource
 extends so_rootResource
 {
 

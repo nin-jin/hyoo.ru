@@ -1,6 +1,6 @@
 <?php
 
-class mixer_search
+class hyoo_search
 {
     use so_resource;
     
@@ -44,9 +44,9 @@ class mixer_search
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->text,
-            'mixer_search' => array(
-                '@mixer_search_text' => (string) $this->text,
-                '@mixer_search_frame' => (string) $this->frame,
+            'hyoo_search' => array(
+                '@hyoo_search_text' => (string) $this->text,
+                '@hyoo_search_frame' => (string) $this->frame,
             ),
         );
         
