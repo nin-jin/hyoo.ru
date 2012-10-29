@@ -155,6 +155,22 @@ class so_uri
         return $data;
     }
     
+    function go( $rel ){
+        so_uri::ensure( $rel );
+        $target= so_uri::makeInstance();
+        
+        $target->scheme= $rel->scheme ?: $this->scheme;
+        $target->login= $rel->login ?: $this->login;
+        $target->password= $rel->password ?: $this->password;
+        $target->host= $rel->host ?: $this->host;
+        $target->port= $rel->port ?: $this->port;
+        $target->path= $rel->path ?: $this->path; // TODO: resolve relative path
+        $target->queryString= $rel->queryString ?: $this->queryString;
+        $target->anchor= $rel->anchor ?: $this->anchor;
+        
+        return $target->primary();
+    }
+    
     function _string_meta( ){
         return $this->string;
     }
