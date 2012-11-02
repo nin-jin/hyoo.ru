@@ -14,7 +14,6 @@ class hyoo_search
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
         $this->text= $query[ 'search' ];
-        return so_uri::make( $data );
     }
     
     var $text_value;
@@ -26,7 +25,7 @@ class hyoo_search
         return (string) $data;
     }
     
-    var $searchId_value= 1968279;
+    var $searchId_value= 1969354;
     
     var $frame_value;
     function frame_make( ){

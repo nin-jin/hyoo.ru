@@ -25,17 +25,21 @@
                         </h1>
                     </wc_article_title>
                     <wc_article_content>
-                        <iframe
-                            src="{ @hyoo_search_frame }"
-                            wc_reset="true"
-                            style="height:60em"
-                            sandbox="allow-scripts"
-                            >
-                        </iframe>
+                        <xsl:apply-templates select=" . " mode="hyoo_search_result" />
                     </wc_article_content>
                 </wc_article>
             </wc_paper>
         </wc_spacer>
+    </xsl:template>
+    
+    <xsl:template match=" hyoo_search " mode="hyoo_search_result">
+        <iframe
+            src="{ @hyoo_search_frame }"
+            wc_reset="true"
+            style="height:60em"
+            sandbox="allow-scripts"
+            >
+        </iframe>
     </xsl:template>
     
 </xsl:stylesheet>
