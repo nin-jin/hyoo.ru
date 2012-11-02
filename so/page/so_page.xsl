@@ -40,14 +40,11 @@
         
         <html wc_reset="true">
             <head>
-                
-                <title>
-                    <xsl:value-of select=" @so_page_title " />
-                </title>
-                
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
                 
+                <xsl:apply-templates select=" . " mode="so_page_title" />
+                <xsl:apply-templates select=" . " mode="so_page_description" />
                 <xsl:apply-templates select=" . " mode="so_page_styles" />
                 <xsl:apply-templates select=" . " mode="so_page_script" />
                 <xsl:apply-templates select=" . " mode="so_page_icon" />
@@ -92,6 +89,22 @@
         </wc_spacer>
     </xsl:template>
     
+    <xsl:template match=" * " mode="so_page_title" />
+    <xsl:template match=" so_page " mode="so_page_title">
+        <title>
+            <xsl:apply-templates select=" $so_page_resource " mode="so_page_title" />
+        </title>
+    </xsl:template>
+
+    <xsl:template match=" * " mode="so_page_description" />
+    <xsl:template match=" so_page " mode="so_page_description">
+        <meta name="description">
+            <xsl:attribute name="content">
+                <xsl:apply-templates select=" $so_page_resource " mode="so_page_description" />
+            </xsl:attribute>
+        </meta>
+    </xsl:template>
+
     <xsl:template match=" so_page " mode="so_page_styles" />
     <xsl:template match=" so_page[ @so_page_styles ] " mode="so_page_styles">
         <link href="{ @so_page_styles }" rel="stylesheet" />
@@ -111,7 +124,7 @@
         <wc_pop-tool>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">
                 <wc_pop-tool_item>
-                    <a href="?article=О+проекте+Gist!;author=Nin+Jin" wc_reset="true">О проекте Gist!</a>
+                    <a href="?article=О+проекте+hyoo.ru;author=Nin+Jin" wc_reset="true">О проекте</a>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
             <wc_pop-tool_panel wc_pop-tool_edge="bottom">

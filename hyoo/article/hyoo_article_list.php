@@ -4,7 +4,6 @@ class hyoo_article_list
 {
     use so_gist_list;
     
-    var $uri_value;
     var $uri_depends= array( 'uri', 'name', 'author' );
     function uri_make( ){
         return so_query::make(array(

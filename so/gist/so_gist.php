@@ -4,6 +4,11 @@ trait so_gist
 {
     use so_resource;
     
+    var $title_value;
+    function title_make( ){
+        return $this->uri;
+    }
+    
     var $storage_value;
     function storage_make( ){
         return so_storage::make( $this->uri );
@@ -16,10 +21,7 @@ trait so_gist
     
     var $listList_value;
     function listList_make( ){
-        return array(
-            $this->author->articleList,
-            hyoo_article_list::make(),
-        );
+        return array();
     }
     
     var $exists_value;
@@ -62,16 +64,23 @@ trait so_gist
         unset( $this->version );
         unset( $this->exists );
         unset( $this->teaser );
+        unset( $this->link );
         return $data;
     }
     
     var $teaser_value;
     function teaser_make( ){
+        return $this->model;
+    }
+    
+    var $link_value;
+    function link_make( ){
         if( !$this->version )
             return $this->model;
         
         return so_dom::make(array(
             'so_gist' => array(
+                '@so_gist_title' => (string) $this->title,
                 '@so_gist_uri' => (string) $this->uri,
                 '@so_uri_external' => (string) $this->storage->uri,
             ),

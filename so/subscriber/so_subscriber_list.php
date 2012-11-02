@@ -52,8 +52,8 @@ class so_subscriber_list
         ) );
     }
     
-    var $teaser_value;
-    function teaser_make( ){
+    var $link_value;
+    function link_make( ){
         return $this->model;
     }
     

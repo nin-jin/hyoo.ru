@@ -4,6 +4,11 @@ trait so_gist_list
 {
     use so_resource;
     
+    var $title_value;
+    function title_make( ){
+        return $this->uri;
+    }
+    
     var $database_value;
     function database_make( ){
         $storage= so_storage::make( $this->uri );

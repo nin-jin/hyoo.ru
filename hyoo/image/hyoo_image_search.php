@@ -4,7 +4,6 @@ class hyoo_image_search
 {
     use so_resource;
     
-    var $uri_value;
     var $uri_depends= array( 'uri', 'search', 'version' );
     function uri_make( ){
         return so_query::make(array(

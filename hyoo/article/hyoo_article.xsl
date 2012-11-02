@@ -4,11 +4,12 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
-    <xsl:template match=" hyoo_article_list ">
-        <xsl:apply-templates
-            select=" * | document( * / @so_uri_external, / ) // *[ @so_uri ] "
-            mode="so_gist_teaser"
-        />
+    <xsl:template match=" hyoo_article[ @hyoo_article_name ] " mode="so_page_title">
+        <xsl:value-of select=" @hyoo_article_name " />
+    </xsl:template>
+    
+    <xsl:template match=" hyoo_article[ @hyoo_article_annotation ] " mode="so_page_description">
+        <xsl:value-of select=" @hyoo_article_annotation " />
     </xsl:template>
     
     <xsl:template match=" hyoo_article ">
@@ -62,7 +63,6 @@
         <wc_pop-tool>
             <wc_pop-tool_panel wc_pop-tool_edge="top">
                 <xsl:apply-templates select="." mode="hyoo_article_author" />
-                <xsl:apply-templates select="." mode="hyoo_article_permalink" />
             </wc_pop-tool_panel>
             <xsl:apply-templates select="." mode="hyoo_article_remove" />
         </wc_pop-tool>

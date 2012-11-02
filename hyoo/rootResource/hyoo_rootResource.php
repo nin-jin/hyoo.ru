@@ -4,7 +4,6 @@ class hyoo_rootResource
 extends so_rootResource
 {
 
-    var $uri_value;
     function uri_make( ){
         return so_uri::make( '?article;list' );
     }

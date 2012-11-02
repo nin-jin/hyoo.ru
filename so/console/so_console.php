@@ -4,7 +4,6 @@ class so_console
 {
     use so_resource;
     
-    var $uri_value;
     function uri_make( ){
         return so_query::make(array( 'console' ))->uri;
     }

@@ -4,7 +4,6 @@ class hyoo_search
 {
     use so_resource;
     
-    var $uri_value;
     var $uri_depends= array( 'uri', 'text' );
     function uri_make( ){
         return so_query::make(array(
@@ -44,6 +43,7 @@ class hyoo_search
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->text,
             'hyoo_search' => array(
+                '@so_uri' => (string) $this->uri,
                 '@hyoo_search_text' => (string) $this->text,
                 '@hyoo_search_frame' => (string) $this->frame,
             ),

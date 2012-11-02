@@ -4,7 +4,6 @@ class hyoo_article
 {
     use so_gist;
     
-    var $uri_value;
     var $uri_depends= array( 'uri', 'name', 'author' );
     function uri_make( ){
         return so_query::make(array(
@@ -50,6 +49,12 @@ class hyoo_article
         ) );
     }
     
+    function teaser_make( ){
+        $dom= $this->model->cloneTree();
+        unset( $dom[ '@hyoo_article_content' ] );
+        return $dom;
+    }
+    
     var $content_value;
     var $content_depends= array();
     function content_make( ){
@@ -84,9 +89,8 @@ class hyoo_article
         
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
-            '@so_page_title' => (string) $this->name,
-            $this->teaser,
-            $this->author->teaser,
+            $this->link,
+            $this->author->link,
         );
         
         return $output;

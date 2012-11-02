@@ -4,6 +4,11 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
+    <xsl:template match=" hyoo_search[ @hyoo_search_text ] " mode="so_page_title">
+        <xsl:value-of select=" @hyoo_search_text " />
+        <xsl:text> – Поиск</xsl:text>
+    </xsl:template>
+    
     <xsl:template match=" hyoo_search " />
     <xsl:template match=" hyoo_search[ @hyoo_search_text ] ">
         <wc_spacer>

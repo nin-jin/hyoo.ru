@@ -4,6 +4,9 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
     
+    <xsl:template match=" hyoo_author[ @hyoo_author_name ] " mode="so_page_title">
+        <xsl:value-of select=" @hyoo_author_name " />
+    </xsl:template>
     
     <xsl:template match=" hyoo_author ">
         <wc_spacer>

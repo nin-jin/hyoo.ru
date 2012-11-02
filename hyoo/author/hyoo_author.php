@@ -4,7 +4,6 @@ class hyoo_author
 {
     use so_gist;
     
-    var $uri_value;
     var $uri_depends= array( 'uri', 'name' );
     function uri_make( ){
         return so_query::make(array(
@@ -59,6 +58,12 @@ class hyoo_author
         ) );
     }
     
+    function teaser_make( ){
+        $dom= $this->model->cloneTree();
+        unset( $dom[ '@hyoo_author_about' ] );
+        return $dom;
+    }
+    
     var $about_value;
     var $about_depends= array();
     function about_make( ){
@@ -87,7 +92,7 @@ class hyoo_author
         $output->content= array(
             '@so_page_uri' => (string) $this->uri,
             '@so_page_title' => (string) $this->name,
-            $this->teaser,
+            $this->link,
         );
         
         return $output;
@@ -99,7 +104,7 @@ class hyoo_author
         if( $this->key && $this !== $authorCurrent )
             return so_output::forbidden( "User [{$this->name}] is already registered" );
         
-        $this->about= so_value::make( $data[ 'hyoo_author_about' ] ) ?: $this->about;
+        $this->about= $data[ 'hyoo_author_about' ] ?: $this->about;
         $this->key= so_crypt::hash( $this->uri, so_user::make()->key );
         $this->exists= true;
         

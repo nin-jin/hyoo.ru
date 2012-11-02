@@ -4,7 +4,6 @@ class so_rootResource
 {
     use so_resource;
     
-    var $uri_value;
     function uri_make( ){
         return so_uri::make( '?phpinfo' );
     }
