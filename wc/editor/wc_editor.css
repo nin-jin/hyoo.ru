@@ -11,19 +11,31 @@ wc_editor[wc_editor_hlight] {
     visibility: visible;
 }
 
-.wc_editor_content {
+div[wc_editor_content] {
     padding: 2px 4px;
     display: block;
     min-height: 1em;
     white-space: pre-line;
 }
 
-.wc_editor_content p {
+div[wc_editor_content]:empty {
+    outline: 1px dashed pink;
+}
+
+div[wc_editor_content]:empty:before {
+    content: attr( wc_editor_content );
+    position: absolute;
+    color: gray;
+    font-style: italic;
+    line-height: 1;
+}
+
+div[wc_editor_content] p {
     margin: 0;
     padding: 0;
 }
 
-.wc_editor_content:focus {
+div[wc_editor_content]:focus {
     outline: none;
 }
 

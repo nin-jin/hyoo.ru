@@ -150,6 +150,7 @@
                 >
                 <wc_editor
                     wc_editor_hlight="md"
+                    wc_editor_hint="Краткая анотация"
                     >
                     <xsl:value-of select=" @hyoo_article_annotation " />
                 </wc_editor>
@@ -162,6 +163,7 @@
                 >
                 <wc_editor
                     wc_editor_hlight="md"
+                    wc_editor_hint="Содержимое статьи"
                     >
                     <xsl:value-of select=" @hyoo_article_content " />
                 </wc_editor>

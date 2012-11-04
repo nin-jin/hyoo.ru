@@ -5,9 +5,11 @@ $jam.Component
             nodeRoot= $jam.Node( nodeRoot )
 
             var source= $jam.htmlEscape( nodeRoot.text() ).replace( /\r?\n/g, '<br />' )
-
+            
+            var hint= nodeRoot.attr( 'wc_editor_hint' )
+            
             nodeRoot.clear()
-            var nodeSource= $jam.Node.parse( '<div class=" wc_editor_content " />' )
+            var nodeSource= $jam.Node.Element( 'div' ).attr( 'wc_editor_content', hint )
             .html( source )
             .parent( nodeRoot )
             
