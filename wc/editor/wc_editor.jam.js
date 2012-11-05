@@ -6,7 +6,7 @@ $jam.Component
 
             var source= $jam.htmlEscape( nodeRoot.text() ).replace( /\r?\n/g, '<br />' )
             
-            var hint= nodeRoot.attr( 'wc_editor_hint' )
+            var hint= nodeRoot.attr( 'wc_editor_hint' ) || ''
             
             nodeRoot.clear()
             var nodeSource= $jam.Node.Element( 'div' ).attr( 'wc_editor_content', hint )
@@ -182,7 +182,7 @@ $jam.Component
             var onActivate=
             nodeRoot.listen( 'mousedown', function( event ){
                 event= $jam.Event( event )
-                if( !event.keyMeta() ) return
+                if( event.keyAccel() ) return
                 nodeRoot.attr( 'wc_editor_active', true )
                 nodeSource.editable( true )
             })

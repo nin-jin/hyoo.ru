@@ -18,10 +18,6 @@ div[wc_editor_content] {
     white-space: pre-line;
 }
 
-div[wc_editor_content]:empty {
-    outline: 1px dashed pink;
-}
-
 div[wc_editor_content]:empty:before {
     content: attr( wc_editor_content );
     position: absolute;
@@ -45,5 +41,4 @@ wc_editor:hover {
 
 wc_editor[wc_editor_active="true"] {
     outline: 1px dotted #bbb;
-    background: white;
 }

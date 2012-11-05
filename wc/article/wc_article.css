@@ -1,12 +1,11 @@
 wc_article {
     display: block;
-    padding: 5% 6%;
+    margin: 5% 6%;
     position: relative;
 }
 
 wc_article_title {
     display: block;
-    margin: 0 0 20pt 0;
 	color: #321;
     font: 40pt/1 'Times', serif;
     text-align: center;
@@ -25,7 +24,9 @@ wc_article_title a:hover {
 wc_article_annotation {
     display: block;
     color: #666;
-    margin: 20pt 0;
+    margin: 0;
+    padding: 20pt 0;
+    border-bottom: 1px dashed #bbb;
 }
 
 wc_article_content {
