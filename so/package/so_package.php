@@ -8,12 +8,15 @@ implements \ArrayAccess
     use so_registry;
     static $id_prop= 'dir';
     
+    static $defaultName= 'xxx';
+    
     var $dir_value;
     function dir_make( ){
-        throw new \Exception( 'Property [dir] is not defined' );
+        return so_root::make()->dir[ static::$defaultName ];
     }
     function dir_store( $data ){
-        return so_file::make( $data );
+        if( isset( $data ) )
+            return so_file::make( $data );
     }
     
     var $name_value;

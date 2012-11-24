@@ -32,6 +32,7 @@ class hyoo_search
             'text' => $this->text,
             'searchid' => $this->searchId,
             'frame' => 1,
+            'topdoc' => 'http://hyoo.ru/' . (string) $this->uri,
         ) );
         return so_uri_compatible::make( 'http://yandex.ru/sitesearch' . $query->uri );
     }

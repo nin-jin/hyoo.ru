@@ -183,6 +183,7 @@ $jam.Component
             nodeRoot.listen( 'mousedown', function( event ){
                 event= $jam.Event( event )
                 if( event.keyAccel() ) return
+                if( $jam.Node( event.target() ).ancList( 'a' ).length() ) return
                 nodeRoot.attr( 'wc_editor_active', true )
                 nodeSource.editable( true )
             })

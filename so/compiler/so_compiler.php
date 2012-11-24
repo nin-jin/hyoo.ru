@@ -107,6 +107,7 @@ class so_compiler
         $this->compileCSS();
         $this->compileXSL();
         $this->compilePHP();
+        $this->copyAddons();
         return $this;
     }
     
@@ -291,6 +292,17 @@ JS;
         $target[ 'release.php' ]->content= $compiled;
         
         return $this;
+    }
+    
+    function copyAddons( ){
+        $target= $this->target->dir;
+        foreach( $this->modules as $key => $module ):
+            foreach( $module->dir->childs as $dir ):
+                if( $dir->type != 'dir' )
+                    continue;
+                $dir->copy( $target[ $dir->name ] );
+            endforeach;
+        endforeach;
     }
     
     function minify( ){

@@ -1,6 +1,6 @@
 <?php
 
-class so_XStyle
+class so_xstyle
 {
     use so_meta;
     use so_factory;
@@ -26,29 +26,37 @@ class so_XStyle
     }
 
     var $docXS_value;
+    var $docXS_depends= array();
     function docXS_make( ){
-        $docXS= new \DOMDocument( '1.0', 'utf-8' );
-        if( file_exists( $this->pathXS ) ) $docXS->load( $this->pathXS, LIBXML_COMPACT );
+        $docXS= so_dom::make( so_file::make( $this->pathXS ) );
         return $docXS;
     }
     function docXS_store( $docXS ){
         $docXS= so_dom::make( $docXS );
-        if( file_exists( $this->pathXS ) ) unlink( $this->pathXS );
-        file_put_contents( $this->pathXS, $docXS );
-        return null;
+        if( !$this->pathXS )
+            return $docXS;
+        
+        if( $this->pathXS )
+            file_put_contents( $this->pathXS, $docXS );
+        
+        return $docXS;
     }
 
     var $docXSL_value;
+    var $docXSL_depends= array();
     function docXSL_make( ){
-        if( file_exists( $this->pathXS ) ) $this->sync();
         $docXSL= so_dom::make( so_file::make( $this->pathXSL ) );
         return $docXSL;
     }
     function docXSL_store( $docXSL ){
         $docXSL= so_dom::make( $docXSL );
-        if( file_exists( $this->pathXSL ) ) unlink( $this->pathXSL );
-        file_put_contents( $this->pathXSL, $docXSL );
-        return null;
+        if( !$this->pathXSL )
+            return $docXSL;
+        
+        if( $this->pathXSL )
+            file_put_contents( $this->pathXSL, $docXSL );
+        
+        return $docXSL;
     }
 
     var $processor_value;
@@ -67,16 +75,16 @@ class so_XStyle
     }
 
     function sync( ){
-        if( !file_exists( $this->pathXS ) ) return $this;
-        if
-        (    file_exists( $this->pathXSL )
-        &&  ( filemtime( $this->pathXS ) === fileatime( $this->pathXS ) )
-        ) return $this;
-
-        $xs2xsl= new $this;
-        $xs2xsl->pathXSL= __DIR__ . '/compiler/so_XStyle_compiler.xsl';
-        $this->docXSL= $xs2xsl->process( $this->docXS );
-        $this->docXS= $this->docXS;
+        if( ( filemtime( $this->pathXS ) - filemtime( $this->pathXSL ) ) > 1 ):
+            $this->docXSL= so_xstyle_compiler::make()->process( $this->docXS );
+        #    $this->docXS= $this->docXS;
+        #elseif( ( filemtime( $this->pathXSL ) - filemtime( $this->pathXS ) ) > 1 ):
+        #    echo '<!--xsl2xs-->';
+        #    $xsl2xs= new $this;
+        #    $xsl2xs->pathXSL= __DIR__ . '/so_xstyle_compiler/so_xstyle_xsl2xs.xsl';
+        #    $this->docXS= $xsl2xs->process( $this->docXSL );
+        #    $this->docXSL= $this->docXSL;
+        endif;
         return $this;
     }
 

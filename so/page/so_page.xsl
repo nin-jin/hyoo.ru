@@ -51,7 +51,6 @@
             </head>
             <body wc_reset="true">
                 <wc_desktop>
-                    
                     <xsl:apply-templates select=" . " mode="so_page_logo" />
                     <xsl:apply-templates select=" . " mode="so_page_tools" />
                     <xsl:apply-templates select=" so_page_aside " mode="so_page_special" />
@@ -64,8 +63,6 @@
                     </wc_spacer>
                     
                     <wc_footer>
-                        <a href="http://vrozetke.com/" wc_link="true">Бесплатный Хостинг</a>
-                        <xsl:text> | </xsl:text>
                         <a href="mailto:nin-jin@ya.ru" wc_link="true">Экстренная связь с машинистом</a>
                     </wc_footer>
                     
@@ -138,6 +135,19 @@
                 </wc_pop-tool_item>
                 <wc_pop-tool_item>
                     <a href="?article" wc_reset="true">+</a>
+                </wc_pop-tool_item>
+            </wc_pop-tool_panel>
+            <wc_pop-tool_panel wc_pop-tool_edge="bottom">
+                <wc_pop-tool_item>
+                    <form
+                        action="?"
+                        method="get"
+                        >
+                        <input
+                            name="search"
+                            placeholder="Поиск"
+                        />
+                    </form>
                 </wc_pop-tool_item>
             </wc_pop-tool_panel>
         </wc_pop-tool>

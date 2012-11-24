@@ -8,14 +8,6 @@
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match=" xstyle ">
-        <xsl:element name="xsl:stylesheet">
-            <xsl:apply-templates select=" @* " />
-            <xsl:attribute name="version">1.0</xsl:attribute>
-            <xsl:apply-templates select=" node() " />
-        </xsl:element>
-    </xsl:template>
-
     <xsl:template match=" processing-instruction()[ name() = 'val' ] ">
         <xsl:element name="xsl:value-of">
             <xsl:attribute name="select">
@@ -127,7 +119,7 @@
         <xsl:text disable-output-escaping="yes">&lt;/xsl:apply-templates&gt;</xsl:text>
     </xsl:template>
 
-    <xsl:template match=" processing-instruction()[ name() = 'arg' or name() = 'param' or name() = 'var' ] ">
+    <xsl:template match=" processing-instruction()[ name() = 'arg' or name() = 'param' or name() = 'const' ] ">
         <xsl:variable name="name" select=" normalize-space( substring-before( ., '\' ) ) " />
         <xsl:variable name="select" select=" substring-after( ., '\' ) " />
         <xsl:text disable-output-escaping="yes">&lt;</xsl:text>
@@ -142,14 +134,14 @@
             </xsl:if>
         <xsl:text disable-output-escaping="yes">/&gt;</xsl:text>
     </xsl:template>
-    <xsl:template match=" processing-instruction()[ name() = 'arg-' or name() = 'param-' or name() = 'var-' ] ">
+    <xsl:template match=" processing-instruction()[ name() = 'arg-' or name() = 'param-' or name() = 'const-' ] ">
         <xsl:text disable-output-escaping="yes">&lt;</xsl:text>
             <xsl:apply-templates select=" . " mode="tag-name" />
         <xsl:text disable-output-escaping="yes"> name="</xsl:text>
             <xsl:value-of select=" normalize-space( . ) " />
         <xsl:text disable-output-escaping="yes">" &gt;</xsl:text>
     </xsl:template>
-    <xsl:template match=" processing-instruction()[ name() = 'arg.' or name() = 'param.' or name() = 'var.' ] ">
+    <xsl:template match=" processing-instruction()[ name() = 'arg.' or name() = 'param.' or name() = 'const.' ] ">
         <xsl:text disable-output-escaping="yes">&lt;/</xsl:text>
             <xsl:apply-templates select=" . " mode="tag-name" />
         <xsl:text disable-output-escaping="yes">&gt;</xsl:text>
@@ -158,19 +150,19 @@
         <xsl:text>xsl:</xsl:text><xsl:value-of select=" translate( name(), '-.', '' ) " />
     </xsl:template>
     <xsl:template match=" processing-instruction()[ translate( name(), '-.', '' ) = 'arg' ] " mode="tag-name">xsl:with-param</xsl:template>
-    <xsl:template match=" processing-instruction()[ translate( name(), '-.', '' ) = 'var' ] " mode="tag-name">xsl:variable</xsl:template>
+    <xsl:template match=" processing-instruction()[ translate( name(), '-.', '' ) = 'const' ] " mode="tag-name">xsl:variable</xsl:template>
 
     <xsl:template match=" processing-instruction()[ name() = 'include' ] ">
         <xsl:variable name="uri" select=" normalize-space( . ) " />
         <xsl:text disable-output-escaping="yes">&#10;</xsl:text>
             <xsl:comment>
-                <xsl:text>from </xsl:text>
+                <xsl:text>include href="</xsl:text>
                 <xsl:value-of select=" $uri " />
+                <xsl:text>" </xsl:text>
             </xsl:comment>
                 <xsl:apply-templates select=" document( $uri, . )/*/node()" />
             <xsl:comment>
-                <xsl:text>/from </xsl:text>
-                <xsl:value-of select=" $uri " />
+                <xsl:text>/include</xsl:text>
             </xsl:comment>
         <xsl:text disable-output-escaping="yes">&#10;</xsl:text>
     </xsl:template>
@@ -201,12 +193,6 @@
         <xsl:text disable-output-escaping="yes"> " /&gt;</xsl:text>
     </xsl:template>
 
-    <xsl:template match=" processing-instruction()[ name() = 'text-' ] ">
-        <xsl:text disable-output-escaping="yes">&lt;xsl:text&gt;</xsl:text>
-    </xsl:template>
-    <xsl:template match=" processing-instruction()[ name() = 'text.' ] ">
-        <xsl:text disable-output-escaping="yes">&lt;/xsl:text&gt;</xsl:text>
-    </xsl:template>
     <xsl:template match=" processing-instruction()[ name() = 'text' ] ">
         <xsl:element name="xsl:text">
             <xsl:value-of select=" . " />
@@ -219,6 +205,21 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match=" processing-instruction()[ name() = 'attr' ] ">
+        <xsl:variable name="name" select=" normalize-space( substring-before( ., '\' ) ) " />
+        <xsl:variable name="select" select=" substring-after( ., '\' ) " />
+        <xsl:element name="xsl:attribute" >
+            <xsl:attribute name="name">
+                <xsl:value-of select=" $name " />
+            </xsl:attribute>
+            <xsl:element name="xsl:value-of">
+                <xsl:attribute name="select">
+                    <xsl:value-of select=" $select " />
+                </xsl:attribute>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
     <xsl:template match=" processing-instruction()[ name() = 'attr-' ] ">
         <xsl:text disable-output-escaping="yes">&lt;xsl:attribute name="</xsl:text>
             <xsl:value-of select=" normalize-space( . )" />
@@ -226,6 +227,19 @@
     </xsl:template>
     <xsl:template match=" processing-instruction()[ name() = 'attr.' ] ">
         <xsl:text disable-output-escaping="yes">&lt;/xsl:attribute&gt;</xsl:text>
+    </xsl:template>
+
+    <xsl:template match=" processing-instruction()[ name() = 'attr-set-' ] ">
+        <xsl:variable name="name" select=" normalize-space( substring-before( ., '\' ) ) " />
+        <xsl:variable name="attrs" select=" substring-after( ., '\' ) " />
+        <xsl:text disable-output-escaping="yes">&lt;xsl:attribute-set name="</xsl:text>
+            <xsl:value-of select=" $name " />
+        <xsl:text disable-output-escaping="yes">" use-attribute-sets="</xsl:text>
+            <xsl:value-of select=" $attrs " />
+        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+    </xsl:template>
+    <xsl:template match=" processing-instruction()[ name() = 'attr-set.' ] ">
+        <xsl:text disable-output-escaping="yes">&lt;/xsl:attribute-set&gt;</xsl:text>
     </xsl:template>
 
     <xsl:template match=" processing-instruction()[ name() = 'DOCTYPE' or name() = 'doctype' ] ">

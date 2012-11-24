@@ -45,8 +45,8 @@ new function(){
             this[ /(\s)([a-zA-Z][\w:-]+)(\s*=\s*)("[\s\S]*?")/.source ]=
             this[ /(\s)([a-zA-Z][\w:-]+)(\s*=\s*)('[\s\S]*?')/.source ]=
             function( prefix, name, sep, value ){
-                name= sgml.attrName( name )
-                value= sgml.attrValue( value )
+                name= sgml.attrName( $lang.text( name ) )
+                value= sgml.attrValue( $lang.text( value ) )
                 return prefix + name + sep + value
             }
         

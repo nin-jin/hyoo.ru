@@ -23,14 +23,6 @@ class so_front
     var $method_value;
     var $data_value;
 
-    var $package_value;
-    function package_make( ){
-        return so_package::make( 'so' );
-    }
-    function package_store( $data ){
-        return so_package::make( $data );
-    }
-    
     function send( $response ){
         echo $response->content;
     }

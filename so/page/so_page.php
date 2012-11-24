@@ -8,7 +8,7 @@ class so_page
     static function make( $data ){
         $page= array();
         
-        $moduleMix= so_front::make()->package[ '-mix' ]->dir;
+        $moduleMix= so_package::make()[ '-mix' ]->dir;
         
         $page[]= array( '?xml-stylesheet' => array(
             'href' => (string) $moduleMix[ static::$mode . '.xsl' ]->uriVersioned,

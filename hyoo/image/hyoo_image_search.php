@@ -7,13 +7,12 @@ class hyoo_image_search
     var $uri_depends= array( 'uri', 'search', 'version' );
     function uri_make( ){
         return so_query::make(array(
-            'image' => $this->version,
+            'image',
             'search' => $this->search,
         ))->uri;
     }
     function uri_store( $data ){
         $query= so_uri::make( $data )->query;
-        $this->version= $query[ 'image' ];
         $this->search= $query[ 'search' ];
     }
     
@@ -27,15 +26,6 @@ class hyoo_image_search
         return (string) $data;
     }
     
-    var $version_value;
-    var $version_depends= array( 'uri', 'version' );
-    function version_make( ){
-        return 0;
-    }
-    function version_store( $data ){
-        return (integer) $data;
-    }
-    
     var $storage_value;
     function storage_make( ){
         return so_storage::make( $this->uri );
@@ -47,33 +37,56 @@ class hyoo_image_search
             return so_dom::make( $this->storage->content );
         
         $query= so_query_compatible::make(array(
+            'v' => '1.0',
             'q' => $this->search,
-            'tbm' => 'isch',
+            'rsz' => 1,
+            'imgsz' => 'xlarge',
+            'safe' => 'off',
         ));
-        $html= so_uri_compatible::make( 'http://www.google.ru/search?' . $query )->content;
-        $dom= so_dom::make(array( '#html' => $html ));
-        
-        $links= $dom->select( '//*[@id="search"]//a/@href' );
+        $json= json_decode( so_uri_compatible::make( 'http://ajax.googleapis.com/ajax/services/search/images?' . $query )->content );
+        var_dump( $json->responseData->results[0]->unescapedUrl );
+        #$links= $dom->select( '//*[@id="search"]//a/@href' );
         $imageList= so_dom::make(array( 'hyoo_image_list' => null ));
-        foreach( $links as $link ):
-            $imageList[]= array(
-                'hyoo_image/@so_uri' => (string) so_uri::make( $link->value )->query[ 'imgurl' ],
-            );
-        endforeach;
-        
-        $this->storage->content= $imageList;
+        #foreach( $links as $link ):
+        #    $imageList[]= array(
+        #        'hyoo_image/@so_uri' => (string) so_uri::make( $link->value )->query[ 'imgurl' ],
+        #    );
+        #endforeach;
+        #
+        #$this->storage->content= $imageList;
         
         return $imageList;
     }
     
     var $image_value;
     function image_make( ){
-        $list= $this->imageList->childs;
-        return $list[ $this->version % count( $list ) ][ '@so_uri' ];
+        if( $this->storage->version )
+            return so_dom::make( $this->storage->content );
+        
+        $query= so_query_compatible::make(array(
+            'v' => '1.0',
+            'q' => $this->search,
+            'rsz' => 1,
+            'imgsz' => 'xlarge',
+            'safe' => 'off',
+        ));
+        $json= json_decode( so_uri_compatible::make( 'http://ajax.googleapis.com/ajax/services/search/images?' . $query )->content );
+        
+        $image= so_dom::make(array(
+            'hyoo_image_search' => null,
+        ));
+        foreach( $json->responseData->results[0] as $prop => $value ):
+            $image[ '@hyoo_image_search_' . $prop ]= $value;
+        endforeach;
+        
+        $this->storage->content= $image;
+        
+        return $image;
     }
     
     function get_resource( $data= null ){
-        return so_output::moved( (string) $this->image )->cache( true );
+        $url= (string) $this->image[ '@hyoo_image_search_unescapedUrl' ];
+        return so_output::moved( $url )->cache( true );
     }
     
 }

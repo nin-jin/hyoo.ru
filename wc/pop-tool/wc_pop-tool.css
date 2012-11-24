@@ -81,13 +81,11 @@ wc_pop-tool form {
 }
 
 wc_pop-tool input {
-    display: block;
-    width: 100%;
-    padding: 2px 2px;
     margin: 0;
+    padding: 4pt;
+    background: transparent;
     border: none;
     vertical-align: top;
-    background: transparent;
 }
 
 wc_pop-tool input:focus {

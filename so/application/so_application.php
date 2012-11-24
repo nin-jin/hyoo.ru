@@ -18,8 +18,10 @@ class so_application
             ini_set( $key, $value );
         
         so_page::$mode= $mode;
+        so_package::$defaultName= $package;
+        so_query::$resourcePrefix= $package;
         
-        $front= so_front::make()->package( $package );
+        $front= so_front::make();
         
         $query= $front->uri->query;
         $resource= $query->resource;

@@ -40,9 +40,9 @@
     <xsl:template match=" hyoo_search " mode="hyoo_search_result">
         <iframe
             src="{ @hyoo_search_frame }"
+            wc_yasearchresult="true"
             wc_reset="true"
-            style="height:60em"
-            sandbox="allow-scripts"
+            style="height:0em"
             >
         </iframe>
     </xsl:template>

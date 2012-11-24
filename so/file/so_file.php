@@ -31,14 +31,14 @@ implements \ArrayAccess
     var $uri_value;
     function uri_make( ){
         $uri= so_uri::makeInstance();
-        $uri->path= strtr( $this->relate( so_front::make()->dir ), array( '%' => urlencode( '%' ) ) );
+        $uri->path= strtr( $this->relate( getcwd() ), array( '%' => urlencode( '%' ) ) );
         return $uri->primary();
     }
     
     var $uriVersioned_value;
     function uriVersioned_make( ){
         $uri= so_uri::makeInstance();
-        $uri->path= strtr( $this->relate( so_front::make()->dir ), array( '%' => urlencode( '%' ) ) );
+        $uri->path= strtr( $this->relate( getcwd() ), array( '%' => urlencode( '%' ) ) );
         $uri->queryString= $this->version;
         return $uri->primary();
     }
@@ -79,8 +79,18 @@ implements \ArrayAccess
             $this->parent->exists= true;
             mkdir( $this->path, 0777, true );
         else:
-            unlink( $this->path );
-            unset( $this->childs );
+            switch( $this->type ):
+                case 'dir':
+                    foreach( $this->childs as $child )
+                        $child->exists= false;
+                    rmdir( $this->path );
+                    unset( $this->childs );
+                break;
+                case 'file':
+                    unlink( $this->path );
+                    unset( $this->content );
+                break;
+            endswitch;
         endif;
         return $exists;
     }
@@ -232,14 +242,23 @@ implements \ArrayAccess
             return $this;
             
         so_file::ensure( $target );
-        $target->parent->exists= true;
         
-        if( false === copy( (string) $this, (string) $target ) )
-            throw new \Exception( "Can not copy [{$this}] to [{$target}]" );
-        
-        unset( $target->version );
-        unset( $target->exists );
-        unset( $target->content );
+        switch( $this->type ):
+            case 'dir':
+                foreach( $this->childs as $child ):
+                    $child->copy( $target[ $child->name ] );
+                endforeach;
+            break;
+            case 'file':
+                $target->parent->exists= true;
+                if( false === copy( (string) $this, (string) $target ) )
+                    throw new \Exception( "Can not copy [{$this}] to [{$target}]" );
+                
+                unset( $target->version );
+                unset( $target->exists );
+                unset( $target->content );
+            break;
+        endswitch;
         
         return $target;
     }

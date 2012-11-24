@@ -8,6 +8,7 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
     
     static $sepaName= '=';
     static $sepaChunk= ';&';
+    static $resourcePrefix= '';
     
     static function make( $uri= null ){
         $obj= new static;
@@ -97,7 +98,7 @@ implements \Countable, \ArrayAccess, \IteratorAggregate
     var $resource_value;
     function resource_make( ){
         $keyList= array_keys( $this->struct );
-        array_unshift( $keyList, so_front::make()->package->name );
+        array_unshift( $keyList, static::$resourcePrefix );
         
         while( count( $keyList ) ):
             $class= __NAMESPACE__ . '\\' . implode( '_', $keyList );

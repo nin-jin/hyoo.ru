@@ -1,0 +1,1 @@
+$lang.xs= $lang.xsl
