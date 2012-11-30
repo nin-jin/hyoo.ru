@@ -35,7 +35,7 @@ class so_export
             
             $target= $export[ $package->name ][ '-mix' ];
             foreach( $package->dir[ '-mix' ]->childs as $file ):
-                if( !preg_match( '~^(release|bundle)\.~', $file->name ) )
+                if( ( $file->type === 'file' ) && !preg_match( '~^(release|bundle)\.~', $file->name ) )
                     continue;
                 
                 $file->copy( $target[ $file->name ] );

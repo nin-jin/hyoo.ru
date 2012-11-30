@@ -1,0 +1,35 @@
+<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    doc_title="$jin_method"
+    >
+
+    <h:p>Трансформирует функцию в метод, который передаёт свой this в функцию в качестве первого аргумента.</h:p>
+
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_method )
+        </wc_js-test>
+        <wc_js-test>
+            var func= function( obj, a ){ return [ obj.field, a ] }
+            var method= $jin_method( func )
+            _test.ok( method.call, func )
+        </wc_js-test>
+        <wc_js-test>
+            var func= function( obj, a ){ return [ obj.field, a ] }
+            var obj=
+            {   field: 7
+            ,   method: $jin_method( func )
+            }
+            _test.ok( obj.method( 3 ).join(), func( obj, 3 ).join() )
+        </wc_js-test>
+    </h:p>
+
+    <h:p>Если передать что-то отличное от функции, то вернёт это значение без изменений.</h:p>
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_method( 123 ), 123 )
+        </wc_js-test>
+    </h:p>
+    
+</doc_root>

@@ -47,6 +47,16 @@ $jam.Component
                         throw new Error( 'Results is not equal' )
                     }
                 }
+            ,   function( a, b, c ){
+                    checkDone()
+                    passed(( a === b )&&( a === c ))
+                    printValue( a )
+                    if(( a !== b )||( a !== c )){
+                        printValue( b )
+                        printValue( c )
+                        throw new Error( 'Results is not equal' )
+                    }
+                }
             )
 
             _test.not=

@@ -1,0 +1,17 @@
+<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    doc_title="$jin_makeId"
+    >
+
+    <h:p>Функция генерирующая уникльный идентификатор на основе переданного ей префикса. </h:p>
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_makeId )
+        </wc_js-test>
+        <wc_js-test>
+            _test.not( $jin_makeId(), $jin_makeId() )
+        </wc_js-test>
+    </h:p>
+    
+</doc_root>

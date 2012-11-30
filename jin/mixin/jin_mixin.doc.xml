@@ -1,0 +1,46 @@
+<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    doc_title="$jin_mixin"
+    >
+
+    <h:p>Создаёт класс, к которому автоматически примешивается переданная в параметре схема. </h:p>
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_mixin )
+        </wc_js-test>
+        <wc_js-test>
+            var ManClass= $jin_mixin( function( Man, man ){
+                man.name= 'Bob'
+            })
+            
+            var Boy= ManClass( function( Boy, boy ){
+                boy.toString= function( boy ){
+                    return boy.name
+                }
+            })
+            
+            _test.ok( Boy().name, 'Bob' )
+        </wc_js-test>
+    </h:p>
+    
+    <h:p>Тем не менее этот класс можно примешивать также как и любые другие классы. </h:p>
+    <h:p>
+        <wc_js-test>
+            var ManClass= $jin_mixin( function( Man, man ){
+                man.name= 'Bob'
+            })
+            
+            var Boy= $jin_class( function( Boy, boy ){
+                ManClass.$jin_class_scheme( Boy, boy )
+                
+                boy.toString= function( boy ){
+                    return boy.name
+                }
+            })
+            
+            _test.ok( Boy().name, 'Bob' )
+        </wc_js-test>
+    </h:p>
+    
+</doc_root>

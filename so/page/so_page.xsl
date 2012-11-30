@@ -72,20 +72,6 @@
         
     </xsl:template>
 
-    <xsl:template match=" head ">
-        <xsl:apply-templates />
-    </xsl:template>
-    
-    <xsl:template match=" body ">
-        <wc_spacer>
-            <wc_paper>
-                <wc_spacer>
-                    <xsl:apply-templates />
-                </wc_spacer>
-            </wc_paper>
-        </wc_spacer>
-    </xsl:template>
-    
     <xsl:template match=" * " mode="so_page_title" />
     <xsl:template match=" so_page " mode="so_page_title">
         <title>

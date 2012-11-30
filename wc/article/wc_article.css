@@ -32,4 +32,5 @@ wc_article_annotation {
 wc_article_content {
     display: block;
     margin: 20pt 0 0;
+	text-align: left;
 }
