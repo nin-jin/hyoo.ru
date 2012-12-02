@@ -1,0 +1,57 @@
+<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    doc_title="$jin_eventProof"
+    >
+
+    <h:p>Примесь события кидающего исключени в качестве поведения по умолчанию. Используется, когда нужно гарантировать, что запущенное событие будет обработано.</h:p>
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_eventProof )
+        </wc_js-test>
+        <wc_js-test>
+            var onClick= $jin_eventProof( function( onClick, event ){
+                onClick.type= '$jin_event_test_1'
+            } )
+            
+            try {
+                onClick().scream( document )
+            } catch( error ){
+                _test.ok( error )
+            }
+        </wc_js-test>
+        <wc_js-test>
+            var onClick= $jin_eventProof( function( onClick, event ){
+                onClick.type= '$jin_event_test_2'
+            } )
+            
+            var listener= onClick.listen( document, function( event ){
+                event.preventDefault()
+            })
+            
+            onClick().scream( document )
+            
+            listener.destroy()
+            
+            _test.ok()
+        </wc_js-test>
+        <wc_js-test>
+            var onClick= $jin_eventProof( function( onClick, event ){
+                onClick.type= '$jin_event_test_2'
+            } )
+            
+            var listener= onClick.listen( document, function( event ){
+                event.preventDefault()
+            })
+            
+            listener.destroy()
+            
+            try {
+                onClick().scream( document )
+            } catch( error ){
+                _test.ok( error )
+            }
+        </wc_js-test>
+    </h:p>
+    
+</doc_root>

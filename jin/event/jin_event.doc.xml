@@ -1,0 +1,30 @@
+<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    doc_title="$jin_event"
+    >
+
+    <h:p>Примесь, позволяющая классу выступать в качестве события. </h:p>
+    <h:p>
+        <wc_js-test>
+            _test.ok( $jin_event )
+        </wc_js-test>
+        <wc_js-test>
+            var onClick= $jin_event( function( onClick, event ){
+                onClick.type= '$jin_event_test_2'
+            } )
+            
+            var done= false
+            var listener= onClick.listen( document, function( event ){
+                done= true
+            })
+            
+            onClick().scream( document )
+            
+            listener.destroy()
+            
+            _test.ok( done )
+        </wc_js-test>
+    </h:p>
+    
+</doc_root>
