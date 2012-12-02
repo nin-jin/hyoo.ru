@@ -11,19 +11,19 @@
         </wc_js-test>
         <wc_js-test>
             var Node= $jin_class( function( Node, node ){
-                $jin_wrapper.$jin_class_scheme( Node, node )
+                $jin_wrapper.scheme( Node, node )
             } )
             _test.ok( Node( document ) )
         </wc_js-test>
         <wc_js-test>
             var Node= $jin_class( function( Node, node ){
-                $jin_wrapper.$jin_class_scheme( Node, node )
+                $jin_wrapper.scheme( Node, node )
             } )
             _test.ok( Node( document ).$, document )
         </wc_js-test>
         <wc_js-test>
             var Node= $jin_class( function( Node, node ){
-                $jin_wrapper.$jin_class_scheme( Node, node )
+                $jin_wrapper.scheme( Node, node )
             } )
             
             var node= Node( document )
@@ -33,12 +33,12 @@
         <wc_js-test>
             var Int= $jin_class( function( Int, int ){
             
-                var make= Int.$jin_class_make
-                Int.$jin_class_make= function( value ){
-                    return make( parseInt( value ) )
+                var make= Int.make
+                Int.make= function( value ){
+                    return make.call( this, parseInt( value ) )
                 }
                 
-                $jin_wrapper.$jin_class_scheme( Int, int )
+                $jin_wrapper.scheme( Int, int )
             } )
             
             _test.ok( Int( '1.2.3' ).$, 1 )

@@ -1,9 +1,12 @@
-this.$jin_mixin= function( schemeMinin ){
-    var mixin= $jin_class( schemeMinin )
+this.$jin_mixin=
+function( schemeMixin ){
     
-    mixin.$jin_class_make= function( scheme ){
+    var mixin= $jin_class( schemeMixin )
+    
+    mixin.make=
+    function( scheme ){
         return $jin_class( function( Class, proto ){
-            schemeMinin( Class, proto )
+            schemeMixin( Class, proto )
             scheme( Class, proto )
         })
     }

@@ -11,13 +11,13 @@
         </wc_js-test>
         <wc_js-test>
             var Man= $jin_class( function( Man, man ){
-                $jin_registry.$jin_class_scheme( Man, man )
+                $jin_registry.scheme( Man, man )
             } )
             _test.ok( Man( 1 ), Man( 1 ) )
         </wc_js-test>
         <wc_js-test>
             var Man= $jin_class( function( Man, man ){
-                $jin_registry.$jin_class_scheme( Man, man )
+                $jin_registry.scheme( Man, man )
             } )
             _test.not( Man( 1 ), Man( 2 ) )
         </wc_js-test>
