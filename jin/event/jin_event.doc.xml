@@ -10,20 +10,47 @@
             _test.ok( $jin_event )
         </wc_js-test>
         <wc_js-test>
-            var onClick= $jin_event( function( onClick, event ){
-                onClick.type= '$jin_event_test_2'
+            $jin_event_test= $jin_event( function( onTest1, event ){
+                onTest1.type= '$jin_event_test'
             } )
             
+            _test.ok( $jin_event_test )
+        </wc_js-test>
+        <wc_js-test>
             var done= false
-            var listener= onClick.listen( document, function( event ){
+            var listener= $jin_event_test.listen( document, function( event ){
                 done= true
             })
             
-            onClick().scream( document )
+            $jin_event_test().scream( document )
             
             listener.destroy()
             
             _test.ok( done )
+        </wc_js-test>
+        <wc_js-test>
+            var body= document.getElementsByTagName( 'body' )[ 0 ]
+            
+            var listener= $jin_event_test.listen( document, function( event ){
+                _test.ok( event.target(), body )
+            })
+            
+            $jin_event_test().scream( body )
+            
+            listener.destroy()
+        </wc_js-test>
+        <wc_js-test>
+            var head= document.getElementsByTagName( 'head' )[ 0 ]
+            var body= document.getElementsByTagName( 'body' )[ 0 ]
+            
+            var listener= $jin_event_test.listen( document, function( event ){
+                event.target( head )
+                _test.ok( event.target(), head )
+            })
+            
+            $jin_event_test().scream( body )
+            
+            listener.destroy()
         </wc_js-test>
     </h:p>
     

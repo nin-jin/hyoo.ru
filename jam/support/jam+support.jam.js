@@ -4,7 +4,7 @@ $jam.define
         var Support= function( state ){
             var sup= $jam.Value( state )
             sup.select= function( map ){
-                return $jam.switch( this(), map )
+                return $jam.select( this(), map )
             }
             return sup
         }

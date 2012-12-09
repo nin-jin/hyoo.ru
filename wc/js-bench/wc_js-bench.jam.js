@@ -94,7 +94,7 @@ $jam.Component
                 var source= nodeSource.text()
                 var matches= parser.exec( source )
                 if( matches ){
-                    var prefix= matches[1]
+                    var prefix= matches[1] + ';'
                     var sourceInner= matches[2] + ';'
                     var postfix= matches[3] + ';'
                 } else {

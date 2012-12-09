@@ -1,5 +1,5 @@
 $jam.define
-(   '$jam.switch'
+(   '$jam.select'
 ,   function( key, map ){
         if( !map.hasOwnProperty( key ) ) {
             throw new Error( 'Key [' + key + '] not found in map' )

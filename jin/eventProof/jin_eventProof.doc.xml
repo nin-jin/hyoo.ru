@@ -10,44 +10,44 @@
             _test.ok( $jin_eventProof )
         </wc_js-test>
         <wc_js-test>
-            var onClick= $jin_eventProof( function( onClick, event ){
-                onClick.type= '$jin_event_test_1'
+            var onTest1= $jin_eventProof( function( onTest1, event ){
+                onTest1.type= '$jin_event_test_1'
             } )
             
             try {
-                onClick().scream( document )
+                onTest1().scream( document )
             } catch( error ){
                 _test.ok( error )
             }
         </wc_js-test>
         <wc_js-test>
-            var onClick= $jin_eventProof( function( onClick, event ){
-                onClick.type= '$jin_event_test_2'
+            var onTest2= $jin_eventProof( function( onTest2, event ){
+                onTest2.type= '$jin_event_test_2'
             } )
             
-            var listener= onClick.listen( document, function( event ){
+            var listener= onTest2.listen( document, function( event ){
                 event.preventDefault()
             })
             
-            onClick().scream( document )
+            onTest2().scream( document )
             
             listener.destroy()
             
             _test.ok()
         </wc_js-test>
         <wc_js-test>
-            var onClick= $jin_eventProof( function( onClick, event ){
-                onClick.type= '$jin_event_test_2'
+            var onTest1= $jin_eventProof( function( onTest1, event ){
+                onTest1.type= '$jin_event_test_3'
             } )
             
-            var listener= onClick.listen( document, function( event ){
+            var listener= onTest1.listen( document, function( event ){
                 event.preventDefault()
             })
             
             listener.destroy()
             
             try {
-                onClick().scream( document )
+                onTest1().scream( document )
             } catch( error ){
                 _test.ok( error )
             }

@@ -4,20 +4,22 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     $jin_event.type= null
     
     $jin_event.listen= function( node, handler ){
-        node.addEventListener
-        (   $jin_event.type
-        ,   handler
-        ,   false
+        return $jin_nodeListener
+        (   node
+        ,   $jin_event.type
+        ,   $jin_event.wrapHandler( handler )
         )
-        return $jin_listener( $jin_event, node, handler )
     }
     
-    $jin_event.forget= function( node, handler ){
-        node.removeEventListener
-        (   $jin_event.type
-        ,   handler
-        ,   false
-        )
+    $jin_event.wrapHandler= function( handler ){
+        return function( event ){
+            return handler( $jin_event( event ) )
+        }
+    }
+    
+    $jin_event.toString=
+    function( ){
+        return $jin_event.type
     }
     
     var init= event.init
@@ -35,9 +37,18 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
         return event
     }
     
+    event.target=
+    function( event, value ){
+        if( value == null )
+            return event.$.$jin_event_target || event.$.target
+        
+        event.$.$jin_event_target= value
+        return event
+    }
+    
     event.toString=
     function( event ){
-        return 'Event:' + $jin_event.type
+        return $jin_event + '()'
     }
     
 })
