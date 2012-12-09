@@ -11,7 +11,10 @@ this.$jin_onElemAdd= $jin_event( function( $jin_onElemAdd, event ){
         )
     }
     
+    var wrapHandler= $jin_onElemAdd.wrapHandler
     $jin_onElemAdd.wrapHandler= function( handler ){
+        handler= wrapHandler( handler )
+        
         return function( event ){
             event= $jin_onElemAdd( event )
             
@@ -28,7 +31,7 @@ this.$jin_onElemAdd= $jin_event( function( $jin_onElemAdd, event ){
                 var lister= $jin_nodeListener
                 (   elems[ i ]
                 ,   $jin_onElemAdd.type
-                ,   arguments.callee
+                ,   handler
                 )
                 
                 $jin_onElemAdd().scream( elems[ i ] )
