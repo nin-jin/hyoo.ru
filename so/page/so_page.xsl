@@ -154,4 +154,8 @@
         </wc_sidebar>
     </xsl:template>
     
+    <xsl:template match=" so_page / html ">
+        <xsl:copy-of select=" . " />
+    </xsl:template>
+    
 </xsl:stylesheet>
