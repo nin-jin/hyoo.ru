@@ -12,6 +12,7 @@
         <wc_js-test>
             $jin_event_test= $jin_event( function( onTest1, event ){
                 onTest1.type= '$jin_event_test'
+                onTest1.bubbles= true
             } )
             
             _test.ok( $jin_event_test )
@@ -49,6 +50,16 @@
             })
             
             $jin_event_test().scream( body )
+            
+            listener.destroy()
+        </wc_js-test>
+        <wc_js-test>
+            var listener= $jin_event_test.listen( document, function( event ){
+                event.type( '$jin_event_test2' )
+                _test.ok( event.type(), '$jin_event_test2' )
+            })
+            
+            $jin_event_test().scream( document )
             
             listener.destroy()
         </wc_js-test>

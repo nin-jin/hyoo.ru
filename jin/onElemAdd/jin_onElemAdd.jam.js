@@ -20,13 +20,19 @@ this.$jin_onElemAdd= $jin_event( function( $jin_onElemAdd, event ){
             
             handler( event )
             
-            if( /*@cc_on!@*/ false )
+            if( /*@cc_on!@*/ false ) // TODO: implement feature detection
                 return
             
             var elems= target.getElementsByTagName( '*' )
             for( var i= 0; i < elems.length; ++i ){
-                event.target( elems[ i ] )
-                handler( event )
+                var lister= $jin_nodeListener
+                (   elems[ i ]
+                ,   $jin_onElemAdd.type
+                ,   arguments.callee
+                )
+                
+                $jin_onElemAdd().scream( elems[ i ] )
+                lister.destroy()
             }
         }
     }

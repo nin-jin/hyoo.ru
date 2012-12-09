@@ -2,6 +2,8 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     $jin_wrapper.scheme.apply( this, arguments )
     
     $jin_event.type= null
+    $jin_event.bubbles= false
+    $jin_event.cancelable= false
     
     $jin_event.listen= function( node, handler ){
         return $jin_nodeListener
@@ -23,12 +25,14 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     }
     
     var init= event.init
-    event.init= function( event, value ){
-        if( !value ){
-            value= document.createEvent( 'Event' )
-            value.initEvent( $jin_event.type, true, true )
+    event.init= function( event, raw ){
+        if( raw ){
+            raw= $jin_unwrap( raw )
+        } else {
+            raw= document.createEvent( 'Event' )
+            raw.initEvent( $jin_event.type, $jin_event.bubbles, $jin_event.cancelable )
         }
-        init( event, value )
+        init( event, raw )
     }
     
     event.scream=
@@ -38,11 +42,38 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     }
     
     event.target=
-    function( event, value ){
-        if( value == null )
+    function( event, target ){
+        if( target == null )
             return event.$.$jin_event_target || event.$.target
         
-        event.$.$jin_event_target= value
+        event.$.$jin_event_target= target
+        return event
+    }
+    
+    event.type=
+    function( event, type ){
+        if( type == null )
+            return event.$.type
+        
+        event.$.initEvent( type, event.bubbles(), event.cancelable() )
+        return event
+    }
+    
+    event.bubbles=
+    function( event, bubbles ){
+        if( bubbles == null )
+            return event.$.bubbles
+        
+        event.$.initEvent( event.type(), bubbles, event.cancelable() )
+        return event
+    }
+    
+    event.cancelable=
+    function( event, cancelable ){
+        if( cancelable == null )
+            return event.$.cancelable
+        
+        event.$.initEvent( event.type(), event.bubbles(), cancelable )
         return event
     }
     
