@@ -88,6 +88,15 @@ class so_compiler
         return so_source_collection::make( $list );
     }
     
+    var $sourcesDOC_value;
+    function sourcesDOC_make( ){
+        $list= array();
+        foreach( $this->sources as $source )
+            if( $source->extension == 'xml' )
+                $list+= $source->sources->list;
+        return so_source_collection::make( $list );
+    }
+    
     var $sourcesPHP_value;
     function sourcesPHP_make( ){
         $list= array();
@@ -107,6 +116,7 @@ class so_compiler
         $this->compileCSS();
         $this->compileXSL();
         $this->compilePHP();
+        $this->compileDOC();
         $this->copyAddons();
         return $this;
     }
@@ -266,6 +276,41 @@ JS;
         endforeach;
         
         $target[ 'release.xsl' ]->content= $compiled;
+        
+        return $this;
+    }
+    
+    function compileDOC( ){
+        $sources= $this->sourcesDOC;
+        $target= $this->target;
+        
+        if( !count( $sources ) )
+            return $this;
+        
+        $index= so_dom::make( array(
+            'doc_list' => array(),
+        ) );
+        
+        foreach( $sources as $source ):
+            $index[]= array(
+                'doc_link' => $source->file->relate( $target->dir ) . '?' . $source->version,
+            );
+        endforeach;
+        
+        $target[ 'dev.doc.xml' ]->content= $index;
+        
+        $compiled= so_dom::make( array(
+            'doc_list' => array(),
+        ) );
+        
+        foreach( $sources as $source ):
+            $compiled[]= array(
+                '#comment' => " " . $source->file->relate( $target->dir ) . '?' . $source->version . " ",
+                $source->content,
+            );
+        endforeach;
+        
+        $target[ 'release.doc.xml' ]->content= $compiled;
         
         return $this;
     }
