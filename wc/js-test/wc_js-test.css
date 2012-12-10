@@ -13,12 +13,12 @@ wc_js-test {
     text-align: left;
 }
 
-wc_js-test.passed\=true {
+wc_js-test[wc_js-test_passed='true'] {
     background: #cfc;
     border: 1px solid #ada;
 }
 
-wc_js-test.passed\=false {
+wc_js-test[wc_js-test_passed='false'] {
     background: #fcc;
     border: 1px solid #c99;
 }
@@ -54,3 +54,25 @@ wc_js-test wc_hontrol {
 wc_js-test:hover wc_hontrol {
     display: block;
 }
+
+wc_js-test_summary[wc_js-test_passed] {
+    position: fixed;
+    left: 1em;
+    top: 1em;
+    width: 1em;
+    height: 1em;
+    overflow: hidden;
+    border-radius: .5em;
+    background: gray;
+}
+
+wc_js-test_summary[wc_js-test_passed='true'] {
+    background: #cfc;
+    border: 1px solid #ada;
+}
+
+wc_js-test_summary[wc_js-test_passed='false'] {
+    background: #fcc;
+    border: 1px solid #c99;
+}
+

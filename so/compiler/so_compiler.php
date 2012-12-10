@@ -299,15 +299,19 @@ JS;
         
         $target[ 'dev.doc.xml' ]->content= $index;
         
-        $compiled= so_dom::make( array(
+        $compiled= so_dom::make();
+        $compiled[]= array(
+            '?xml-stylesheet' => array(
+                'href' => '../../doc/-mix/release.xsl',
+                'type' => 'text/xsl',
+            ),
             'doc_list' => array(),
-        ) );
+        );
         
+        $root= $compiled->root;
         foreach( $sources as $source ):
-            $compiled[]= array(
-                '#comment' => " " . $source->file->relate( $target->dir ) . '?' . $source->version . " ",
-                $source->content,
-            );
+            $source->content[ '@doc_link' ]= $source->file->relate( $target->dir ) . '?' . $source->version . " ";
+            $root[]= $source->content;
         endforeach;
         
         $target[ 'release.doc.xml' ]->content= $compiled;
