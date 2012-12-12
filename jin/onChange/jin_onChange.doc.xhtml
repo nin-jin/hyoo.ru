@@ -1,17 +1,16 @@
 <?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_onChange"
     >
 
-    <h:p>Событие возникающее, когда меняется часть поддерева (в том числе и атрибуты). </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Событие возникающее, когда меняется часть поддерева (в том числе и атрибуты). </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_onChange )
-        </wc_js-test>
-    </h:p>
-    <h:p>
-        <wc_js-test>
+        </script>
+    </p>
+    <p>
+        <script type="wc_test">
             var node= document.createElement( 'jin_onChange_test' )
             document.getElementsByTagName( 'body' )[0].appendChild( node )
             
@@ -26,8 +25,8 @@
             node.parentNode.removeChild( node )
             
             _test.ok( result )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var parent= document.createElement( 'jin_onChange_test1' )
             var child= document.createElement( 'jin_onChange_test2' )
             
@@ -45,12 +44,12 @@
             parent.parentNode.removeChild( parent )
             
             _test.ok( result )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>Также позволяет отслеживать изменения в инпутах в реальном времени. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Также позволяет отслеживать изменения в инпутах в реальном времени. </p>
+    <p>
+        <script type="wc_test">
             var node= document.createElement( 'input' )
             document.getElementsByTagName( 'body' )[0].appendChild( node )
             
@@ -67,8 +66,8 @@
             node.parentNode.removeChild( node )
             
             _test.ok( result )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var parent= document.createElement( 'jin_onChange_test1' )
             var child= document.createElement( 'jin_onChange_test2' )
             
@@ -86,7 +85,7 @@
             parent.parentNode.removeChild( parent )
             
             //_test.ok( result )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
 </doc_root>

@@ -1,23 +1,22 @@
 <?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_event"
     >
 
-    <h:p>Примесь, позволяющая классу выступать в качестве события. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Примесь, позволяющая классу выступать в качестве события. </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_event )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             $jin_event_test= $jin_event( function( onTest1, event ){
                 onTest1.type= '$jin_event_test'
                 onTest1.bubbles= true
             } )
             
             _test.ok( $jin_event_test )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var done= false
             var listener= $jin_event_test.listen( document, function( event ){
                 done= true
@@ -28,8 +27,8 @@
             listener.destroy()
             
             _test.ok( done )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var body= document.getElementsByTagName( 'body' )[ 0 ]
             
             var listener= $jin_event_test.listen( document, function( event ){
@@ -39,8 +38,8 @@
             $jin_event_test().scream( body )
             
             listener.destroy()
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var head= document.getElementsByTagName( 'head' )[ 0 ]
             var body= document.getElementsByTagName( 'body' )[ 0 ]
             
@@ -52,8 +51,8 @@
             $jin_event_test().scream( body )
             
             listener.destroy()
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var listener= $jin_event_test.listen( document, function( event ){
                 event.type( '$jin_event_test2' )
                 _test.ok( event.type(), '$jin_event_test2' )
@@ -62,7 +61,7 @@
             $jin_event_test().scream( document )
             
             listener.destroy()
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
 </doc_root>

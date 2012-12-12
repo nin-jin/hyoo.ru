@@ -1,17 +1,16 @@
 <?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_onElemAdd"
     >
 
-    <h:p>Событие возникающее, когда в поддерево заданного элемента добавляются новые элементы. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Событие возникающее, когда в поддерево заданного элемента добавляются новые элементы. </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_onElemAdd )
-        </wc_js-test>
-    </h:p>
-    <h:p>
-        <wc_js-test>
+        </script>
+    </p>
+    <p>
+        <script type="wc_test">
         <![CDATA[
             var node= document.createElement( 'jin_onElemAdd_test' )
             document.getElementsByTagName( 'body' )[0].appendChild( node )
@@ -33,7 +32,7 @@
             
             _test.ok( result.join( ',' ), 'jin_onelemadd_test1,jin_onelemadd_test1,jin_onelemadd_test2,jin_onelemadd_test3' )
         ]]>
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
 </doc_root>

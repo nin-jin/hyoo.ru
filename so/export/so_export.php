@@ -15,7 +15,7 @@ class so_export
         foreach( so_root::make()->packages as $package ):
             foreach( $package->sources as $source ):
                 $file= $source->file;
-                if( preg_match( '~\.(js|css|xsl|php|meta.tree|doc.xml)$~', $file->name ) )
+                if( preg_match( '~\.(js|css|xsl|php|meta.tree|doc.xhtml)$~', $file->name ) )
                     continue;
                 
                 $target= $export->go( $file->relate( $rootDir ) );

@@ -1,30 +1,32 @@
 <xsl:stylesheet
     version="1.0"
-    xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
+
+<xsl:output method="html" />
 
 <xsl:template match=" doc_list ">
     <html wc_reset="true">
         <head>
-        
+
             <title>
                 <xsl:value-of select=" @doc_title " />
             </title>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
-            
+
             <link href="../-mix/release.css" rel="stylesheet" />
             <script src="../-mix/release.js?">//</script>
-            
-            <script src="../../doc/-mix/bundle.js?">//</script>
-            
+
+            <link href="../../doc/-mix/release.css" rel="stylesheet" />
+            <script src="../../doc/-mix/library.js?">//</script>
+
         </head>
         <body wc_reset="true">
             <wc_desktop>
-                
+
                 <xsl:apply-templates select=" * " />
-                
+
                 <wc_footer>
                     <xsl:text>License: </xsl:text>
                     <a
@@ -34,7 +36,7 @@
                         <xsl:text>Public Domain</xsl:text>
                     </a>
                 </wc_footer>
-                
+
             </wc_desktop>
         </body>
     </html>
@@ -52,8 +54,9 @@
             
             <link href="../-mix/release.css" rel="stylesheet" />
             <script src="../-mix/release.js?">//</script>
-            
-            <script src="../../doc/-mix/bundle.js?">//</script>
+
+            <link href="../../doc/-mix/release.css" rel="stylesheet" />
+            <script src="../../doc/-mix/library.js?">//</script>
             
         </head>
         <body wc_reset="true">

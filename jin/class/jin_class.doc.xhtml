@@ -1,43 +1,42 @@
-<?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
+<?xml-stylesheet href="../../doc/-mix/dev.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_class"
     >
 
-    <h:p>Создаёт фабрику объектов на основе функции инициализации. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Создаёт фабрику объектов на основе функции инициализации. </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_class )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( ){ } )
             _test.ok( Man )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( ){ } )
             _test.ok( Man() )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>В функцию инициализации передаётся два объекта: объект класса и прототип объектов. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>В функцию инициализации передаётся два объекта: объект класса и прототип объектов. </p>
+    <p>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 Man.title= 'Superman'
             } )
             _test.ok( Man.title, 'Superman' )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.name= 'Bob'
             } )
             _test.ok( Man().name, 'Bob' )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
 
-    <h:p>Методы объявляются как функции, первым аргументом принимающие объект. В конце инициализации класса все такие функции преобразуются в методы с помощью <a wc_link="true" href="../method/jin_method.doc.xml">$jin_method</a>. Имейте ввиду, что "this" при их исполнении будет указывать куда попало, зато не надо будет сохранять его в переменную, чтобы передать в замыкание.</h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Методы объявляются как функции, первым аргументом принимающие объект. В конце инициализации класса все такие функции преобразуются в методы с помощью <a wc_link="true" href="../method/jin_method.doc.xhtml">$jin_method</a>. Имейте ввиду, что "this" при их исполнении будет указывать куда попало, зато не надо будет сохранять его в переменную, чтобы передать в замыкание.</p>
+    <p>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.name= 'Bob'
                 man.makeMessage= function( man, message ){
@@ -45,8 +44,8 @@
                 }
             } )
             _test.ok( Man().makeMessage( 'hi!' ), 'Bob: hi!' )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.getThis= function( man ){
                     return this
@@ -55,8 +54,8 @@
             
             var man= Man()
             _test.not( man.getThis(), man )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             _test.deadline( 10 )
             
             var Man= $jin_class( function( Man, man ){
@@ -69,20 +68,20 @@
             } )
             
             Man().testName()
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
 
-    <h:p>Создание объектов возможно как с помощью ключевого слова new (тогда создаётся неинициализированный объект), так и простым вызовом как функции (тогда создание объекта будет делегировано статическому методу "make", который при необходимости создаёт объект и производит его инициализацию методом "init" - оба метода существуют изначально и могут быть перегружены). </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Создание объектов возможно как с помощью ключевого слова new (тогда создаётся неинициализированный объект), так и простым вызовом как функции (тогда создание объекта будет делегировано статическому методу "make", который при необходимости создаёт объект и производит его инициализацию методом "init" - оба метода существуют изначально и могут быть перегружены). </p>
+    <p>
+        <script type="wc_test">
             var Man= $jin_class( function( ){ } )
             _test.ok( ( new Man ) instanceof Man )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( ){ } )
             _test.ok( Man() instanceof Man )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.name= null
                 
@@ -92,8 +91,8 @@
             } )
             
             _test.ok( Man( 'Bob' ).name, 'Bob' )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.name= 'Bob'
                 
@@ -103,20 +102,20 @@
             } )
             
             _test.ok( ( new Man ).name, 'Bob' )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 Man.make= function( ){
                     return 123
                 }
             } )
             _test.ok( Man(), 123 )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>Для наследования используется концепция "примесей". Функция инициализации сохраняется в качестве статического метода "$jin_class_cheme" и может быть вызвана внутри другой функции инициализации. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Для наследования используется концепция "примесей". Функция инициализации сохраняется в качестве статического метода "$jin_class_cheme" и может быть вызвана внутри другой функции инициализации. </p>
+    <p>
+        <script type="wc_test">
             var Coord= $jin_class( function( Coord, coord ){
                 coord.x= 0
                 coord.y= 0
@@ -131,12 +130,12 @@
             } )
             
             _test.ok( Point().toString(), '[0,0]' )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>Перед перегрузкой метода можно сохранить предыдущую версию в локальную переменную и вызвать её когда потребуется. Имейте ввиду, что это будет функция ещё не обработанная с помощью $jam_method.</h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Перед перегрузкой метода можно сохранить предыдущую версию в локальную переменную и вызвать её когда потребуется. Имейте ввиду, что это будет функция ещё не обработанная с помощью $jam_method.</p>
+    <p>
+        <script type="wc_test">
             var Singleton= $jin_class( function( Singleton, ston ){
                 var instance= null
                 
@@ -159,13 +158,13 @@
             } )
             
             _test.ok( API( 'foo' ).name, API( 'bar' ).name, 'foo' )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>Сравним с скорость с иными реализациями.</h:p>
+    <p>Сравним с скорость с иными реализациями.</p>
     
-    <wc_js-bench_list>
-        <wc_js-bench>
+    <wc_bench_list>
+        <script type="wc_bench">
             var Man= $jin_class( function( Man, man ){
                 man.name= null
                 man.init= function( man, name ){
@@ -183,8 +182,8 @@
             _bench.begin()
                 Man( 'Bob' ).getName()
             _bench.end()
-        </wc_js-bench>
-        <wc_js-bench>
+        </script>
+        <script type="wc_bench">
             var Man= function( name ){
                 this.name= name
             }
@@ -200,6 +199,7 @@
             _bench.begin()
                 ( new Man( 'Bob' ) ).getName()
             _bench.end()
-        </wc_js-bench>
-    </wc_js-bench_list>
+        </script>
+    </wc_bench_list>
+
 </doc_root>

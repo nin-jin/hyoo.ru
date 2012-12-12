@@ -1,0 +1,47 @@
+<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
+<doc_root
+    xmlns="http://www.w3.org/1999/xhtml"
+    >
+
+    <h1>$jam.Parser</h1>
+
+    <p>Создаёт функцию-парсер. На вход принимает карту соответствия лексем фабрикам. В качестве параметров фабрикам передаются захваченные круглыми скобками подстроки. "" - дефолтная лексема, которая матчится на всё, на что не сматчились остальные. Парсер принимает на вход строку и возвращает массив полученных от фабрик значений.</p>
+
+    <wc_js-test> _test.ok( $jam.Parser ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Parser({ }) ) </wc_js-test>
+    <wc_js-test> _test.ok( $jam.Parser({ })( '123' ) ) </wc_js-test>
+    <wc_js-test>
+        var parse= $jam.Parser( new function(){
+            this[ /\d/.source ]=
+            function( ){
+                return '#'
+            }
+        })
+        _test.ok( parse( 'a12bc' ).join(''), 'a##bc' )
+    </wc_js-test>
+    <wc_js-test>
+        var parse= $jam.Parser( new function(){
+            this[ /([a-zA-Z])/.source ]=
+            function( letter ){
+                return letter
+            }
+            this[ '' ]= $jam.Value( '' )
+        })
+        _test.ok( parse( 'a12bc' ).join(''), 'abc' )
+    </wc_js-test> 
+    <wc_js-test>
+        var parse= $jam.Parser( new function(){
+            this[ /(_(\w+))/.source ]=
+            function( underword, word ){
+                return word
+            }
+            this[ /(\w)(\w*)/.source ]=
+            function( first, tail ){
+                return first.toUpperCase() + tail
+            }
+        })
+        _test.ok( parse( '[_ab,c_d]' ).join(''), '[ab,C_d]' )
+    </wc_js-test>
+
+</doc_root>
+

@@ -92,7 +92,7 @@ class so_compiler
     function sourcesDOC_make( ){
         $list= array();
         foreach( $this->sources as $source )
-            if( $source->extension == 'xml' )
+            if( $source->extension == 'xhtml' )
                 $list+= $source->sources->list;
         return so_source_collection::make( $list );
     }
@@ -287,9 +287,16 @@ JS;
         if( !count( $sources ) )
             return $this;
         
-        $index= so_dom::make( array(
-            'doc_list' => array(),
-        ) );
+        $index= so_dom::make();
+        $index[]= array(
+            '?xml-stylesheet' => array(
+                'href' => '../../doc/-mix/release.xsl',
+                'type' => 'text/xsl',
+            ),
+            'doc_list' => array(
+                //'@xmlns' => 'http://www.w3.org/1999/xhtml',
+            ),
+        );
         
         foreach( $sources as $source ):
             $index[]= array(
@@ -297,7 +304,7 @@ JS;
             );
         endforeach;
         
-        $target[ 'dev.doc.xml' ]->content= $index;
+        $target[ 'dev.doc.xhtml' ]->content= $index;
         
         $compiled= so_dom::make();
         $compiled[]= array(
@@ -305,7 +312,9 @@ JS;
                 'href' => '../../doc/-mix/release.xsl',
                 'type' => 'text/xsl',
             ),
-            'doc_list' => array(),
+            'doc_list' => array(
+                //'@xmlns' => 'http://www.w3.org/1999/xhtml',
+            ),
         );
         
         $root= $compiled->root;
@@ -314,7 +323,7 @@ JS;
             $root[]= $source->content;
         endforeach;
         
-        $target[ 'release.doc.xml' ]->content= $compiled;
+        $target[ 'release.doc.xhtml' ]->content= $compiled;
         
         return $this;
     }

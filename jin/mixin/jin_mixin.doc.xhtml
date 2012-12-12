@@ -1,15 +1,14 @@
 <?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_mixin"
     >
 
-    <h:p>Создаёт класс, к которому автоматически примешивается переданная в параметре схема. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Создаёт класс, к которому автоматически примешивается переданная в параметре схема. </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_mixin )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var ManClass= $jin_mixin( function( Man, man ){
                 man.name= 'Bob'
             })
@@ -21,12 +20,12 @@
             })
             
             _test.ok( Boy().name, 'Bob' )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
-    <h:p>Тем не менее этот класс можно примешивать также как и любые другие классы. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Тем не менее этот класс можно примешивать также как и любые другие классы. </p>
+    <p>
+        <script type="wc_test">
             var ManClass= $jin_mixin( function( Man, man ){
                 man.name= 'Bob'
             })
@@ -40,7 +39,7 @@
             })
             
             _test.ok( Boy().name, 'Bob' )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
 </doc_root>

@@ -1,27 +1,26 @@
 <?xml-stylesheet href="../../doc/-mix/release.xsl" type="text/xsl" ?>
 <doc_root
-    xmlns:h="http://www.w3.org/1999/xhtml"
     doc_title="$jin_wrapper"
     >
 
-    <h:p>Примесь, релизующая поведение оборачивания значения в экземпляр класса. Проверяет не является ли значение уже экземпляром и не трогает его, если так и есть. </h:p>
-    <h:p>
-        <wc_js-test>
+    <p>Примесь, релизующая поведение оборачивания значения в экземпляр класса. Проверяет не является ли значение уже экземпляром и не трогает его, если так и есть. </p>
+    <p>
+        <script type="wc_test">
             _test.ok( $jin_wrapper )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Node= $jin_class( function( Node, node ){
                 $jin_wrapper.scheme( Node, node )
             } )
             _test.ok( Node( document ) )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Node= $jin_class( function( Node, node ){
                 $jin_wrapper.scheme( Node, node )
             } )
             _test.ok( Node( document ).$, document )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Node= $jin_class( function( Node, node ){
                 $jin_wrapper.scheme( Node, node )
             } )
@@ -29,8 +28,8 @@
             var node= Node( document )
             
             _test.ok( Node( node ), node )
-        </wc_js-test>
-        <wc_js-test>
+        </script>
+        <script type="wc_test">
             var Int= $jin_class( function( Int, int ){
             
                 var make= Int.make
@@ -42,7 +41,7 @@
             } )
             
             _test.ok( Int( '1.2.3' ).$, 1 )
-        </wc_js-test>
-    </h:p>
+        </script>
+    </p>
     
 </doc_root>

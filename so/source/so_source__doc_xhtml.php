@@ -1,6 +1,6 @@
 <?php
 
-class so_source__doc_xml
+class so_source__doc_xhtml
 extends so_source
 {
 

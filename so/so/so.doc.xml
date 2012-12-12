@@ -1,9 +1,0 @@
-<?xml-stylesheet href="../-mix+doc/index.xsl" type="text/xsl" ?>
-<doc_root
-    xmlns="http://www.w3.org/1999/xhtml"
-    >
-
-    <h1>so</h1>
-    <p>Серверный php-фреймворк предназначенный для сборки модулей.</p>
-
-</doc_root>
