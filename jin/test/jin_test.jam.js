@@ -93,7 +93,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
     }
     
     test.callback= function( test, func ){
-        return $jam.Thread( function( ){
+        return $jin_thread( function( ){
             try {
                 return func.apply( this, arguments )
             } catch( error ){

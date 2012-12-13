@@ -21,7 +21,7 @@ void function( ){
         nodeSummary().attr( 'wc_test_passed', 'true' )
         nodeSummary().attr( 'href', '' )
     } )
-
+    
     $jam.Component
     (   'script'
     ,   function( nodeRoot ){
