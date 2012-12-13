@@ -39,29 +39,6 @@
             
             listener.destroy()
         </script>
-        <script type="wc_test">
-            var head= document.getElementsByTagName( 'head' )[ 0 ]
-            var body= document.getElementsByTagName( 'body' )[ 0 ]
-            
-            var listener= $jin_event_test.listen( document, function( event ){
-                event.target( head )
-                _test.ok( event.target(), head )
-            })
-            
-            $jin_event_test().scream( body )
-            
-            listener.destroy()
-        </script>
-        <script type="wc_test">
-            var listener= $jin_event_test.listen( document, function( event ){
-                event.type( '$jin_event_test2' )
-                _test.ok( event.type(), '$jin_event_test2' )
-            })
-            
-            $jin_event_test().scream( document )
-            
-            listener.destroy()
-        </script>
     </p>
     
 </doc_root>

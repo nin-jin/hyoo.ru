@@ -28,7 +28,7 @@ void function( ){
             return new function( ){
                 nodeRoot= $jam.Node( nodeRoot )
                 
-                var exec= $jam.Thread( function( ){
+                var exec= $jin_thread( function( ){
                     var source= nodeSource.text()
                     var proc= new Function( '_test', source )
                     proc( _test )

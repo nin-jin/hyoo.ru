@@ -43,11 +43,7 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     event.target=
     function( event, target ){
-        if( arguments.length === 1 )
-            return event.$.$jin_event_target || event.$.target
-        
-        event.$.$jin_event_target= target
-        return event
+        return event.$.target
     }
     
     event.type=
@@ -80,10 +76,10 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     event.catched=
     function( event, catched ){
         if( arguments.length === 1 )
-            return event.$.defaultPrevented
+            return event.$.defaultPrevented || event.$.$jin_event_catched
         
         if( catched ) event.$.preventDefault()
-        event.$.defaultPrevented= catched
+        event.$.$jin_event_catched= event.$.defaultPrevented= catched
         
         return event
     }

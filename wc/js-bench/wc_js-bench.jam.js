@@ -72,7 +72,7 @@ $jam.Component
             
             nodeRoot.surround( $jam.Node.Fragment() ) // for chrome 12
             
-            var calc= $jam.Thread( function( source ){
+            var calc= $jin_thread( function( source ){
                 var startCompile= new Date
                     var proc= new Function( '', source )
                 var endCompile= new Date

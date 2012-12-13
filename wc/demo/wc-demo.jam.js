@@ -21,7 +21,7 @@ $jam.Component
             .text( source )
             .parent( nodeSource0 )
             
-            var exec= $jam.Thread( function( ){
+            var exec= $jin_thread( function( ){
                 var source= $jam.String( nodeSource.text() ).minimizeIndent().trim( /[\n\r]/ )
                 //nodeSource.text( source )
                 nodeResult.html( source )

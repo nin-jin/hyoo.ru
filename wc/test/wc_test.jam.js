@@ -30,15 +30,15 @@ void function( ){
             
             return new function( ){
                 
-                var exec= $jam.Thread( function( ){
+                var exec= $jin_thread( function( ){
                     var source= nodeSource.text()
                     var proc= new Function( '_test', source )
                     proc( _test )
                     return true
                 })
                 
-                var source= $jam.String( nodeRoot.text() ).minimizeIndent().trim( /[\n\r]/ ).$
-            
+                var source= $jam.String( nodeRoot.html() ).minimizeIndent().trim( /[\n\r]/ ).$
+                
                 nodeRoot.clear()
                 var nodeSource0= $jam.Node.Element( 'wc_test_source' ).parent( nodeRoot )
                 var nodeSource= $jam.Node.parse( '<wc_editor wc_editor_hlight="js" />' ).text( source ).parent( nodeSource0 )

@@ -6,7 +6,7 @@ this.$jin_eventProof= $jin_mixin( function( $jin_eventProof, event ){
     function( event, node ){
         scream( event, node )
         
-        if( !event.$.defaultPrevented )
+        if( !event.catched() )
             throw new Error( '[' + event + '] is not catched' )
         
         return event

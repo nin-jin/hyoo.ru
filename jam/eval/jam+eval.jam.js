@@ -1,6 +1,6 @@
 $jam.define
 (   '$jam.eval'
-,   $jam.Thread(function( source ){
+,   $jin_thread(function( source ){
         return window.eval( source )
     })
 )

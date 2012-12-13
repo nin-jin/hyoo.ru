@@ -25,7 +25,7 @@
             } )
             
             var listener= onTest2.listen( document, function( event ){
-                event.preventDefault()
+                event.catched( true )
             })
             
             onTest2().scream( document )
@@ -40,7 +40,7 @@
             } )
             
             var listener= onTest1.listen( document, function( event ){
-                event.preventDefault()
+                event.catched( true )
             })
             
             listener.destroy()
