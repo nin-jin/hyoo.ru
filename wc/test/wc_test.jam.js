@@ -4,7 +4,7 @@ void function( ){
     } )
     
     var refreshSummary= $jam.Throttler( 50, function( ){
-        var nodes= $jam.Node( document ).descList( 'wc_test' )
+        var nodes= $jam.Node( document ).descList( 'script' )
         for( var i= 0; i < nodes.length(); ++i ){
             var node= nodes.get( i )
             switch( node.attr( 'wc_test_passed' ) ){

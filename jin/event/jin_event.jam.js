@@ -26,11 +26,11 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     var init= event.init
     event.init= function( event, raw ){
-        if( raw ){
-            raw= $jin_unwrap( raw )
-        } else {
+        if( arguments.length === 1 ){
             raw= document.createEvent( 'Event' )
             raw.initEvent( $jin_event.type, $jin_event.bubbles, $jin_event.cancelable )
+        } else {
+            raw= $jin_unwrap( raw )
         }
         init( event, raw )
     }
@@ -43,7 +43,7 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     event.target=
     function( event, target ){
-        if( target == null )
+        if( arguments.length === 1 )
             return event.$.$jin_event_target || event.$.target
         
         event.$.$jin_event_target= target
@@ -52,7 +52,7 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     event.type=
     function( event, type ){
-        if( type == null )
+        if( arguments.length === 1 )
             return event.$.type
         
         event.$.initEvent( type, event.bubbles(), event.cancelable() )
@@ -61,7 +61,7 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     event.bubbles=
     function( event, bubbles ){
-        if( bubbles == null )
+        if( arguments.length === 1 )
             return event.$.bubbles
         
         event.$.initEvent( event.type(), bubbles, event.cancelable() )
@@ -70,10 +70,21 @@ this.$jin_event= $jin_mixin( function( $jin_event, event ){
     
     event.cancelable=
     function( event, cancelable ){
-        if( cancelable == null )
+        if( arguments.length === 1 )
             return event.$.cancelable
         
         event.$.initEvent( event.type(), event.bubbles(), cancelable )
+        return event
+    }
+    
+    event.catched=
+    function( event, catched ){
+        if( arguments.length === 1 )
+            return event.$.defaultPrevented
+        
+        if( catched ) event.$.preventDefault()
+        event.$.defaultPrevented= catched
+        
         return event
     }
     

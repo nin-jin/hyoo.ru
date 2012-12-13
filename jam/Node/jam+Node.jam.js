@@ -77,7 +77,7 @@ $jam.define
         $jam.Poly
         (   null
         ,   function( name ){
-                return this.$.getAttribute( name )
+                return this.$.getAttribute && this.$.getAttribute( name )
             }
         ,   function( name, val ){
                 this.$.setAttribute( String( name ), String( val ) )
