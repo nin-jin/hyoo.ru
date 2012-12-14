@@ -30,6 +30,16 @@
         </script>
     </p>
 
+    <p>Кроме исходного кода в виде строки можно передать функцию, которая принимает параметром инстанс теста. Разумеется в этом случае обработка синтаксических ошибок будет уже на вашей совести. </p>
+    <p>
+        <script type="wc_test">
+            var test= $jin_test( function( test ){
+                test.passed
+            } )
+            _test.ok( test.passed )
+        </script>
+    </p>
+
     <p>Предоставляет исполняемому коду инстанс теста в качестве переменной "test". Он имеет два метода - ok и not. Вызванные без параметров они объявляют тест пройденным и проваленным соответственно. </p>
     <p>
         <script type="wc_test">
@@ -84,6 +94,14 @@
             var test= $jin_test(' test.ok( {}, {} ) ')
             _test.not( test.passed )
         </script>
+        <script type="wc_test">
+            var test= $jin_test(' test.ok( 0 / 0, Number.NaN ) ')
+            _test.ok( test.passed )
+        </script>
+        <script type="wc_test">
+            var test= $jin_test(' test.ok( 1 / 0, Number.POSITIVE_INFINITY ) ')
+            _test.ok( test.passed )
+        </script>
     </p>
     
     <p>Чтобы сделать тест асинхронным нужно задать таймаут в миллисекундах до истечения которого тест по любому должен завершиться. Кроме того, по окончании всех асинхронных операций следует вызвать метод "done". Имейте ввиду, что асинхронные тесты стартуют последовательно, не дожидаясь завершения других асинхронных тестов.</p>
@@ -114,9 +132,12 @@
         <script type="wc_test">
             _test.deadline( 100 )
             
-            var code= ' test.timeout= 50; '
-                    + ' setTimeout( function(){ test.done() }, 25 ); '
-            var test= $jin_test( code )
+            var test= $jin_test( function( test ){
+                test.timeout= 50
+                setTimeout( function( ){
+                    test.done()
+                }, 25 )
+            } )
             
             setTimeout( function( ){
                 _test.ok( test.passed )
@@ -125,9 +146,12 @@
         <script type="wc_test">
             _test.deadline( 100 )
             
-            var code= ' test.timeout= 25; '
-                    + ' setTimeout( function(){ test.done() }, 50 ); '
-            var test= $jin_test( code )
+            var test= $jin_test( function( test ){
+                test.timeout= 25
+                setTimeout( function( ){
+                    test.done()
+                }, 50 )
+            } )
             
             setTimeout( function( ){
                 _test.not( test.passed )
@@ -140,10 +164,12 @@
         <script type="wc_test">
             _test.deadline( 100 )
             
-            var code= ' test.timeout= 50; '
-                    + ' var callback= function(){ (void 0)() }; '
-                    + ' setTimeout( callback, 25 ); '
-            var test= $jin_test( code )
+            var test= $jin_test( function( test ){
+                test.timeout= 50
+                setTimeout( function( ){
+                    (void 0)()
+                }, 25 )
+            } )
             
             setTimeout( function( ){
                 _test.ok( test.errors[0].message, 'timeout(50)' )
@@ -152,10 +178,12 @@
         <script type="wc_test">
             _test.deadline( 100 )
             
-            var code= ' test.timeout= 50; '
-                    + ' var callback= test.callback( function(){ (void 0)() } ); '
-                    + ' setTimeout( callback, 25 ); '
-            var test= $jin_test( code )
+            var test= $jin_test( function( test ){
+                test.timeout= 50
+                setTimeout( test.callback( function( ){
+                    (void 0)()
+                } ), 25 )
+            } )
             
             setTimeout( function( ){
                 _test.not( test.errors[0].message, 'timeout(50)' )

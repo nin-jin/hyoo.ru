@@ -1,6 +1,5 @@
 this.$jin_test= $jin_class( function( $jin_test, test ){
     
-    test.func= null
     test.passed= null
     test.timeout= 0
     test.onDone= null
@@ -18,10 +17,12 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
         var complete= false
         
         test.callback( function( ){
-            var func= new Function( 'test', code )
-            if( !func ) return
+            if( typeof code === 'string' )
+                code= new Function( 'test', code )
             
-            func( test )
+            if( !code ) return
+            
+            code( test )
             complete= true
         } ).call( )
         
@@ -46,6 +47,12 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
         test.onDone()
     }
     
+    var compare= function( a, b ){
+        return Number.isNaN( a )
+        ? Number.isNaN( b )
+        : ( a === b )
+    }
+    
     test.ok= function( test, value ){
         switch( arguments.length ){
             case 1:
@@ -58,7 +65,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
             
             default:
                 for( var i= 2; i < arguments.length; ++i ){
-                    var passed= ( arguments[ i ] === arguments[ i - 1 ] )
+                    var passed= compare( arguments[ i ], arguments[ i - 1 ] )
                     if( !passed ) break;
                 }
         }
@@ -81,7 +88,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
             
             default:
                 for( var i= 2; i < arguments.length; ++i ){
-                    var passed= ( arguments[ i ] !== arguments[ i - 1 ] )
+                    var passed= !compare( arguments[ i ], arguments[ i - 1 ] )
                     if( !passed ) break;
                 }
         }
