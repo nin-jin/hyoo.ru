@@ -3,6 +3,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
     test.passed= null
     test.timeout= 0
     test.onDone= null
+    test.timer= null
     
     test.asserts= null
     test.results= null
@@ -29,7 +30,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
         if( !complete ) test.passed= false
         
         if( test.timeout ){
-            setTimeout( function( ){
+            test.timer= setTimeout( function( ){
                 test.asserts.push( false )
                 test.errors.push( new Error( 'timeout(' + test.timeout + ')' ) )
                 test.done()
@@ -40,11 +41,14 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
     }
     
     var AND= function( a, b ){ return a && b }
+    
     test.done= function( test ){
+        test.timer= clearTimeout( test.timer )
+        
         if( test.passed == null )
             test.passed= test.asserts.reduce( AND, true )
         
-        test.onDone()
+        test.onDone.call( null, test )
     }
     
     var compare= function( a, b ){

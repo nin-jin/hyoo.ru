@@ -1,14 +1,41 @@
 wc_sidebar {
-    position: relative;
-    z-index: 1;
-    padding: 2%;
-    text-align: left;
+    display: block;
+    position: fixed;
+    margin: 0 auto;
+    text-align: right;
+    top: 8%;
+    max-height: 90%;
+    left: 0;
+    padding-left: 1pt;
 }
 
-[wc_sidebar_align="left"] {
+wc_sidebar_panel {
+    display: block;
+    max-height: 100%;
+    box-shadow: 2px 2px 3px rgba( 0, 0, 0, .25 );
+    border-radius: 2px;
+    border: 1px solid #aaa;
+    background: #eee;
+    text-align: left;
+    position: relative;
+    overflow: auto;
+    margin-left: -100%;
+    z-index: 2;
+}
+
+wc_sidebar:hover {
+    width: auto;
+    z-index: 1;
+}
+
+wc_sidebar:hover wc_sidebar_panel {
+    margin-left: -2pt;
+}
+
+[wc_sidebar_edge="left"] {
     float: left;
 }
 
-[wc_sidebar_align="right"] {
+[wc_sidebar_edge="right"] {
     float: right;
 }

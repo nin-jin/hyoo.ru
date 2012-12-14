@@ -13,7 +13,7 @@ void function( ){
                 case 'false':
                     nodeSummary().attr( 'wc_test_passed', 'false' )
                     while( node && !node.attr( 'id' ) ) node= node.parent()
-                    if( node ) nodeSummary().attr( 'href', '#' + node.attr( 'id' ) )
+                    if( node ) nodeSummary().attr( 'href', node.attr( 'id' ) )
                 case 'wait':
                     return
             }

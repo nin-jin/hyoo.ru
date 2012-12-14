@@ -290,7 +290,7 @@ JS;
         $index= so_dom::make();
         $index[]= array(
             '?xml-stylesheet' => array(
-                'href' => '../../doc/-mix/release.xsl',
+                'href' => '../../doc/-mix/dev.xsl',
                 'type' => 'text/xsl',
             ),
             'doc_list' => array(
@@ -298,9 +298,13 @@ JS;
             ),
         );
         
+        $root= $index->root;
         foreach( $sources as $source ):
-            $index[]= array(
-                'doc_link' => $source->file->relate( $target->dir ) . '?' . $source->version,
+            $root[]= array(
+                'doc_root' => array(
+                    '@doc_link' => $source->file->relate( $target->dir ) . '?' . $source->version,
+                    '@doc_title' => $source->content[ '@doc_title' ],
+                ),
             );
         endforeach;
         
@@ -309,7 +313,7 @@ JS;
         $compiled= so_dom::make();
         $compiled[]= array(
             '?xml-stylesheet' => array(
-                'href' => '../../doc/-mix/release.xsl',
+                'href' => '../../doc/-mix/dev.xsl',
                 'type' => 'text/xsl',
             ),
             'doc_list' => array(

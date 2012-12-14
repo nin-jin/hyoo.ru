@@ -191,4 +191,20 @@
         </script>
     </p>
     
+    <p>Для отслеживания завершения асинхронного теста можно передать вторым параметром колбэк-функцию.</p>
+    <p>
+        <script type="wc_test">
+            _test.deadline( 50 )
+            
+            var test= $jin_test( function( test ){
+                test.timeout= 100
+                setTimeout( function( ){
+                    test.done()
+                }, 25 )
+            }, function( test ){
+                _test.ok( test.passed )
+            } )
+        </script>
+    </p>
+    
 </doc_root>
