@@ -6,15 +6,15 @@
     <p>Создаёт фабрику объектов на основе функции инициализации. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_class )
+            test.ok( $jin_class )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( ){ } )
-            _test.ok( Man )
+            test.ok( Man )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( ){ } )
-            _test.ok( Man() )
+            test.ok( Man() )
         </script>
     </p>
     
@@ -24,13 +24,13 @@
             var Man= $jin_class( function( Man, man ){
                 Man.title= 'Superman'
             } )
-            _test.ok( Man.title, 'Superman' )
+            test.ok( Man.title, 'Superman' )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 man.name= 'Bob'
             } )
-            _test.ok( Man().name, 'Bob' )
+            test.ok( Man().name, 'Bob' )
         </script>
     </p>
 
@@ -43,7 +43,7 @@
                     return man.name + ': ' + message
                 }
             } )
-            _test.ok( Man().makeMessage( 'hi!' ), 'Bob: hi!' )
+            test.ok( Man().makeMessage( 'hi!' ), 'Bob: hi!' )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
@@ -53,16 +53,16 @@
             } )
             
             var man= Man()
-            _test.not( man.getThis(), man )
+            test.not( man.getThis(), man )
         </script>
         <script type="wc_test">
-            _test.deadline( 10 )
+            test.timeout= 10
             
             var Man= $jin_class( function( Man, man ){
                 man.name= 'Bob'
                 man.testName= function( man ){
                     setTimeout( function( ){
-                        _test.ok( man.name, 'Bob' )
+                        test.ok( man.name, 'Bob' ).done()
                     }, 0 )
                 }
             } )
@@ -75,11 +75,11 @@
     <p>
         <script type="wc_test">
             var Man= $jin_class( function( ){ } )
-            _test.ok( ( new Man ) instanceof Man )
+            test.ok( ( new Man ) instanceof Man )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( ){ } )
-            _test.ok( Man() instanceof Man )
+            test.ok( Man() instanceof Man )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
@@ -90,7 +90,7 @@
                 }
             } )
             
-            _test.ok( Man( 'Bob' ).name, 'Bob' )
+            test.ok( Man( 'Bob' ).name, 'Bob' )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
@@ -101,7 +101,7 @@
                 }
             } )
             
-            _test.ok( ( new Man ).name, 'Bob' )
+            test.ok( ( new Man ).name, 'Bob' )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
@@ -109,7 +109,7 @@
                     return 123
                 }
             } )
-            _test.ok( Man(), 123 )
+            test.ok( Man(), 123 )
         </script>
     </p>
     
@@ -129,7 +129,7 @@
                 }
             } )
             
-            _test.ok( Point().toString(), '[0,0]' )
+            test.ok( Point().toString(), '[0,0]' )
         </script>
     </p>
     
@@ -157,7 +157,7 @@
                 }
             } )
             
-            _test.ok( API( 'foo' ).name, API( 'bar' ).name, 'foo' )
+            test.ok( API( 'foo' ).name, API( 'bar' ).name, 'foo' )
         </script>
     </p>
     

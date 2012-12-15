@@ -6,7 +6,7 @@
     <p>Событие возникающее в случае пользовательского ввода. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_onInput )
+            test.ok( $jin_onInput )
         </script>
         <script type="wc_test">
             var node= document.createElement( 'input' )
@@ -24,7 +24,7 @@
             listener.destroy()
             node.parentNode.removeChild( node )
             
-            _test.ok( result )
+            test.ok( result )
         </script>
         <script type="wc_test">
             var parent= document.createElement( 'jin_onInput_test1' )
@@ -44,7 +44,7 @@
             listener.destroy()
             parent.parentNode.removeChild( parent )
             
-            _test.ok( result )
+            test.ok( result )
         </script>
     </p>
     

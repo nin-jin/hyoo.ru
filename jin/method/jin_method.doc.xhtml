@@ -7,12 +7,12 @@
 
     <p>
         <script type="wc_test">
-            _test.ok( $jin_method )
+            test.ok( $jin_method )
         </script>
         <script type="wc_test">
             var func= function( obj, a ){ return [ obj.field, a ] }
             var method= $jin_method( func )
-            _test.ok( method.call, func )
+            test.ok( method.call, func )
         </script>
         <script type="wc_test">
             var func= function( obj, a ){ return [ obj.field, a ] }
@@ -20,14 +20,14 @@
             {   field: 7
             ,   method: $jin_method( func )
             }
-            _test.ok( obj.method( 3 ).join(), func( obj, 3 ).join() )
+            test.ok( obj.method( 3 ).join(), func( obj, 3 ).join() )
         </script>
     </p>
 
     <p>Если передать что-то отличное от функции, то вернёт это значение без изменений.</p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_method( 123 ), 123 )
+            test.ok( $jin_method( 123 ), 123 )
         </script>
     </p>
     

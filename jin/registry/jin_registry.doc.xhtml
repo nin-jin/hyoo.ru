@@ -6,19 +6,19 @@
     <p>Примесь, которая реализует кеширование экземпляров класса по первому переданному параметру. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_registry )
+            test.ok( $jin_registry )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 $jin_registry.scheme( Man, man )
             } )
-            _test.ok( Man( 1 ), Man( 1 ) )
+            test.ok( Man( 1 ), Man( 1 ) )
         </script>
         <script type="wc_test">
             var Man= $jin_class( function( Man, man ){
                 $jin_registry.scheme( Man, man )
             } )
-            _test.not( Man( 1 ), Man( 2 ) )
+            test.not( Man( 1 ), Man( 2 ) )
         </script>
     </p>
     
@@ -26,11 +26,11 @@
     <p>
         <script type="wc_test">
             var Man= $jin_registry( function( ){ } )
-            _test.ok( Man( 1 ), Man( 1 ) )
+            test.ok( Man( 1 ), Man( 1 ) )
         </script>
         <script type="wc_test">
             var Man= $jin_registry( function( ){ } )
-            _test.not( Man( 1 ), Man( 2 ) )
+            test.not( Man( 1 ), Man( 2 ) )
         </script>
     </p>
     

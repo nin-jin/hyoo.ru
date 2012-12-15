@@ -21,15 +21,18 @@ wc_sidebar_panel {
     overflow: auto;
     margin-left: -100%;
     z-index: 2;
+    -webkit-transition: margin-left .2s .2s;
+    transition: margin-left .2s .2s;
 }
 
 wc_sidebar:hover {
-    width: auto;
     z-index: 1;
 }
 
 wc_sidebar:hover wc_sidebar_panel {
     margin-left: -2pt;
+    -webkit-transition: margin-left .1s .1s;
+    transition: margin-left .1s .1s;
 }
 
 [wc_sidebar_edge="left"] {

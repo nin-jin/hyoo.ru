@@ -6,7 +6,7 @@
     <p>Примесь события кидающего исключени в качестве поведения по умолчанию. Используется, когда нужно гарантировать, что запущенное событие будет обработано.</p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_eventProof )
+            test.ok( $jin_eventProof )
         </script>
         <script type="wc_test">
             var onTest1= $jin_eventProof( function( onTest1, event ){
@@ -16,7 +16,7 @@
             try {
                 onTest1().scream( document )
             } catch( error ){
-                _test.ok( error )
+                test.ok( error )
             }
         </script>
         <script type="wc_test">
@@ -32,7 +32,7 @@
             
             listener.destroy()
             
-            _test.ok()
+            test.ok()
         </script>
         <script type="wc_test">
             var onTest1= $jin_eventProof( function( onTest1, event ){
@@ -48,7 +48,7 @@
             try {
                 onTest1().scream( document )
             } catch( error ){
-                _test.ok( error )
+                test.ok( error )
             }
         </script>
     </p>

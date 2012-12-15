@@ -6,7 +6,7 @@
     <p>Событие возникающее, когда меняется часть поддерева (в том числе и атрибуты). </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_onChange )
+            test.ok( $jin_onChange )
         </script>
     </p>
     <p>
@@ -24,7 +24,7 @@
             listener.destroy()
             node.parentNode.removeChild( node )
             
-            _test.ok( result )
+            test.ok( result )
         </script>
         <script type="wc_test">
             var parent= document.createElement( 'jin_onChange_test1' )
@@ -43,7 +43,7 @@
             listener.destroy()
             parent.parentNode.removeChild( parent )
             
-            _test.ok( result )
+            test.ok( result )
         </script>
     </p>
     

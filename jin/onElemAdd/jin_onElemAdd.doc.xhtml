@@ -6,7 +6,7 @@
     <p>Событие возникающее, когда в поддерево заданного элемента добавляются новые элементы. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_onElemAdd )
+            test.ok( $jin_onElemAdd )
         </script>
     </p>
     <p>
@@ -30,7 +30,7 @@
             listener.destroy()
             node.parentNode.removeChild( node )
             
-            _test.ok( result.join( ',' ), 'jin_onelemadd_test1,jin_onelemadd_test1,jin_onelemadd_test2,jin_onelemadd_test3' )
+            test.ok( result.join( ',' ), 'jin_onelemadd_test1,jin_onelemadd_test1,jin_onelemadd_test2,jin_onelemadd_test3' )
         ]]>
         </script>
     </p>

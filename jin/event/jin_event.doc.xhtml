@@ -6,7 +6,7 @@
     <p>Примесь, позволяющая классу выступать в качестве события. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_event )
+            test.ok( $jin_event )
         </script>
         <script type="wc_test">
             $jin_event_test= $jin_event( function( onTest1, event ){
@@ -14,7 +14,7 @@
                 onTest1.bubbles= true
             } )
             
-            _test.ok( $jin_event_test )
+            test.ok( $jin_event_test )
         </script>
         <script type="wc_test">
             var done= false
@@ -26,13 +26,13 @@
             
             listener.destroy()
             
-            _test.ok( done )
+            test.ok( done )
         </script>
         <script type="wc_test">
             var body= document.getElementsByTagName( 'body' )[ 0 ]
             
             var listener= $jin_event_test.listen( document, function( event ){
-                _test.ok( event.target(), body )
+                test.ok( event.target(), body )
             })
             
             $jin_event_test().scream( body )

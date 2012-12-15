@@ -7,26 +7,26 @@
 
     <p>
         <script type="wc_test">
-            _test.ok( $jin_thread )
+            test.ok( $jin_thread )
         </script>
         <script type="wc_test">
             var thread= $jin_thread(function(){
                 return 123
             })
-            _test.ok( thread(), 123 )
+            test.ok( thread(), 123 )
         </script>
         <script type="wc_test">
             var thread= $jin_thread(function(){
                 throw new Error( 'sample error' )
             })
-            _test.ok( thread(), void 0 )
+            test.ok( thread(), void 0 )
         </script>
         <script type="wc_test">
             var fact= $jin_thread(function( n ){
                 if (!( n > 1 )) return 1;
                 return n * fact( n - 1 );
             });
-            _test.ok( fact(5), 120 )
+            test.ok( fact(5), 120 )
         </script>
     </p>
 

@@ -6,7 +6,7 @@
     <p>Создаёт класс, к которому автоматически примешивается переданная в параметре схема. </p>
     <p>
         <script type="wc_test">
-            _test.ok( $jin_mixin )
+            test.ok( $jin_mixin )
         </script>
         <script type="wc_test">
             var ManClass= $jin_mixin( function( Man, man ){
@@ -19,7 +19,7 @@
                 }
             })
             
-            _test.ok( Boy().name, 'Bob' )
+            test.ok( Boy().name, 'Bob' )
         </script>
     </p>
     
@@ -38,7 +38,7 @@
                 }
             })
             
-            _test.ok( Boy().name, 'Bob' )
+            test.ok( Boy().name, 'Bob' )
         </script>
     </p>
     
