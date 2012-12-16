@@ -29,9 +29,7 @@ $jam.define
             }
         ,   new function(){
                 return function( val ){
-                    val= String( val )
-                    if( this.text() === val ) return this
-                    this.$.textContent= val
+                    this.$.textContent= String( val )
                     return this
                 }
             }
@@ -50,9 +48,6 @@ $jam.define
                 return val
             }
         ,   function( val ){
-                val= String( val )
-                if( this.html() === val ) return this
-                this.clear()
                 this.$.innerHTML= String( val )
                 return this
             }
@@ -60,11 +55,7 @@ $jam.define
         
         proto.clear=
         function( ){
-            while( true ){
-                var child= this.$.firstChild
-                if( !child ) break
-                this.$.removeChild( child )
-            }
+            this.html( '' )
             return this
         }
         

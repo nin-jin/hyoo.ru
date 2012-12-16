@@ -17,9 +17,7 @@
                 result= ( event.target() === node )
             })
             
-            node.focus()
             node.setAttribute( 'value', 'hello' )
-            node.blur()
             
             listener.destroy()
             node.parentNode.removeChild( node )

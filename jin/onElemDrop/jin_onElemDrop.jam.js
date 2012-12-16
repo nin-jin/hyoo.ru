@@ -1,22 +1,22 @@
-this.$jin_onElemAdd= $jin_event( function( $jin_onElemAdd, event ){
+this.$jin_onElemDrop= $jin_event( function( $jin_onElemDrop, event ){
     
-    $jin_onElemAdd.type= '$jin_onElemAdd'
+    $jin_onElemDrop.type= '$jin_onElemDrop'
     
-    $jin_onElemAdd.listen=
+    $jin_onElemDrop.listen=
     function( node, handler ){
         return $jin_nodeListener
         (   node
         ,   'DOMNodeInserted'
-        ,   $jin_onElemAdd.wrapHandler( handler )
+        ,   $jin_onElemDrop.wrapHandler( handler )
         )
     }
     
-    var wrapHandler= $jin_onElemAdd.wrapHandler
-    $jin_onElemAdd.wrapHandler= function( handler ){
+    var wrapHandler= $jin_onElemDrop.wrapHandler
+    $jin_onElemDrop.wrapHandler= function( handler ){
         handler= wrapHandler( handler )
         
         return function( event ){
-            event= $jin_onElemAdd( event )
+            event= $jin_onElemDrop( event )
             
             var target= event.target()
             if( target.nodeType !== 1 ) return
@@ -30,11 +30,11 @@ this.$jin_onElemAdd= $jin_event( function( $jin_onElemAdd, event ){
             for( var i= 0; i < elems.length; ++i ){
                 var lister= $jin_nodeListener
                 (   elems[ i ]
-                ,   $jin_onElemAdd.type
+                ,   $jin_onElemDrop.type
                 ,   handler
                 )
                 
-                $jin_onElemAdd().scream( elems[ i ] )
+                $jin_onElemDrop().scream( elems[ i ] )
                 lister.destroy()
             }
         }

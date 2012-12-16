@@ -17,9 +17,9 @@
             
             var result= []
             var listener=
-            $jin_onElemAdd.listen( node, function( event ){
+            $jin_onElemAdd.listen( node, test.callback( function( event ){
                 result.push( event.target().localName )
-            })
+            } ) )
             
             node.innerHTML+= 'foo'
             node.innerHTML+= '<?jin_onElemAdd_test0?>'

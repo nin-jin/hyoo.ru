@@ -1,7 +1,7 @@
 this.$jin_test= $jin_class( function( $jin_test, test ){
     
     test.passed= null
-    test.timeout= 0
+    test.timeout= null
     test.onDone= null
     test.timer= null
     
@@ -29,7 +29,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
         
         if( !complete ) test.passed= false
         
-        if( ( test.passed == null ) && test.timeout ){
+        if(( test.passed == null )&&( test.timeout != null )){
             test.timer= setTimeout( function( ){
                 test.asserts.push( false )
                 test.errors.push( new Error( 'timeout(' + test.timeout + ')' ) )
