@@ -36,11 +36,28 @@ wc_test_source {
     overflow: auto;
 }
 
-wc_test_result {
+wc_test_error {
     border-top: 1px solid #dda;
     background: #ffc;
-    padding: 2pt 4pt;
     display: block;
+    color: #c00;
+    padding: 2pt 4pt;
+}
+
+wc_test_results {
+    border-top: 1px solid #dda;
+    background: #ffc;
+    display: table;
+    width: 100%;
+}
+
+wc_test_results_value {
+    padding: 2pt 4pt;
+    display: table-cell;
+    width: 50%;
+}
+wc_test_results_value + wc_test_results_value {
+    border-left: 1px solid #dda;
 }
 
 script[type="wc_test"] wc_hontrol {

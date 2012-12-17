@@ -35,6 +35,7 @@ void function( ){
                 nodeRoot.clear()
                 var nodeSource0= $jam.Node.Element( 'wc_test_source' ).parent( nodeRoot )
                 var nodeSource= $jam.Node.parse( '<wc_editor wc_editor_hlight="js" />' ).text( source ).parent( nodeSource0 )
+                var nodeLogs= $jam.Node.Element( 'wc_test_logs' ).parent( nodeRoot )
                 var nodeControls= $jam.Node.Element( 'wc_hontrol' ).parent( nodeRoot )
                 var nodeClone= $jam.Node.parse( '<wc_hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
                 var nodeDelete= $jam.Node.parse( '<wc_hontrol_delete>delete' ).parent( nodeControls )
@@ -58,30 +59,37 @@ void function( ){
                     }
                 )
                 
-                var print=
+                var printError=
                 function( val ){
-                    var node= $jam.Node.Element( 'wc_test_result' )
+                    var node= $jam.Node.Element( 'wc_test_error' )
                     node.text( val )
-                    nodeRoot.tail( node )
+                    nodeLogs.tail( node )
                 }
                 
-                var printValue=
+                var dumpValue=
                 function( val ){
                     if( typeof val === 'function' ){
                         if( !val.hasOwnProperty( 'toString' ) ){
-                            print( 'Function: [object Function]' )
-                            return
+                            return 'Function: [object Function]'
                         }
                     }
-                    print( $jam.classOf( val ) + ': ' + val )
+                    return $jam.classOf( val ) + ': ' + val
+                }
+                
+                var printResults=
+                function( list ){
+                    var node= $jam.Node.Element( 'wc_test_results' )
+                    for( var j= 0; j < list.length; ++j ){
+                        var val= $jam.Node.Element( 'wc_test_results_value' )
+                        val.text( dumpValue( list[ j ] ) )
+                        node.tail( val )
+                    }
+                    nodeLogs.tail( node )
                 }
                 
                 var run=
                 function( ){
-                    var results= nodeRoot.childList( 'wc_test_result' )
-                    for( var i= 0; i < results.length(); ++i ){
-                        results.get(i).parent( null )
-                    }
+                    nodeLogs.clear()
                     passed( 'wait' )
                     $jin_test( nodeSource.text(), update )
                 }
@@ -90,13 +98,10 @@ void function( ){
                 function( test ){
                     passed( test.passed )
                     for( var i= 0; i < test.results.length; ++i ){
-                        var group= test.results[ i ]
-                        for( var j= 0; j < group.length; ++j ){
-                            printValue( group[ j ] )
-                        }
+                        printResults( test.results[ i ] )
                     }
                     for( var i= 0; i < test.errors.length; ++i ){
-                        printValue( test.errors[ i ] )
+                        printError( test.errors[ i ] )
                     }
                     refreshSummary()
                 }
