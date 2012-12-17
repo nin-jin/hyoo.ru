@@ -313,7 +313,7 @@ JS;
         $compiled= so_dom::make();
         $compiled[]= array(
             '?xml-stylesheet' => array(
-                'href' => '../../doc/-mix/dev.xsl',
+                'href' => '../../doc/-mix/release.xsl',
                 'type' => 'text/xsl',
             ),
             'doc_list' => array(

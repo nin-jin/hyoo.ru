@@ -16,10 +16,10 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
             
             <link href="../-mix/dev.css" rel="stylesheet" />
-            <script src="../-mix/release.js?">//</script>
+            <script src="../-mix/dev.js?">//</script>
 
             <link href="../../doc/-mix/dev.css" rel="stylesheet" />
-            <script src="../../doc/-mix/library.js?">//</script>
+            <script src="../../doc/-mix/dev.js?">//</script>
             
         </head>
         <body wc_reset="true">

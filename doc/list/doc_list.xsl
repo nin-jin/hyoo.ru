@@ -15,11 +15,10 @@
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 
-            <link href="../-mix/dev.css" rel="stylesheet" />
+            <link href="../-mix/release.css" rel="stylesheet" />
             <script src="../-mix/release.js?">//</script>
 
-            <link href="../../doc/-mix/dev.css" rel="stylesheet" />
-            <script src="../../doc/-mix/library.js?">//</script>
+            <script src="../../doc/-mix/bundle.js?">//</script>
 
         </head>
         <body wc_reset="true">
