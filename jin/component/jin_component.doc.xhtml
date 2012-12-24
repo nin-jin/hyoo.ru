@@ -1,0 +1,54 @@
+<?xml-stylesheet href="../../doc/-mix/dev.xsl" type="text/xsl" ?>
+<doc_root
+    doc_title="$jin_component"
+    >
+
+    <p>Примесь, реализующая хтмл-компоненту - обёртку над элементом, автоматически создаваемая при появлении элемента в доме, и разрушаемая в случае удаления. </p>
+    <p>
+        <script type="wc_test">
+            test.ok( $jin_component )
+        </script>
+        <script type="wc_test">
+            this.comp= $jin_component( function( ){ } )
+            test.ok( this.comp )
+        </script>
+    </p>
+<!--    <p>
+        <script type="wc_test">
+            test.timeout= 100
+            
+            this.Man= $jin_component( function( Man, man ){
+                Man.id= 'jin_component_man1'
+                
+                var init= man.init
+                man.init= function( man, node ){
+                    init.apply( this, arguments )
+                    test.ok( node ).done()
+                }
+            } )
+        </script>
+    </p>
+    
+    <wc_demo>
+    <![CDATA[
+        <jin_component_man1></jin_component_man1>
+    ]]>
+    </wc_demo>
+    
+    <p>
+        <script type="wc_test">
+            test.timeout= 0
+            
+            this.Man= $jin_component( function( Man, man ){
+                Man.id= 'jin_component_man1'
+                
+                var init= man.init
+                man.init= function( man, node ){
+                    init.apply( this, arguments )
+                    test.ok( node ).done()
+                }
+            } )
+        </script>
+    </p>-->
+    
+</doc_root>

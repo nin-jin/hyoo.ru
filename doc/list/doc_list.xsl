@@ -5,6 +5,16 @@
 
 <xsl:output method="html" />
 
+<xsl:variable
+    name="doc_page_stylesheet"
+    select="/processing-instruction()[ name() = 'xml-stylesheet' ]"
+/>
+
+<xsl:variable
+    name="doc_page_mode"
+    select=" substring-before( substring-after( $doc_page_stylesheet, '-mix/' ), '.xsl' ) "
+/>
+
 <xsl:template match=" doc_list ">
     <html wc_reset="true">
         <head>
@@ -15,10 +25,11 @@
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 
-            <link href="../-mix/release.css" rel="stylesheet" />
-            <script src="../-mix/release.js?">//</script>
+            <link href="../-mix/{$doc_page_mode}.css" rel="stylesheet" />
+            <script src="../-mix/{$doc_page_mode}.js?">//</script>
 
-            <script src="../../doc/-mix/bundle.js?">//</script>
+            <link href="../../doc/-mix/{$doc_page_mode}.css" rel="stylesheet" />
+            <script src="../../doc/-mix/{$doc_page_mode}.js?">//</script>
 
         </head>
         <body wc_reset="true">
@@ -57,7 +68,7 @@
                     </h1>
                 </wc_article_title>
                 <wc_article_content>
-                    <xsl:apply-templates />
+                    <xsl:apply-templates select=" . " mode="doc_root_content" />
                 </wc_article_content>
             </wc_article>
         </wc_paper>
@@ -68,7 +79,7 @@
     <wc_sidebar>
         <wc_sidebar_panel wc_sidebar_edge="left">
             <wc_vmenu_root>
-                <a wc_reset="true" href="../-mix/release.doc.xhtml">
+                <a wc_reset="true" href="../-mix/dev.doc.xhtml">
                     <wc_vmenu_leaf>
                         <xsl:value-of select=" 'MIX' " />
                     </wc_vmenu_leaf>

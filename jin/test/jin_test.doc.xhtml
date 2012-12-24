@@ -207,4 +207,19 @@
         </script>
     </p>
     
+    <p>Исполняется тест в контексте сборщика мусора. Любые присвоенные его полям объекты будут уничтожены через их методы "destroy".</p>
+    <p>
+        <script type="wc_test">
+            test.timeout= 0
+            
+            var obj= { destroy: function( ){
+                test.done()
+            } }
+            
+            var testo= $jin_test( function( testo ){
+                this.foo= obj
+            })
+        </script>
+    </p>
+    
 </doc_root>

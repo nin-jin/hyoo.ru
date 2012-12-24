@@ -1,0 +1,18 @@
+[visualang_module] {
+    background: pink;
+    border: 1px solid gray;
+    border-radius: .5em;
+    padding: .5em;
+    margin: .5em;
+    display: block;
+    vertical-align: top;
+}
+
+[visualang_module]:before {
+    content: attr( visualang_module );
+    display: block;
+    color: black;
+    margin: -.25em 0 .5em -.25em;
+    font-size: .9em;
+}
+

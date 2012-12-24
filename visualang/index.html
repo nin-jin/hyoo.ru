@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VisuaLang</title>
+        <link rel="stylesheet" type="text/css" href="-mix/dev.css" />
+        <script src="-mix/dev.js"></script>
+    </head>
+    <body>
+        <visualang_root>
+            <div visualang_place="program">
+                <div visualang_module="setTimeout">
+                    <div visualang_place="callback">
+                        <div visualang_module="alert">
+                            <div visualang_place="text">Hello, world!
+                                <div visualang_module="page">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div visualang_place="timeout">1000</div>
+                </div>
+                <div visualang_node="page">
+                    <div visualang_node="html">
+                        <div visualang_node="head"></div>
+                        <div visualang_node="body">
+                            <div visualang_node="@id">my_body</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </visualang_root>
+        <!--
+        
+        schedule
+            timeout= 1000
+            callback
+                alert
+                    text= Hello, World!
+                        page
+        define
+            page
+                html
+                    head
+                    body
+                        @id= my_body
+        
+        -->
+    </body>
+</html>

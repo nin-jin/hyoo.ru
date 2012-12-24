@@ -113,6 +113,27 @@
         </script>
     </p>
     
+    <p>Для разрушения объекта используется предопределённый метод destroy. Имейте ввиду, что он не просто удаляет храняющиеся в полях ссылки на объекты, но и пытается эти объекты уничтожить.</p>
+    <p>
+        <script type="wc_test">
+            test.timeout= 0
+            
+            var Man= $jin_class( function( Man, man ){
+                man.slave= null
+                
+                man.init= function( man ){
+                    man.slave1= new function( ){
+                        this.destroy= function( ){
+                            test.done()
+                        }
+                    }
+                }
+            } )
+            
+            Man().destroy()
+        </script>
+    </p>
+    
     <p>Для наследования используется концепция "примесей". Функция инициализации сохраняется в качестве статического метода "scheme" и может быть вызвана внутри другой функции инициализации. </p>
     <p>
         <script type="wc_test">
@@ -162,8 +183,8 @@
     </p>
     
     <p>Сравним скорость с иными реализациями.</p>
-    <wc_bench_list>
-        <script type="wc_bench">
+    <wc_js-bench_list>
+        <wc_js-bench>
             var Man= $jin_class( function( Man, man ){
                 man.name= null
                 man.init= function( man, name ){
@@ -181,8 +202,8 @@
             _bench.begin()
                 Man( 'Bob' ).getName()
             _bench.end()
-        </script>
-        <script type="wc_bench">
+        </wc_js-bench>
+        <wc_js-bench>
             var Man= function( name ){
                 this.name= name
             }
@@ -198,7 +219,7 @@
             _bench.begin()
                 ( new Man( 'Bob' ) ).getName()
             _bench.end()
-        </script>
-    </wc_bench_list>
+        </wc_js-bench>
+    </wc_js-bench_list>
     
 </doc_root>

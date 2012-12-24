@@ -127,7 +127,7 @@ $jam.Component
                 
                 nodeOuter
                 .text( format( timeOuter.exec ) )
-                .attr( 'title', 'compile: ' + format( timeOuter.compile ) )
+                .attr( 'title', 'compile: ' + format( timeOuter.compile ) + ' / ' + count )
 
                 var count= 1
                 do {
@@ -148,7 +148,7 @@ $jam.Component
                 
                 nodeInner
                 .text( format( timeInner.exec ) )
-                .attr( 'title', 'compile: ' + format( timeInner.compile ) )
+                .attr( 'title', 'compile: ' + format( timeInner.compile ) + ' / ' + count )
 
                 nodeRoot.state( 'wait', 'false' )
             }
