@@ -57,9 +57,10 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
     }
     
     var compare= function( a, b ){
-        return Number.isNaN( a )
-        ? Number.isNaN( b )
-        : ( a === b )
+        if(( typeof a === 'number' )&&( typeof b === 'number' ))
+            return String( a ) === String( b )
+        
+        return ( a === b )
     }
     
     test.ok= function( test, value ){
@@ -75,6 +76,7 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
             default:
                 for( var i= 2; i < arguments.length; ++i ){
                     var passed= compare( arguments[ i ], arguments[ i - 1 ] )
+                    console.log( arguments[i], arguments[i-1], arguments[i] === arguments[i-1], isNaN( arguments[ i ] ), isNaN( arguments[ i-1 ] ) )
                     if( !passed ) break;
                 }
         }
