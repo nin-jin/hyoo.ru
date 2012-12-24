@@ -23,7 +23,10 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
             
             if( !code ) return
             
-            code( test )
+            var context= $jin_class( function( ){ } )( )
+            code.call( context, test )
+            context.destroy()
+            
             complete= true
         } ).call( )
         

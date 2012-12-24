@@ -15,11 +15,11 @@
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
             
-            <link href="../-mix/dev.css" rel="stylesheet" />
-            <script src="../-mix/dev.js?">//</script>
+            <link href="../-mix/{$doc_page_mode}.css" rel="stylesheet" />
+            <script src="../-mix/{$doc_page_mode}.js?">//</script>
 
-            <link href="../../doc/-mix/dev.css" rel="stylesheet" />
-            <script src="../../doc/-mix/dev.js?">//</script>
+            <link href="../../doc/-mix/{$doc_page_mode}.css" rel="stylesheet" />
+            <script src="../../doc/-mix/{$doc_page_mode}.js?">//</script>
             
         </head>
         <body wc_reset="true">
@@ -55,6 +55,14 @@
             </wc_desktop>
         </body>
     </html>
+</xsl:template>
+
+<xsl:template match=" doc_root " mode="doc_root_content">
+    <xsl:apply-templates select=" document( @doc_link, . ) / * / * " />
+</xsl:template>
+
+<xsl:template match=" doc_root[ * ] " mode="doc_root_content">
+    <xsl:apply-templates select=" * " />
 </xsl:template>
 
 <xsl:template match=" doc_root // * ">
