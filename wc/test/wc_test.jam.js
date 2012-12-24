@@ -37,8 +37,8 @@ void function( ){
                 var nodeSource= $jam.Node.parse( '<wc_editor wc_editor_hlight="js" />' ).text( source ).parent( nodeSource0 )
                 var nodeLogs= $jam.Node.Element( 'wc_test_logs' ).parent( nodeRoot )
                 var nodeControls= $jam.Node.Element( 'wc_hontrol' ).parent( nodeRoot )
-                var nodeClone= $jam.Node.parse( '<wc_hontrol_clone title="ctrl+shift+enter">clone' ).parent( nodeControls )
-                var nodeDelete= $jam.Node.parse( '<wc_hontrol_delete>delete' ).parent( nodeControls )
+                var nodeClone= $jam.Node.parse( '<wc_hontrol_clone title="ctrl+shift+enter" />' ).text( 'clone' ).parent( nodeControls )
+                var nodeDelete= $jam.Node.parse( '<wc_hontrol_delete/>' ).text( 'delete' ).parent( nodeControls )
                 
                 var checkDone= function( ){
                     refreshSummary()

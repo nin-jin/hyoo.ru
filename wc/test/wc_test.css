@@ -54,7 +54,6 @@ wc_test_results {
 wc_test_results_value {
     padding: 2pt 4pt;
     display: table-cell;
-    width: 50%;
 }
 wc_test_results_value + wc_test_results_value {
     border-left: 1px solid #dda;
