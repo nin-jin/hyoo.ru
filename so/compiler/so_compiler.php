@@ -168,14 +168,14 @@ JS;
         $target[ 'release.js' ]->content= $compiled;
         
         $library= <<<JS
-new function( window, document ){
+void function( ){
     with ( this ){
 {$compiled}
         var scripts= document.getElementsByTagName( 'script' )
         var currentScript= document.currentScript || scripts[ scripts.length - 1 ]
         if( currentScript.src ) eval( currentScript.innerHTML )
     }
-}( this.window, this.document )
+}( )
 JS;
         $target[ 'library.js' ]->content= $library;
         

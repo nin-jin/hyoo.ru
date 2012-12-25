@@ -76,7 +76,6 @@ this.$jin_test= $jin_class( function( $jin_test, test ){
             default:
                 for( var i= 2; i < arguments.length; ++i ){
                     var passed= compare( arguments[ i ], arguments[ i - 1 ] )
-                    console.log( arguments[i], arguments[i-1], arguments[i] === arguments[i-1], isNaN( arguments[ i ] ), isNaN( arguments[ i-1 ] ) )
                     if( !passed ) break;
                 }
         }

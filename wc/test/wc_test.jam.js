@@ -1,7 +1,13 @@
 void function( ){
+    
     var nodeSummary= $jam.Lazy( function( ){
         return $jam.Value( $jam.Node.parse( '<a wc_test_summary="true" />' ).parent( $jam.body() ) )
     } )
+    
+    var screamResults= function( passed ){
+        //$jam.Event().type( 'wc_test_done' ).scream( nodeSummary() )
+        $testo_slave.done( passed )
+    }
     
     var refreshSummary= $jam.Throttler( 50, function( ){
         var nodes= $jam.Node( document ).descList( 'script' )
@@ -14,12 +20,14 @@ void function( ){
                     nodeSummary().attr( 'wc_test_passed', 'false' )
                     while( node && !node.attr( 'id' ) ) node= node.parent()
                     if( node ) nodeSummary().attr( 'href', node.attr( 'id' ) )
+                    screamResults( false )
                 case 'wait':
                     return
             }
         }
         nodeSummary().attr( 'wc_test_passed', 'true' )
         nodeSummary().attr( 'href', '' )
+        screamResults( true )
     } )
     
     $jam.Component
