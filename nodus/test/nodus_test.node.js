@@ -1,0 +1,1 @@
+var $= require( __dirname + './loader/nodus_loader.node' )
